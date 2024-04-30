@@ -1,3 +1,9 @@
+# eCommerce Application
+
+Educational project presented as demo-vesion of online-shop. Taks is focused on get knowledge of team development.
+
+Below you can find a detailed description according to used technology stack.
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
