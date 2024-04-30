@@ -1,6 +1,6 @@
 # eCommerce Application
 
-Educational project presented as demo-vesion of online-shop. Taks is focused on get knowledge of of team development.
+Educational project presented as demo-vesion of online-shop. Taks is focused on get knowledge of team development.
 
 Below you can find a detailed description according to used technology stack.
 
