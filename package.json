@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "ci:format": "npx prettier src/ --check",
     "format": "npx prettier src/ --write",
-    "formatAll": "npm run lint:fix && npm run format"
+    "formatAll": "npm run lint:fix && npm run format",
+    "prepare": "husky"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -33,6 +34,8 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "prettier": "3.2.5",
     "sass": "^1.76.0",
     "typescript": "^5.2.2",

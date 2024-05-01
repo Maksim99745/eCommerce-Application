@@ -1,0 +1,5 @@
+{
+  "./src/.": ["npm run ci:format"],
+  "./src/**.*": ["npm run format"],
+  "**/*.{js,jsx,ts,tsx}": ["npm run lint"]
+}
