@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  env: { browser: true, es2021: true, node: true },
+  env: { browser: true, es2022: true },
   extends: [
     'airbnb',
     'airbnb/hooks',
