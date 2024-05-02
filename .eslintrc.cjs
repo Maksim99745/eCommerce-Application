@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  env: { browser: true, es2022: true },
+  env: { browser: true, es2022: true, "jest/globals": true },
   extends: [
     'airbnb',
     'airbnb/hooks',
@@ -11,13 +11,15 @@ module.exports = {
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
     'prettier',
+    "plugin:jest/recommended",
+    "plugin:jest-dom/recommended"
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs', 'node_modules'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: './tsconfig.json',
   },
-  plugins: ['react-refresh', '@typescript-eslint', 'react', 'prettier'],
+  plugins: ['react-refresh', '@typescript-eslint', 'react', 'prettier', 'jest', "jest-dom"],
   rules: {
     'prettier/prettier': 'error',
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
@@ -97,5 +99,14 @@ module.exports = {
     semi: ['error', 'always'],
     'space-infix-ops': ['error', { int32Hint: false }],
     'key-spacing': ['error', { afterColon: true }],
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error",
+    "jest-dom/prefer-checked": "error",
+    "jest-dom/prefer-enabled-disabled": "error",
+    "jest-dom/prefer-required": "error",
+    "jest-dom/prefer-to-have-attribute": "error",
   },
 };
