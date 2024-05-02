@@ -13,9 +13,12 @@
     "lint": "eslint src/ --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint src/ --fix",
     "preview": "vite preview",
-    "ci:format": "npx prettier src/ --check",
-    "format": "npx prettier src/ --write",
-    "formatAll": "npm run lint:fix && npm run format"
+    "prettier": "prettier --check --ignore-unknown src/",
+    "prettier:fix": "prettier --write --ignore-unknown src/",
+    "formatAll": "npm run lint:fix && npm run format",
+    "prepare": "husky",
+    "tsc": "tsc --noEmit",
+    "pre-push": "npm run lint && npm run prettier && npm run tsc"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -37,9 +40,11 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "husky": "^9.0.11",
     "prettier": "3.2.5",
     "sass": "^1.76.0",
     "typescript": "^5.2.2",
+    "validate-branch-name": "^1.3.0",
     "vite": "^5.2.0"
   }
 }
