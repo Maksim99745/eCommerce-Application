@@ -2,7 +2,30 @@
 
 Educational project presented as a demo version of an online shop. The task is focused on gaining knowledge of team development.
 
+## Description
+
+The e-Commerce application is being developed by a team of 3 developers over the course of 4 sprints using the Scrum methodology.
+The application is a model of an online store that closely resembles reality.
+
+Key pages in the application include:
+
+- Login and Registration pages 🖥️
+- Main page 🏠
+- Catalog Product page 📋
+- Detailed Product page 🔎
+- User Profile page 👤
+- Basket page 🛒
+- About Us page 🙋‍♂️🙋‍♀️
+
+Project goals:
+
+- Gain an understanding of team development and Scrum methodologies.
+- Strengthen knowledge in TypeScript development and master the basics of React framework development.
+- Master the basics of writing unit tests.
+- Deepen experience in writing Single Page Application (SPA) applications.
+
 ## Technology stack
+
 - Main library: [**React**](https://react.dev/)
 - Language: [**TypeScript**](https://www.typescriptlang.org/)
 - Styling: [**SCSS**](https://sass-lang.com/)
