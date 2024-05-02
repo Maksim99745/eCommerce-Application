@@ -9,8 +9,8 @@
     "lint": "eslint src/ --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint src/ --fix",
     "preview": "vite preview",
-    "ci:format": "npx prettier src/ --check",
-    "format": "npx prettier src/ --write",
+    "prettier": "prettier --check --ignore-unknown src/",
+    "prettier:fix": "prettier --write --ignore-unknown src/",
     "formatAll": "npm run lint:fix && npm run format",
     "prepare": "husky"
   },
