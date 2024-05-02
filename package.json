@@ -16,7 +16,9 @@
     "prettier": "prettier --check --ignore-unknown src/",
     "prettier:fix": "prettier --write --ignore-unknown src/",
     "formatAll": "npm run lint:fix && npm run format",
-    "prepare": "husky"
+    "prepare": "husky",
+    "tsc": "tsc --noEmit",
+"pre-push": "npm run lint && npm run prettier && npm run tsc"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -39,7 +41,6 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
     "prettier": "3.2.5",
     "sass": "^1.76.0",
     "typescript": "^5.2.2",
