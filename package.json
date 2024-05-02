@@ -18,7 +18,7 @@
     "formatAll": "npm run lint:fix && npm run format",
     "prepare": "husky",
     "tsc": "tsc --noEmit",
-    "pre-push": "npm run lint && npm run prettier && npm run tsc",
+    "pre-push": "npm run lint && npm run prettier && npm run tsc && test",
     "test": "jest"
   },
   "dependencies": {
