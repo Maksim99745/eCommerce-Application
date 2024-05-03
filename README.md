@@ -62,6 +62,10 @@ npm -v
 
 5. Run `npm ci` in the root directory. This command will install dependencies based on the exact versions specified in the package-lock.json. It ensures a consistent and reproducible environment by installing dependencies exactly as specified, making it ideal for use in development, testing, and deployment workflows.
 
+You can use `npm ci` or `npm i` depending on your specific needs and requirements for dependency management.
+If you want to install dependencies exactly as specified in the package-lock.json file (ensuring consistency and reproducibility), you should use `npm ci`.
+If you're okay with potentially updating dependencies to their latest versions according to the specified version ranges in the package.json file, you can use `npm install` or `npm i`.
+
 6. Run `npm start` to start the development serve. If it works, then you are ready to make changes.
 
 7. Before making changes, make sure every thing works by starting dev server. Use `npm start` to run the development server using Vite
@@ -76,7 +80,7 @@ Branch name should be in the format feat|fix|chore|refactor/RSS-ECOMM-sprintNumb
 (e.g., feat/RSS-ECOMM-1_20-add-setup-instructions)
 
 9. Be careful with commit messages; they should be in the format:
-   `feat|fix|chore|refactor/RSS-ECOMM-sprintNumber_issueNumber: Description of the change`
+   `feat|fix|chore|refactor|build/RSS-ECOMM-sprintNumber_issueNumber: Description of the change`
    `(e.g., feat/RSS-ECOMM-1_02: Set up folder structure)`
 
 ## Scripts available
