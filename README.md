@@ -103,9 +103,7 @@ Run `npm run lint:fix` to automatically fixe ESLint errors and code style issues
 To check if the production build looks OK in your local environment run
 
 ```
-
 npm run preview
-
 ```
 
 It will run script `vite preview` to boot up a local static web server that serves the files from dist at http://localhost:4173.
@@ -117,9 +115,7 @@ Run `npm run prettier` to check if your files in the `src/` directory are format
 It will run the script, that is set to ignore unknown file types. Prettier will not attempt to check files with extensions that it does not recognize.
 
 ```
-
 prettier --check --ignore-unknown src/
-
 ```
 
 # Prettier fix issues
@@ -131,9 +127,7 @@ Run `npm run prettier:fix` to fix code formatting issues in the `src/` directory
 To make ESLint fix code style issues, and then format code using Prettier in the `src/` directory - use `npm run formatAll` It will run script:
 
 ```
-
 npm run lint:fix && npm run prettier:fix
-
 ```
 
 # Set up Git hooks
@@ -145,9 +139,7 @@ To automatically set up Git hooks for code linting and formatting, run the follo
 To perform TypeScript type checking without generating JavaScript files, run the following command:
 
 ```
-
 npm run types-check
-
 ```
 
 # Pre-Push Checks
@@ -157,7 +149,3 @@ To perform pre-push checks, ensuring code quality and consistency before pushing
 # Utilizing unit tests
 
 Run `npm run test` to execute the unit tests via [Jest](https://jestjs.io).
-
-```
-
-```
