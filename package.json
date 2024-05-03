@@ -64,7 +64,7 @@
   "config": {
     "commit-message-validator": {
       "_comment": "pattern can be Regex string or array of Regex string",
-      "pattern": "^(feat|fix|chore|refactor|build)/RSS-ECOMM-[1-5]_[0-9]{2}: .+$e",
+      "pattern": "^(feat|fix|chore|refactor|build)/RSS-ECOMM-[1-5]_[0-9]{2}: .+$",
       "errorMessage": "Please follow the template: feat|fix|chore|refactor|build/RSS-ECOMM-sprintNumber_issueNumber: Description of the change"
     }
   }
