@@ -48,7 +48,6 @@ Project goals:
 
 ```
 node -v
-
 ```
 
 2. Make sure nmp is installed by running
