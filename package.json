@@ -15,10 +15,10 @@
     "preview": "vite preview",
     "prettier": "prettier --check --ignore-unknown src/",
     "prettier:fix": "prettier --write --ignore-unknown src/",
-    "formatAll": "npm run lint:fix && npm run format",
+    "formatAll": "npm run lint:fix && npm run prettier:fix",
     "prepare": "husky",
-    "tsc": "tsc --noEmit",
-    "pre-push": "npm run lint && npm run prettier && npm run tsc && npm run test",
+    "types-check": "tsc --noEmit",
+    "pre-push": "npm run lint && npm run prettier && npm run types-check && npm run test",
     "test": "jest"
   },
   "dependencies": {
