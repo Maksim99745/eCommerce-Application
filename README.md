@@ -75,8 +75,8 @@ Branch name should be in the format feat|fix|chore|refactor/RSS-ECOMM-sprintNumb
 (e.g., feat/RSS-ECOMM-1_20-add-setup-instructions)
 
 8. Be careful with commit messages; they should be in the format:
-   `feat|fix|chore|refactor/RSS-ECOMM-sprintNumber_issueNumber: Description of the change (#issue-number)`
-   `(e.g., feat/RSS-ECOMM-1_02: Set up folder structure (#41))`, where #issue-number is the number of the issue being solved.
+   `feat|fix|chore|refactor/RSS-ECOMM-sprintNumber_issueNumber: Description of the change`
+   `(e.g., feat/RSS-ECOMM-1_02: Set up folder structure)`
 
 # Development server
 
