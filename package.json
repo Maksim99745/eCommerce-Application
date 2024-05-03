@@ -15,9 +15,9 @@
     "preview": "vite preview",
     "prettier": "prettier --check --ignore-unknown src/",
     "prettier:fix": "prettier --write --ignore-unknown src/",
-    "formatAll": "npm run lint:fix && npm run format",
+    "formatAll": "npm run lint:fix && npm run prettier:fix",
     "prepare": "husky",
-    "tsc": "tsc --noEmit",
+    "types-check": "tsc --noEmit",
     "pre-push": "npm run lint && npm run prettier && npm run tsc"
   },
   "dependencies": {
