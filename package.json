@@ -65,7 +65,7 @@
     "commit-message-validator": {
       "_comment": "pattern can be Regex string or array of Regex string",
       "pattern": "^(feat|fix|chore|refactor|build)/RSS-ECOMM-[1-5]_[0-9]{2}: .+$",
-      "errorMessage": "Please follow the template: feat|fix|chore|refactor|build/RSS-ECOMM-sprintNumber_issueNumber: Description of the change"
+      "errorMessage": "Please follow the template: feat|fix|chore|refactor|build/RSS-ECOMM-sprintNumber_issueNumber: Description of the changeю (e.g., feat/RSS-ECOMM-1_02: Set up folder structure )"
     }
   }
 }
