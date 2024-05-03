@@ -18,7 +18,7 @@
     "formatAll": "npm run lint:fix && npm run prettier:fix",
     "prepare": "husky",
     "types-check": "tsc --noEmit",
-    "pre-push": "npm run lint && npm run prettier && npm run tsc"
+    "pre-push": "npm run lint && npm run prettier && npm run types-check"
   },
   "dependencies": {
     "react": "^18.2.0",
