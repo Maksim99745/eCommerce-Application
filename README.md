@@ -104,3 +104,7 @@ npm run types-check
 ## Pre-Push Checks
 
 To perform pre-push checks, ensuring code quality and consistency before pushing changes to the repository, run the command `npm run pre-push`
+
+## Utilizing unit tests
+
+Run `npm run test` to execute the unit tests via [Jest](https://jestjs.io).
