@@ -64,7 +64,9 @@ npm -v
 
 6. Run `npm start` to start the development serve. If it works, then you are ready to make changes.
 
-7. Before making changes, create a new branch from `develop`
+7. Before making changes, make sure every thing works by starting dev server. Use `npm start` to run the development server using Vite
+
+8. Create a new branch from `develop`
 
 ```
 git checkout -b <branch-name>
@@ -73,15 +75,9 @@ git checkout -b <branch-name>
 Branch name should be in the format feat|fix|chore|refactor/RSS-ECOMM-sprintNumber_issueNumber-short-description
 (e.g., feat/RSS-ECOMM-1_20-add-setup-instructions)
 
-8. Be careful with commit messages; they should be in the format:
+9. Be careful with commit messages; they should be in the format:
    `feat|fix|chore|refactor/RSS-ECOMM-sprintNumber_issueNumber: Description of the change`
    `(e.g., feat/RSS-ECOMM-1_02: Set up folder structure)`
-
-# Development server
-
-Before you start making your changes, you need to set up your environment for the changes.
-
-Use `npm start` to run the development server using Vite
 
 ## Scripts available
 
