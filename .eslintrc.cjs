@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  env: { browser: true, es2022: true, "jest/globals": true },
+  env: { browser: true, es2022: true, 'jest/globals': true },
   extends: [
     'airbnb',
     'airbnb/hooks',
@@ -11,38 +11,28 @@ module.exports = {
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
     'prettier',
-    "plugin:jest/recommended",
-    "plugin:jest-dom/recommended"
+    'plugin:jest/recommended',
+    'plugin:jest-dom/recommended'
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs', 'node_modules'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: './tsconfig.json',
+    project: './tsconfig.json'
   },
-  plugins: ['react-refresh', '@typescript-eslint', 'react', 'prettier', 'jest', "jest-dom"],
+  plugins: ['react-refresh', '@typescript-eslint', 'react', 'prettier', 'jest', 'jest-dom', 'unused-imports'],
   rules: {
-    'prettier/prettier': 'error',
+    'prettier/prettier': ['error', { endOfLine: 'auto' }],
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-    'no-multiple-empty-lines': [
-      'error',
-      {
-        max: 1,
-      },
-    ],
+    'no-multiple-empty-lines': ['error', { max: 1 }],
     'no-magic-numbers': [
       'error',
       {
         ignore: [0, 1],
         ignoreDefaultValues: true,
-        ignoreArrayIndexes: true,
-      },
+        ignoreArrayIndexes: true
+      }
     ],
-    '@typescript-eslint/array-type': [
-      'error',
-      {
-        default: 'array-simple',
-      },
-    ],
+    '@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
     'no-console': [
       'error',
       {
@@ -65,15 +55,14 @@ module.exports = {
           'profile',
           'profileEnd',
           'timeStamp',
-          'context',
-        ],
-      },
+          'context'
+        ]
+      }
     ],
     'max-classes-per-file': ['error', 1],
     'no-debugger': 'error',
     'lines-between-class-members': ['warn', 'always', { exceptAfterSingleLine: true }],
     '@typescript-eslint/no-explicit-any': 'error',
-    'prettier/prettier': ['error', { endOfLine: 'auto' }],
     '@typescript-eslint/no-namespace': [2, { allowDeclarations: true }],
     '@typescript-eslint/explicit-member-accessibility': [
       'error',
@@ -84,29 +73,30 @@ module.exports = {
           constructors: 'off',
           methods: 'explicit',
           properties: 'explicit',
-          parameterProperties: 'explicit',
-        },
-      },
+          parameterProperties: 'explicit'
+        }
+      }
     ],
     '@typescript-eslint/explicit-function-return-type': 'error',
     '@typescript-eslint/no-non-null-assertion': 'error',
-    curly: ['error', 'all'],
+    'curly': ['error', 'all'],
     'no-multi-spaces': 'error',
     'space-in-parens': 'error',
     'no-var': 'error',
     'prefer-const': 'error',
-    quotes: ['error', 'single', { allowTemplateLiterals: true }],
-    semi: ['error', 'always'],
+    'quotes': ['error', 'single', { allowTemplateLiterals: true }],
+    'semi': ['error', 'always'],
     'space-infix-ops': ['error', { int32Hint: false }],
     'key-spacing': ['error', { afterColon: true }],
-    "jest/no-disabled-tests": "warn",
-    "jest/no-focused-tests": "error",
-    "jest/no-identical-title": "error",
-    "jest/prefer-to-have-length": "warn",
-    "jest/valid-expect": "error",
-    "jest-dom/prefer-checked": "error",
-    "jest-dom/prefer-enabled-disabled": "error",
-    "jest-dom/prefer-required": "error",
-    "jest-dom/prefer-to-have-attribute": "error",
-  },
+    'jest/no-disabled-tests': 'warn',
+    'jest/no-focused-tests': 'error',
+    'jest/no-identical-title': 'error',
+    'jest/prefer-to-have-length': 'warn',
+    'jest/valid-expect': 'error',
+    'jest-dom/prefer-checked': 'error',
+    'jest-dom/prefer-enabled-disabled': 'error',
+    'jest-dom/prefer-required': 'error',
+    'jest-dom/prefer-to-have-attribute': 'error',
+    'unused-imports/no-unused-imports': 'error',
+  }
 };

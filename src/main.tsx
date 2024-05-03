@@ -1,10 +1,29 @@
+import { createRoot } from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
+import LayoutPage from '@pages/Layout/Layout.page';
+import NotFoundPage from '@pages/NotFound/NotFound.page';
+import MainPage from '@pages/Main/Main.page';
+import FallbackPage from '@pages/Fallback/Fallback.page';
+import './index.scss';
 
-// eslint-disable-next-line
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <LayoutPage />,
+    errorElement: <NotFoundPage />,
+    children: [
+      {
+        index: true,
+        element: <MainPage />,
+      },
+    ],
+  },
+]);
+
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} fallbackElement={<FallbackPage />} />
   </React.StrictMode>,
 );
