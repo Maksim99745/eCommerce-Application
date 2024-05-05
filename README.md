@@ -148,3 +148,9 @@ To perform pre-push checks, ensuring code quality and consistency before pushing
 ### Utilizing unit tests
 
 Run `npm run test` to execute the unit tests via [Jest](https://jestjs.io).
+
+### We use commercetools
+- [SDK documentation](https://docs.commercetools.com/sdk/javascript-sdk)
+- [API](https://docs.commercetools.com/api)
+- [Import products](https://docs.commercetools.com/merchant-center/import-products)
+- [Use SDK example](https://github.com/commercetools/commercetools-ts-sdk-template)
