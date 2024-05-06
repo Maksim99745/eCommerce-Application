@@ -1,13 +1,16 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'node:path';
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
-import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
-import rollupNodePolyFill from 'rollup-plugin-node-polyfills';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    nodePolyfills({
+      include: ['stream', 'http', 'https', 'zlib'],
+    }),
+  ],
   envPrefix: 'CTP_',
   resolve: {
     alias: {
@@ -21,15 +24,16 @@ export default defineConfig({
       '@utils': resolve(__dirname, './src/utils/'),
     },
   },
-  optimizeDeps: {
-    esbuildOptions: {
-      define: { global: 'globalThis' },
-      plugins: [NodeGlobalsPolyfillPlugin({ process: true, buffer: true }), NodeModulesPolyfillPlugin()],
-    },
-  },
   build: {
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
-      plugins: [() => rollupNodePolyFill()],
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return id.toString().split('node_modules/')[1].split('/')[0].toString();
+          }
+        },
+      },
     },
   },
 });
