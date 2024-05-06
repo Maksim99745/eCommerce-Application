@@ -9,7 +9,6 @@
     
     /* Bundler mode */
     "moduleResolution": "node",
-    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
@@ -23,7 +22,8 @@
       "@models/*": ["./src/models/*"],
       "@enums/*": ["./src/enums/*"],
       "@constants/*": ["./src/constants/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@utils/*": ["./src/utils/*"],
+      "@test/*": ["./src/test/*"]
     },
     
     /* Linting */

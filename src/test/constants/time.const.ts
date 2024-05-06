@@ -1,0 +1,2 @@
+export const DEFAULT_REQUEST_DELAY = 1000;
+export const DEFAULT_REQUEST_TIMEOUT = 3000;
