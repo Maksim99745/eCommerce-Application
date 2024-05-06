@@ -154,3 +154,13 @@ Run `npm run test` to execute the unit tests via [Jest](https://jestjs.io).
 - [API](https://docs.commercetools.com/api)
 - [Import products](https://docs.commercetools.com/merchant-center/import-products)
 - [Use SDK example](https://github.com/commercetools/commercetools-ts-sdk-template)
+
+You have to add `env/.env` folder and file to the project's root with these variables:
+```env
+CTP_PROJECT_KEY=your-project-key
+CTP_CLIENT_SECRET=your-client-secret
+CTP_CLIENT_ID=your-client-id
+CTP_AUTH_URL=your-auth-url
+CTP_API_URL=your-api-url
+CTP_SCOPES=your-scopes
+```
