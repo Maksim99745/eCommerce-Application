@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import React from 'react';
+import { StrictMode } from 'react';
 import LayoutPage from '@pages/Layout/Layout.page';
 import NotFoundPage from '@pages/NotFound/NotFound.page';
 import MainPage from '@pages/Main/Main.page';
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  <StrictMode>
     <RouterProvider router={router} fallbackElement={<FallbackPage />} />
-  </React.StrictMode>,
+  </StrictMode>,
 );

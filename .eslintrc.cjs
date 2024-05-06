@@ -79,6 +79,7 @@ module.exports = {
     ],
     '@typescript-eslint/explicit-function-return-type': 'error',
     '@typescript-eslint/no-non-null-assertion': 'error',
+    "@typescript-eslint/consistent-type-assertions": ["error", { "assertionStyle": "never" }],
     'curly': ['error', 'all'],
     'no-multi-spaces': 'error',
     'space-in-parens': 'error',
