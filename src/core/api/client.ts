@@ -1,12 +1,14 @@
 import { ClientBuilder, type AuthMiddlewareOptions } from '@commercetools/sdk-client-v2';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 
-const projectKey = import.meta.env.CTP_PROJECT_KEY as string;
-const clientID = import.meta.env.CTP_CLIENT_ID as string;
-const clientSecret = import.meta.env.CTP_CLIENT_SECRET as string;
-const scopes = import.meta.env.CTP_SCOPES as string;
-const authURL = import.meta.env.CTP_AUTH_URL as string;
-const apiURL = import.meta.env.CTP_API_URL as string;
+const {
+  CTP_PROJECT_KEY: projectKey,
+  CTP_CLIENT_ID: clientID,
+  CTP_CLIENT_SECRET: clientSecret,
+  CTP_SCOPES: scopes,
+  CTP_AUTH_URL: authURL,
+  CTP_API_URL: apiURL,
+} = import.meta.env;
 
 const authMiddlewareOptions: AuthMiddlewareOptions = {
   host: authURL,
