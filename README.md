@@ -89,7 +89,7 @@ Branch name should be in the format feat|fix|chore|refactor/RSS-ECOMM-sprintNumb
 To build the project run
 
 ```
-`npm run build`
+npm run build
 ```
 
 It will be stored in the `dist/` directory.
