@@ -2,6 +2,7 @@ import '@testing-library/jest-dom';
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react';
 import { DEFAULT_REQUEST_DELAY, DEFAULT_REQUEST_TIMEOUT } from '@test/constants/time.const';
+import { MemoryRouter } from 'react-router-dom';
 import LayoutPage from './Layout.page';
 
 afterEach(cleanup);
@@ -13,8 +14,8 @@ jest.mock('@core/api/requests', () => ({
         setTimeout(() => {
           resolve({
             results: [
-              { id: '1', name: { en: 'Category 1' } },
-              { id: '2', name: { en: 'Category 2' } },
+              { key: '1', name: { en: 'Category 1' } },
+              { key: '2', name: { en: 'Category 2' } },
             ],
           });
         }, DEFAULT_REQUEST_DELAY);
@@ -24,11 +25,12 @@ jest.mock('@core/api/requests', () => ({
 
 test('Render the layout page', async () => {
   await act(async () => {
-    render(<LayoutPage />);
+    render(
+      <MemoryRouter>
+        <LayoutPage />
+      </MemoryRouter>,
+    );
   });
-
-  // Проверяем, что заголовок "Layout Page" отображается
-  expect(screen.getByText('Layout Page')).toBeInTheDocument();
 
   // Проверяем, что текст "Loading..." отображается перед загрузкой категорий
   expect(screen.getByText('Loading...')).toBeInTheDocument();

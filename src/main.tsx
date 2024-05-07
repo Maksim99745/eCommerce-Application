@@ -1,3 +1,5 @@
+import LoginPage from '@pages/Login/Login.page';
+import RegistrationPage from '@pages/Registration/Registration.page';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { StrictMode } from 'react';
@@ -16,6 +18,14 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <MainPage />,
+      },
+      {
+        path: 'login',
+        element: <LoginPage />,
+      },
+      {
+        path: 'registration',
+        element: <RegistrationPage />,
       },
     ],
   },
