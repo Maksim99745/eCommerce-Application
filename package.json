@@ -12,13 +12,13 @@
     "build": "vite build",
     "lint": "eslint src/ --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint src/ --fix",
-    "preview": "vite preview",
+    "preview": "vite build && vite preview",
     "prettier": "prettier --check --ignore-unknown src/",
     "prettier:fix": "prettier --write --ignore-unknown src/",
-    "formatAll": "npm run lint:fix && npm run prettier:fix",
+    "format:all": "npm run lint:fix && npm run prettier:fix",
     "prepare": "husky",
     "types-check": "tsc --noEmit",
-    "pre-push": "npm run lint && npm run prettier && npm run types-check && npm run test",
+    "validate:all": "npm run lint && npm run prettier && npm run types-check && npm run test",
     "test": "jest --coverage"
   },
   "dependencies": {
