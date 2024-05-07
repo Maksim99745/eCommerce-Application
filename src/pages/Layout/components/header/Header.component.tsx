@@ -1,7 +1,8 @@
 import { drawerWidth } from '@constants/ui.const';
-import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Button, IconButton, Toolbar } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 
 interface HeaderProps {
   handleDrawerToggle: () => void;
@@ -26,9 +27,18 @@ function HeaderComponent({ handleDrawerToggle }: HeaderProps): ReactNode {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap component="div">
-          Header
-        </Typography>
+
+        <Box sx={{ display: 'flex', gap: '10px' }}>
+          <Button key="main" sx={{ color: '#fff' }}>
+            <Link to="/">Main</Link>
+          </Button>
+          <Button key="login" sx={{ color: '#fff' }}>
+            <Link to="/login">Login</Link>
+          </Button>
+          <Button key="registration" sx={{ color: '#fff' }}>
+            <Link to="/registration">Registration</Link>
+          </Button>
+        </Box>
       </Toolbar>
     </AppBar>
   );

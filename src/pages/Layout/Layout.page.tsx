@@ -1,7 +1,7 @@
 import { CategoryPagedQueryResponse } from '@commercetools/platform-sdk';
 import { drawerWidth } from '@constants/ui.const';
 import { getCategories } from '@core/api/requests';
-import { Box, CssBaseline, Drawer, Toolbar } from '@mui/material';
+import { Box, CssBaseline, Drawer, Toolbar, useMediaQuery, useTheme } from '@mui/material';
 import FooterComponent from '@pages/Layout/components/footer/Footer.component';
 import { ReactNode, useState } from 'react';
 import { Outlet } from 'react-router-dom';
@@ -10,7 +10,9 @@ import HeaderComponent from './components/header/Header.component';
 import SidebarComponent from './components/sidebar/Sidebar.component';
 
 function LayoutPage(): ReactNode {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const theme = useTheme();
+  const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
+  const [mobileOpen, setMobileOpen] = useState(isSmUp);
   const [isClosing, setIsClosing] = useState(false);
 
   const categoriesResponse: SWRResponse<CategoryPagedQueryResponse> = useSWR('/api/user/123', getCategories);
@@ -36,26 +38,14 @@ function LayoutPage(): ReactNode {
       <HeaderComponent handleDrawerToggle={handleDrawerToggle} />
       <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
         <Drawer
-          variant="temporary"
+          variant={isSmUp ? 'permanent' : 'temporary'}
           open={mobileOpen}
           onTransitionEnd={handleDrawerTransitionEnd}
           onClose={handleDrawerClose}
           ModalProps={{ keepMounted: true }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
-        >
-          <SidebarComponent categoriesResponse={categoriesResponse} handleDrawerToggle={handleDrawerToggle} />
-        </Drawer>
-
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
-          open
         >
           <SidebarComponent categoriesResponse={categoriesResponse} handleDrawerToggle={handleDrawerToggle} />
         </Drawer>
