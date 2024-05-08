@@ -77,7 +77,6 @@ module.exports = {
         }
       }
     ],
-    '@typescript-eslint/explicit-function-return-type': 'error',
     '@typescript-eslint/no-non-null-assertion': 'error',
     "@typescript-eslint/consistent-type-assertions": ["error", { "assertionStyle": "never" }],
     'curly': ['error', 'all'],
@@ -99,5 +98,6 @@ module.exports = {
     'jest-dom/prefer-required': 'error',
     'jest-dom/prefer-to-have-attribute': 'error',
     'unused-imports/no-unused-imports': 'error',
+    'import/prefer-default-export': 'off',
   }
 };

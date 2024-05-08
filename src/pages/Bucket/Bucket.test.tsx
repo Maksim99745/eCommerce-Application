@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import MainComponent from './Main.component';
+import BucketPage from './Bucket.page';
 
-test('Render the main component', () => {
-  render(<MainComponent />);
+test('Render the bucket page', () => {
+  render(<BucketPage />);
   expect(true).toBeTruthy();
 });

@@ -1,4 +1,4 @@
-import { CategoryPagedQueryResponse, ProductPagedQueryResponse } from '@commercetools/platform-sdk';
+import { Category, CategoryPagedQueryResponse } from '@commercetools/platform-sdk';
 import apiRoot from '@core/api/client';
 
 export const getCategories = async (): Promise<CategoryPagedQueryResponse> =>
@@ -8,9 +8,10 @@ export const getCategories = async (): Promise<CategoryPagedQueryResponse> =>
     .execute()
     .then((response) => response.body);
 
-export const getProductsList = (): Promise<ProductPagedQueryResponse> =>
+export const getCategory = async (key: string): Promise<Category> =>
   apiRoot
-    .products()
+    .categories()
+    .withKey({ key })
     .get()
     .execute()
     .then((response) => response.body);

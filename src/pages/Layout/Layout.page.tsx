@@ -1,67 +1,69 @@
-import { CategoryPagedQueryResponse } from '@commercetools/platform-sdk';
+import { CategoriesListComponent } from '@components/CategoriesList/CategoriesList.component';
 import { drawerWidth } from '@constants/ui.const';
-import { getCategories } from '@core/api/requests';
 import { Box, CssBaseline, Drawer, Toolbar, useMediaQuery, useTheme } from '@mui/material';
-import FooterComponent from '@pages/Layout/components/footer/Footer.component';
-import { ReactNode, useState } from 'react';
+import FooterComponent from '@pages/Layout/components/Footer/Footer.component';
+import { useCallback, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import useSWR, { SWRResponse } from 'swr';
-import HeaderComponent from './components/header/Header.component';
-import SidebarComponent from './components/sidebar/Sidebar.component';
+import HeaderComponent from '@pages/Layout/components/Header/Header.component';
+import { SidebarComponent } from '@pages/Layout/components/Sidebar/Sidebar.component';
 
-function LayoutPage(): ReactNode {
+const layoutStyles = {
+  layoutContainer: { display: 'flex', height: '100%' },
+  aside: { width: { sm: drawerWidth }, flexShrink: { sm: 0 } },
+  drawer: { '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth } },
+  mainContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    p: 0,
+    width: { sm: `calc(100% - ${drawerWidth}px)` },
+  },
+  main: { p: 3, display: 'flex', flexDirection: 'column', flexGrow: 1 },
+};
+
+function LayoutPage() {
   const theme = useTheme();
   const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
-  const [mobileOpen, setMobileOpen] = useState(isSmUp);
+  const [isMobileOpen, setIsMobileOpen] = useState(isSmUp);
   const [isClosing, setIsClosing] = useState(false);
 
-  const categoriesResponse: SWRResponse<CategoryPagedQueryResponse> = useSWR('/api/user/123', getCategories);
-
-  const handleDrawerClose = (): void => {
+  const handleDrawerClose = useCallback(() => {
     setIsClosing(true);
-    setMobileOpen(false);
-  };
+    setIsMobileOpen(false);
+  }, []);
 
-  const handleDrawerTransitionEnd = (): void => {
+  const handleDrawerTransitionEnd = useCallback(() => {
     setIsClosing(false);
-  };
+  }, []);
 
-  const handleDrawerToggle = (): void => {
+  const handleDrawerToggle = useCallback(() => {
     if (!isClosing) {
-      setMobileOpen(!mobileOpen);
+      setIsMobileOpen(!isMobileOpen);
     }
-  };
+  }, [isClosing, isMobileOpen]);
 
   return (
-    <Box sx={{ display: 'flex', height: '100%' }}>
+    <Box sx={layoutStyles.layoutContainer}>
       <CssBaseline />
       <HeaderComponent handleDrawerToggle={handleDrawerToggle} />
-      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
+      <Box component="aside" sx={layoutStyles.aside} aria-label="categories">
         <Drawer
           variant={isSmUp ? 'permanent' : 'temporary'}
-          open={mobileOpen}
+          open={isMobileOpen}
           onTransitionEnd={handleDrawerTransitionEnd}
           onClose={handleDrawerClose}
           ModalProps={{ keepMounted: true }}
-          sx={{
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
+          sx={layoutStyles.drawer}
         >
-          <SidebarComponent categoriesResponse={categoriesResponse} handleDrawerToggle={handleDrawerToggle} />
+          <SidebarComponent handleDrawerToggle={handleDrawerToggle}>
+            <CategoriesListComponent />
+          </SidebarComponent>
         </Drawer>
       </Box>
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          flexGrow: 1,
-          p: 0,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-        }}
-      >
+      <Box sx={layoutStyles.mainContainer}>
         <Toolbar />
-        <Box component="main" sx={{ p: 3, display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+        <Box component="main" sx={layoutStyles.main}>
           <Outlet />
         </Box>
         <FooterComponent />
