@@ -1,6 +1,4 @@
-import { ReactNode } from 'react';
-
-function LoginPage(): ReactNode {
+function LoginPage() {
   return <p>Login page</p>;
 }
 

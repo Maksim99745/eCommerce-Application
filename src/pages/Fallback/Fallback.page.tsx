@@ -1,6 +1,4 @@
-import { ReactNode } from 'react';
-
-function FallbackPage(): ReactNode {
+function FallbackPage() {
   return <p>Performing initial data load</p>;
 }
 

@@ -12,6 +12,7 @@ import NotFoundPage from '@pages/NotFound/NotFound.page';
 import MainPage from '@pages/Main/Main.page';
 import FallbackPage from '@pages/Fallback/Fallback.page';
 import './index.scss';
+import { SWRConfig } from 'swr';
 
 const router = createBrowserRouter([
   {
@@ -54,6 +55,8 @@ const router = createBrowserRouter([
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} fallbackElement={<FallbackPage />} />
+    <SWRConfig value={{ dedupingInterval: 1000 }}>
+      <RouterProvider router={router} fallbackElement={<FallbackPage />} />
+    </SWRConfig>
   </StrictMode>,
 );

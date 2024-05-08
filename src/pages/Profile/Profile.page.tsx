@@ -1,6 +1,4 @@
-import { ReactNode } from 'react';
-
-function ProfilePage(): ReactNode {
+function ProfilePage() {
   return <p>Profile page</p>;
 }
 

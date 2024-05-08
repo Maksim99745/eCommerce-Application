@@ -1,14 +1,14 @@
 import { drawerWidth } from '@constants/ui.const';
 import { AppBar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { ReactNode } from 'react';
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 interface HeaderProps {
   handleDrawerToggle: () => void;
 }
 
-function HeaderComponent({ handleDrawerToggle }: HeaderProps): ReactNode {
+function HeaderComponent({ handleDrawerToggle }: HeaderProps) {
   return (
     <AppBar
       position="fixed"
@@ -49,4 +49,6 @@ function HeaderComponent({ handleDrawerToggle }: HeaderProps): ReactNode {
   );
 }
 
-export default HeaderComponent;
+const HeaderMemoizedComponent = memo(HeaderComponent);
+
+export default HeaderMemoizedComponent;

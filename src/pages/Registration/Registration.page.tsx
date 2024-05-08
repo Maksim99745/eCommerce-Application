@@ -1,6 +1,4 @@
-import { ReactNode } from 'react';
-
-function RegistrationPage(): ReactNode {
+function RegistrationPage() {
   return <p>Registration page</p>;
 }
 

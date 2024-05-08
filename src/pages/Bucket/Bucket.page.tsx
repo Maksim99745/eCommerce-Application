@@ -1,6 +1,4 @@
-import { ReactNode } from 'react';
-
-function BucketPage(): ReactNode {
+function BucketPage() {
   return <p>Bucket page</p>;
 }
 

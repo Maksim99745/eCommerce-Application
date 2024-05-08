@@ -1,6 +1,4 @@
-import { ReactNode } from 'react';
-
-function AboutPage(): ReactNode {
+function AboutPage() {
   return <p>About page</p>;
 }
 
