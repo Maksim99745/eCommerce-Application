@@ -57,22 +57,22 @@ describe('email validation', () => {
 
   // test valid email provided, Email address may contain "-", "_", ".".
   test('should return true when email contains "_"', () => {
-    const result = loginFormSchema.safeParse({ email: 'valid_email@gmail.com', password: '5123456784168' });
+    const result = loginFormSchema.safeParse({ email: 'valid_email@gmail.com', password: 'Valid@al%id&12!#$^*' });
     expect(result.success).toBe(true);
   });
 
   test('should return true when email contains "-"', () => {
-    const result = loginFormSchema.safeParse({ email: 'valid-email@gmail.com', password: '5123456784168' });
+    const result = loginFormSchema.safeParse({ email: 'valid-email@gmail.com', password: 'Valid@al%id&12!#$^*' });
     expect(result.success).toBe(true);
   });
 
   test('should return true when email contains "."', () => {
-    const result = loginFormSchema.safeParse({ email: 'valid.email@gmail.com', password: '5123456784168' });
+    const result = loginFormSchema.safeParse({ email: 'valid.email@gmail.com', password: 'Valid@al%id&12!#$^*' });
     expect(result.success).toBe(true);
   });
 
   test('should return true when email is valid', () => {
-    const result = loginFormSchema.safeParse({ email: 'validemail@gmail.com', password: '5123456784168' });
+    const result = loginFormSchema.safeParse({ email: 'validemail@gmail.com', password: 'Valid@al%id&12!#$^*' });
     expect(result.success).toBe(true);
   });
 });
@@ -129,7 +129,7 @@ describe('password validation', () => {
   // Password must contain at least one special character (e.g., !@#$%^&*).
   test('should return false if password does not contain special character', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'inValidPass12' });
-    expect(result.success).toBe(true);
+    expect(result.success).toBe(false);
   });
 
   // Password must not contain leading or trailing whitespace.
@@ -143,9 +143,15 @@ describe('password validation', () => {
     expect(result.success).toBe(false);
   });
 
+  // Passwords must consist only of Latin letters (A-Z, a-z)
+  test('should return false if password contains not only Latin letters', () => {
+    const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'абвгд@R%id&12!#$*' });
+    expect(result.success).toBe(false);
+  });
+
   // test valid password
   test('should return true if password is valid', () => {
-    const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'V@al%id&12!#$^*' });
+    const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'Valid@al%id&12!#$^*' });
     expect(result.success).toBe(true);
   });
 });
