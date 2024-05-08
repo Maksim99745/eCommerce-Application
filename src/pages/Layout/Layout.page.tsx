@@ -15,7 +15,7 @@ function LayoutPage(): ReactNode {
   const [mobileOpen, setMobileOpen] = useState(isSmUp);
   const [isClosing, setIsClosing] = useState(false);
 
-  const categoriesResponse: SWRResponse<CategoryPagedQueryResponse> = useSWR('/api/user/123', getCategories);
+  const categoriesResponse: SWRResponse<CategoryPagedQueryResponse> = useSWR('categories', getCategories);
 
   const handleDrawerClose = (): void => {
     setIsClosing(true);
@@ -36,7 +36,7 @@ function LayoutPage(): ReactNode {
     <Box sx={{ display: 'flex', height: '100%' }}>
       <CssBaseline />
       <HeaderComponent handleDrawerToggle={handleDrawerToggle} />
-      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
+      <Box component="aside" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
         <Drawer
           variant={isSmUp ? 'permanent' : 'temporary'}
           open={mobileOpen}

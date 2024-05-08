@@ -1,5 +1,5 @@
 import { drawerWidth } from '@constants/ui.const';
-import { AppBar, Box, Button, IconButton, Toolbar } from '@mui/material';
+import { AppBar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
@@ -17,26 +17,31 @@ function HeaderComponent({ handleDrawerToggle }: HeaderProps): ReactNode {
         ml: { sm: `${drawerWidth}px` },
       }}
     >
-      <Toolbar>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={handleDrawerToggle}
-          sx={{ mr: 2, display: { sm: 'none' } }}
-        >
-          <MenuIcon />
-        </IconButton>
-
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box sx={{ display: 'flex', gap: '10px' }}>
-          <Button key="main" sx={{ color: '#fff' }}>
-            <Link to="/">Main</Link>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+
+          <Button component={Link} to="/" sx={{ color: '#fff', textTransform: 'none' }} variant="text">
+            <Typography sx={{ fontSize: '1.2rem', fontWeight: 600 }} variant="h1" noWrap>
+              Homeware Hub
+            </Typography>
           </Button>
-          <Button key="login" sx={{ color: '#fff' }}>
-            <Link to="/login">Login</Link>
+        </Box>
+
+        <Box component="nav" sx={{ display: 'flex', gap: '10px' }}>
+          <Button component={Link} to="/login" sx={{ color: '#fff', borderColor: '#fff' }} variant="outlined">
+            Login
           </Button>
-          <Button key="registration" sx={{ color: '#fff' }}>
-            <Link to="/registration">Registration</Link>
+          <Button component={Link} to="/registration" sx={{ color: '#fff', borderColor: '#fff' }} variant="outlined">
+            Registration
           </Button>
         </Box>
       </Toolbar>

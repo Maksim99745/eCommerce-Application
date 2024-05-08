@@ -1,8 +1,12 @@
-import LoginPage from '@pages/Login/Login.page';
-import RegistrationPage from '@pages/Registration/Registration.page';
+import AboutPage from '@pages/About/About.page';
+import CatalogPage from '@pages/Catalog/Catalog.page';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { StrictMode } from 'react';
+import BucketPage from '@pages/Bucket/Bucket.page';
+import LoginPage from '@pages/Login/Login.page';
+import ProfilePage from '@pages/Profile/Profile.page';
+import RegistrationPage from '@pages/Registration/Registration.page';
 import LayoutPage from '@pages/Layout/Layout.page';
 import NotFoundPage from '@pages/NotFound/NotFound.page';
 import MainPage from '@pages/Main/Main.page';
@@ -26,6 +30,22 @@ const router = createBrowserRouter([
       {
         path: 'registration',
         element: <RegistrationPage />,
+      },
+      {
+        path: 'bucket',
+        element: <BucketPage />,
+      },
+      {
+        path: 'profile',
+        element: <ProfilePage />,
+      },
+      {
+        path: 'about',
+        element: <AboutPage />,
+      },
+      {
+        path: 'categories/:categoryKey',
+        element: <CatalogPage />,
       },
     ],
   },

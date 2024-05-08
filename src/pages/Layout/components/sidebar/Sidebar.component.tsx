@@ -2,6 +2,7 @@ import { CategoryPagedQueryResponse } from '@commercetools/platform-sdk';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Divider, IconButton, List, ListItem, ListItemButton, ListItemText, Toolbar } from '@mui/material';
 import { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 import { SWRResponse } from 'swr';
 
 interface SidebarProps {
@@ -10,7 +11,7 @@ interface SidebarProps {
 }
 
 function SidebarComponent({ categoriesResponse, handleDrawerToggle }: SidebarProps): ReactNode {
-  const { data: categories, error, isLoading } = categoriesResponse;
+  const { data: categories, isLoading, error } = categoriesResponse;
 
   return (
     <div>
@@ -26,18 +27,20 @@ function SidebarComponent({ categoriesResponse, handleDrawerToggle }: SidebarPro
         </IconButton>
       </Toolbar>
       <Divider />
-      <List>
-        {isLoading && <p>Loading...</p>}
-        {error && <p>{error}</p>}
-        {categories?.results.map(({ key, name }) => (
-          <ListItem key={key} disablePadding>
-            <ListItemButton>
-              {/* <ListItemIcon>{}</ListItemIcon> */}
-              <ListItemText primary={name.en} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      {isLoading && <p>Loading...</p>}
+      {error && <p>Error: {String(error)}</p>}
+      {categories && (
+        <List>
+          {categories?.results.map(({ key, name }) => (
+            <ListItem key={key} disablePadding>
+              <ListItemButton component={Link} to={`/categories/${key}`}>
+                {/* <ListItemIcon>{}</ListItemIcon> */}
+                <ListItemText primary={name.en} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      )}
     </div>
   );
 }
