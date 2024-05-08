@@ -1,6 +1,10 @@
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { FormProvider, useForm } from 'react-hook-form-mui';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
   Box,
   Button,
@@ -14,17 +18,12 @@ import {
   Typography,
 } from '@mui/material';
 import React from 'react';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const formStyles = {
   form: { display: 'flex', flexDirection: 'column', width: '100%', height: '80%', gap: 2 },
   submitButton: { width: 100 },
   textField: { minWidth: 410 },
 };
-
-interface FormProps {
-  onRegFormSubmitSuccess: (data: { name: string }) => void;
-}
 
 const schema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
@@ -41,9 +40,14 @@ const schema = z.object({
     ),
   firstName: z.string().min(1, 'First name should contains at least 1 symbol'),
   lastName: z.string().min(1, 'Last name should contains at least 1 symbol'),
+  birthDate: z.string().min(1, 'Last name should contains at least 1 symbol'),
 });
 
-type RegistrationData = z.infer<typeof schema>;
+export type RegistrationData = z.infer<typeof schema>;
+
+interface FormProps {
+  onRegFormSubmitSuccess: (data: RegistrationData) => void;
+}
 
 export function Form({ onRegFormSubmitSuccess }: FormProps) {
   const methods = useForm();
@@ -59,6 +63,7 @@ export function Form({ onRegFormSubmitSuccess }: FormProps) {
       password: '',
       firstName: '',
       lastName: '',
+      birthDate: '',
     },
   });
 
@@ -113,24 +118,15 @@ export function Form({ onRegFormSubmitSuccess }: FormProps) {
             </FormHelperText>
           </FormControl>
 
-          {/* <TextField
-            label="Password"
-            required
-            error={!!errors.password?.message && touchedFields.password}
-            helperText={errors.password?.message}
-            {...register('password')}
-            type="password"
-            sx={formStyles.textField}
-          /> */}
-
           <TextField
             label="Name"
             required
-            error={!!errors.firstName?.message && touchedFields.name}
+            error={!!errors.firstName?.message && touchedFields.firstName}
             helperText={errors.firstName?.message}
             {...register('firstName')}
             sx={formStyles.textField}
           />
+
           <TextField
             label="Last name"
             required
@@ -139,6 +135,13 @@ export function Form({ onRegFormSubmitSuccess }: FormProps) {
             {...register('lastName')}
             sx={formStyles.textField}
           />
+
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer {...register('birthDate')} components={['DatePicker']}>
+              <DatePicker label="Basic date picker" />
+            </DemoContainer>
+          </LocalizationProvider>
+
           <Button type="submit" variant="contained" color="primary" sx={formStyles.submitButton}>
             Submit
           </Button>
