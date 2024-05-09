@@ -70,7 +70,7 @@ describe('email address validation tests', () => {
     expect(result.success).toBe(true);
   });
 
-  test('should return true when email is valid', () => {
+  test('email should be valid', () => {
     const result = loginFormSchema.safeParse({ email: 'validemail@gmail.com', password: 'Valid@al%id&12!#$^*' });
     expect(result.success).toBe(true);
   });
