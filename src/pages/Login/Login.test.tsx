@@ -14,7 +14,7 @@ test('email address should be provided', () => {
   expect(result.error?.issues[0].message).toBe('Email is required');
 });
 
-describe('email validation', () => {
+describe('email address validation tests', () => {
   test('email address must not be empty', () => {
     const result = loginFormSchema.safeParse({ email: '', password: '5416854g64s5g4' });
     expect(result.success).toBe(false);
