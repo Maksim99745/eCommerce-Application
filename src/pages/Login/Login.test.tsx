@@ -83,8 +83,7 @@ describe('password validation', () => {
     expect(result.success).toBe(false);
   });
 
-  // Password must be at least 8 characters long
-  test(`should return false if password length is less them ${MIN_LENGTH}`, () => {
+  test(`password length must be at least 8 characters long`, () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: '54168' });
     expect(result.success).toBe(false);
     expect(result.error?.issues[0].message).toBe(`Password must be at least ${MIN_LENGTH} characters long`);
