@@ -12,7 +12,7 @@ export const loginFormSchema = z.object({
     .max(MAX_LENGTH, `Password should not be more, then ${MAX_LENGTH} characters`)
     .regex(/^[^\s]+$/, 'Passwords must not contain whitespaces')
     .regex(/(?=.*[a-z])(?=.*[A-Z])/, 'Passwords must contain uppercase and lowercase Latin letters (A-Z, a-z)')
-    .regex(/(?=.*\d)/, 'Passwords must contain at least one digit (0-9)')
+    .regex(/(?=.*\d)/, 'Password must contain at least one digit (0-9)')
     .regex(/(?=.*[!@#$%^&])/, 'Password must contain at least one special character (!@#$%^&)')
     .regex(passwordValidationRegEx, 'Invalid password'),
 });
