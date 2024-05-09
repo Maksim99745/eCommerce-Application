@@ -158,8 +158,7 @@ describe('password validation', () => {
     expect(result.error?.issues[0].message).toBe('Passwords must not contain whitespaces');
   });
 
-  // Passwords must consist only of Latin letters (A-Z, a-z)
-  test('should return false if password contains not only Latin letters', () => {
+  test('password must consist only of Latin letters (A-Z, a-z)', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'абвгд@R%id&12!#$*' });
     expect(result.success).toBe(false);
     expect(result.error?.issues[0].message).toBe('Invalid password');
