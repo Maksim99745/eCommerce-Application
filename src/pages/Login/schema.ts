@@ -13,6 +13,6 @@ export const loginFormSchema = z.object({
     .regex(/^[^\s]+$/, 'Passwords must not contain whitespaces')
     .regex(/(?=.*[a-z])(?=.*[A-Z])/, 'Passwords must contain uppercase and lowercase Latin letters (A-Z, a-z)')
     .regex(/(?=.*\d)/, 'Passwords must contain at least one digit (0-9)')
-    .regex(/(?=.*[!@#$%^&])/, 'Passwords must contain at least one special character (!@#$%^&)')
+    .regex(/(?=.*[!@#$%^&])/, 'Password must contain at least one special character (!@#$%^&)')
     .regex(passwordValidationRegEx, 'Invalid password'),
 });
