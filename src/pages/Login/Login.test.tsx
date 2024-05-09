@@ -166,7 +166,7 @@ describe('password validation', () => {
   });
 
   // test valid password
-  test('should return true if password is valid', () => {
+  test('password should be valid', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'Valid@al%id&12!#$^*' });
     expect(result.success).toBe(true);
   });
