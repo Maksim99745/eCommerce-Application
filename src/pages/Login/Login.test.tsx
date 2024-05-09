@@ -77,8 +77,7 @@ describe('email address validation tests', () => {
 });
 
 describe('password validation', () => {
-  // Password must not be an empty line
-  test('should return false if password is empty', () => {
+  test('password must not be empty', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: '' });
     expect(result.error?.issues[0].message).toBe(`Password must be at least ${MIN_LENGTH} characters long`);
     expect(result.success).toBe(false);
