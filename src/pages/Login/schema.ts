@@ -10,9 +10,9 @@ export const loginFormSchema = z.object({
     .string()
     .min(MIN_LENGTH, `Password must be at least ${MIN_LENGTH} characters long`)
     .max(MAX_LENGTH, `Password should not be more, then ${MAX_LENGTH} characters`)
-    .regex(/^[^\s]+$/, 'Passwords must not contain whitespaces')
+    .regex(/^[^\s]+$/, 'Passwords must not contain whitespace')
     .regex(/(?=.*[a-z])(?=.*[A-Z])/, 'Passwords must contain uppercase and lowercase Latin letters (A-Z, a-z)')
     .regex(/(?=.*\d)/, 'Passwords must contain at least one digit (0-9)')
     .regex(/(?=.*[!@#$%^&])/, 'Passwords must contain at least one special character (!@#$%^&)')
-    .regex(passwordValidationRegEx, 'Invalid password'),
+    .regex(TEST_PASSWORD_REG_EX, 'Invalid password'),
 });

@@ -16,57 +16,57 @@ test('should return false if receives an empty object', () => {
 
 describe('email validation', () => {
   // Email address must not be an empty string
-  test('should return false if email is an empty string', () => {
-    const result = loginFormSchema.safeParse({ email: '', password: '5416854g64s5g4' });
+  test('Email address should not be an empty string', () => {
+    const result = loginFormSchema.safeParse({ email: '', password: '5416D8*854g64s5g4' });
     expect(result.success).toBe(false);
     expect(result.error?.issues[0].message).toBe('Invalid email');
   });
 
   // Email address must be properly formatted and contain a domain name (e.g., user@example.com)
-  test('should return false if email is not properly formatted', () => {
+  test('Email address should be properly formatted', () => {
     const result = loginFormSchema.safeParse({ email: 'useremail', password: '5416854g64s5g4' });
     expect(result.success).toBe(false);
     expect(result.error?.issues[0].message).toBe('Invalid email');
   });
 
-  test('should return false if email does not contain a domain name', () => {
+  test('Email address should contain a domain name', () => {
     const result = loginFormSchema.safeParse({ email: 'user@', password: '5416854g64s5g4' });
     expect(result.success).toBe(false);
     expect(result.error?.issues[0].message).toBe('Invalid email');
   });
 
   //  Email address must contain an '@' symbol separating local part and domain name.
-  test('should return false if email does not contain "@"', () => {
+  test(`Email address should contain '@' symbol`, () => {
     const result = loginFormSchema.safeParse({ email: 'user.example.com', password: '5416854g64s5g4' });
     expect(result.success).toBe(false);
     expect(result.error?.issues[0].message).toBe('Invalid email');
   });
 
   // Email address must not contain leading or trailing whitespace.
-  test('should return false if email contains leading whitespace', () => {
+  test('Email address should not contain leading whitespace', () => {
     const result = loginFormSchema.safeParse({ email: ' codjhwdj@gmail.com', password: '5123456784168' });
     expect(result.success).toBe(false);
     expect(result.error?.issues[0].message).toBe('Invalid email');
   });
 
-  test('should return false if email contains trailing whitespace', () => {
+  test('Email address should not contain trailing whitespace', () => {
     const result = loginFormSchema.safeParse({ email: 'codjhwdj@gmail.com ', password: '5123456784168' });
     expect(result.success).toBe(false);
     expect(result.error?.issues[0].message).toBe('Invalid email');
   });
 
   // test valid email provided, Email address may contain "-", "_", ".".
-  test('should return true when email contains "_"', () => {
+  test('Email address may contain "_"', () => {
     const result = loginFormSchema.safeParse({ email: 'valid_email@gmail.com', password: 'Valid@al%id&12!#$^*' });
     expect(result.success).toBe(true);
   });
 
-  test('should return true when email contains "-"', () => {
+  test('Email address may contain "-"', () => {
     const result = loginFormSchema.safeParse({ email: 'valid-email@gmail.com', password: 'Valid@al%id&12!#$^*' });
     expect(result.success).toBe(true);
   });
 
-  test('should return true when email contains "."', () => {
+  test('Email address may contain "."', () => {
     const result = loginFormSchema.safeParse({ email: 'valid.email@gmail.com', password: 'Valid@al%id&12!#$^*' });
     expect(result.success).toBe(true);
   });
@@ -142,19 +142,19 @@ describe('password validation', () => {
   test('should return false if password contains leading whitespace', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: ' V@al%id&12!#$^*' });
     expect(result.success).toBe(false);
-    expect(result.error?.issues[0].message).toBe('Passwords must not contain whitespaces');
+    expect(result.error?.issues[0].message).toBe('Passwords must not contain whitespace');
   });
 
   test('password should not contains trailing whitespace', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'V@al%id&12!#$^* ' });
     expect(result.success).toBe(false);
-    expect(result.error?.issues[0].message).toBe('Passwords must not contain whitespaces');
+    expect(result.error?.issues[0].message).toBe('Passwords must not contain whitespace');
   });
 
-  test('should return false if password contains whitespace', () => {
+  test('password should not contains whitespace', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'V@al% id&12!#$^* ' });
     expect(result.success).toBe(false);
-    expect(result.error?.issues[0].message).toBe('Passwords must not contain whitespaces');
+    expect(result.error?.issues[0].message).toBe('Passwords must not contain whitespace');
   });
 
   test('password must consist only of Latin letters (A-Z, a-z)', () => {
