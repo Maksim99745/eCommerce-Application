@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import { loginFormSchema } from './schema';
+import { MAX_LENGTH, MIN_LENGTH, loginFormSchema } from './schema';
 import LoginPage from './Login.page';
 
 test('Render the login page', () => {
@@ -81,72 +81,88 @@ describe('password validation', () => {
   // Password must not be an empty line
   test('should return false if password is empty', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: '' });
-    expect(result.error?.issues[0].message).toBe('Password must be at least 8 characters long');
+    expect(result.error?.issues[0].message).toBe(`Password must be at least ${MIN_LENGTH} characters long`);
     expect(result.success).toBe(false);
   });
 
   // Password must be at least 8 characters long
-  test('should return false if password length is less them 8', () => {
+  test(`should return false if password length is less them ${MIN_LENGTH}`, () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: '54168' });
     expect(result.success).toBe(false);
-    expect(result.error?.issues[0].message).toBe('Password must be at least 8 characters long');
+    expect(result.error?.issues[0].message).toBe(`Password must be at least ${MIN_LENGTH} characters long`);
   });
 
   // Password should not be more, then 20 characters
-  test('should return false if password length is more then 20', () => {
+  test(`should return false if password length is more then ${MAX_LENGTH}`, () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'inValidPass5416823548' });
     expect(result.success).toBe(false);
-    expect(result.error?.issues[0].message).toBe('Password should not be more, then 20 characters');
+    expect(result.error?.issues[0].message).toBe(`Password should not be more, then ${MAX_LENGTH} characters`);
   });
 
   // Password must contain at least one uppercase letter (A-Z)
   test('should return false if password does not contain at least one uppercase letter', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'invalid5414' });
     expect(result.success).toBe(false);
-    // expect(result).toBe(0); Потом удалю, это чтоб посмотреть как ошибка будет выглядеть
+    expect(result.error?.issues[0].message).toBe(
+      'Passwords must contain uppercase and lowercase Latin letters (A-Z, a-z)',
+    );
   });
 
   // Password must contain at least one lowercase letter (a-z)
   test('should return false if password does not contain at least one lowercase letter', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'INVALID5414' });
     expect(result.success).toBe(false);
-    // expect(result).toBe(0);
+    expect(result.error?.issues[0].message).toBe(
+      'Passwords must contain uppercase and lowercase Latin letters (A-Z, a-z)',
+    );
   });
 
   test('should return false if password does not contain letters', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: '12345678' });
     expect(result.success).toBe(false);
-    // expect(result).toBe(0);
+    expect(result.error?.issues[0].message).toBe(
+      'Passwords must contain uppercase and lowercase Latin letters (A-Z, a-z)',
+    );
   });
 
   // Password must contain at least one digit (0-9)
   test('should return false if password does not contain digits', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'InvalidPass' });
     expect(result.success).toBe(false);
-    // expect(result).toBe(0);
+    expect(result.error?.issues[0].message).toBe('Passwords must contain at least one digit (0-9)');
   });
 
   // Password must contain at least one special character (e.g., !@#$%^&*).
   test('should return false if password does not contain special character', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'inValidPass12' });
     expect(result.success).toBe(false);
+    expect(result.error?.issues[0].message).toBe('Passwords must contain at least one special character (!@#$%^&)');
   });
 
-  // Password must not contain leading or trailing whitespace.
+  // Password must not contain leading or trailing or middle whitespace.
   test('should return false if password contains leading whitespace', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: ' V@al%id&12!#$^*' });
     expect(result.success).toBe(false);
+    expect(result.error?.issues[0].message).toBe('Passwords must not contain whitespaces');
   });
 
   test('should return false if password contains trailing whitespace', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'V@al%id&12!#$^* ' });
     expect(result.success).toBe(false);
+    expect(result.error?.issues[0].message).toBe('Passwords must not contain whitespaces');
+  });
+
+  test('should return false if password contains whitespace', () => {
+    const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'V@al% id&12!#$^* ' });
+    expect(result.success).toBe(false);
+    expect(result.error?.issues[0].message).toBe('Passwords must not contain whitespaces');
   });
 
   // Passwords must consist only of Latin letters (A-Z, a-z)
   test('should return false if password contains not only Latin letters', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'абвгд@R%id&12!#$*' });
     expect(result.success).toBe(false);
+    expect(result.error?.issues[0].message).toBe('Invalid password');
   });
 
   // test valid password
