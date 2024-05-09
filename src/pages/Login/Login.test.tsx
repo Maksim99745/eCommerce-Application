@@ -89,8 +89,7 @@ describe('password validation', () => {
     expect(result.error?.issues[0].message).toBe(`Password must be at least ${MIN_LENGTH} characters long`);
   });
 
-  // Password should not be more, then 20 characters
-  test(`should return false if password length is more then ${MAX_LENGTH}`, () => {
+  test(`password length should not be more, then 20 characters`, () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'inValidPass5416823548' });
     expect(result.success).toBe(false);
     expect(result.error?.issues[0].message).toBe(`Password should not be more, then ${MAX_LENGTH} characters`);
