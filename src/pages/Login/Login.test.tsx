@@ -15,8 +15,7 @@ test('email address should be provided', () => {
 });
 
 describe('email validation', () => {
-  // Email address must not be an empty string
-  test('should return false if email is an empty string', () => {
+  test('email address must not be empty', () => {
     const result = loginFormSchema.safeParse({ email: '', password: '5416854g64s5g4' });
     expect(result.success).toBe(false);
     expect(result.error?.issues[0].message).toBe('Invalid email');
