@@ -13,11 +13,13 @@ import {
   InputLabel,
   MenuItem,
   OutlinedInput,
+  Select,
+  SelectChangeEvent,
   TextField,
   Typography,
 } from '@mui/material';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const formStyles = {
   form: { display: 'flex', flexDirection: 'column', width: '100%', height: '100%', gap: 2 },
@@ -34,20 +36,32 @@ const isOlderThan13 = (dateString: string) => {
   return years >= 13;
 };
 
+const MIN_LENGTH = 8;
+const MAX_LENGTH = 20;
+const passwordValidationRegEx = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[!@#$%^&])[A-Za-z\d!@#$%^&]{8,20}$/;
+
+interface PostalValidationRegEx {
+  [key: string]: RegExp;
+}
+
+const postalValidationRegEx: PostalValidationRegEx = {
+  Poland: /^\d{2}-\d{3}$/,
+  Serbia: /^\d{5}$/,
+  Ukraine: /^\d{5}$/,
+  Uzbekistan: /^\d{6}$/,
+};
+
 const schema = z.object({
-  email: z.string().email({ message: 'Invalid email address' }),
+  email: z.string({ required_error: 'Email is required' }).email('Invalid email'),
   password: z
     .string()
-    .min(8, '8+ chars, 1 uppercase, 1 lowercase, 1 number')
-    .refine(
-      (value) => {
-        //TODO: .regex
-        return /[A-Z]/.test(value) && /[a-z]/.test(value) && /[0-9]/.test(value);
-      },
-      {
-        message: '8+ chars, 1 uppercase, 1 lowercase, 1 number',
-      },
-    ),
+    .min(MIN_LENGTH, `Password must be at least ${MIN_LENGTH} characters long`)
+    .max(MAX_LENGTH, `Password should not be more, then ${MAX_LENGTH} characters`)
+    .regex(/^[^\s]+$/, 'Passwords must not contain whitespaces')
+    .regex(/(?=.[a-z])(?=.[A-Z])/, 'Passwords must contain uppercase and lowercase Latin letters (A-Z, a-z)')
+    .regex(/(?=.\d)/, 'Passwords must contain at least one digit (0-9)')
+    .regex(/(?=.[!@#$%^&])/, 'Passwords must contain at least one special character (!@#$%^&)')
+    .regex(passwordValidationRegEx, 'Invalid password'),
   firstName: z.string().min(1, 'First name should contains at least 1 symbol'),
   lastName: z.string().min(1, 'Last name should contains at least 1 symbol'),
   birthDate: z.string().refine(
@@ -64,6 +78,7 @@ const schema = z.object({
     .min(1, 'City should contains at least 1 symbol')
     .regex(/^[a-zA-Z]+$/, "Name of the city should n't contains numbers or special symbols"),
   country: z.string().min(1, 'Country should contains at least 1 symbol'),
+  postalCode: z.string().regex(new RegExp(postalValidationRegEx.Poland), 'Invalid post code'),
 });
 
 export type RegistrationData = z.infer<typeof schema>;
@@ -73,25 +88,30 @@ interface FormProps {
 }
 
 export function Form({ onRegFormSubmitSuccess }: FormProps) {
-  const methods = useForm();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, touchedFields },
-  } = useForm<RegistrationData>({
+  const methods = useForm<RegistrationData>({
     resolver: zodResolver(schema),
     defaultValues: {
       email: '',
-      password: '',
       firstName: '',
       lastName: '',
       birthDate: '',
       street: '',
       city: '',
       country: '',
+      postalCode: '',
     },
   });
+
+  useEffect(() => {
+    console.log(methods);
+    console.log('updates');
+  }, [methods]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, touchedFields },
+  } = methods;
 
   const countries: string[] = ['Poland', 'Ukraine', 'Uzbekistan', 'Serbia'];
 
@@ -103,10 +123,24 @@ export function Form({ onRegFormSubmitSuccess }: FormProps) {
     event.preventDefault();
   };
 
-  const [country, setCountry] = React.useState('Poland');
+  console.log(schema);
+  useEffect(() => {
+    console.log(schema.pick({ country: true }));
+    console.log('updates');
+  }, [schema]);
 
-  const handleCountry = (event) => {
-    setCountry(event.target.outerText);
+  const [country, setCountry] = React.useState('');
+
+  const handleCountry = (event: SelectChangeEvent): void => {
+    const newCountry = event.target.value;
+    setCountry(newCountry);
+    if (newCountry in postalValidationRegEx) {
+      console.log(postalValidationRegEx[newCountry]);
+      const newSchema = z.object({
+        country: z.string().regex(new RegExp(postalValidationRegEx[newCountry]), `Invalid post code for ${newCountry}`),
+      });
+      schema.merge(newSchema);
+    }
   };
 
   return (
@@ -169,15 +203,6 @@ export function Form({ onRegFormSubmitSuccess }: FormProps) {
             {...register('lastName')}
             sx={formStyles.textField}
           />
-          {/* 
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              // error={!!errors.birthDate?.message && touchedFields.birthDate}
-              // helperText={errors.birthDate?.message}
-              // required
-              {...register('birthDate')}
-            />
-          </LocalizationProvider> */}
 
           <TextField
             id="date"
@@ -212,21 +237,33 @@ export function Form({ onRegFormSubmitSuccess }: FormProps) {
             {...register('city')}
             sx={formStyles.textField}
           />
+
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Country</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={country}
+              label="Country"
+              {...register('country')}
+              onChange={handleCountry}
+            >
+              {countries.map((option: string) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
           <TextField
-            id="outlined-select-currency"
-            select
-            label="Select"
-            defaultValue="Poland"
-            helperText="Please select your country"
+            label="Postal-code"
             required
-            {...register('country')}
-          >
-            {countries.map((option: string) => (
-              <MenuItem key={option} value={country} onClick={(event) => handleCountry(event)}>
-                {option}
-              </MenuItem>
-            ))}
-          </TextField>
+            error={!!errors.postalCode?.message && touchedFields.postalCode}
+            helperText={errors.postalCode?.message}
+            {...register('postalCode')}
+            sx={formStyles.textField}
+          />
           <Button type="submit" variant="contained" color="primary" sx={formStyles.submitButton}>
             Submit
           </Button>
