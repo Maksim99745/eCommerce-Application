@@ -103,8 +103,7 @@ describe('password validation', () => {
     );
   });
 
-  // Password must contain at least one lowercase letter (a-z)
-  test('should return false if password does not contain at least one lowercase letter', () => {
+  test('Password must contain at least one lowercase Latin letter', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'INVALID5414' });
     expect(result.success).toBe(false);
     expect(result.error?.issues[0].message).toBe(
