@@ -117,7 +117,7 @@ describe('password validation', () => {
     );
   });
 
-  test('should return false if password does not contain letters', () => {
+  test('password must contain at least one uppercase & lowercase Latin letters', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: '12345678' });
     expect(result.success).toBe(false);
     expect(result.error?.issues[0].message).toBe(
