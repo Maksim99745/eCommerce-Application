@@ -8,7 +8,7 @@ test('Render the login page', () => {
   expect(true).toBeTruthy();
 });
 
-test('should return false if receives an empty object', () => {
+test('email address should be provided', () => {
   const result = loginFormSchema.safeParse({});
   expect(result.success).toBe(false);
   expect(result.error?.issues[0].message).toBe('Email is required');
