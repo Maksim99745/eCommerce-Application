@@ -99,8 +99,7 @@ describe('password validation', () => {
     expect(result.error?.issues[0].message).toBe(`Password should not be more, then ${MAX_LENGTH} characters`);
   });
 
-  // Password must contain at least one uppercase letter (A-Z)
-  test('should return false if password does not contain at least one uppercase letter', () => {
+  test('password must contain at least one uppercase letter', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'invalid5414' });
     expect(result.success).toBe(false);
     expect(result.error?.issues[0].message).toBe(
