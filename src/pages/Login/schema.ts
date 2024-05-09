@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const MIN_LENGTH = 8;
 export const MAX_LENGTH = 20;
-const passwordValidationRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/;
+const TEST_PASSWORD_REG_EX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/;
 
 export const loginFormSchema = z.object({
   email: z.string({ required_error: 'Email is required' }).email('Invalid email'),
