@@ -145,7 +145,7 @@ describe('password validation', () => {
     expect(result.error?.issues[0].message).toBe('Passwords must not contain whitespaces');
   });
 
-  test('should return false if password contains trailing whitespace', () => {
+  test('password should not contains trailing whitespace', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'V@al%id&12!#$^* ' });
     expect(result.success).toBe(false);
     expect(result.error?.issues[0].message).toBe('Passwords must not contain whitespaces');
