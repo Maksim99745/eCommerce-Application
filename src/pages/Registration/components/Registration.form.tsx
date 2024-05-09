@@ -1,28 +1,37 @@
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { FormProvider, useForm } from 'react-hook-form-mui';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {
   Box,
   Button,
+  Divider,
   FormControl,
   FormHelperText,
   IconButton,
   InputAdornment,
   InputLabel,
+  MenuItem,
   OutlinedInput,
   TextField,
   Typography,
 } from '@mui/material';
+
 import React from 'react';
 
 const formStyles = {
-  form: { display: 'flex', flexDirection: 'column', width: '100%', height: '80%', gap: 2 },
+  form: { display: 'flex', flexDirection: 'column', width: '100%', height: '100%', gap: 2 },
   submitButton: { width: 100 },
   textField: { minWidth: 410 },
+  divider: { height: '1px', backgroundColor: 'black' },
+};
+
+const isOlderThan13 = (dateString: string) => {
+  let birthday = new Date(dateString);
+  let today = new Date();
+  let age = today.getTime() - birthday.getTime();
+  let years = age / (1000 * 60 * 60 * 24 * 365.25);
+  return years >= 13;
 };
 
 const schema = z.object({
@@ -32,6 +41,7 @@ const schema = z.object({
     .min(8, '8+ chars, 1 uppercase, 1 lowercase, 1 number')
     .refine(
       (value) => {
+        //TODO: .regex
         return /[A-Z]/.test(value) && /[a-z]/.test(value) && /[0-9]/.test(value);
       },
       {
@@ -40,7 +50,20 @@ const schema = z.object({
     ),
   firstName: z.string().min(1, 'First name should contains at least 1 symbol'),
   lastName: z.string().min(1, 'Last name should contains at least 1 symbol'),
-  birthDate: z.string().min(1, 'Last name should contains at least 1 symbol'),
+  birthDate: z.string().refine(
+    (value) => {
+      return isOlderThan13(value);
+    },
+    {
+      message: 'User should be older than 13 y.o.',
+    },
+  ),
+  street: z.string().min(1, 'Street should contains at least 1 symbol'),
+  city: z
+    .string()
+    .min(1, 'City should contains at least 1 symbol')
+    .regex(/^[a-zA-Z]+$/, "Name of the city should n't contains numbers or special symbols"),
+  country: z.string().min(1, 'Country should contains at least 1 symbol'),
 });
 
 export type RegistrationData = z.infer<typeof schema>;
@@ -64,8 +87,13 @@ export function Form({ onRegFormSubmitSuccess }: FormProps) {
       firstName: '',
       lastName: '',
       birthDate: '',
+      street: '',
+      city: '',
+      country: '',
     },
   });
+
+  const countries: string[] = ['Poland', 'Ukraine', 'Uzbekistan', 'Serbia'];
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -73,6 +101,12 @@ export function Form({ onRegFormSubmitSuccess }: FormProps) {
 
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+  };
+
+  const [country, setCountry] = React.useState('Poland');
+
+  const handleCountry = (event) => {
+    setCountry(event.target.outerText);
   };
 
   return (
@@ -135,13 +169,64 @@ export function Form({ onRegFormSubmitSuccess }: FormProps) {
             {...register('lastName')}
             sx={formStyles.textField}
           />
-
+          {/* 
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer {...register('birthDate')} components={['DatePicker']}>
-              <DatePicker label="Basic date picker" />
-            </DemoContainer>
-          </LocalizationProvider>
+            <DatePicker
+              // error={!!errors.birthDate?.message && touchedFields.birthDate}
+              // helperText={errors.birthDate?.message}
+              // required
+              {...register('birthDate')}
+            />
+          </LocalizationProvider> */}
 
+          <TextField
+            id="date"
+            label="Birthday"
+            type="date"
+            defaultValue=""
+            error={!!errors.birthDate?.message && touchedFields.birthDate}
+            helperText={errors.birthDate?.message}
+            required
+            {...register('birthDate')}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <Divider orientation="vertical" flexItem sx={formStyles.divider} />
+          <Typography variant="h6" gutterBottom>
+            Pass your address
+          </Typography>
+          <TextField
+            label="Street"
+            required
+            error={!!errors.street?.message && touchedFields.street}
+            helperText={errors.street?.message}
+            {...register('street')}
+            sx={formStyles.textField}
+          />
+          <TextField
+            label="City"
+            required
+            error={!!errors.city?.message && touchedFields.city}
+            helperText={errors.city?.message}
+            {...register('city')}
+            sx={formStyles.textField}
+          />
+          <TextField
+            id="outlined-select-currency"
+            select
+            label="Select"
+            defaultValue="Poland"
+            helperText="Please select your country"
+            required
+            {...register('country')}
+          >
+            {countries.map((option: string) => (
+              <MenuItem key={option} value={country} onClick={(event) => handleCountry(event)}>
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
           <Button type="submit" variant="contained" color="primary" sx={formStyles.submitButton}>
             Submit
           </Button>
