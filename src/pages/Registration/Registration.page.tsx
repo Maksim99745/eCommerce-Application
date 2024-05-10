@@ -1,24 +1,21 @@
 import { ReactNode, useCallback } from 'react';
-import { Form, RegistrationData } from './components/Registration.form';
 import { Box } from '@mui/material';
-
-type CallbackFunction = (data: RegistrationData) => void;
+import { RegistrationForm, RegistrationFormProps } from './components/RegistrationForm';
 
 const pageStyles = {
   registrationPage: { display: 'flex', margin: '0 auto' },
 };
 
 function RegistrationPage(): ReactNode {
-  const cb: CallbackFunction = useCallback((data) => {
+  const handleFormSubmit = useCallback<RegistrationFormProps['onSubmit']>(async (data) => {
     console.log(data);
+    return Promise.resolve('Ok');
   }, []);
 
   return (
-    <>
-      <Box sx={pageStyles.registrationPage}>
-        <Form onRegFormSubmitSuccess={cb} />
-      </Box>
-    </>
+    <Box sx={pageStyles.registrationPage}>
+      <RegistrationForm onSubmit={handleFormSubmit} />
+    </Box>
   );
 }
 
