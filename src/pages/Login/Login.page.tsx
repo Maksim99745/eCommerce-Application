@@ -1,5 +1,10 @@
+import { MuiLoginForm } from './MuiLoginForm';
 function LoginPage() {
-  return <p>Login page</p>;
+  return (
+    <div>
+      <MuiLoginForm />
+    </div>
+  );
 }
 
 export default LoginPage;
