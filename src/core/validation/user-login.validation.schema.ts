@@ -10,8 +10,8 @@ export const loginFormSchema = z.object({
     .string({ required_error: 'Email is required' })
     .max(EMAIL_MAX_LENGTH, `Email should not be longer, than ${EMAIL_MAX_LENGTH} characters`)
     .regex(/.+/, 'Email is required')
-    .regex(/@/, 'Email should contain symbol "@"')
-    .regex(/^[^@]+@[^@]+\.[^@]+$/, 'Email should contain domainName')
+    .regex(/(?=.*@)/, 'Email should contain symbol "@"')
+    .regex(/^[^@]+@[^@]+\.[^@]+$/, 'Email should contain domain name')
     .regex(/^[^\s]+$/, 'Email should not contain whitespace')
     .email('Email address should be properly formatted (e.g., user@example.com)'),
   password: z
