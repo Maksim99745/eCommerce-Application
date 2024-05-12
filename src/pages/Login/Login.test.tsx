@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import { loginFormSchema } from './schema';
+import { loginFormSchema } from '@core/validation/user-login.validation.schema';
 import LoginPage from './Login.page';
 
 test('Render the login page', () => {
@@ -88,31 +88,19 @@ describe('password validation tests', () => {
   test(`password length should not be more, than 20 characters`, () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'inValidPass5416823548' });
     expect(result.success).toBe(false);
-    expect(result.error?.issues[0].message).toBe(`Password should not be more, than 20 characters`);
-  });
-
-  test('password must contain at least one uppercase Latin letter', () => {
-    const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'valid@al%id&12!#$^*' });
-    expect(result.success).toBe(false);
-    expect(result.error?.issues[0].message).toBe(
-      'Password must contain both uppercase & lowercase Latin letters (A-Z, a-z)',
-    );
+    expect(result.error?.issues[0].message).toBe(`Password must not be more, than 20 characters`);
   });
 
   test('password must contain at least one lowercase Latin letter', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'QQQQQQQ@%&12!#$^*' });
     expect(result.success).toBe(false);
-    expect(result.error?.issues[0].message).toBe(
-      'Password must contain both uppercase & lowercase Latin letters (A-Z, a-z)',
-    );
+    expect(result.error?.issues[0].message).toBe('Password must contain at least 1 lowercase letter');
   });
 
-  test('password must contain both uppercase & lowercase Latin letters', () => {
-    const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: '123456%&12!#$^*' });
+  test('Password must contain at least 1 uppercase symbol', () => {
+    const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'sedd56%&12!#$^*' });
     expect(result.success).toBe(false);
-    expect(result.error?.issues[0].message).toBe(
-      'Password must contain both uppercase & lowercase Latin letters (A-Z, a-z)',
-    );
+    expect(result.error?.issues[0].message).toBe('Password must contain at least 1 uppercase letter');
   });
 
   test('password must contain at least one digit', () => {
