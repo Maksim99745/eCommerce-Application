@@ -7,8 +7,7 @@ export const countriesOptions: SelectOption[] = [
   { id: 'RS', label: 'Serbia' },
 ];
 
-export const getCountryLabelByCode = (countryCode: string): string => {
-  return countriesOptions.find((option) => option.id === countryCode)?.label ?? 'unknown';
-};
+export const getCountryLabelByCode = (countryCode: string): string =>
+  countriesOptions.find((option) => option.id === countryCode)?.label ?? 'unknown';
 
 export const defaultCountryOption = countriesOptions[0];

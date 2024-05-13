@@ -37,7 +37,7 @@ export function RegistrationForm({ onSubmit }: RegistrationFormProps) {
         birthDate: '',
         street: '',
         city: '',
-        countryCode: defaultCountryOption.id,
+        country: defaultCountryOption.id,
         postalCode: '',
       }}
       onSuccess={onSubmit}
