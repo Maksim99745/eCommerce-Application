@@ -7,20 +7,22 @@ import LayoutPage from './Layout.page';
 
 afterEach(cleanup);
 
-jest.mock('@core/api/requests', () => ({
-  getCategories: jest.fn(
-    () =>
-      new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            results: [
-              { key: '1', name: { en: 'Category 1' } },
-              { key: '2', name: { en: 'Category 2' } },
-            ],
-          });
-        }, DEFAULT_REQUEST_DELAY);
-      }),
-  ),
+jest.mock('@core/api/api.service', () => ({
+  apiService: {
+    getCategories: jest.fn(
+      () =>
+        new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({
+              results: [
+                { id: '1', key: '1', name: { en: 'Category 1' } },
+                { id: '2', key: '2', name: { en: 'Category 2' } },
+              ],
+            });
+          }, DEFAULT_REQUEST_DELAY);
+        }),
+    ),
+  },
 }));
 
 test('Render the layout page', async () => {
@@ -32,18 +34,12 @@ test('Render the layout page', async () => {
     );
   });
 
-  // Проверяем, что текст "Loading..." отображается перед загрузкой категорий
   expect(screen.getByText('Loading...')).toBeInTheDocument();
 
-  // Дожидаемся появления категорий
-  await waitFor(
-    () => {
-      expect(screen.queryByText('Loading...')).not.toBeInTheDocument(); // Убеждаемся, что текст "Loading..." больше не отображается
-    },
-    { timeout: DEFAULT_REQUEST_TIMEOUT },
-  );
+  await waitFor(() => expect(screen.queryByText('Loading...')).not.toBeInTheDocument(), {
+    timeout: DEFAULT_REQUEST_TIMEOUT,
+  });
 
-  // Проверяем, что категории были загружены и отображены
   expect(await screen.findByText('Category 1')).toBeInTheDocument();
   expect(await screen.findByText('Category 2')).toBeInTheDocument();
 });

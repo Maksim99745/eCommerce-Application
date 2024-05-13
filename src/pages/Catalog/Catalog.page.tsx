@@ -1,10 +1,14 @@
-import { getCategory } from '@core/api/requests';
+import { apiService } from '@core/api/api.service';
+import { useRequest } from '@core/api/use-request.hook';
 import { useParams } from 'react-router-dom';
-import useSWR from 'swr';
 
 function CatalogPage() {
-  const { categoryKey } = useParams();
-  const { data: category, error, isLoading } = useSWR(categoryKey, getCategory);
+  const { categoryKey = '' } = useParams<'categoryKey'>();
+  const {
+    data: category,
+    error,
+    isLoading,
+  } = useRequest(`categories/${categoryKey}`, () => apiService.getCategory(categoryKey));
 
   return (
     <>
