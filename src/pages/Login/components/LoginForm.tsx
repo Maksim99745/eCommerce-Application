@@ -26,6 +26,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
         password: '',
       }}
       onSuccess={onSubmit}
+      mode="onChange"
     >
       <Box sx={formStyles.form}>
         <Typography variant="h4" gutterBottom>
