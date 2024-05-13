@@ -16,11 +16,12 @@ export const loginFormSchema = z.object({
     .string()
     .regex(/.+/, 'Password is required')
     .regex(/^[^\s]+$/, 'Password should not contain whitespace')
-    .regex(/(?=.*[A-Z])/, 'Password should contain at least 1 uppercase letter')
-    .regex(/(?=.*[a-z])/, 'Password should contain at least 1 lowercase letter')
+    .regex(/(?=.*[A-Z])/, 'Password should contain at least 1 English uppercase letter')
+    .regex(/(?=.*[a-z])/, 'Password should contain at least 1 English lowercase letter')
     .regex(/(?=.*\d)/, 'Password should contain at least one digit (0-9)')
-    .regex(/(?=.*[!@#$%^&])/, 'Password should contain at least one special character (!@#$%^&)')
-    .min(MIN_LENGTH, `Password should be at least ${MIN_LENGTH} characters long`)
+    .regex(/(?=.*[!@#$%^&])/, 'Password should contain at least one special symbol (!@#$%^&)')
+    .min(MIN_LENGTH, `Password length should be at least ${MIN_LENGTH} characters long`)
     .max(MAX_LENGTH, `Password should not be more, than ${MAX_LENGTH} characters`)
+    .regex(/^[a-zA-Z0-9!@#$%^&*]+$/, 'Password should contain only English letters, numbers and special symbols')
     .regex(TEST_PASSWORD_REG_EX, 'Invalid password'),
 });
