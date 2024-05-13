@@ -7,9 +7,3 @@ test('Render the registration page', () => {
 
   expect(true).toBeTruthy();
 });
-
-// test('email address should be provided', () => {
-//   const result = getUseRegistrationSchema('Poland').safeParse({});
-//   expect(result.success).toBe(false);
-//   expect(result.error?.issues[0].message).toBe('Email is required');
-// });

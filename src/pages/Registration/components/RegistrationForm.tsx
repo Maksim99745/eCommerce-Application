@@ -11,10 +11,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserRegistrationData } from '@models/index';
 import { Box, Button, Typography } from '@mui/material';
-import { useCallback, useEffect, useState } from 'react';
 import { countriesOptions, defaultCountryOption } from '@constants/countries.const';
-import { postalValidationRegEx, registrationSchema } from '@core/validation/user-registration.validation.schema';
-import { z } from 'zod';
+import { registrationSchema } from '@core/validation/user-registration.validation.schema';
 
 const formStyles = {
   form: { display: 'flex', flexDirection: 'column', width: '100%', height: '100%' },
@@ -28,31 +26,9 @@ export interface RegistrationFormProps {
 }
 
 export function RegistrationForm({ onSubmit }: RegistrationFormProps) {
-  const [selectedCountry, setSelectedCountry] = useState(defaultCountryOption);
-  const [schema, newSchema] = useState(registrationSchema);
-
-  const handleCountryChange = useCallback((selectedId: string) => {
-    const countryOption = countriesOptions.find(({ id }) => id === selectedId);
-    if (countryOption) {
-      setSelectedCountry(countryOption);
-    }
-  }, []);
-
-  useEffect(() => {
-    const modifiedSchema = schema.extend({
-      postalCode: z
-        .string()
-        .regex(
-          new RegExp(postalValidationRegEx[selectedCountry.label]),
-          `Invalid post code for country: ${selectedCountry.label}`,
-        ),
-    });
-    newSchema(modifiedSchema);
-  });
-
   return (
     <FormContainer<UserRegistrationData>
-      resolver={zodResolver(schema)}
+      resolver={zodResolver(registrationSchema)}
       defaultValues={{
         email: '',
         password: '',
@@ -61,7 +37,7 @@ export function RegistrationForm({ onSubmit }: RegistrationFormProps) {
         birthDate: '',
         street: '',
         city: '',
-        country: defaultCountryOption.id,
+        countryCode: defaultCountryOption.id,
         postalCode: '',
       }}
       onSuccess={onSubmit}
@@ -71,28 +47,33 @@ export function RegistrationForm({ onSubmit }: RegistrationFormProps) {
         <Typography variant="h4" gutterBottom>
           Sign in
         </Typography>
-        <TextFieldElement name="email" label="Email" required helperText=" " />
-        <PasswordElement margin="dense" label="Password" required name="password" helperText=" " />
-        <TextFieldElement name="firstName" label="First Name" required helperText=" " />
-        <TextFieldElement name="lastName" label="Last Name" required helperText=" " />
+        <TextFieldElement<UserRegistrationData> name="email" label="Email" required helperText=" " />
+        <PasswordElement<UserRegistrationData>
+          margin="dense"
+          label="Password"
+          required
+          name="password"
+          helperText=" "
+        />
+        <TextFieldElement<UserRegistrationData> name="firstName" label="First Name" required helperText=" " />
+        <TextFieldElement<UserRegistrationData> name="lastName" label="Last Name" required helperText=" " />
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePickerElement name="birthDate" label="Birth Date" required helperText=" " />
+          <DatePickerElement<UserRegistrationData> name="birthDate" label="Birth Date" required helperText=" " />
         </LocalizationProvider>
         <Typography variant="h6" gutterBottom>
           Pass your address
         </Typography>
-        <SelectElement
+        <SelectElement<UserRegistrationData>
           label="Country"
           name="country"
           options={countriesOptions}
           helperText=" "
           required
-          onChange={handleCountryChange}
         />
-        <TextFieldElement name="postalCode" label="Postal Code" required helperText=" " />
-        <TextFieldElement name="city" label="City" required helperText=" " />
-        <TextFieldElement name="street" label="Street" required helperText=" " />
+        <TextFieldElement<UserRegistrationData> name="postalCode" label="Postal Code" required helperText=" " />
+        <TextFieldElement<UserRegistrationData> name="city" label="City" required helperText=" " />
+        <TextFieldElement<UserRegistrationData> name="street" label="Street" required helperText=" " />
         <Button type="submit" variant="contained" color="primary" sx={formStyles.submitButton}>
           Submit
         </Button>
