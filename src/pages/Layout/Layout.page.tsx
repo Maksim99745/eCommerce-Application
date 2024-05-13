@@ -32,9 +32,7 @@ function LayoutPage() {
     setIsMobileOpen(false);
   }, []);
 
-  const handleDrawerTransitionEnd = useCallback(() => {
-    setIsClosing(false);
-  }, []);
+  const handleDrawerTransitionEnd = useCallback(() => setIsClosing(false), []);
 
   const handleDrawerToggle = useCallback(() => {
     if (!isClosing) {
