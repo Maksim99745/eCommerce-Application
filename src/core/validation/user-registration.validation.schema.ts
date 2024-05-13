@@ -14,10 +14,7 @@ export const postalValidationRegEx: PostalValidationRegEx = {
   UZ: /^\d{6}$/,
 };
 
-const MIN_LENGTH = 8;
-const MAX_LENGTH = 20;
 const MIN_AGE = 13;
-const TEST_PASSWORD_REG_EX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/;
 
 const validateBirthDay = (dateString: string) => {
   const validDate = dayjs().subtract(MIN_AGE, 'year');
@@ -27,15 +24,15 @@ const validateBirthDay = (dateString: string) => {
 
 export const registrationSchema = z
   .object({
-    firstName: z.string().min(1, 'First name should contains at least 1 symbol'),
-    lastName: z.string().min(1, 'Last name should contains at least 1 symbol'),
+    firstName: z.string({ required_error: 'First name is required' }),
+    lastName: z.string({ required_error: 'Last name is required' }),
     birthDate: z
       .custom<Dayjs>()
       .refine((value) => (dayjs.isDayjs(value) && value.isValid() ? validateBirthDay(value.toISOString()) : false), {
         message: 'User should be older than 13 y.o.',
       })
       .transform((value: Dayjs) => value.toISOString()),
-    street: z.string().min(1, 'Street should contains at least 1 symbol'),
+    street: z.string({ required_error: 'Street is required' }),
     city: z
       .string()
       .min(1, 'City should contains at least 1 symbol')
