@@ -1,11 +1,10 @@
-import { CategoryPagedQueryResponse } from '@commercetools/platform-sdk';
-import { getCategories } from '@core/api/requests';
+import { apiService } from '@core/api/api.service';
+import { useRequest } from '@core/api/use-request.hook';
 import { List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import { Link } from 'react-router-dom';
-import useSWR from 'swr';
 
 export function CategoriesListComponent() {
-  const { data: categories, isLoading, error } = useSWR<CategoryPagedQueryResponse>('categories', getCategories);
+  const { data: categories, isLoading, error } = useRequest('categories', () => apiService.getCategories());
 
   return (
     <>

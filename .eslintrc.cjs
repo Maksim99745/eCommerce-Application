@@ -99,5 +99,6 @@ module.exports = {
     'jest-dom/prefer-to-have-attribute': 'error',
     'unused-imports/no-unused-imports': 'error',
     'import/prefer-default-export': 'off',
+    'class-methods-use-this': 'off',
   }
 };
