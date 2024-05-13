@@ -44,6 +44,14 @@ describe('email address validation tests', () => {
     expect(result.error?.issues[0].message).toBe('Email should not contain whitespace');
   });
 
+  test('email should contain only English letters, numbers, and special symbols', () => {
+    const result = loginFormSchema.safeParse({ email: 'codjhwdjабвгд@gmail.com', password: 'Valid@al%id&12!#$^*' });
+    expect(result.success).toBe(false);
+    expect(result.error?.issues[0].message).toBe(
+      'Email should contain only English letters, numbers, and special symbols',
+    );
+  });
+
   test('email address may contain "_"', () => {
     const result = loginFormSchema.safeParse({ email: 'valid_email@gmail.com', password: 'Valid@al%id&12!#$^*' });
     expect(result.success).toBe(true);

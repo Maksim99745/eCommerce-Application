@@ -11,6 +11,7 @@ export const loginFormSchema = z.object({
     .regex(/(?=.*@)/, 'Email should contain symbol "@"')
     .regex(/^[^@]+@[^@]+\.[^@]+$/, 'Email should contain domain name')
     .regex(/^[^\s]+$/, 'Email should not contain whitespace')
+    .regex(/^[a-zA-Z0-9!@#$%^._&*-]+$/, 'Email should contain only English letters, numbers, and special symbols')
     .email('Email address should be properly formatted (e.g., user@example.com)'),
   password: z
     .string()
