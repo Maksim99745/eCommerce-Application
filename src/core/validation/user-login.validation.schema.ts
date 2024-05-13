@@ -2,13 +2,11 @@ import { z } from 'zod';
 
 const MIN_LENGTH = 8;
 const MAX_LENGTH = 20;
-const EMAIL_MAX_LENGTH = 40;
 const TEST_PASSWORD_REG_EX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/;
 
 export const loginFormSchema = z.object({
   email: z
     .string({ required_error: 'Email is required' })
-    .max(EMAIL_MAX_LENGTH, `Email should not be longer, than ${EMAIL_MAX_LENGTH} characters`)
     .regex(/.+/, 'Email is required')
     .regex(/(?=.*@)/, 'Email should contain symbol "@"')
     .regex(/^[^@]+@[^@]+\.[^@]+$/, 'Email should contain domain name')
