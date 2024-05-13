@@ -55,7 +55,7 @@ const router = createBrowserRouter([
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <SWRConfig value={{ dedupingInterval: 1000 }}>
+    <SWRConfig value={{ dedupingInterval: 1000, revalidateOnFocus: false, revalidateOnReconnect: false }}>
       <RouterProvider router={router} fallbackElement={<FallbackPage />} />
     </SWRConfig>
   </StrictMode>,
