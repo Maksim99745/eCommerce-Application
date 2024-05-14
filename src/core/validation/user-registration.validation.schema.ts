@@ -24,29 +24,34 @@ const validateBirthDay = (dateString: string) => {
 
 export const registrationSchema = z
   .object({
-    firstName: z.string({ required_error: 'First name is required' }),
-    lastName: z.string({ required_error: 'Last name is required' }),
+    firstName: z.string().min(1, 'First name is required'),
+    lastName: z.string().min(1, 'Last name is required'),
     birthDate: z
       .custom<Dayjs>()
       .refine((value) => (dayjs.isDayjs(value) && value.isValid() ? validateBirthDay(value.toISOString()) : false), {
         message: 'User should be older than 13 y.o.',
       })
       .transform((value: Dayjs) => value.toISOString()),
-    street: z.string({ required_error: 'Street is required' }),
-    city: z
-      .string({ required_error: 'City is required' })
-      .regex(/^[a-zA-Z]+$/, 'Name of the city should n"t contains numbers or special symbols'),
-    country: z.string({ required_error: 'Please select country' }),
-    postalCode: z.string({ required_error: 'Please provide postal code' }),
+    addresses: z.array(
+      z
+        .object({
+          street: z.string({ required_error: 'Street is required' }),
+          city: z
+            .string({ required_error: 'City is required' })
+            .regex(/^[a-zA-Z]+$/, 'Name of the city should n"t contains numbers or special symbols'),
+          country: z.string({ required_error: 'Please select country' }),
+          postalCode: z.string({ required_error: 'Please provide postal code' }),
+        })
+        .superRefine((formValues, context) => {
+          const postalCodeTestReg = new RegExp(postalValidationRegEx[formValues.country]);
+          if (!postalCodeTestReg.test(formValues.postalCode)) {
+            context.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: `Invalid post code for country: ${getCountryLabelByCode(formValues.country)}`,
+              path: ['postalCode'],
+            });
+          }
+        }),
+    ),
   })
-  .merge(loginFormSchema)
-  .superRefine((formValues, context) => {
-    const postalCodeTestReg = new RegExp(postalValidationRegEx[formValues.country]);
-    if (!postalCodeTestReg.test(formValues.postalCode)) {
-      context.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: `Invalid post code for country: ${getCountryLabelByCode(formValues.country)}`,
-        path: ['postalCode'],
-      });
-    }
-  });
+  .merge(loginFormSchema);

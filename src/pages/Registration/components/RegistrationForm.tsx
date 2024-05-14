@@ -1,18 +1,13 @@
-import {
-  FormContainer,
-  TextFieldElement,
-  PasswordElement,
-  SelectElement,
-  DatePickerElement,
-} from 'react-hook-form-mui';
+import { FormContainer, TextFieldElement, PasswordElement, DatePickerElement } from 'react-hook-form-mui';
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserRegistrationData } from '@models/index';
-import { Box, Button, Typography } from '@mui/material';
-import { countriesOptions, defaultCountryOption } from '@constants/countries.const';
+import { Box, Button, Stack, Typography } from '@mui/material';
+import { defaultCountryOption } from '@constants/countries.const';
 import { registrationSchema } from '@core/validation/user-registration.validation.schema';
+import { UserAddress } from './UserAddress';
 
 const formStyles = {
   form: { display: 'flex', flexDirection: 'column', width: '100%', height: '100%' },
@@ -35,10 +30,10 @@ export function RegistrationForm({ onSubmit }: RegistrationFormProps) {
         firstName: '',
         lastName: '',
         birthDate: '',
-        street: '',
-        city: '',
-        country: defaultCountryOption.id,
-        postalCode: '',
+        addresses: [
+          { street: '', city: '', country: defaultCountryOption.id, postalCode: '' },
+          { street: '', city: '', country: defaultCountryOption.id, postalCode: '' },
+        ],
       }}
       onSuccess={onSubmit}
       mode="onChange"
@@ -61,19 +56,10 @@ export function RegistrationForm({ onSubmit }: RegistrationFormProps) {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePickerElement<UserRegistrationData> name="birthDate" label="Birth Date" required helperText=" " />
         </LocalizationProvider>
-        <Typography variant="h6" gutterBottom>
-          Pass your address
-        </Typography>
-        <SelectElement<UserRegistrationData>
-          label="Country"
-          name="country"
-          options={countriesOptions}
-          helperText=" "
-          required
-        />
-        <TextFieldElement<UserRegistrationData> name="postalCode" label="Postal Code" required helperText=" " />
-        <TextFieldElement<UserRegistrationData> name="city" label="City" required helperText=" " />
-        <TextFieldElement<UserRegistrationData> name="street" label="Street" required helperText=" " />
+        <Stack direction={'row'} gap={2}>
+          <UserAddress title="Billing address" addressIndex={0} />
+          <UserAddress title="Shipping address" addressIndex={1} />
+        </Stack>
         <Button type="submit" variant="contained" color="primary" sx={formStyles.submitButton}>
           Submit
         </Button>
