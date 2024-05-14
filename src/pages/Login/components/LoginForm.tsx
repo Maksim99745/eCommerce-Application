@@ -3,12 +3,16 @@ import { FormContainer, TextFieldElement, PasswordElement } from 'react-hook-for
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { loginFormSchema } from '@core/validation/user-login.validation.schema';
+import LoginIcon from '@mui/icons-material/Login';
+import RegisterIcon from '@mui/icons-material/PersonAdd';
+import { useNavigate } from 'react-router-dom';
 
 const formStyles = {
   form: { display: 'flex', flexDirection: 'column', width: '100%', height: '100%' },
-  submitButton: { width: 100 },
-  textField: { minWidth: 410 },
+  submitButton: { width: '45%' },
+  textField: { width: '100%' },
   divider: { height: '1px', backgroundColor: 'black' },
+  buttonContainer: { display: 'flex', justifyContent: 'space-between', marginTop: '1em' },
 };
 
 type UserLoginData = z.infer<typeof loginFormSchema>;
@@ -18,6 +22,7 @@ export interface LoginFormProps {
 }
 
 export function LoginForm({ onSubmit }: LoginFormProps) {
+  const navigate = useNavigate();
   return (
     <FormContainer<UserLoginData>
       resolver={zodResolver(loginFormSchema)}
@@ -34,9 +39,28 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
         </Typography>
         <TextFieldElement name="email" label="Example.email@domain.com" required helperText=" " />
         <PasswordElement name="password" label="Password" required helperText=" " margin="dense" />
-        <Button type="submit" variant="contained" color="primary" sx={formStyles.submitButton}>
-          Submit
-        </Button>
+        <Box sx={formStyles.buttonContainer}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={formStyles.submitButton}
+            startIcon={<LoginIcon />}
+          >
+            Submit
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={formStyles.submitButton}
+            startIcon={<RegisterIcon />}
+            onClick={() => {
+              navigate('/registration');
+            }}
+          >
+            Register
+          </Button>
+        </Box>
       </Box>
     </FormContainer>
   );
