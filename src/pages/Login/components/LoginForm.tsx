@@ -5,14 +5,6 @@ import { z } from 'zod';
 import { loginFormSchema } from '@core/validation/user-login.validation.schema';
 import LoginIcon from '@mui/icons-material/Login';
 
-const formStyles = {
-  form: { display: 'flex', flexDirection: 'column', width: '100%', height: '100%' },
-  submitButton: { maxWidth: '160px', align: 'center' },
-  textField: { width: '100%' },
-  divider: { height: '1px', backgroundColor: 'black' },
-  buttonContainer: { display: 'flex', justifyContent: 'space-between', marginTop: '1em' },
-};
-
 type UserLoginData = z.infer<typeof loginFormSchema>;
 
 export interface LoginFormProps {
@@ -40,7 +32,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
           type="submit"
           variant="contained"
           color="primary"
-          sx={formStyles.submitButton}
+          sx={{ maxWidth: '160px', align: 'center' }}
           startIcon={<LoginIcon />}
         >
           Sign in
