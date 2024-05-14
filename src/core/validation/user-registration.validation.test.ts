@@ -13,17 +13,18 @@ test('last name should be provided', () => {
   expect(result.error?.issues[1].message).toBe('Last name is required');
 });
 
-test('last name should be provided', () => {
+// TODO: divide date check for empty and older
+
+test('user birth date should be provided', () => {
   const result = registrationSchema.safeParse({});
   expect(result.success).toBe(false);
-  expect(result.error?.issues[1].message).toBe('Last name is required');
+  expect(result.error?.issues[2].message).toBe('User should be older than 13 y.o.');
 });
-// TODO: add birthday test
 
 test('street should be provided', () => {
   const result = registrationSchema.safeParse({});
   expect(result.success).toBe(false);
-  //   expect(result.error?.issues[3].message).toBe('Street is required');
+  expect(result.error?.issues[3].message).toBe('Street is required');
 });
 
 test('city should be provided', () => {
