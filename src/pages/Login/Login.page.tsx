@@ -11,7 +11,7 @@ function LoginPage(): ReactNode {
   const navigate = useNavigate();
 
   return (
-    <Paper elevation={3} sx={{ mt: 'auto', mb: 'auto', pt: '10vh', pb: '10vh' }}>
+    <Paper elevation={3} sx={{ m: 'auto', p: '10vh 2%', maxWidth: '700px' }}>
       <Container maxWidth="sm">
         <LoginForm onSubmit={handleFormSubmit} />
         <Box
