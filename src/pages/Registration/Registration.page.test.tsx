@@ -4,5 +4,6 @@ import RegistrationPage from './Registration.page';
 
 test('Render the registration page', () => {
   render(<RegistrationPage />);
+
   expect(true).toBeTruthy();
 });
