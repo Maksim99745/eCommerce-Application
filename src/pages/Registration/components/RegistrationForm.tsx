@@ -56,7 +56,7 @@ export function RegistrationForm({ onSubmit }: RegistrationFormProps) {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePickerElement<UserRegistrationData> name="birthDate" label="Birth Date" required helperText=" " />
         </LocalizationProvider>
-        <Stack direction={'row'} gap={2}>
+        <Stack direction="row" gap={2}>
           <UserAddress title="Billing address" addressIndex={0} />
           <UserAddress title="Shipping address" addressIndex={1} />
         </Stack>

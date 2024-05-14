@@ -16,5 +16,5 @@ export type UserRegistrationData = {
   firstName: string;
   lastName: string;
   birthDate: string;
-  addresses: Array<Address>;
+  addresses: Address[];
 };

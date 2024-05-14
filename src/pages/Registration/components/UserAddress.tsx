@@ -8,7 +8,7 @@ export interface UserAddressProps {
   addressIndex: number;
 }
 
-export const UserAddress = ({ title, addressIndex }: UserAddressProps) => {
+export function UserAddress({ title, addressIndex }: UserAddressProps) {
   return (
     <Stack>
       <Typography variant="h6" gutterBottom>
@@ -41,4 +41,4 @@ export const UserAddress = ({ title, addressIndex }: UserAddressProps) => {
       />
     </Stack>
   );
-};
+}

@@ -17,6 +17,7 @@ export const postalValidationRegEx: PostalValidationRegEx = {
 const MIN_AGE = 13;
 
 const validateBirthDay = (dateString: string) => {
+  console.log(dateString);
   const validDate = dayjs().subtract(MIN_AGE, 'year');
   const inputDate = dayjs(dateString);
   return inputDate.isSame(validDate, 'days') || inputDate.isBefore(validDate, 'days');
@@ -28,6 +29,9 @@ export const registrationSchema = z
     lastName: z.string().min(1, 'Last name is required'),
     birthDate: z
       .custom<Dayjs>()
+      .refine((value) => (value ? true : false), {
+        message: 'Birth day is required',
+      })
       .refine((value) => (dayjs.isDayjs(value) && value.isValid() ? validateBirthDay(value.toISOString()) : false), {
         message: 'User should be older than 13 y.o.',
       })
@@ -35,12 +39,13 @@ export const registrationSchema = z
     addresses: z.array(
       z
         .object({
-          street: z.string({ required_error: 'Street is required' }),
+          street: z.string().min(1, 'Street is required'),
           city: z
-            .string({ required_error: 'City is required' })
+            .string()
+            .min(1, 'City is required')
             .regex(/^[a-zA-Z]+$/, 'Name of the city should n"t contains numbers or special symbols'),
-          country: z.string({ required_error: 'Please select country' }),
-          postalCode: z.string({ required_error: 'Please provide postal code' }),
+          country: z.string().min(1, 'Please select the country is required'),
+          postalCode: z.string().min(1, 'Please provide postal code'),
         })
         .superRefine((formValues, context) => {
           const postalCodeTestReg = new RegExp(postalValidationRegEx[formValues.country]);
