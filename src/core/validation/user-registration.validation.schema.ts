@@ -34,8 +34,7 @@ export const registrationSchema = z
       .transform((value: Dayjs) => value.toISOString()),
     street: z.string({ required_error: 'Street is required' }),
     city: z
-      .string()
-      .min(1, 'City should contains at least 1 symbol')
+      .string({ required_error: 'City is required' })
       .regex(/^[a-zA-Z]+$/, 'Name of the city should n"t contains numbers or special symbols'),
     country: z.string({ required_error: 'Please select country' }),
     postalCode: z.string({ required_error: 'Please provide postal code' }),
@@ -51,16 +50,3 @@ export const registrationSchema = z
       });
     }
   });
-
-// email: z.string().min(1, 'Email is required').email('Invalid email'),
-// password: z
-//   .string()
-//   .min(MIN_LENGTH, `Password must be at least ${MIN_LENGTH} characters long`)
-//   .max(MAX_LENGTH, `Password should not be more, then ${MAX_LENGTH} characters`)
-//   .regex(/^[^\s]+$/, 'Passwords must not contain white spaces')
-//   .regex(/[A-Z]/, 'Password should contains at least 1 uppercase symbol')
-//   .regex(/[a-z]/, 'Password should contains at least 1 lowercase symbol')
-//   .regex(/(?=.*[a-z])(?=.*[A-Z])/, 'Passwords must contain uppercase and lowercase Latin letters (A-Z, a-z)')
-//   .regex(/(?=.\d)/, 'Passwords must contain at least one digit (0-9)')
-//   .regex(/(?=.[!@#$%^&])/, 'Passwords must contain at least one special character (!@#$%^&)')
-//   .regex(TEST_PASSWORD_REG_EX, 'Invalid password'),
