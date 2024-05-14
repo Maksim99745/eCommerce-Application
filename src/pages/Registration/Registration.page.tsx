@@ -1,7 +1,7 @@
 import { ReactNode, useCallback } from 'react';
 import { Stack, Typography } from '@mui/material';
-import { RegistrationForm, RegistrationFormProps } from './components/RegistrationForm';
 import { Link } from 'react-router-dom';
+import { RegistrationForm, RegistrationFormProps } from './components/RegistrationForm';
 
 const pageStyles = {
   registrationPage: { display: 'flex', margin: '0 auto' },
@@ -17,7 +17,7 @@ function RegistrationPage(): ReactNode {
     <Stack sx={pageStyles.registrationPage}>
       <RegistrationForm onSubmit={handleFormSubmit} />
       <Typography marginTop={2}>
-        Already have an account? <Link to={'/login'}>Login in</Link>
+        Already have an account? <Link to="/login">Login in</Link>
       </Typography>
     </Stack>
   );
