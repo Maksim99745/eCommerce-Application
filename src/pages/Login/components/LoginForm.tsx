@@ -1,15 +1,9 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import { FormContainer, TextFieldElement, PasswordElement } from 'react-hook-form-mui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { loginFormSchema } from '@core/validation/user-login.validation.schema';
-
-const formStyles = {
-  form: { display: 'flex', flexDirection: 'column', width: '100%', height: '100%' },
-  submitButton: { width: 100 },
-  textField: { minWidth: 410 },
-  divider: { height: '1px', backgroundColor: 'black' },
-};
+import LoginIcon from '@mui/icons-material/Login';
 
 type UserLoginData = z.infer<typeof loginFormSchema>;
 
@@ -28,16 +22,22 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
       onSuccess={onSubmit}
       mode="onChange"
     >
-      <Box sx={formStyles.form}>
-        <Typography variant="h4" gutterBottom>
-          Log in
+      <Stack justifyContent="center" alignItems="center" spacing={3}>
+        <Typography variant="h4" gutterBottom align="center">
+          Sign in to Homeware Hub
         </Typography>
-        <TextFieldElement name="email" label="Example.email@domain.com" required helperText=" " />
-        <PasswordElement name="password" label="Password" required helperText=" " margin="dense" />
-        <Button type="submit" variant="contained" color="primary" sx={formStyles.submitButton}>
-          Submit
+        <TextFieldElement fullWidth name="email" label="Example.email@domain.com" required helperText=" " />
+        <PasswordElement fullWidth name="password" label="Password" required helperText=" " margin="dense" />
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          sx={{ maxWidth: '160px', align: 'center' }}
+          startIcon={<LoginIcon />}
+        >
+          Sign in
         </Button>
-      </Box>
+      </Stack>
     </FormContainer>
   );
 }
