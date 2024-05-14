@@ -1,9 +1,11 @@
 import { ReactNode, useCallback } from 'react';
-import { Box } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { RegistrationForm, RegistrationFormProps } from './components/RegistrationForm';
+import { Link } from 'react-router-dom';
 
 const pageStyles = {
   registrationPage: { display: 'flex', margin: '0 auto' },
+  submitButton: { width: '45%' },
 };
 
 function RegistrationPage(): ReactNode {
@@ -11,11 +13,13 @@ function RegistrationPage(): ReactNode {
     console.log(data);
     return Promise.resolve('Ok');
   }, []);
-
   return (
-    <Box sx={pageStyles.registrationPage}>
+    <Stack sx={pageStyles.registrationPage}>
       <RegistrationForm onSubmit={handleFormSubmit} />
-    </Box>
+      <Typography marginTop={2}>
+        Already have an account? <Link to={'/login'}>Login in</Link>
+      </Typography>
+    </Stack>
   );
 }
 
