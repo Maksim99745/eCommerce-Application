@@ -5,7 +5,6 @@ import { RegistrationForm, RegistrationFormProps } from './components/Registrati
 
 const pageStyles = {
   registrationPage: { display: 'flex', margin: '0 auto' },
-  submitButton: { width: '45%' },
 };
 
 function RegistrationPage(): ReactNode {
