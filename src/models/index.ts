@@ -8,6 +8,7 @@ export type Address = {
   city: string;
   country: string;
   postalCode: string;
+  isDefault: boolean;
 };
 
 export type UserRegistrationData = {

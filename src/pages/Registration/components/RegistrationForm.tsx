@@ -31,8 +31,8 @@ export function RegistrationForm({ onSubmit }: RegistrationFormProps) {
         lastName: '',
         birthDate: '',
         addresses: [
-          { street: '', city: '', country: defaultCountryOption.id, postalCode: '' },
-          { street: '', city: '', country: defaultCountryOption.id, postalCode: '' },
+          { street: '', city: '', country: defaultCountryOption.id, postalCode: '', isDefault: false },
+          { street: '', city: '', country: defaultCountryOption.id, postalCode: '', isDefault: false },
         ],
       }}
       onSuccess={onSubmit}
@@ -57,8 +57,8 @@ export function RegistrationForm({ onSubmit }: RegistrationFormProps) {
           <DatePickerElement<UserRegistrationData> name="birthDate" label="Birth Date" required helperText=" " />
         </LocalizationProvider>
         <Stack direction="row" gap={2}>
-          <UserAddress title="Billing address" addressIndex={0} />
-          <UserAddress title="Shipping address" addressIndex={1} />
+          <UserAddress title="billing address" addressIndex={0} />
+          <UserAddress title="shipping address" addressIndex={1} />
         </Stack>
         <Button type="submit" variant="contained" color="primary" sx={formStyles.submitButton}>
           Submit

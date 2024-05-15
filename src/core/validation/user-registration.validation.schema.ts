@@ -29,7 +29,7 @@ export const registrationSchema = z
     lastName: z.string().min(1, 'Last name is required'),
     birthDate: z
       .custom<Dayjs>()
-      .refine((value) => (value ? true : false), {
+      .refine((value) => !!value, {
         message: 'Birth day is required',
       })
       .refine((value) => (dayjs.isDayjs(value) && value.isValid() ? validateBirthDay(value.toISOString()) : false), {
@@ -43,7 +43,7 @@ export const registrationSchema = z
           city: z
             .string()
             .min(1, 'City is required')
-            .regex(/^[a-zA-Z]+$/, 'Name of the city should n"t contains numbers or special symbols'),
+            .regex(/^[a-zA-Z\s]+$/, 'Name of the city should n"t contains numbers or special symbols'),
           country: z.string().min(1, 'Please select the country is required'),
           postalCode: z.string().min(1, 'Please provide postal code'),
         })

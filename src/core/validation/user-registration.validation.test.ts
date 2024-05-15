@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom';
-import { registrationSchema } from './user-registration.validation.schema';
 import dayjs from 'dayjs';
+import { registrationSchema } from './user-registration.validation.schema';
 
-test('first name should be provided', () => {
+test('personal data should be provided', () => {
   const result = registrationSchema.safeParse({
     firstName: '',
     lastName: '',
@@ -23,7 +23,7 @@ test('first name should be provided', () => {
   expect(result.error?.issues[8].message).toBe('Email address should be properly formatted (e.g., user@example.com)');
 });
 
-test('first name should be provided', () => {
+test('address data should be provided', () => {
   const result = registrationSchema.safeParse({
     firstName: 'f',
     lastName: 'g',
