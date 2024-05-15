@@ -1,6 +1,6 @@
 import { countriesOptions } from '@constants/countries.const';
 import { UserRegistrationData } from '@models/index';
-import { Checkbox, FormControlLabel, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { SelectElement, SwitchElement, TextFieldElement } from 'react-hook-form-mui';
 
 export interface UserAddressProps {
