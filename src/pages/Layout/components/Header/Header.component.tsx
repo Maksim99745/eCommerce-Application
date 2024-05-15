@@ -37,11 +37,21 @@ function HeaderComponent({ handleDrawerToggle }: HeaderProps) {
         </Box>
 
         <Box component="nav" sx={{ display: 'flex', gap: '10px' }}>
-          <Button component={Link} to="/login" sx={{ color: '#fff', borderColor: '#fff' }} variant="outlined">
-            Login
+          <Button
+            component={Link}
+            to="/login"
+            sx={{ color: '#fff', borderColor: '#fff', textTransform: 'none' }}
+            variant="outlined"
+          >
+            Sign in
           </Button>
-          <Button component={Link} to="/registration" sx={{ color: '#fff', borderColor: '#fff' }} variant="outlined">
-            Registration
+          <Button
+            component={Link}
+            to="/registration"
+            sx={{ color: '#fff', borderColor: '#fff', textTransform: 'none' }}
+            variant="outlined"
+          >
+            Sign up
           </Button>
         </Box>
       </Toolbar>

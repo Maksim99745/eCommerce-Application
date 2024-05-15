@@ -32,7 +32,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
           type="submit"
           variant="contained"
           color="primary"
-          sx={{ maxWidth: '160px', align: 'center' }}
+          sx={{ maxWidth: '160px', align: 'center', textTransform: 'none' }}
           startIcon={<LoginIcon />}
         >
           Sign in
