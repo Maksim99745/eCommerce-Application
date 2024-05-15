@@ -8,13 +8,13 @@ test('personal data should be provided', () => {
     lastName: '',
     email: '',
     birthDate: '',
-    addresses: [{ street: 'Liberty', city: 'Kaz', country: 'Uzbekistan', postalCode: '22822' }],
+    addresses: [{ street: 'Liberty', city: 'Kaz', country: 'Uzbekistan', postalCode: '22822', isDefault: false }],
   });
   expect(result.success).toBe(false);
 
   expect(result.error?.issues[0].message).toBe('First name is required');
   expect(result.error?.issues[1].message).toBe('Last name is required');
-  expect(result.error?.issues[2].message).toBe('Birth day is required');
+  expect(result.error?.issues[2].message).toBe('Please provide correct birth date');
   expect(result.error?.issues[3].message).toBe('User should be older than 13 y.o.');
   expect(result.error?.issues[4].message).toBe('Email is required');
   expect(result.error?.issues[5].message).toBe('Email should contain symbol "@"');
@@ -38,4 +38,5 @@ test('address data should be provided', () => {
   expect(result.error?.issues[2].message).toBe('Name of the city should n"t contains numbers or special symbols');
   expect(result.error?.issues[3].message).toBe('Please select the country is required');
   expect(result.error?.issues[4].message).toBe('Please provide postal code');
+  expect(result.error?.issues[5].message).toBe('You have to decide is address default');
 });
