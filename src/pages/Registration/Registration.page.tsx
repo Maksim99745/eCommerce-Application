@@ -1,21 +1,20 @@
 import { ReactNode, useCallback } from 'react';
-import { Box } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { RegistrationForm, RegistrationFormProps } from './components/RegistrationForm';
-
-const pageStyles = {
-  registrationPage: { display: 'flex', margin: '0 auto' },
-};
 
 function RegistrationPage(): ReactNode {
   const handleFormSubmit = useCallback<RegistrationFormProps['onSubmit']>(async (data) => {
     console.log(data);
     return Promise.resolve('Ok');
   }, []);
-
   return (
-    <Box sx={pageStyles.registrationPage}>
+    <Stack>
       <RegistrationForm onSubmit={handleFormSubmit} />
-    </Box>
+      <Typography marginTop={2}>
+        Already have an account? <Link to="/login">Login in</Link>
+      </Typography>
+    </Stack>
   );
 }
 
