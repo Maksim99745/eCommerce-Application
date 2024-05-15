@@ -18,7 +18,7 @@ const layoutStyles = {
     p: 0,
     width: { sm: `calc(100% - ${drawerWidth}px)` },
   },
-  main: { p: 3, display: 'flex', flexDirection: 'column', flexGrow: 1 },
+  main: { p: 3, display: 'flex', flexDirection: 'column', flexGrow: 1, overflow: 'auto' },
 };
 
 function LayoutPage() {

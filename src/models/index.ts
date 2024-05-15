@@ -10,13 +10,3 @@ export type Address = {
   postalCode: string;
   isDefault: boolean;
 };
-
-export type UserRegistrationData = {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  birthDate: string;
-  shippingAsBilling: boolean;
-  addresses: Address[];
-};

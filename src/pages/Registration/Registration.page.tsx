@@ -9,7 +9,7 @@ function RegistrationPage(): ReactNode {
     return Promise.resolve('Ok');
   }, []);
   return (
-    <Stack>
+    <Stack direction="column" alignItems="center">
       <RegistrationForm onSubmit={handleFormSubmit} />
       <Typography marginTop={2}>
         Already have an account? <Link to="/login">Sign in</Link>

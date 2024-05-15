@@ -1,14 +1,15 @@
 import { countriesOptions } from '@constants/countries.const';
-import { UserRegistrationData } from '@models/index';
 import { Stack, Typography } from '@mui/material';
 import { SelectElement, SwitchElement, TextFieldElement } from 'react-hook-form-mui';
+import { UserRegistrationData } from '@pages/Registration/components/RegistrationForm';
 
 export interface UserAddressProps {
   title: string;
   addressIndex: number;
+  onCountryChange?: (country: string) => void;
 }
 
-export function UserAddress({ title, addressIndex }: UserAddressProps) {
+export function UserAddress({ title, addressIndex, onCountryChange }: UserAddressProps) {
   return (
     <Stack>
       <Typography variant="h6" gutterBottom>
@@ -20,6 +21,7 @@ export function UserAddress({ title, addressIndex }: UserAddressProps) {
         options={countriesOptions}
         helperText=" "
         required
+        onChange={onCountryChange}
       />
       <TextFieldElement<UserRegistrationData>
         name={`addresses.${addressIndex}.postalCode`}
@@ -40,7 +42,6 @@ export function UserAddress({ title, addressIndex }: UserAddressProps) {
         helperText=" "
       />
       <SwitchElement<UserRegistrationData> label="set as default" name={`addresses.${addressIndex}.isDefault`} />
-      {/* {AsBillingButton} */}
     </Stack>
   );
 }
