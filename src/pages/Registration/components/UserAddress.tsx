@@ -39,7 +39,7 @@ export function UserAddress({ title, addressIndex }: UserAddressProps) {
         required
         helperText=" "
       />
-      <CheckboxElement<UserRegistrationData> label={`set as default`} name={`addresses.${addressIndex}.isDefault`} />
+      <CheckboxElement<UserRegistrationData> label="set as default" name={`addresses.${addressIndex}.isDefault`} />
     </Stack>
   );
 }
