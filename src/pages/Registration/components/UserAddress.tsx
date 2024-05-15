@@ -1,7 +1,7 @@
 import { countriesOptions } from '@constants/countries.const';
 import { UserRegistrationData } from '@models/index';
-import { Stack, Typography } from '@mui/material';
-import { CheckboxElement, SelectElement, TextFieldElement } from 'react-hook-form-mui';
+import { Checkbox, FormControlLabel, Stack, Typography } from '@mui/material';
+import { SelectElement, SwitchElement, TextFieldElement } from 'react-hook-form-mui';
 
 export interface UserAddressProps {
   title: string;
@@ -39,7 +39,8 @@ export function UserAddress({ title, addressIndex }: UserAddressProps) {
         required
         helperText=" "
       />
-      <CheckboxElement<UserRegistrationData> label="set as default" name={`addresses.${addressIndex}.isDefault`} />
+      <SwitchElement<UserRegistrationData> label="set as default" name={`addresses.${addressIndex}.isDefault`} />
+      {/* {AsBillingButton} */}
     </Stack>
   );
 }

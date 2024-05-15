@@ -17,5 +17,6 @@ export type UserRegistrationData = {
   firstName: string;
   lastName: string;
   birthDate: string;
+  shippingAsBilling: boolean;
   addresses: Address[];
 };

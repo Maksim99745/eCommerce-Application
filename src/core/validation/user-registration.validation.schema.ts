@@ -17,7 +17,6 @@ export const postalValidationRegEx: PostalValidationRegEx = {
 const MIN_AGE = 13;
 
 const validateBirthDay = (dateString: string) => {
-  console.log(dateString);
   const validDate = dayjs().subtract(MIN_AGE, 'year');
   const inputDate = dayjs(dateString);
   return inputDate.isSame(validDate, 'days') || inputDate.isBefore(validDate, 'days');

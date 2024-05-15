@@ -1,4 +1,11 @@
-import { FormContainer, TextFieldElement, PasswordElement, DatePickerElement } from 'react-hook-form-mui';
+import {
+  FormContainer,
+  TextFieldElement,
+  PasswordElement,
+  DatePickerElement,
+  useForm,
+  CheckboxElement,
+} from 'react-hook-form-mui';
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -21,23 +28,33 @@ export interface RegistrationFormProps {
 }
 
 export function RegistrationForm({ onSubmit }: RegistrationFormProps) {
+  // const [isSameAddresses, setSameAddressValue] = useState(false);
+
+  // const handleSameAddressesSet = () => {
+  //   setSameAddressValue(!isSameAddresses);
+  // };
+
+  // const billingAddressForm = isSameAddresses ? null : <UserAddress title="Billing address" addressIndex={1} />;
+  const formContext = useForm<UserRegistrationData>({
+    defaultValues: {
+      email: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      birthDate: '',
+      shippingAsBilling: false,
+      addresses: [
+        { street: '', city: '', country: defaultCountryOption.id, postalCode: '', isDefault: false },
+        { street: '', city: '', country: defaultCountryOption.id, postalCode: '', isDefault: false },
+      ],
+    },
+    resolver: zodResolver(registrationSchema),
+  });
+
+  // const {formState :{}} = formContext;
+
   return (
-    <FormContainer<UserRegistrationData>
-      resolver={zodResolver(registrationSchema)}
-      defaultValues={{
-        email: '',
-        password: '',
-        firstName: '',
-        lastName: '',
-        birthDate: '',
-        addresses: [
-          { street: '', city: '', country: defaultCountryOption.id, postalCode: '', isDefault: false },
-          { street: '', city: '', country: defaultCountryOption.id, postalCode: '', isDefault: false },
-        ],
-      }}
-      onSuccess={onSubmit}
-      mode="onChange"
-    >
+    <FormContainer<UserRegistrationData> formContext={formContext} onSuccess={onSubmit} mode="onChange">
       <Box sx={formStyles.form}>
         <Typography variant="h4" gutterBottom>
           Sign up
@@ -56,9 +73,10 @@ export function RegistrationForm({ onSubmit }: RegistrationFormProps) {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePickerElement<UserRegistrationData> name="birthDate" label="Birth Date" required helperText=" " />
         </LocalizationProvider>
-        <Stack direction="row" gap={2}>
-          <UserAddress title="billing address" addressIndex={0} />
-          <UserAddress title="shipping address" addressIndex={1} />
+        <Stack gap={2}>
+          <UserAddress title="Shipping address" addressIndex={0} />
+          <CheckboxElement<UserRegistrationData> name="shippingAsBilling" label="Also use as billing address" />
+          <UserAddress title="Billing address" addressIndex={1} />
         </Stack>
         <Button type="submit" variant="contained" color="primary" sx={formStyles.submitButton}>
           Sign up
