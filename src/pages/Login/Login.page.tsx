@@ -1,6 +1,6 @@
 import { ReactNode, useCallback } from 'react';
 import { Container, Typography, Box, Paper } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { LoginForm, LoginFormProps } from './components/LoginForm';
 
 function LoginPage(): ReactNode {
@@ -8,7 +8,6 @@ function LoginPage(): ReactNode {
     console.log(data);
     return Promise.resolve('Ok');
   }, []);
-  const navigate = useNavigate();
 
   return (
     <Paper elevation={3} sx={{ m: 'auto', p: '10vh 2%', maxWidth: '700px' }}>
@@ -26,15 +25,7 @@ function LoginPage(): ReactNode {
           <Typography component="span" align="center" sx={{ mr: 1 }}>
             Don&apos;t have an account?
           </Typography>
-          <Typography
-            component="a"
-            sx={{ cursor: 'pointer', color: '#087aef' }}
-            onClick={() => {
-              navigate('/registration');
-            }}
-          >
-            Sign up
-          </Typography>
+          <Link to="/registration">Sign up</Link>
         </Box>
       </Container>
     </Paper>

@@ -119,7 +119,7 @@ describe('password validation tests', () => {
   test('password should contain at least one special character', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'inValidPass12' });
     expect(result.success).toBe(false);
-    expect(result.error?.issues[0].message).toBe('Password should contain at least one special symbol (!@#$%^&)');
+    expect(result.error?.issues[0].message).toBe('Password should contain at least one special symbol (!@#$%^&*.)');
   });
 
   test('password should not contain leading whitespace', () => {
@@ -144,7 +144,7 @@ describe('password validation tests', () => {
     const result = loginFormSchema.safeParse({ email: 'correct_email@gmail.com', password: 'абвгд@R%id&12!#$*' });
     expect(result.success).toBe(false);
     expect(result.error?.issues[0].message).toBe(
-      'Password should contain only English letters, numbers and special symbols',
+      'Password may contain only English letters, numbers & symbols (!@#$%^&*.)',
     );
   });
 
