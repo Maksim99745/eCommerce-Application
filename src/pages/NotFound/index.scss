@@ -1,0 +1,48 @@
+.error-page-container {
+  margin: 0 auto;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  background: url('bg.jpg') 0 0 / cover no-repeat;
+}
+
+.error-page-paper {
+  margin: auto;
+  padding: 10vh 2%;
+  width: 750px;
+  max-width: 90%;
+  opacity: 0.9;
+}
+
+.error-page-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  font-family: Montserrat sans-serif;
+}
+
+.error-page-text-bg {
+  background: url('bg.jpg') no-repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: cover;
+  background-position: center;
+}
+
+.error-page-text {
+  margin: 0 auto;
+  max-width: 70%;
+}
+
+.home-button {
+  background: url('../public/bg.jpg') 60% 35% no-repeat;
+}
+
+.button-icon-wrap {
+  margin-left: 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
