@@ -48,8 +48,8 @@ export function RegistrationForm({ onSubmit }: RegistrationFormProps) {
   const shippingAsBilling = useWatch<UserRegistrationData>({ control, name: 'shippingAsBilling' });
 
   return (
-    <FormContainer<UserRegistrationData> formContext={formContext} onSuccess={onSubmit} mode="onChange">
-      <Container maxWidth="md">
+    <Container maxWidth="md">
+      <FormContainer<UserRegistrationData> formContext={formContext} onSuccess={onSubmit} mode="onChange">
         <Typography variant="h4" gutterBottom>
           Sign up
         </Typography>
@@ -104,20 +104,20 @@ export function RegistrationForm({ onSubmit }: RegistrationFormProps) {
               <CheckboxElement<UserRegistrationData> name="shippingAsBilling" label="Use as billing address" />
             </Grid>
           </Grid>
-          <Grid item xs={1}>
-            {!shippingAsBilling && (
+          {!shippingAsBilling && (
+            <Grid item xs={1}>
               <UserAddress
                 title="Billing address"
                 addressIndex={BILLING_ADDRESS_IDX}
                 onCountryChange={() => trigger(`addresses.${BILLING_ADDRESS_IDX}.postalCode`)}
               />
-            )}
-          </Grid>
+            </Grid>
+          )}
         </Grid>
         <Button type="submit" variant="contained" color="primary" sx={{ mx: 'auto' }}>
           Sign up
         </Button>
-      </Container>
-    </FormContainer>
+      </FormContainer>
+    </Container>
   );
 }
