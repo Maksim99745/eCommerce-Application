@@ -20,7 +20,10 @@ test('personal data should be provided', () => {
   expect(result.error?.issues[5].message).toBe('Email should contain symbol "@"');
   expect(result.error?.issues[6].message).toBe('Email should contain domain name');
   expect(result.error?.issues[7].message).toBe('Email should not contain whitespace');
-  expect(result.error?.issues[8].message).toBe('Email address should be properly formatted (e.g., user@example.com)');
+  expect(result.error?.issues[8].message).toBe(
+    'Email should contain only English letters, numbers, and special symbols',
+  );
+  expect(result.error?.issues[9].message).toBe('Email address should be properly formatted (e.g., user@example.com)');
 });
 
 test('address data should be provided', () => {

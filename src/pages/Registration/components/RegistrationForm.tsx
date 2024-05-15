@@ -40,7 +40,7 @@ export function RegistrationForm({ onSubmit }: RegistrationFormProps) {
     >
       <Box sx={formStyles.form}>
         <Typography variant="h4" gutterBottom>
-          Sign in
+          Sign up
         </Typography>
         <TextFieldElement<UserRegistrationData> name="email" label="Email" required helperText=" " />
         <PasswordElement<UserRegistrationData>
@@ -61,7 +61,7 @@ export function RegistrationForm({ onSubmit }: RegistrationFormProps) {
           <UserAddress title="shipping address" addressIndex={1} />
         </Stack>
         <Button type="submit" variant="contained" color="primary" sx={formStyles.submitButton}>
-          Submit
+          Sign up
         </Button>
       </Box>
     </FormContainer>
