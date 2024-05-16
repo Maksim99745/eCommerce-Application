@@ -42,3 +42,135 @@ test('address data should be provided', () => {
   expect(result.error?.issues[2].message).toBe('Street is required');
   expect(result.error?.issues[3].message).toBe('Please provide postal code');
 });
+
+test('User should be older than 13 y.o.', () => {
+  const result = registrationSchema.safeParse({
+    firstName: 'f',
+    lastName: 'g',
+    birthDate: dayjs('2018-06-05T22:00:00.000Z'),
+    shippingAsBilling: true,
+    email: 'jaks134@mail.ru',
+    password: 'fjfD3&dl#sL',
+    addresses: [
+      {
+        street: 'dd',
+        city: 'dd',
+        country: 'PL',
+        postalCode: '22-223',
+        isDefault: true,
+      },
+    ],
+  });
+  expect(result.success).toBe(false);
+  expect(result.error?.issues[0].message).toBe('User should be older than 13 y.o.');
+});
+
+test('Name of the city should n"t contains numbers or special symbols', () => {
+  const result = registrationSchema.safeParse({
+    firstName: 'f',
+    lastName: 'g',
+    birthDate: dayjs('1999-06-05T22:00:00.000Z'),
+    shippingAsBilling: true,
+    email: 'jaks134@mail.ru',
+    password: 'fjfD3&dl#sL',
+    addresses: [
+      {
+        street: 'dd',
+        city: '2',
+        country: 'PL',
+        postalCode: '22-223',
+        isDefault: true,
+      },
+    ],
+  });
+  expect(result.success).toBe(false);
+  expect(result.error?.issues[0].message).toBe('Name of the city should n"t contains numbers or special symbols');
+});
+
+test('Invalid post code for country: Poland', () => {
+  const result = registrationSchema.safeParse({
+    firstName: 'f',
+    lastName: 'g',
+    birthDate: dayjs('1999-06-05T22:00:00.000Z'),
+    shippingAsBilling: true,
+    email: 'jaks134@mail.ru',
+    password: 'fjfD3&dl#sL',
+    addresses: [
+      {
+        street: 'dd',
+        city: 'Dh',
+        country: 'PL',
+        postalCode: '22223',
+        isDefault: true,
+      },
+    ],
+  });
+  expect(result.success).toBe(false);
+  expect(result.error?.issues[0].message).toBe('Invalid post code for country: Poland');
+});
+
+test('Invalid post code for country: Uzbekistan', () => {
+  const result = registrationSchema.safeParse({
+    firstName: 'f',
+    lastName: 'g',
+    birthDate: dayjs('1999-06-05T22:00:00.000Z'),
+    shippingAsBilling: true,
+    email: 'jaks134@mail.ru',
+    password: 'fjfD3&dl#sL',
+    addresses: [
+      {
+        street: 'dd',
+        city: 'Dh',
+        country: 'UZ',
+        postalCode: '22223',
+        isDefault: true,
+      },
+    ],
+  });
+  expect(result.success).toBe(false);
+  expect(result.error?.issues[0].message).toBe('Invalid post code for country: Uzbekistan');
+});
+
+test('Invalid post code for country: Serbia', () => {
+  const result = registrationSchema.safeParse({
+    firstName: 'f',
+    lastName: 'g',
+    birthDate: dayjs('1999-06-05T22:00:00.000Z'),
+    shippingAsBilling: true,
+    email: 'jaks134@mail.ru',
+    password: 'fjfD3&dl#sL',
+    addresses: [
+      {
+        street: 'dd',
+        city: 'Dh',
+        country: 'RS',
+        postalCode: '2222',
+        isDefault: true,
+      },
+    ],
+  });
+  expect(result.success).toBe(false);
+  expect(result.error?.issues[0].message).toBe('Invalid post code for country: Serbia');
+});
+
+test('Invalid post code for country: Ukraine', () => {
+  const result = registrationSchema.safeParse({
+    firstName: 'f',
+    lastName: 'g',
+    birthDate: dayjs('1999-06-05T22:00:00.000Z'),
+    shippingAsBilling: true,
+    email: 'jaks134@mail.ru',
+    password: 'fjfD3&dl#sL',
+    addresses: [
+      {
+        street: 'dd',
+        city: 'Dh',
+        country: 'UA',
+        postalCode: '2222',
+        isDefault: true,
+      },
+    ],
+  });
+  expect(result.success).toBe(false);
+  expect(result.error?.issues[0].message).toBe('Invalid post code for country: Ukraine');
+});

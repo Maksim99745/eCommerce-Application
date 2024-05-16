@@ -44,6 +44,7 @@ export function RegistrationForm({ onSubmit, isLoading }: RegistrationFormProps)
       ],
     },
     resolver: zodResolver(registrationSchema),
+    mode: 'onChange',
   });
 
   const { control, trigger } = formContext;
@@ -51,7 +52,7 @@ export function RegistrationForm({ onSubmit, isLoading }: RegistrationFormProps)
 
   return (
     <Container maxWidth="md">
-      <FormContainer<UserRegistrationData> formContext={formContext} onSuccess={onSubmit} mode="onChange">
+      <FormContainer<UserRegistrationData> formContext={formContext} onSuccess={onSubmit}>
         <Typography variant="h4" gutterBottom>
           Sign up
         </Typography>
