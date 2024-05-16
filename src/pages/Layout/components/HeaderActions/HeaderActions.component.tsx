@@ -28,8 +28,6 @@ function HeaderActionsComponent() {
 
   return (
     <Box component="section" sx={headerActionsStyles.container}>
-      {/* {!isLoading && !user && ( */}
-      {/*  <> */}
       <Button component={Link} to="/login" sx={headerActionsStyles.button} variant="outlined">
         <ExitToAppIcon />
         <Typography sx={headerActionsStyles.buttonText}>Sign In</Typography>
@@ -39,8 +37,6 @@ function HeaderActionsComponent() {
         <HowToRegIcon />
         <Typography sx={headerActionsStyles.buttonText}>Sign Up</Typography>
       </Button>
-      {/* </> */}
-      {/* )} */}
 
       {userLoadingSignal.value && <CircularProgress color="inherit" />}
 
