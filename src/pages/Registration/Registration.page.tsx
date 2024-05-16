@@ -18,10 +18,10 @@ function RegistrationPage(): ReactNode {
   );
 
   return (
-    <Stack>
+    <Stack direction="column" alignItems="center">
       <RegistrationForm onSubmit={handleFormSubmit} isLoading={isLoading} />
       <Typography marginTop={2}>
-        Already have an account? <Link to="/login">Login in</Link>
+        Already have an account? <Link to="/login">Sign in</Link>
       </Typography>
     </Stack>
   );
