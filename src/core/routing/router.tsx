@@ -1,6 +1,7 @@
 import { HasUserRoute, NoUserRoute } from '@core/routing/routes';
 import AboutPage from '@pages/About/About.page';
 import BucketPage from '@pages/Bucket/Bucket.page';
+import CartPage from '@pages/Cart/Cart.page';
 import CatalogPage from '@pages/Catalog/Catalog.page';
 import LayoutPage from '@pages/Layout/Layout.page';
 import LoginPage from '@pages/Login/Login.page';
@@ -51,6 +52,10 @@ export const router = createBrowserRouter([
       {
         path: 'about',
         element: <AboutPage />,
+      },
+      {
+        path: 'cart',
+        element: <CartPage />,
       },
       {
         path: 'categories/:categoryKey',
