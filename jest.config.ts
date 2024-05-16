@@ -32,6 +32,7 @@ export default {
     ],
   },
   moduleNameMapper: {
+    '^@preact(/(.*)|$)': '@preact$1',
     '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/mocks/mocks.js',
     "\\.(css|less|scss|sass)$": "identity-obj-proxy",
     '@core/(.*)': '<rootDir>/src/core/$1',
