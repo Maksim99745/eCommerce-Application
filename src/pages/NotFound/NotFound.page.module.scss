@@ -3,7 +3,7 @@
   display: flex;
   height: 100%;
   width: 100%;
-  background: url('bg.jpg') 0 0 / cover no-repeat;
+  background: url('/public/bg.jpg') 0 0 / cover no-repeat;
 }
 
 .error-page-paper {
@@ -23,7 +23,7 @@
 }
 
 .error-page-text-bg {
-  background: url('bg.jpg') no-repeat;
+  background: url('/public/bg.jpg') no-repeat;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-size: cover;
@@ -36,7 +36,7 @@
 }
 
 .home-button {
-  background: url('../public/bg.jpg') 60% 35% no-repeat;
+  background: url('/public/bg.jpg') 60% 35% no-repeat;
 }
 
 .button-icon-wrap {
