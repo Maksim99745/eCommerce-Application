@@ -12,7 +12,7 @@ function RegistrationPage(): ReactNode {
     (data) => {
       register(data)
         .then(() => navigate('/'))
-        .catch((error) => console.log(error));
+        .catch((error) => console.warn(error));
     },
     [navigate, register],
   );

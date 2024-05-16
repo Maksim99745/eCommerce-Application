@@ -29,19 +29,19 @@ function HeaderActionsComponent() {
   return (
     <Box component="section" sx={headerActionsStyles.container}>
       {isLoading && <CircularProgress color="inherit" />}
-      {!isLoading && !user && (
-        <>
-          <Button component={Link} to="/login" sx={headerActionsStyles.button} variant="outlined">
-            <ExitToAppIcon />
-            <Typography sx={headerActionsStyles.buttonText}>Sign In</Typography>
-          </Button>
+      {/* {!isLoading && !user && ( */}
+      {/*  <> */}
+      <Button component={Link} to="/login" sx={headerActionsStyles.button} variant="outlined">
+        <ExitToAppIcon />
+        <Typography sx={headerActionsStyles.buttonText}>Sign In</Typography>
+      </Button>
 
-          <Button component={Link} to="/registration" sx={headerActionsStyles.button} variant="outlined">
-            <HowToRegIcon />
-            <Typography sx={headerActionsStyles.buttonText}>Sign Up</Typography>
-          </Button>
-        </>
-      )}
+      <Button component={Link} to="/registration" sx={headerActionsStyles.button} variant="outlined">
+        <HowToRegIcon />
+        <Typography sx={headerActionsStyles.buttonText}>Sign Up</Typography>
+      </Button>
+      {/* </> */}
+      {/* )} */}
 
       {!isLoading && user && (
         <>

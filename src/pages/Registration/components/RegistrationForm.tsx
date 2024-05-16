@@ -57,10 +57,24 @@ export function RegistrationForm({ onSubmit, isLoading }: RegistrationFormProps)
         </Typography>
         <Grid container spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1, md: 2 }}>
           <Grid item xs={1}>
-            <TextFieldElement<UserRegistrationData> name="email" label="Email" required helperText=" " fullWidth />
+            <TextFieldElement<UserRegistrationData>
+              name="email"
+              label="Email"
+              required
+              helperText=" "
+              fullWidth
+              InputLabelProps={{ shrink: true }}
+            />
           </Grid>
           <Grid item xs={1}>
-            <PasswordElement<UserRegistrationData> label="Password" required name="password" helperText=" " fullWidth />
+            <PasswordElement<UserRegistrationData>
+              label="Password"
+              required
+              name="password"
+              helperText=" "
+              fullWidth
+              InputLabelProps={{ shrink: true }}
+            />
           </Grid>
         </Grid>
         <Grid container spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1, md: 12 }}>
@@ -71,6 +85,7 @@ export function RegistrationForm({ onSubmit, isLoading }: RegistrationFormProps)
               required
               helperText=" "
               fullWidth
+              InputLabelProps={{ shrink: true }}
             />
           </Grid>
           <Grid item xs={1} md={6}>
@@ -80,6 +95,7 @@ export function RegistrationForm({ onSubmit, isLoading }: RegistrationFormProps)
               required
               helperText=" "
               fullWidth
+              InputLabelProps={{ shrink: true }}
             />
           </Grid>
         </Grid>

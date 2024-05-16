@@ -28,8 +28,23 @@ export function LoginForm({ onSubmit, isLoading }: LoginFormProps) {
         <Typography variant="h4" gutterBottom align="center">
           Sign in to Homeware Hub
         </Typography>
-        <TextFieldElement fullWidth name="email" label="Example.email@domain.com" required helperText=" " />
-        <PasswordElement fullWidth name="password" label="Password" required helperText=" " margin="dense" />
+        <TextFieldElement
+          fullWidth
+          name="email"
+          label="Example.email@domain.com"
+          required
+          helperText=" "
+          InputLabelProps={{ shrink: true }}
+        />
+        <PasswordElement
+          fullWidth
+          name="password"
+          label="Password"
+          required
+          helperText=" "
+          margin="dense"
+          InputLabelProps={{ shrink: true }}
+        />
         <LoadingButton
           type="submit"
           variant="contained"

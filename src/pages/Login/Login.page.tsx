@@ -12,7 +12,7 @@ function LoginPage(): ReactNode {
     (data) => {
       login(data)
         .then(() => navigate('/'))
-        .catch((error) => console.log(error));
+        .catch((error) => console.warn(error));
     },
     [login, navigate],
   );

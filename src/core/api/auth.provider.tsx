@@ -2,7 +2,8 @@ import { Customer, CustomerSignin, MyCustomerDraft, MyCustomerSignin } from '@co
 import { apiService } from '@core/api/api.service';
 import { ClientType } from '@core/api/client-type.enum';
 import { tokenCache } from '@core/api/token-cache.service';
-import { createContext, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { createContext, ReactNode, useCallback, useMemo, useState } from 'react';
+import useSWR from 'swr';
 
 export const AuthContext = createContext<{
   user: Customer | null;
@@ -18,6 +19,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(async (customer: CustomerSignin): Promise<void> => {
     setIsLoadingUser(true);
+
     try {
       await apiService.login(customer);
       apiService.setBuilder(ClientType.password, { username: customer.email, password: customer.password });
@@ -46,18 +48,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [login],
   );
 
-  useEffect(() => {
-    (async () => {
-      setIsLoadingUser(true);
-      try {
-        setUser(await apiService.getCustomer());
-      } catch {
-        setUser(null);
-      } finally {
-        setIsLoadingUser(false);
-      }
-    })();
-  }, []);
+  useSWR('customer', async () => {
+    setIsLoadingUser(true);
+
+    try {
+      setUser(await apiService.getCustomer());
+    } catch {
+      setUser(null);
+    } finally {
+      setIsLoadingUser(false);
+    }
+  });
 
   const authProviderValue = useMemo(
     () => ({ user, login, logout, register, isLoading }),

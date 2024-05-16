@@ -28,18 +28,21 @@ export function UserAddress({ title, addressIndex, onCountryChange }: UserAddres
         label="Postal Code"
         required
         helperText=" "
+        InputLabelProps={{ shrink: true }}
       />
       <TextFieldElement<UserRegistrationData>
         name={`addresses.${addressIndex}.city`}
         label="City"
         required
         helperText=" "
+        InputLabelProps={{ shrink: true }}
       />
       <TextFieldElement<UserRegistrationData>
         name={`addresses.${addressIndex}.street`}
         label="Street"
         required
         helperText=" "
+        InputLabelProps={{ shrink: true }}
       />
       <SwitchElement<UserRegistrationData> label="set as default" name={`addresses.${addressIndex}.isDefault`} />
     </Stack>
