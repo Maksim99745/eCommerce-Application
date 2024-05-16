@@ -1,30 +1,43 @@
+import { Suspense, lazy } from 'react';
 import { HasUserRoute, NoUserRoute } from '@core/routing/routes';
-import AboutPage from '@pages/About/About.page';
-import BucketPage from '@pages/Bucket/Bucket.page';
-import CatalogPage from '@pages/Catalog/Catalog.page';
-import LayoutPage from '@pages/Layout/Layout.page';
-import LoginPage from '@pages/Login/Login.page';
-import MainPage from '@pages/Main/Main.page';
-import NotFoundPage from '@pages/NotFound/NotFound.page';
-import ProfilePage from '@pages/Profile/Profile.page';
-import RegistrationPage from '@pages/Registration/Registration.page';
 import { createBrowserRouter } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
+
+const RegistrationPage = lazy(() => import('@pages/Registration/Registration.page'));
+const AboutPage = lazy(() => import('@pages/About/About.page'));
+const BucketPage = lazy(() => import('@pages/Bucket/Bucket.page'));
+const CatalogPage = lazy(() => import('@pages/Catalog/Catalog.page'));
+const LayoutPage = lazy(() => import('@pages/Layout/Layout.page'));
+const LoginPage = lazy(() => import('@pages/Login/Login.page'));
+const MainPage = lazy(() => import('@pages/Main/Main.page'));
+const NotFoundPage = lazy(() => import('@pages/NotFound/NotFound.page'));
+const ProfilePage = lazy(() => import('@pages/Profile/Profile.page'));
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <LayoutPage />,
-    errorElement: <NotFoundPage />,
+    errorElement: (
+      <Suspense fallback={<CircularProgress sx={{ alignSelf: 'center', marginTop: '50%' }} />}>
+        <NotFoundPage />
+      </Suspense>
+    ),
     children: [
       {
         index: true,
-        element: <MainPage />,
+        element: (
+          <Suspense fallback={<CircularProgress sx={{ alignSelf: 'center', marginTop: '50%' }} />}>
+            <MainPage />
+          </Suspense>
+        ),
       },
       {
         path: 'login',
         element: (
           <NoUserRoute>
-            <LoginPage />
+            <Suspense fallback={<CircularProgress sx={{ alignSelf: 'center', marginTop: '50%' }} />}>
+              <LoginPage />
+            </Suspense>
           </NoUserRoute>
         ),
       },
@@ -32,29 +45,45 @@ export const router = createBrowserRouter([
         path: 'registration',
         element: (
           <NoUserRoute>
-            <RegistrationPage />
+            <Suspense fallback={<CircularProgress sx={{ alignSelf: 'center', marginTop: '50%' }} />}>
+              <RegistrationPage />
+            </Suspense>
           </NoUserRoute>
         ),
       },
       {
         path: 'bucket',
-        element: <BucketPage />,
+        element: (
+          <Suspense fallback={<CircularProgress sx={{ alignSelf: 'center', marginTop: '50%' }} />}>
+            <BucketPage />
+          </Suspense>
+        ),
       },
       {
         path: 'profile',
         element: (
           <HasUserRoute>
-            <ProfilePage />
+            <Suspense fallback={<CircularProgress sx={{ alignSelf: 'center', marginTop: '50%' }} />}>
+              <ProfilePage />
+            </Suspense>
           </HasUserRoute>
         ),
       },
       {
         path: 'about',
-        element: <AboutPage />,
+        element: (
+          <Suspense fallback={<CircularProgress sx={{ alignSelf: 'center', marginTop: '50%' }} />}>
+            <AboutPage />
+          </Suspense>
+        ),
       },
       {
         path: 'categories/:categoryKey',
-        element: <CatalogPage />,
+        element: (
+          <Suspense fallback={<CircularProgress sx={{ alignSelf: 'center', marginTop: '50%' }} />}>
+            <CatalogPage />
+          </Suspense>
+        ),
       },
     ],
   },

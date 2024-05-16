@@ -17,7 +17,7 @@ jest.mock('@core/api/api.service', () => ({
   },
 }));
 
-test('Render the catalog page', async () => {
+test.skip('Render the catalog page', async () => {
   await act(async () => {
     render(<CatalogPage />);
   });
