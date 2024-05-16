@@ -77,5 +77,6 @@ module.exports = {
     'react/require-default-props': 'off',
     '@typescript-eslint/lines-between-class-members': 'off',
     'no-return-assign': 'off',
+    'react/jsx-props-no-spreading': 'off'
   }
 };
