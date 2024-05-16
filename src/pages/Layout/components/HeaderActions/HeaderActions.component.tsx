@@ -33,6 +33,11 @@ function HeaderActionsComponent() {
 
   return (
     <Box component="section" sx={headerActionsStyles.container}>
+      <Button component={Link} to="/cart" sx={headerActionsStyles.cartButton} variant="contained">
+        <Typography sx={{ mr: 1 }}>{cartQuantity || 0}</Typography>
+        <ShoppingCartIcon />
+      </Button>
+
       {userLoadingSignal.value && <CircularProgress color="inherit" size="30px" />}
 
       {!userLoadingSignal.value && (
@@ -75,11 +80,6 @@ function HeaderActionsComponent() {
           </Menu>
         </>
       )}
-
-      <Button component={Link} to="/cart" sx={headerActionsStyles.cartButton} variant="contained">
-        <Typography sx={{ mr: 1 }}>{cartQuantity || 0}</Typography>
-        <ShoppingCartIcon />
-      </Button>
     </Box>
   );
 }
