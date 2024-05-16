@@ -18,13 +18,18 @@ function HeaderComponent({ handleDrawerToggle }: HeaderProps) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ display: { sm: 'none' }, height: '40px', width: '40px', p: 0 }}
+            sx={{ display: { sm: 'none' }, height: 40, width: 40, p: 0 }}
           >
             <MenuIcon />
           </IconButton>
 
-          <Button component={Link} to="/" sx={{ color: '#fff', textTransform: 'none', p: 0 }} variant="text">
-            <Avatar alt="Logo" src="logo.webp" />
+          <Button
+            component={Link}
+            to="/"
+            sx={{ display: 'flex', gap: '10px', color: '#fff', textTransform: 'none', p: 0 }}
+            variant="text"
+          >
+            <Avatar alt="Logo" src="/logo.webp" sx={{ width: 40, height: 40 }} />
             <Typography sx={{ fontSize: '1.2rem', fontWeight: 600 }} variant="h1" noWrap>
               Homeware Hub
             </Typography>

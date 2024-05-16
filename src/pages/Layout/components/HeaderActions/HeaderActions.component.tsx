@@ -8,6 +8,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const headerActionsStyles = {
   container: { display: 'flex', gap: '10px' },
@@ -43,13 +44,20 @@ function HeaderActionsComponent() {
       )}
 
       {!isLoading && user && (
-        <Button sx={headerActionsStyles.button} variant="outlined" onClick={handlerLogout}>
-          <LogoutIcon />
-          <Typography sx={headerActionsStyles.buttonText}>Sign Out</Typography>
-        </Button>
+        <>
+          <Button component={Link} to="/profile" sx={headerActionsStyles.button} variant="outlined">
+            <AccountCircleIcon />
+            <Typography sx={headerActionsStyles.buttonText}>Profile</Typography>
+          </Button>
+
+          <Button sx={headerActionsStyles.button} variant="outlined" onClick={handlerLogout} color="secondary">
+            <LogoutIcon />
+            <Typography sx={headerActionsStyles.buttonText}>Sign Out</Typography>
+          </Button>
+        </>
       )}
 
-      <Button component={Link} to="/cart" sx={headerActionsStyles.button} variant="outlined">
+      <Button component={Link} to="/cart" sx={headerActionsStyles.button} variant="text">
         <ShoppingCartIcon />
         <Typography sx={headerActionsStyles.buttonText}>Cart: </Typography>
         <Typography>{cartQuantity || 0}</Typography>
