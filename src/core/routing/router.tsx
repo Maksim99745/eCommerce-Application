@@ -1,18 +1,19 @@
-import { Suspense, lazy } from 'react';
+import { Suspense } from 'react';
 import { HasUserRoute, NoUserRoute } from '@core/routing/routes';
 import { createBrowserRouter } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
-
-const RegistrationPage = lazy(() => import('@pages/Registration/Registration.page'));
-const AboutPage = lazy(() => import('@pages/About/About.page'));
-const BucketPage = lazy(() => import('@pages/Bucket/Bucket.page'));
-const CartPage = lazy(() => import('@pages/Cart/Cart.page'));
-const CatalogPage = lazy(() => import('@pages/Catalog/Catalog.page'));
-const LayoutPage = lazy(() => import('@pages/Layout/Layout.page'));
-const LoginPage = lazy(() => import('@pages/Login/Login.page'));
-const MainPage = lazy(() => import('@pages/Main/Main.page'));
-const NotFoundPage = lazy(() => import('@pages/NotFound/NotFound.page'));
-const ProfilePage = lazy(() => import('@pages/Profile/Profile.page'));
+import {
+  RegistrationPage,
+  AboutPage,
+  BucketPage,
+  CartPage,
+  CatalogPage,
+  LayoutPage,
+  LoginPage,
+  MainPage,
+  NotFoundPage,
+  ProfilePage,
+} from './routing-object';
 
 export const router = createBrowserRouter([
   {
