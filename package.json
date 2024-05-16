@@ -31,6 +31,7 @@
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.16",
     "@mui/x-date-pickers": "^6.19.9",
+    "@preact/signals-react": "^2.0.1",
     "dayjs": "^1.11.11",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -41,6 +42,7 @@
     "zod": "^3.23.7"
   },
   "devDependencies": {
+    "@preact/signals-react-transform": "^0.3.1",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^15.0.6",
     "@types/jest": "^29.5.12",

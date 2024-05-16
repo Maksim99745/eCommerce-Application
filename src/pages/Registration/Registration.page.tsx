@@ -1,18 +1,27 @@
-import { ReactNode, useCallback } from 'react';
+import { UserService } from '@core/api/user.service';
+import { userLoadingSignal } from '@core/signals/user.signal';
+import { ReactNode, useCallback, useRef } from 'react';
 import { Stack, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RegistrationForm, RegistrationFormProps } from './components/RegistrationForm';
 
 function RegistrationPage(): ReactNode {
-  const handleFormSubmit = useCallback<RegistrationFormProps['onSubmit']>(async (data) => {
-    console.log(data);
-    return Promise.resolve('Ok');
+  const navigate = useNavigate();
+
+  const navigateRef = useRef(navigate);
+  navigateRef.current = navigate;
+
+  const handleFormSubmit = useCallback<RegistrationFormProps['onSubmit']>((data) => {
+    UserService.register(data)
+      .then(() => navigateRef.current('/'))
+      .catch((error) => console.warn(error));
   }, []);
+
   return (
-    <Stack>
-      <RegistrationForm onSubmit={handleFormSubmit} />
+    <Stack direction="column" alignItems="center">
+      <RegistrationForm onSubmit={handleFormSubmit} isLoading={userLoadingSignal.value} />
       <Typography marginTop={2}>
-        Already have an account? <Link to="/login">Login in</Link>
+        Already have an account? <Link to="/login">Sign in</Link>
       </Typography>
     </Stack>
   );
