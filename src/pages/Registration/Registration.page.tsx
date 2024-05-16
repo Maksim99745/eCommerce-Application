@@ -8,14 +8,11 @@ function RegistrationPage(): ReactNode {
   const { register, isLoading } = useAuth();
   const navigate = useNavigate();
 
-  const handleFormSubmit = useCallback<RegistrationFormProps['onSubmit']>(
-    (data) => {
-      register(data)
-        .then(() => navigate('/'))
-        .catch((error) => console.warn(error));
-    },
-    [navigate, register],
-  );
+  const handleFormSubmit = useCallback<RegistrationFormProps['onSubmit']>((data) => {
+    register(data)
+      .then(() => navigate('/'))
+      .catch((error) => console.warn(error));
+  }, []);
 
   return (
     <Stack direction="column" alignItems="center">
