@@ -1,26 +1,26 @@
+import { UserService } from '@core/api/user.service';
+import { userLoadingSignal } from '@core/signals/user.signal';
 import { ReactNode, useCallback } from 'react';
 import { Container, Typography, Box, Paper } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '@core/api/use-auth.hook';
 import { LoginForm, LoginFormProps } from './components/LoginForm';
 
 function LoginPage(): ReactNode {
-  const { login, isLoading } = useAuth();
   const navigate = useNavigate();
 
   const handleFormSubmit = useCallback<LoginFormProps['onSubmit']>(
     (data) => {
-      login(data)
+      UserService.login(data)
         .then(() => navigate('/'))
         .catch((error) => console.warn(error));
     },
-    [login, navigate],
+    [navigate],
   );
 
   return (
     <Paper elevation={3} sx={{ m: 'auto', p: '10vh 2%', maxWidth: '700px' }}>
       <Container maxWidth="sm">
-        <LoginForm onSubmit={handleFormSubmit} isLoading={isLoading} />
+        <LoginForm onSubmit={handleFormSubmit} isLoading={userLoadingSignal.value} />
         <Box
           sx={{
             display: 'flex',

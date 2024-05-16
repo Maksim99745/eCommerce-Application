@@ -1,4 +1,3 @@
-import { AuthProvider } from '@core/api/auth.provider';
 import { router } from '@core/routing/router';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
@@ -11,9 +10,7 @@ import './index.scss';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <SWRConfig value={{ dedupingInterval: 1000, revalidateOnFocus: false, revalidateOnReconnect: false }}>
-      <AuthProvider>
-        <RouterProvider router={router} fallbackElement={<FallbackPage />} />
-      </AuthProvider>
+      <RouterProvider router={router} fallbackElement={<FallbackPage />} />
     </SWRConfig>
   </StrictMode>,
 );

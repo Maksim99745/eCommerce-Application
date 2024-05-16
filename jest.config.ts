@@ -32,6 +32,7 @@ export default {
     ],
   },
   moduleNameMapper: {
+    '^@preact(/(.*)|$)': '@preact$1',
     '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/mocks/mocks.js',
     '@core/(.*)': '<rootDir>/src/core/$1',
     '@pages/(.*)': '<rootDir>/src/pages/$1',

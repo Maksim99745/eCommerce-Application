@@ -13,6 +13,7 @@ import { UserAuthOptions } from '@commercetools/sdk-client-v2/dist/declarations/
 import { ClientType } from '@core/api/client-type.enum';
 import { getRequestBuilder } from '@core/api/get-builder.util';
 import { tokenCache } from '@core/api/token-cache.service';
+import { userLoadingSignal, userSignal } from '@core/signals/user.signal';
 
 export class ApiService {
   private builder!: ByProjectKeyRequestBuilder;
@@ -26,6 +27,15 @@ export class ApiService {
     }
 
     this.setBuilder(type);
+
+    if (token) {
+      userLoadingSignal.value = true;
+
+      this.getCustomer()
+        .then((user) => (userSignal.value = user))
+        .catch(() => (userSignal.value = null))
+        .finally(() => (userLoadingSignal.value = false));
+    }
   }
 
   public setBuilder(type: ClientType, user?: UserAuthOptions): void {

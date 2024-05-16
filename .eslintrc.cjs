@@ -76,5 +76,6 @@ module.exports = {
     'class-methods-use-this': 'off',
     'react/require-default-props': 'off',
     '@typescript-eslint/lines-between-class-members': 'off',
+    'no-return-assign': 'off',
   }
 };

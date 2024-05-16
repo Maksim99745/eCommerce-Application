@@ -3,11 +3,8 @@ import { render } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import LoginPage from './Login.page';
 
-jest.mock('@core/api/use-auth.hook', () => ({
-  useAuth: () => ({
-    register: jest.fn(),
-    isLoading: false,
-  }),
+jest.mock('@core/api/user.service', () => ({
+  UserService: () => ({ login: jest.fn() }),
 }));
 
 test('Render the login page', () => {

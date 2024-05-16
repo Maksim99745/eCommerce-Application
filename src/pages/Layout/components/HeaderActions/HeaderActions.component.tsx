@@ -1,6 +1,7 @@
 import { apiService } from '@core/api/api.service';
-import { useAuth } from '@core/api/use-auth.hook';
 import { useRequest } from '@core/api/use-request.hook';
+import { UserService } from '@core/api/user.service';
+import { userLoadingSignal, userSignal } from '@core/signals/user.signal';
 import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import { memo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -18,17 +19,15 @@ const headerActionsStyles = {
 
 function HeaderActionsComponent() {
   const { data: cartQuantity } = useRequest('cartQuantity', () => apiService.getCartQuantity());
-  const { user, logout, isLoading } = useAuth();
   const navigate = useNavigate();
 
   const handlerLogout = () => {
-    logout();
+    UserService.logout();
     navigate('/');
   };
 
   return (
     <Box component="section" sx={headerActionsStyles.container}>
-      {isLoading && <CircularProgress color="inherit" />}
       {/* {!isLoading && !user && ( */}
       {/*  <> */}
       <Button component={Link} to="/login" sx={headerActionsStyles.button} variant="outlined">
@@ -43,7 +42,9 @@ function HeaderActionsComponent() {
       {/* </> */}
       {/* )} */}
 
-      {!isLoading && user && (
+      {userLoadingSignal.value && <CircularProgress color="inherit" />}
+
+      {!userLoadingSignal.value && !!userSignal.value && (
         <>
           <Button component={Link} to="/profile" sx={headerActionsStyles.button} variant="outlined">
             <AccountCircleIcon />
