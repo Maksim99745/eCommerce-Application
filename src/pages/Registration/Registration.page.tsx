@@ -5,7 +5,6 @@ import { RegistrationForm, RegistrationFormProps } from './components/Registrati
 
 function RegistrationPage(): ReactNode {
   const handleFormSubmit = useCallback<RegistrationFormProps['onSubmit']>(async (data) => {
-    console.log(data);
     return Promise.resolve('Ok');
   }, []);
   return (
