@@ -18,6 +18,11 @@ export default defineConfig({
       '@utils': resolve(__dirname, './src/utils/'),
     },
   },
+  css: {
+    modules: {
+      localsConvention: 'camelCase',
+    },
+  },
   build: {
     chunkSizeWarningLimit: 600,
     rollupOptions: {
