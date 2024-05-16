@@ -1,4 +1,4 @@
-// import './index.scss';
+import './index.scss';
 import { Button, Typography, Paper, Box } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom';
