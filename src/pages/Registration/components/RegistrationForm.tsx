@@ -1,3 +1,4 @@
+import { LoadingButton } from '@mui/lab';
 import {
   FormContainer,
   TextFieldElement,
@@ -11,7 +12,7 @@ import {
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Container, Grid, Typography } from '@mui/material';
+import { Container, Grid, Typography } from '@mui/material';
 import {
   BILLING_ADDRESS_IDX,
   registrationSchema,
@@ -25,9 +26,10 @@ export type UserRegistrationData = z.infer<typeof registrationSchema>;
 
 export interface RegistrationFormProps {
   onSubmit: (registrationData: UserRegistrationData) => void;
+  isLoading: boolean;
 }
 
-export function RegistrationForm({ onSubmit }: RegistrationFormProps) {
+export function RegistrationForm({ onSubmit, isLoading }: RegistrationFormProps) {
   const formContext = useForm<UserRegistrationData>({
     defaultValues: {
       email: '',
@@ -114,9 +116,9 @@ export function RegistrationForm({ onSubmit }: RegistrationFormProps) {
             </Grid>
           )}
         </Grid>
-        <Button type="submit" variant="contained" color="primary" sx={{ mx: 'auto' }}>
+        <LoadingButton loading={isLoading} type="submit" variant="contained" color="primary" sx={{ mx: 'auto' }}>
           Sign up
-        </Button>
+        </LoadingButton>
       </FormContainer>
     </Container>
   );

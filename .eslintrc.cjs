@@ -99,7 +99,7 @@ module.exports = {
     'unused-imports/no-unused-imports': 'error',
     'import/prefer-default-export': 'off',
     'class-methods-use-this': 'off',
-    'react/require-default-props': 'off'
+    'react/require-default-props': 'off',
     '@typescript-eslint/lines-between-class-members': 'off',
   }
 };
