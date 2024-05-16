@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom';
 import { RegistrationForm, RegistrationFormProps } from './components/RegistrationForm';
 
 function RegistrationPage(): ReactNode {
-  const handleFormSubmit = useCallback<RegistrationFormProps['onSubmit']>(async (data) => {
-    return Promise.resolve('Ok');
-  }, []);
+  const handleFormSubmit = useCallback<RegistrationFormProps['onSubmit']>(async () => Promise.resolve('Ok'), []);
   return (
     <Stack direction="column" alignItems="center">
       <RegistrationForm onSubmit={handleFormSubmit} />
