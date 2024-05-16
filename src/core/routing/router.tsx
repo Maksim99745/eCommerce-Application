@@ -6,6 +6,7 @@ import { CircularProgress } from '@mui/material';
 const RegistrationPage = lazy(() => import('@pages/Registration/Registration.page'));
 const AboutPage = lazy(() => import('@pages/About/About.page'));
 const BucketPage = lazy(() => import('@pages/Bucket/Bucket.page'));
+const CartPage = lazy(() => import('@pages/Cart/Cart.page'));
 const CatalogPage = lazy(() => import('@pages/Catalog/Catalog.page'));
 const LayoutPage = lazy(() => import('@pages/Layout/Layout.page'));
 const LoginPage = lazy(() => import('@pages/Login/Login.page'));
@@ -74,6 +75,14 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<CircularProgress sx={{ alignSelf: 'center', marginTop: '50%' }} />}>
             <AboutPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'cart',
+        element: (
+          <Suspense fallback={<CircularProgress sx={{ alignSelf: 'center', marginTop: '50%' }} />}>
+            <CartPage />
           </Suspense>
         ),
       },
