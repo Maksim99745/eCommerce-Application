@@ -1,4 +1,5 @@
-import { Button, Stack, Typography } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { Stack, Typography } from '@mui/material';
 import { FormContainer, TextFieldElement, PasswordElement } from 'react-hook-form-mui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -9,9 +10,10 @@ type UserLoginData = z.infer<typeof loginFormSchema>;
 
 export interface LoginFormProps {
   onSubmit: (registrationData: UserLoginData) => void;
+  isLoading: boolean;
 }
 
-export function LoginForm({ onSubmit }: LoginFormProps) {
+export function LoginForm({ onSubmit, isLoading }: LoginFormProps) {
   return (
     <FormContainer<UserLoginData>
       resolver={zodResolver(loginFormSchema)}
@@ -28,15 +30,16 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
         </Typography>
         <TextFieldElement fullWidth name="email" label="Example.email@domain.com" required helperText=" " />
         <PasswordElement fullWidth name="password" label="Password" required helperText=" " margin="dense" />
-        <Button
+        <LoadingButton
           type="submit"
           variant="contained"
           color="primary"
           sx={{ maxWidth: '160px', align: 'center', textTransform: 'none' }}
           startIcon={<LoginIcon />}
+          loading={isLoading}
         >
           Sign in
-        </Button>
+        </LoadingButton>
       </Stack>
     </FormContainer>
   );

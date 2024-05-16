@@ -4,8 +4,9 @@ import {
   CategoryPagedQueryResponse,
   ClientResponse,
   Customer,
-  CustomerSignin,
+  CustomerSignInResult,
   MyCustomerDraft,
+  MyCustomerSignin,
 } from '@commercetools/platform-sdk';
 import { ApiRequest } from '@commercetools/platform-sdk/dist/declarations/src/generated/shared/utils/requests-utils';
 import { UserAuthOptions } from '@commercetools/sdk-client-v2/dist/declarations/src/types/sdk';
@@ -21,8 +22,7 @@ export class ApiService {
     let type = ClientType.anonymous;
 
     if (token) {
-      const now = new Date().getTime();
-      type = now > token.expirationTime ? ClientType.refreshToken : ClientType.token;
+      type = token.refreshToken ? ClientType.refreshToken : ClientType.token;
     }
 
     this.setBuilder(type);
@@ -40,22 +40,22 @@ export class ApiService {
     return this.callRequest(this.builder.categories().withKey({ key }).get());
   }
 
-  public async login(customer: CustomerSignin): Promise<Customer> {
-    this.setBuilder(ClientType.token);
-    await this.callRequest(this.builder.login().post({ body: customer }));
-    this.setBuilder(ClientType.password, { username: customer.email, password: customer.password });
-
-    return this.getCustomer();
+  public async login(customer: MyCustomerSignin): Promise<CustomerSignInResult> {
+    return this.callRequest(this.builder.me().login().post({ body: customer }));
   }
 
-  public async register(customer: MyCustomerDraft): Promise<Customer> {
-    await this.callRequest(this.builder.me().signup().post({ body: customer }));
-
-    return this.login(customer);
+  public async register(customer: MyCustomerDraft): Promise<CustomerSignInResult> {
+    return this.callRequest(this.builder.me().signup().post({ body: customer }));
   }
 
   public async getCustomer(): Promise<Customer> {
     return this.callRequest(this.builder.me().get());
+  }
+
+  public async getCartQuantity(): Promise<number> {
+    return this.callRequest(this.builder.me().carts().get()).then(
+      (carts) => carts.results[0]?.totalLineItemQuantity || 0,
+    );
   }
 
   private async callRequest<T>(request: ApiRequest<T>): Promise<T> {

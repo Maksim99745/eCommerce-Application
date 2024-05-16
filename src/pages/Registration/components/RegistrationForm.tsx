@@ -1,3 +1,4 @@
+import { LoadingButton } from '@mui/lab';
 import {
   FormContainer,
   TextFieldElement,
@@ -10,7 +11,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserRegistrationData } from '@models/index';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { countriesOptions, defaultCountryOption } from '@constants/countries.const';
 import { registrationSchema } from '@core/validation/user-registration.validation.schema';
 
@@ -23,9 +24,10 @@ const formStyles = {
 
 export interface RegistrationFormProps {
   onSubmit: (registrationData: UserRegistrationData) => void;
+  isLoading: boolean;
 }
 
-export function RegistrationForm({ onSubmit }: RegistrationFormProps) {
+export function RegistrationForm({ onSubmit, isLoading }: RegistrationFormProps) {
   return (
     <FormContainer<UserRegistrationData>
       resolver={zodResolver(registrationSchema)}
@@ -74,9 +76,15 @@ export function RegistrationForm({ onSubmit }: RegistrationFormProps) {
         <TextFieldElement<UserRegistrationData> name="postalCode" label="Postal Code" required helperText=" " />
         <TextFieldElement<UserRegistrationData> name="city" label="City" required helperText=" " />
         <TextFieldElement<UserRegistrationData> name="street" label="Street" required helperText=" " />
-        <Button type="submit" variant="contained" color="primary" sx={formStyles.submitButton}>
-          Submit
-        </Button>
+        <LoadingButton
+          loading={isLoading}
+          type="submit"
+          variant="contained"
+          color="primary"
+          sx={formStyles.submitButton}
+        >
+          Sign up
+        </LoadingButton>
       </Box>
     </FormContainer>
   );

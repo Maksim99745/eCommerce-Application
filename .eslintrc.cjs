@@ -61,7 +61,6 @@ module.exports = {
     ],
     'max-classes-per-file': ['error', 1],
     'no-debugger': 'error',
-    'lines-between-class-members': ['warn', 'always', { exceptAfterSingleLine: true }],
     '@typescript-eslint/no-explicit-any': 'error',
     '@typescript-eslint/no-namespace': [2, { allowDeclarations: true }],
     '@typescript-eslint/explicit-member-accessibility': [
@@ -100,5 +99,6 @@ module.exports = {
     'unused-imports/no-unused-imports': 'error',
     'import/prefer-default-export': 'off',
     'class-methods-use-this': 'off',
+    '@typescript-eslint/lines-between-class-members': 'off',
   }
 };

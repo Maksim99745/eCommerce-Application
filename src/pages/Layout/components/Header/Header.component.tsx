@@ -1,6 +1,6 @@
-import { drawerWidth } from '@constants/ui.const';
-import { AppBar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, Avatar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import HeaderActionsComponent from '@pages/Layout/components/HeaderActions/HeaderActions.component';
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -10,50 +10,28 @@ interface HeaderProps {
 
 function HeaderComponent({ handleDrawerToggle }: HeaderProps) {
   return (
-    <AppBar
-      position="fixed"
-      sx={{
-        width: { sm: `calc(100% - ${drawerWidth}px)` },
-        ml: { sm: `${drawerWidth}px` },
-      }}
-    >
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Box sx={{ display: 'flex', gap: '10px' }}>
+    <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', p: '10px' }}>
+        <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ display: { sm: 'none' }, height: '40px', width: '40px', p: 0 }}
           >
             <MenuIcon />
           </IconButton>
 
-          <Button component={Link} to="/" sx={{ color: '#fff', textTransform: 'none' }} variant="text">
+          <Button component={Link} to="/" sx={{ color: '#fff', textTransform: 'none', p: 0 }} variant="text">
+            <Avatar alt="Logo" src="logo.webp" />
             <Typography sx={{ fontSize: '1.2rem', fontWeight: 600 }} variant="h1" noWrap>
               Homeware Hub
             </Typography>
           </Button>
         </Box>
 
-        <Box component="nav" sx={{ display: 'flex', gap: '10px' }}>
-          <Button
-            component={Link}
-            to="/login"
-            sx={{ color: '#fff', borderColor: '#fff', textTransform: 'none' }}
-            variant="outlined"
-          >
-            Sign in
-          </Button>
-          <Button
-            component={Link}
-            to="/registration"
-            sx={{ color: '#fff', borderColor: '#fff', textTransform: 'none' }}
-            variant="outlined"
-          >
-            Sign up
-          </Button>
-        </Box>
+        <HeaderActionsComponent />
       </Toolbar>
     </AppBar>
   );

@@ -1,18 +1,26 @@
 import { ReactNode, useCallback } from 'react';
 import { Container, Typography, Box, Paper } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '@core/api/use-auth.hook';
 import { LoginForm, LoginFormProps } from './components/LoginForm';
 
 function LoginPage(): ReactNode {
-  const handleFormSubmit = useCallback<LoginFormProps['onSubmit']>(async (data) => {
-    console.log(data);
-    return Promise.resolve('Ok');
-  }, []);
+  const { login, isLoading } = useAuth();
+  const navigate = useNavigate();
+
+  const handleFormSubmit = useCallback<LoginFormProps['onSubmit']>(
+    (data) => {
+      login(data)
+        .then(() => navigate('/'))
+        .catch((error) => console.log(error));
+    },
+    [login, navigate],
+  );
 
   return (
     <Paper elevation={3} sx={{ m: 'auto', p: '10vh 2%', maxWidth: '700px' }}>
       <Container maxWidth="sm">
-        <LoginForm onSubmit={handleFormSubmit} />
+        <LoginForm onSubmit={handleFormSubmit} isLoading={isLoading} />
         <Box
           sx={{
             display: 'flex',
