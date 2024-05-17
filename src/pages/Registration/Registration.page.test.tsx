@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { SnackbarProvider } from 'notistack';
 import RegistrationPage from './Registration.page';
 
 jest.mock('@core/api/user.service', () => ({
@@ -9,9 +10,11 @@ jest.mock('@core/api/user.service', () => ({
 
 test('Render the registration page', () => {
   render(
-    <BrowserRouter>
-      <RegistrationPage />
-    </BrowserRouter>,
+    <SnackbarProvider>
+      <BrowserRouter>
+        <RegistrationPage />
+      </BrowserRouter>
+    </SnackbarProvider>,
   );
 
   expect(true).toBeTruthy();
