@@ -7,6 +7,7 @@ import {
   CustomerSignInResult,
   MyCustomerDraft,
   MyCustomerSignin,
+  MyCustomerUpdateAction,
 } from '@commercetools/platform-sdk';
 import { ApiRequest } from '@commercetools/platform-sdk/dist/declarations/src/generated/shared/utils/requests-utils';
 import { UserAuthOptions } from '@commercetools/sdk-client-v2/dist/declarations/src/types/sdk';
@@ -23,7 +24,8 @@ export class ApiService {
     let type = ClientType.anonymous;
 
     if (token) {
-      type = token.refreshToken ? ClientType.refreshToken : ClientType.token;
+      const now = new Date().getTime();
+      type = now > token.expirationTime ? ClientType.refreshToken : ClientType.token;
     }
 
     this.setBuilder(type);
@@ -56,6 +58,10 @@ export class ApiService {
 
   public async register(customer: MyCustomerDraft): Promise<CustomerSignInResult> {
     return this.callRequest(this.builder.me().signup().post({ body: customer }));
+  }
+
+  public async updateCustomer(action: MyCustomerUpdateAction): Promise<Customer> {
+    return this.callRequest(this.builder.me().post({ body: { version: 1, actions: [action] } }));
   }
 
   public async getCustomer(): Promise<Customer> {

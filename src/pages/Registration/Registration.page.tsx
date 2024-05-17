@@ -1,5 +1,6 @@
 import { UserService } from '@core/api/user.service';
 import { userLoadingSignal } from '@core/signals/user.signal';
+import { getCustomerDraft } from '@utils/get-customer-draft.util';
 import { ReactNode, useCallback, useRef } from 'react';
 import { Stack, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
@@ -12,7 +13,7 @@ function RegistrationPage(): ReactNode {
   navigateRef.current = navigate;
 
   const handleFormSubmit = useCallback<RegistrationFormProps['onSubmit']>((data) => {
-    UserService.register(data)
+    UserService.register(getCustomerDraft(data))
       .then(() => navigateRef.current('/'))
       .catch((error) => console.warn(error));
   }, []);
