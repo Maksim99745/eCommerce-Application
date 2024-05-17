@@ -1,15 +1,19 @@
+import { Suspense } from 'react';
 import { HasUserRoute, NoUserRoute } from '@core/routing/routes';
-import AboutPage from '@pages/About/About.page';
-import BucketPage from '@pages/Bucket/Bucket.page';
-import CartPage from '@pages/Cart/Cart.page';
-import CatalogPage from '@pages/Catalog/Catalog.page';
-import LayoutPage from '@pages/Layout/Layout.page';
-import LoginPage from '@pages/Login/Login.page';
-import MainPage from '@pages/Main/Main.page';
-import NotFoundPage from '@pages/NotFound/NotFound.page';
-import ProfilePage from '@pages/Profile/Profile.page';
-import RegistrationPage from '@pages/Registration/Registration.page';
 import { createBrowserRouter } from 'react-router-dom';
+import LayoutPage from '@pages/Layout/Layout.page';
+import { PagePreloader } from '@components/PagePreloader/PagePreloader.component';
+import {
+  RegistrationPage,
+  AboutPage,
+  BucketPage,
+  CartPage,
+  CatalogPage,
+  LoginPage,
+  MainPage,
+  NotFoundPage,
+  ProfilePage,
+} from './routing-pages';
 
 export const router = createBrowserRouter([
   {
@@ -19,13 +23,19 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <MainPage />,
+        element: (
+          <Suspense fallback={<PagePreloader />}>
+            <MainPage />
+          </Suspense>
+        ),
       },
       {
         path: 'login',
         element: (
           <NoUserRoute>
-            <LoginPage />
+            <Suspense fallback={<PagePreloader />}>
+              <LoginPage />
+            </Suspense>
           </NoUserRoute>
         ),
       },
@@ -33,33 +43,53 @@ export const router = createBrowserRouter([
         path: 'registration',
         element: (
           <NoUserRoute>
-            <RegistrationPage />
+            <Suspense fallback={<PagePreloader />}>
+              <RegistrationPage />
+            </Suspense>
           </NoUserRoute>
         ),
       },
       {
         path: 'bucket',
-        element: <BucketPage />,
+        element: (
+          <Suspense fallback={<PagePreloader />}>
+            <BucketPage />
+          </Suspense>
+        ),
       },
       {
         path: 'profile',
         element: (
           <HasUserRoute>
-            <ProfilePage />
+            <Suspense fallback={<PagePreloader />}>
+              <ProfilePage />
+            </Suspense>
           </HasUserRoute>
         ),
       },
       {
         path: 'about',
-        element: <AboutPage />,
+        element: (
+          <Suspense fallback={<PagePreloader />}>
+            <AboutPage />
+          </Suspense>
+        ),
       },
       {
         path: 'cart',
-        element: <CartPage />,
+        element: (
+          <Suspense fallback={<PagePreloader />}>
+            <CartPage />
+          </Suspense>
+        ),
       },
       {
         path: 'categories/:categoryKey',
-        element: <CatalogPage />,
+        element: (
+          <Suspense fallback={<PagePreloader />}>
+            <CatalogPage />
+          </Suspense>
+        ),
       },
     ],
   },
