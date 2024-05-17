@@ -7,9 +7,10 @@ export interface UserAddressProps {
   title: string;
   addressIndex: number;
   onCountryChange?: (country: string) => void;
+  disabled?: boolean;
 }
 
-export function UserAddress({ title, addressIndex, onCountryChange }: UserAddressProps) {
+export function UserAddress({ title, addressIndex, onCountryChange, disabled = false }: UserAddressProps) {
   return (
     <Stack>
       <Typography variant="h6" gutterBottom>
@@ -22,6 +23,7 @@ export function UserAddress({ title, addressIndex, onCountryChange }: UserAddres
         helperText=" "
         required
         onChange={onCountryChange}
+        disabled={disabled}
       />
       <TextFieldElement<UserRegistrationData>
         name={`addresses.${addressIndex}.postalCode`}
@@ -29,6 +31,7 @@ export function UserAddress({ title, addressIndex, onCountryChange }: UserAddres
         required
         helperText=" "
         InputLabelProps={{ shrink: true }}
+        disabled={disabled}
       />
       <TextFieldElement<UserRegistrationData>
         name={`addresses.${addressIndex}.city`}
@@ -36,6 +39,7 @@ export function UserAddress({ title, addressIndex, onCountryChange }: UserAddres
         required
         helperText=" "
         InputLabelProps={{ shrink: true }}
+        disabled={disabled}
       />
       <TextFieldElement<UserRegistrationData>
         name={`addresses.${addressIndex}.street`}
@@ -43,8 +47,13 @@ export function UserAddress({ title, addressIndex, onCountryChange }: UserAddres
         required
         helperText=" "
         InputLabelProps={{ shrink: true }}
+        disabled={disabled}
       />
-      <SwitchElement<UserRegistrationData> label="set as default" name={`addresses.${addressIndex}.isDefault`} />
+      <SwitchElement<UserRegistrationData>
+        label="set as default"
+        name={`addresses.${addressIndex}.isDefault`}
+        disabled={disabled}
+      />
     </Stack>
   );
 }

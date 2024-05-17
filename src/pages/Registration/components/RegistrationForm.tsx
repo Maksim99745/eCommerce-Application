@@ -66,6 +66,7 @@ export function RegistrationForm({ onSubmit, isLoading }: RegistrationFormProps)
                 helperText=" "
                 fullWidth
                 InputLabelProps={{ shrink: true }}
+                disabled={isLoading}
               />
             </Grid>
             <Grid item xs={1}>
@@ -76,6 +77,7 @@ export function RegistrationForm({ onSubmit, isLoading }: RegistrationFormProps)
                 helperText=" "
                 fullWidth
                 InputLabelProps={{ shrink: true }}
+                disabled={isLoading}
               />
             </Grid>
           </Grid>
@@ -88,6 +90,7 @@ export function RegistrationForm({ onSubmit, isLoading }: RegistrationFormProps)
                 helperText=" "
                 fullWidth
                 InputLabelProps={{ shrink: true }}
+                disabled={isLoading}
               />
             </Grid>
             <Grid item xs={1} md={6}>
@@ -98,6 +101,7 @@ export function RegistrationForm({ onSubmit, isLoading }: RegistrationFormProps)
                 helperText=" "
                 fullWidth
                 InputLabelProps={{ shrink: true }}
+                disabled={isLoading}
               />
             </Grid>
           </Grid>
@@ -109,6 +113,7 @@ export function RegistrationForm({ onSubmit, isLoading }: RegistrationFormProps)
                 required
                 helperText=" "
                 sx={{ maxWidth: 350, alignItem: 'start' }}
+                disabled={isLoading}
               />
             </LocalizationProvider>
           </Grid>
@@ -120,10 +125,15 @@ export function RegistrationForm({ onSubmit, isLoading }: RegistrationFormProps)
                   title="Shipping address"
                   addressIndex={SHIPPING_ADDRESS_IDX}
                   onCountryChange={() => trigger(`addresses.${SHIPPING_ADDRESS_IDX}.postalCode`)}
+                  disabled={isLoading}
                 />
               </Paper>
               <Grid item>
-                <CheckboxElement<UserRegistrationData> name="shippingAsBilling" label="Use as billing address" />
+                <CheckboxElement<UserRegistrationData>
+                  name="shippingAsBilling"
+                  label="Use as billing address"
+                  disabled={isLoading}
+                />
               </Grid>
             </Grid>
             {!shippingAsBilling && (
@@ -133,6 +143,7 @@ export function RegistrationForm({ onSubmit, isLoading }: RegistrationFormProps)
                     title="Billing address"
                     addressIndex={BILLING_ADDRESS_IDX}
                     onCountryChange={() => trigger(`addresses.${BILLING_ADDRESS_IDX}.postalCode`)}
+                    disabled={isLoading}
                   />
                 </Paper>
               </Grid>
@@ -144,6 +155,7 @@ export function RegistrationForm({ onSubmit, isLoading }: RegistrationFormProps)
             variant="contained"
             color="primary"
             sx={{ mx: 'auto', textTransform: 'none' }}
+            disabled={isLoading}
           >
             <HowToRegOutlinedIcon sx={{ mr: 1 }} />
             Sign Up
