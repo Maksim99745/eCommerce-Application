@@ -8,11 +8,11 @@ import {
   CheckboxElement,
   useWatch,
 } from 'react-hook-form-mui';
-
+import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Container, Grid, Paper, Typography } from '@mui/material';
+import { Container, Grid, ListItemIcon, Paper, Typography } from '@mui/material';
 import {
   BILLING_ADDRESS_IDX,
   registrationSchema,
@@ -51,11 +51,11 @@ export function RegistrationForm({ onSubmit, isLoading }: RegistrationFormProps)
   const shippingAsBilling = useWatch<UserRegistrationData>({ control, name: 'shippingAsBilling' });
 
   return (
-    <Paper elevation={3} sx={{ m: 'auto', p: '10vh 2%', maxWidth: '900px', width: '100%' }}>
+    <Paper elevation={3} sx={{ m: 'auto', p: '7vh 2%', maxWidth: '900px', width: '100%' }}>
       <Container maxWidth="md">
         <FormContainer<UserRegistrationData> formContext={formContext} onSuccess={onSubmit}>
           <Typography variant="h4" gutterBottom>
-            Sign up
+            Sign Up
           </Typography>
           <Grid container spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1, md: 2 }}>
             <Grid item xs={1}>
@@ -138,8 +138,15 @@ export function RegistrationForm({ onSubmit, isLoading }: RegistrationFormProps)
               </Grid>
             )}
           </Grid>
-          <LoadingButton loading={isLoading} type="submit" variant="contained" color="primary" sx={{ mx: 'auto' }}>
-            Sign up
+          <LoadingButton
+            loading={isLoading}
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ mx: 'auto', textTransform: 'none' }}
+          >
+            <HowToRegOutlinedIcon sx={{ mr: 1 }} />
+            Sign Up
           </LoadingButton>
         </FormContainer>
       </Container>

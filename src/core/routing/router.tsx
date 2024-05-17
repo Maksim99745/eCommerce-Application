@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { HasUserRoute, NoUserRoute } from '@core/routing/routes';
 import { createBrowserRouter } from 'react-router-dom';
 import LayoutPage from '@pages/Layout/Layout.page';
+import { PagePreloader } from '@components/PagePreloader/PagePreloader.component';
 import {
   RegistrationPage,
   AboutPage,
@@ -13,7 +14,6 @@ import {
   NotFoundPage,
   ProfilePage,
 } from './routing-pages';
-import { PagePreloader } from '@components/PagePreloader/PagePreloader.component';
 
 export const router = createBrowserRouter([
   {
