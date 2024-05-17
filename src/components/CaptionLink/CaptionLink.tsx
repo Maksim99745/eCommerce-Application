@@ -3,13 +3,13 @@ import { userLoadingSignal } from '@core/signals/user.signal';
 import { Box, Button, Typography } from '@mui/material';
 import { Link, To } from 'react-router-dom';
 
-type FormLinkProps = {
+type CaptionLinkProps = {
   caption: ReactNode;
   linkCaption: string;
   to: To;
 };
 
-export function CaptionLink({ caption, linkCaption, to }: FormLinkProps): ReactNode {
+export function CaptionLink({ caption, linkCaption, to }: CaptionLinkProps): ReactNode {
   return (
     <Box
       sx={{

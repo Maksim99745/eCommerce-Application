@@ -18,7 +18,7 @@ function LoginPage(): ReactNode {
         navigate('/');
       })
       .catch((error) => {
-        showMessage(`${error.message} Incorrect email or password!`, 'error');
+        showMessage(`${error.message}`, 'error');
       });
   });
 
