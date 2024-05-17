@@ -3,18 +3,31 @@ import { userLoadingSignal } from '@core/signals/user.signal';
 import { ReactNode, useCallback } from 'react';
 import { Container, Typography, Box, Paper } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 import { LoginForm, LoginFormProps } from './components/LoginForm';
 
 function LoginPage(): ReactNode {
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleFormSubmit = useCallback<LoginFormProps['onSubmit']>(
     (data) => {
       UserService.login(data)
-        .then(() => navigate('/'))
-        .catch((error) => console.warn(error));
+        .then(() => {
+          enqueueSnackbar('Welcome! Happy shopping!', {
+            variant: 'success',
+            anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
+          });
+          navigate('/');
+        })
+        .catch((error) => {
+          enqueueSnackbar(`${error.message}`, {
+            variant: 'error',
+            anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
+          });
+        });
     },
-    [navigate],
+    [navigate, enqueueSnackbar],
   );
 
   return (
