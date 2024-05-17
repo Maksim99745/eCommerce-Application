@@ -17,9 +17,7 @@ function LoginPage(): ReactNode {
         showMessage('Welcome! Happy shopping!');
         navigate('/');
       })
-      .catch((error) => {
-        showMessage(`${error.message}`, 'error');
-      });
+      .catch((error) => showMessage(`${error.message}`, 'error'));
   });
 
   return (

@@ -116,7 +116,7 @@ export const registrationSchema = z
       .refine((value) => (dayjs.isDayjs(value) && value.isValid() ? validateBirthDay(value.toISOString()) : false), {
         message: 'User should be older than 13 y.o.',
       })
-      .transform((value: Dayjs) => value.toISOString().substring(0, 10)),
+      .transform((value: Dayjs) => value.toISOString().split('T')[0]),
     shippingAsBilling: z.boolean(),
     addresses: z.array(addressSchema),
   })

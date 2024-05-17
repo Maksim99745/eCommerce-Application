@@ -18,9 +18,7 @@ function RegistrationPage(): ReactNode {
         navigate('/');
         showMessage(`Welcome! ${data.firstName} ${data.lastName}`);
       })
-      .catch((error) => {
-        showMessage(`${error.message}`, 'error');
-      });
+      .catch((error) => showMessage(`${error.message}`, 'error'));
   });
 
   return (
