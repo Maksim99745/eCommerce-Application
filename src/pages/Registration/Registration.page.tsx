@@ -3,29 +3,21 @@ import { userLoadingSignal } from '@core/signals/user.signal';
 import { ReactNode } from 'react';
 import { Stack, Typography, useEventCallback } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
+import { useShowMessage } from '@utils/useShowMessage';
 import { RegistrationForm, RegistrationFormProps } from './components/RegistrationForm';
 
 function RegistrationPage(): ReactNode {
   const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
+  const showMessage = useShowMessage();
 
   const handleFormSubmit = useEventCallback<RegistrationFormProps['onSubmit']>((data) => {
     UserService.register(data)
       .then(() => {
         navigate('/');
-      })
-      .then(() => {
-        enqueueSnackbar(`Welcome! ${data.firstName} ${data.lastName}`, {
-          variant: 'success',
-          anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
-        });
+        showMessage(`Welcome! ${data.firstName} ${data.lastName}`);
       })
       .catch((error) => {
-        enqueueSnackbar(`${error.message}`, {
-          variant: 'error',
-          anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
-        });
+        showMessage(`${error.message}`, 'error');
       });
   });
 

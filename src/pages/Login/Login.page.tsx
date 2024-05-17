@@ -3,27 +3,21 @@ import { userLoadingSignal } from '@core/signals/user.signal';
 import { ReactNode } from 'react';
 import { Container, Typography, Box, Paper, useEventCallback, Button } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
+import { useShowMessage } from '@utils/useShowMessage';
 import { LoginForm, LoginFormProps } from './components/LoginForm';
 
 function LoginPage(): ReactNode {
   const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
+  const showMessage = useShowMessage();
 
   const handleFormSubmit = useEventCallback<LoginFormProps['onSubmit']>((data) => {
     UserService.login(data)
       .then(() => {
-        enqueueSnackbar('Welcome! Happy shopping!', {
-          variant: 'success',
-          anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
-        });
+        showMessage('Welcome! Happy shopping!');
         navigate('/');
       })
       .catch((error) => {
-        enqueueSnackbar(`${error.message}`, {
-          variant: 'error',
-          anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
-        });
+        showMessage(`${error.message}`, 'error');
       });
   });
 
