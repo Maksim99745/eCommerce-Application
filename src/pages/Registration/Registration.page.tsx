@@ -1,9 +1,10 @@
 import { UserService } from '@core/api/user.service';
 import { userLoadingSignal } from '@core/signals/user.signal';
 import { ReactNode } from 'react';
-import { Stack, Typography, useEventCallback } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Stack, useEventCallback } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { useShowMessage } from '@utils/useShowMessage';
+import { CaptionLink } from '@components/CaptionLink/CaptionLink';
 import { RegistrationForm, RegistrationFormProps } from './components/RegistrationForm';
 
 function RegistrationPage(): ReactNode {
@@ -24,9 +25,7 @@ function RegistrationPage(): ReactNode {
   return (
     <Stack direction="column" alignItems="center">
       <RegistrationForm onSubmit={handleFormSubmit} isLoading={userLoadingSignal.value} />
-      <Typography marginTop={2}>
-        Already have an account? <Link to="/login">Sign in</Link>
-      </Typography>
+      <CaptionLink caption="Already have an account?" linkCaption="Sign in" to="/login" />
     </Stack>
   );
 }
