@@ -1,29 +1,32 @@
 import { UserService } from '@core/api/user.service';
 import { userLoadingSignal } from '@core/signals/user.signal';
 import { getCustomerDraft } from '@utils/get-customer-draft.util';
-import { ReactNode, useCallback, useRef } from 'react';
-import { Stack, Typography } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { ReactNode } from 'react';
+import { Stack, useEventCallback } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { useShowMessage } from '@utils/useShowMessage';
+import { CaptionLink } from '@components/CaptionLink/CaptionLink';
 import { RegistrationForm, RegistrationFormProps } from './components/RegistrationForm';
 
 function RegistrationPage(): ReactNode {
   const navigate = useNavigate();
+  const showMessage = useShowMessage();
 
-  const navigateRef = useRef(navigate);
-  navigateRef.current = navigate;
-
-  const handleFormSubmit = useCallback<RegistrationFormProps['onSubmit']>((data) => {
+  const handleFormSubmit = useEventCallback<RegistrationFormProps['onSubmit']>((data) => {
     UserService.register(getCustomerDraft(data))
-      .then(() => navigateRef.current('/'))
-      .catch((error) => console.warn(error));
-  }, []);
+      .then(() => {
+        navigate('/');
+        showMessage(`Welcome! ${data.firstName} ${data.lastName}`);
+      })
+      .catch((error) => {
+        showMessage(`${error.message}`, 'error');
+      });
+  });
 
   return (
     <Stack direction="column" alignItems="center">
       <RegistrationForm onSubmit={handleFormSubmit} isLoading={userLoadingSignal.value} />
-      <Typography marginTop={2}>
-        Already have an account? <Link to="/login">Sign in</Link>
-      </Typography>
+      <CaptionLink caption="Already have an account?" linkCaption="Sign in" to="/login" />
     </Stack>
   );
 }

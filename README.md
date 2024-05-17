@@ -40,6 +40,11 @@ Project goals:
 - Task Board: [**GitHub Pages**](https://github.com/users/Maksim99745/projects/2/views/1)
 - Code style: [**Wiki**]()
 
+## Deploys
+
+-Sprint #2
+https://ecommerce-sprint-2-release.netlify.app/
+
 ## Setup instructions
 
 1. Make sure you have node.js installed on your machine before proceeding with the setup or installation process.
