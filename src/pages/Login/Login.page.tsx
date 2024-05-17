@@ -1,7 +1,7 @@
 import { UserService } from '@core/api/user.service';
 import { userLoadingSignal } from '@core/signals/user.signal';
 import { ReactNode } from 'react';
-import { Container, Typography, Box, Paper, useEventCallback } from '@mui/material';
+import { Container, Typography, Box, Paper, useEventCallback, Button } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import { LoginForm, LoginFormProps } from './components/LoginForm';
@@ -43,7 +43,9 @@ function LoginPage(): ReactNode {
           <Typography component="span" align="center" sx={{ mr: 1 }}>
             Don&apos;t have an account?
           </Typography>
-          <Link to="/registration">Sign up</Link>
+          <Button component={Link} to="/registration" disabled={userLoadingSignal.value} sx={{ textTransform: 'none' }}>
+            Sign up
+          </Button>
         </Box>
       </Container>
     </Paper>

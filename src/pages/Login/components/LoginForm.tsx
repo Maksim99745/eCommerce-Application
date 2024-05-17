@@ -29,6 +29,7 @@ export function LoginForm({ onSubmit, isLoading }: LoginFormProps) {
           Sign in to Homeware Hub
         </Typography>
         <TextFieldElement
+          disabled={isLoading}
           fullWidth
           name="email"
           label="Example.email@domain.com"
@@ -37,6 +38,7 @@ export function LoginForm({ onSubmit, isLoading }: LoginFormProps) {
           InputLabelProps={{ shrink: true }}
         />
         <PasswordElement
+          disabled={isLoading}
           fullWidth
           name="password"
           label="Password"

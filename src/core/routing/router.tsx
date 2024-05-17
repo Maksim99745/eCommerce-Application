@@ -32,11 +32,9 @@ export const router = createBrowserRouter([
       {
         path: 'login',
         element: (
-          <NoUserRoute>
-            <Suspense fallback={<PagePreloader />}>
-              <LoginPage />
-            </Suspense>
-          </NoUserRoute>
+          <Suspense fallback={<PagePreloader />}>
+            <LoginPage />
+          </Suspense>
         ),
       },
       {
