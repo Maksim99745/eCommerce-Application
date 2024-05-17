@@ -40,6 +40,9 @@ function LoginPage(): ReactNode {
           <Button component={Link} to="/registration" disabled={userLoadingSignal.value} sx={{ textTransform: 'none' }}>
             Sign up
           </Button>
+          <Button component={Link} to="/registration" disabled={userLoadingSignal.value} sx={{ textTransform: 'none' }}>
+            Sign up
+          </Button>
         </Box>
       </Container>
     </Paper>
