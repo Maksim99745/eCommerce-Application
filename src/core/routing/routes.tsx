@@ -6,9 +6,8 @@ import { Navigate } from 'react-router-dom';
 export function NoUserRoute({ children }: { children: ReactNode }) {
   return (
     <>
-      {userLoadingSignal.value && <FallbackPage />}
       {userSignal.value && <Navigate to="/" />}
-      {!userSignal.value && !userLoadingSignal.value && children}
+      {!userSignal.value && children}
     </>
   );
 }

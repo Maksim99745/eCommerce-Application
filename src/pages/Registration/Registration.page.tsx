@@ -1,21 +1,33 @@
 import { UserService } from '@core/api/user.service';
 import { userLoadingSignal } from '@core/signals/user.signal';
-import { ReactNode, useCallback, useRef } from 'react';
-import { Stack, Typography } from '@mui/material';
+import { ReactNode } from 'react';
+import { Stack, Typography, useEventCallback } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 import { RegistrationForm, RegistrationFormProps } from './components/RegistrationForm';
 
 function RegistrationPage(): ReactNode {
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
-  const navigateRef = useRef(navigate);
-  navigateRef.current = navigate;
-
-  const handleFormSubmit = useCallback<RegistrationFormProps['onSubmit']>((data) => {
+  const handleFormSubmit = useEventCallback<RegistrationFormProps['onSubmit']>((data) => {
     UserService.register(data)
-      .then(() => navigateRef.current('/'))
-      .catch((error) => console.warn(error));
-  }, []);
+      .then(() => {
+        navigate('/');
+      })
+      .then(() => {
+        enqueueSnackbar(`Welcome! ${data.firstName} ${data.lastName}`, {
+          variant: 'success',
+          anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
+        });
+      })
+      .catch((error) => {
+        enqueueSnackbar(`${error.message}`, {
+          variant: 'error',
+          anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
+        });
+      });
+  });
 
   return (
     <Stack direction="column" alignItems="center">
