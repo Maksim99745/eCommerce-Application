@@ -1,34 +1,30 @@
 import { Suspense } from 'react';
 import { HasUserRoute, NoUserRoute } from '@core/routing/routes';
 import { createBrowserRouter } from 'react-router-dom';
-import { CircularProgress } from '@mui/material';
+import LayoutPage from '@pages/Layout/Layout.page';
 import {
   RegistrationPage,
   AboutPage,
   BucketPage,
   CartPage,
   CatalogPage,
-  LayoutPage,
   LoginPage,
   MainPage,
   NotFoundPage,
   ProfilePage,
-} from './routing-object';
+} from './routing-pages';
+import { PagePreloader } from '@components/PagePreloader/PagePreloader.component';
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <LayoutPage />,
-    errorElement: (
-      <Suspense fallback={<CircularProgress sx={{ alignSelf: 'center', marginTop: '50%' }} />}>
-        <NotFoundPage />
-      </Suspense>
-    ),
+    errorElement: <NotFoundPage />,
     children: [
       {
         index: true,
         element: (
-          <Suspense fallback={<CircularProgress sx={{ alignSelf: 'center', marginTop: '50%' }} />}>
+          <Suspense fallback={<PagePreloader />}>
             <MainPage />
           </Suspense>
         ),
@@ -37,7 +33,7 @@ export const router = createBrowserRouter([
         path: 'login',
         element: (
           <NoUserRoute>
-            <Suspense fallback={<CircularProgress sx={{ alignSelf: 'center', marginTop: '50%' }} />}>
+            <Suspense fallback={<PagePreloader />}>
               <LoginPage />
             </Suspense>
           </NoUserRoute>
@@ -47,7 +43,7 @@ export const router = createBrowserRouter([
         path: 'registration',
         element: (
           <NoUserRoute>
-            <Suspense fallback={<CircularProgress sx={{ alignSelf: 'center', marginTop: '50%' }} />}>
+            <Suspense fallback={<PagePreloader />}>
               <RegistrationPage />
             </Suspense>
           </NoUserRoute>
@@ -56,7 +52,7 @@ export const router = createBrowserRouter([
       {
         path: 'bucket',
         element: (
-          <Suspense fallback={<CircularProgress sx={{ alignSelf: 'center', marginTop: '50%' }} />}>
+          <Suspense fallback={<PagePreloader />}>
             <BucketPage />
           </Suspense>
         ),
@@ -65,7 +61,7 @@ export const router = createBrowserRouter([
         path: 'profile',
         element: (
           <HasUserRoute>
-            <Suspense fallback={<CircularProgress sx={{ alignSelf: 'center', marginTop: '50%' }} />}>
+            <Suspense fallback={<PagePreloader />}>
               <ProfilePage />
             </Suspense>
           </HasUserRoute>
@@ -74,7 +70,7 @@ export const router = createBrowserRouter([
       {
         path: 'about',
         element: (
-          <Suspense fallback={<CircularProgress sx={{ alignSelf: 'center', marginTop: '50%' }} />}>
+          <Suspense fallback={<PagePreloader />}>
             <AboutPage />
           </Suspense>
         ),
@@ -82,7 +78,7 @@ export const router = createBrowserRouter([
       {
         path: 'cart',
         element: (
-          <Suspense fallback={<CircularProgress sx={{ alignSelf: 'center', marginTop: '50%' }} />}>
+          <Suspense fallback={<PagePreloader />}>
             <CartPage />
           </Suspense>
         ),
@@ -90,7 +86,7 @@ export const router = createBrowserRouter([
       {
         path: 'categories/:categoryKey',
         element: (
-          <Suspense fallback={<CircularProgress sx={{ alignSelf: 'center', marginTop: '50%' }} />}>
+          <Suspense fallback={<PagePreloader />}>
             <CatalogPage />
           </Suspense>
         ),
