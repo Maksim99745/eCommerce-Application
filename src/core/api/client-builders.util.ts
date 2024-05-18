@@ -1,5 +1,4 @@
-import { Client, ClientBuilder } from '@commercetools/sdk-client-v2';
-import { UserAuthOptions } from '@commercetools/sdk-client-v2/dist/declarations/src/types/sdk';
+import { Client, ClientBuilder, UserAuthOptions } from '@commercetools/sdk-client-v2';
 import {
   authMiddlewareOptions,
   clientId,

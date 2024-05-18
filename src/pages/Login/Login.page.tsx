@@ -3,9 +3,9 @@ import { userLoadingSignal } from '@core/signals/user.signal';
 import { ReactNode } from 'react';
 import { Container, Paper, useEventCallback } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useShowMessage } from '@utils/useShowMessage';
+import { useShowMessage } from '@hooks/useShowMessage';
 import { CaptionLink } from '@components/CaptionLink/CaptionLink';
-import { LoginForm, LoginFormProps } from './components/LoginForm';
+import { LoginFormComponent, LoginFormProps } from '@pages/Login/components/LoginForm.component';
 
 function LoginPage(): ReactNode {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ function LoginPage(): ReactNode {
   return (
     <Paper elevation={3} sx={{ m: 'auto', p: '10vh 2%', maxWidth: '700px' }}>
       <Container maxWidth="sm">
-        <LoginForm onSubmit={handleFormSubmit} isLoading={userLoadingSignal.value} />
+        <LoginFormComponent onSubmit={handleFormSubmit} isLoading={userLoadingSignal.value} />
         <CaptionLink caption="Don't have an account?" linkCaption="Sign up" to="/registration" />
       </Container>
     </Paper>

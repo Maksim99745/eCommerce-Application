@@ -1,13 +1,14 @@
-import { loginFormSchema } from '@core/validation/user-login.validation.schema';
+import { loginFormSchema } from '@core/validation/user-login/user-login.schema';
 import '@testing-library/jest-dom';
 
-test('email address should be provided', () => {
-  const result = loginFormSchema.safeParse({});
-  expect(result.success).toBe(false);
-  expect(result.error?.issues[0].message).toBe('Email is required');
-});
-
 describe('email address validation tests', () => {
+  test('email address and password should be provided', () => {
+    const result = loginFormSchema.safeParse({});
+    expect(result.success).toBe(false);
+    expect(result.error?.issues[0].message).toBe('Email is required');
+    expect(result.error?.issues[1].message).toBe('Password is required');
+  });
+
   test('email address should not be empty', () => {
     const result = loginFormSchema.safeParse({ email: '', password: 'Valid@al%id&12!#$^*' });
     expect(result.success).toBe(false);

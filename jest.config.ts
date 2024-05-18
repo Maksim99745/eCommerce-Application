@@ -34,7 +34,7 @@ export default {
   moduleNameMapper: {
     '^@preact(/(.*)|$)': '@preact$1',
     '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/mocks/mocks.js',
-    "\\.(css|less|scss|sass)$": "identity-obj-proxy",
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     '@core/(.*)': '<rootDir>/src/core/$1',
     '@pages/(.*)': '<rootDir>/src/pages/$1',
     '@components/(.*)': '<rootDir>/src/components/$1',
@@ -42,6 +42,7 @@ export default {
     '@enums/(.*)': '<rootDir>/src/enums/$1',
     '@constants/(.*)': '<rootDir>/src/constants/$1',
     '@utils/(.*)': '<rootDir>/src/utils/$1',
+    '@hooks/(.*)': '<rootDir>/src/hooks/$1',
     '@test/(.*)': '<rootDir>/src/test/$1',
   },
 };

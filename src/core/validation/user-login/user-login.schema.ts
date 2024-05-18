@@ -1,3 +1,4 @@
+import { RegistrationErrorMessages } from '@core/validation/user-registration/user-registration.enum';
 import { z } from 'zod';
 
 const MIN_LENGTH = 8;
@@ -6,16 +7,16 @@ const TEST_PASSWORD_REG_EX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*.])[A
 
 export const loginFormSchema = z.object({
   email: z
-    .string({ required_error: 'Email is required' })
-    .regex(/.+/, 'Email is required')
+    .string({ required_error: RegistrationErrorMessages.EmailRequired })
+    .regex(/.+/, RegistrationErrorMessages.EmailRequired)
     .regex(/(?=.*@)/, 'Email should contain symbol "@"')
     .regex(/^[^@]+@[^@]+\.[^@]+$/, 'Email should contain domain name')
     .regex(/^[^\s]+$/, 'Email should not contain whitespace')
     .regex(/^[a-zA-Z0-9!@#$%^._&*-]+$/, 'Email should contain only English letters, numbers, and special symbols')
     .email('Email address should be properly formatted (e.g., user@example.com)'),
   password: z
-    .string()
-    .regex(/.+/, 'Password is required')
+    .string({ required_error: RegistrationErrorMessages.PasswordRequired })
+    .regex(/.+/, RegistrationErrorMessages.PasswordRequired)
     .regex(/^[^\s]+$/, 'Password should not contain whitespace')
     .regex(/(?=.*[A-Z])/, 'Password should contain at least 1 English uppercase letter')
     .regex(/(?=.*[a-z])/, 'Password should contain at least 1 English lowercase letter')
