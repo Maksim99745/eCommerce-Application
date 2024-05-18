@@ -42,7 +42,7 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
       ],
     },
     resolver: zodResolver(registrationSchema),
-    mode: 'onTouched',
+    mode: 'all',
   });
 
   const { control, trigger } = formContext;
