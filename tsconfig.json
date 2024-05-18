@@ -24,6 +24,7 @@
       "@enums/*": ["./src/enums/*"],
       "@constants/*": ["./src/constants/*"],
       "@utils/*": ["./src/utils/*"],
+      "@hooks/*": ["./src/hooks/*"],
       "@test/*": ["./src/test/*"]
     },
 

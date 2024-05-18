@@ -1,12 +1,2 @@
-export type SelectOption = {
-  id: string;
-  label: string;
-};
-
-export type Address = {
-  street: string;
-  city: string;
-  country: string;
-  postalCode: string;
-  isDefault: boolean;
-};
+export { type SelectOption } from './select-option.model';
+export { type RegistrationForm, type RegistrationFormAddress, type LoginForm } from './forms.model';

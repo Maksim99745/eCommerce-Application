@@ -1,30 +1,28 @@
+import { FormContainer, TextFieldElement, PasswordElement } from 'react-hook-form-mui';
 import { LoadingButton } from '@mui/lab';
 import { Stack, Typography } from '@mui/material';
-import { FormContainer, TextFieldElement, PasswordElement } from 'react-hook-form-mui';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { loginFormSchema } from '@core/validation/user-login.validation.schema';
+import { loginFormSchema } from '@core/validation/user-login/user-login.schema';
 import LoginIcon from '@mui/icons-material/Login';
-
-type UserLoginData = z.infer<typeof loginFormSchema>;
+import { LoginForm } from '@models/index';
 
 export interface LoginFormProps {
-  onSubmit: (registrationData: UserLoginData) => void;
+  onSubmit: (registrationData: LoginForm) => void;
   isLoading: boolean;
 }
 
-export function LoginForm({ onSubmit, isLoading }: LoginFormProps) {
+export function LoginFormComponent({ onSubmit, isLoading }: LoginFormProps) {
   return (
-    <FormContainer<UserLoginData>
+    <FormContainer<LoginForm>
       resolver={zodResolver(loginFormSchema)}
       defaultValues={{
         email: '',
         password: '',
       }}
       onSuccess={onSubmit}
-      mode="onChange"
+      mode="onTouched"
     >
-      <Stack justifyContent="center" alignItems="center" spacing={3}>
+      <Stack justifyContent="center" alignItems="center" spacing={2}>
         <Typography variant="h4" gutterBottom align="center">
           Sign in to Homeware Hub
         </Typography>

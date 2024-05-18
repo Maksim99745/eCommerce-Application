@@ -4,9 +4,12 @@ import { useSnackbar, VariantType } from 'notistack';
 const SUCCESS_MSG_DURATION = 2000;
 const ERROR_MSG_DURATION = 6000;
 
-export const useShowMessage = () => {
+type ShowMessageCallback = (message: string, variant?: VariantType) => void;
+
+export const useShowMessage = (): ShowMessageCallback => {
   const { enqueueSnackbar } = useSnackbar();
-  return useEventCallback((message: string, variant: VariantType = 'success'): void => {
+
+  return useEventCallback<ShowMessageCallback>((message: string, variant: VariantType = 'success'): void => {
     enqueueSnackbar(message, {
       variant,
       autoHideDuration: variant === 'success' ? SUCCESS_MSG_DURATION : ERROR_MSG_DURATION,

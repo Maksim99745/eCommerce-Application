@@ -1,4 +1,4 @@
-import { MyCustomerSignin } from '@commercetools/platform-sdk';
+import { MyCustomerDraft, MyCustomerSignin } from '@commercetools/platform-sdk';
 import { apiService } from '@core/api/api.service';
 import { ClientType } from '@core/api/client-type.enum';
 import { tokenCache } from '@core/api/token-cache.service';
@@ -26,13 +26,14 @@ export class UserService {
     apiService.setBuilder(ClientType.anonymous);
   }
 
-  public static async register(customer: MyCustomerSignin): Promise<void> {
+  public static async register(draft: MyCustomerDraft): Promise<void> {
     userLoadingSignal.value = true;
+    const { email, password } = draft;
 
     try {
-      await apiService.register(customer);
-      apiService.setBuilder(ClientType.password, { username: customer.email, password: customer.password });
-      await apiService.login(customer);
+      await apiService.register(draft);
+      apiService.setBuilder(ClientType.password, { username: email, password });
+      await apiService.login({ email, password });
       userSignal.value = await apiService.getCustomer();
     } catch (error) {
       userSignal.value = null;

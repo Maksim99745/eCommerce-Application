@@ -1,6 +1,5 @@
 import { ByProjectKeyRequestBuilder, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { Client } from '@commercetools/sdk-client-v2';
-import { UserAuthOptions } from '@commercetools/sdk-client-v2/dist/declarations/src/types/sdk';
+import { Client, UserAuthOptions } from '@commercetools/sdk-client-v2';
 import { ClientType } from '@core/api/client-type.enum';
 import {
   getAnonymousClient,
