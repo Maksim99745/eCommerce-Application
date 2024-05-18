@@ -19,9 +19,19 @@ function RegistrationPage(): ReactNode {
     UserService.register(mapFormToCustomerDraft(data))
       .then(() => {
         navigate('/');
-        showMessage(`Welcome! ${data.firstName} ${data.lastName}`);
+        showMessage(`Welcome ${data.firstName} ${data.lastName}!
+        You have successfully created an account.
+        Happy shopping 🛍️!`);
       })
-      .catch((error) => showMessage(`${error.message}`, 'error'));
+      .catch((error) => {
+        const errorCode = error?.body?.errors[0]?.code;
+        const field = error?.body?.errors[0]?.field !== undefined ? error?.body?.errors[0]?.field : 'credentials';
+        const message =
+          errorCode === 'DuplicateField'
+            ? `An account with the provided ${field} already exists. Please log in with your existing account or use a different ${field} to sign up`
+            : `${error.message}`;
+        showMessage(message, 'error');
+      });
   });
 
   return (
