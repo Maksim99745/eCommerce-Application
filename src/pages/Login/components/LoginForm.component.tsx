@@ -20,7 +20,7 @@ export function LoginFormComponent({ onSubmit, isLoading }: LoginFormProps) {
         password: '',
       }}
       onSuccess={onSubmit}
-      mode="onTouched"
+      mode="onChange"
     >
       <Stack justifyContent="center" alignItems="center" spacing={2}>
         <Typography variant="h4" gutterBottom align="center">
