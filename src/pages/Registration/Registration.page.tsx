@@ -10,6 +10,7 @@ import {
   RegistrationFormComponent,
   RegistrationFormProps,
 } from '@pages/Registration/components/RegistrationForm.component';
+import { createAuthErrorMessage } from '@core/errorHandlers/createAuthErrorMessage';
 
 function RegistrationPage(): ReactNode {
   const navigate = useNavigate();
@@ -24,13 +25,7 @@ function RegistrationPage(): ReactNode {
         Happy shopping! 🛍️`);
       })
       .catch((error) => {
-        const errorCode = error?.body?.errors[0]?.code;
-        const field = error?.body?.errors[0]?.field !== undefined ? error?.body?.errors[0]?.field : 'credentials';
-        const message =
-          errorCode === 'DuplicateField'
-            ? `An account with the provided ${field} already exists.
-            Please log in with your existing account or use a different ${field} to sign up.`
-            : `${error.message}`;
+        const message = createAuthErrorMessage(error);
         showMessage(message, 'error');
       });
   });

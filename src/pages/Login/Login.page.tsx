@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useShowMessage } from '@hooks/useShowMessage';
 import { CaptionLink } from '@components/CaptionLink/CaptionLink';
 import { LoginFormComponent, LoginFormProps } from '@pages/Login/components/LoginForm.component';
+import { createAuthErrorMessage } from '@core/errorHandlers/createAuthErrorMessage';
 
 function LoginPage(): ReactNode {
   const navigate = useNavigate();
@@ -18,14 +19,8 @@ function LoginPage(): ReactNode {
         navigate('/');
       })
       .catch((error) => {
-        const errorCode = error?.body?.errors[0]?.code;
-        const message =
-          errorCode === 'InvalidCredentials'
-            ? `No account was found with the provided email and password.
-            Please check your credentials and try again.
-            If you don't have an account, you can sign up.`
-            : error.message;
-        showMessage(`${message}`, 'error');
+        const message = createAuthErrorMessage(error);
+        showMessage(message, 'error');
       });
   });
 
