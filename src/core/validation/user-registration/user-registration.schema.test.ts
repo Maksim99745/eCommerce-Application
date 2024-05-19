@@ -66,6 +66,29 @@ test('User should be older than 13 y.o.', () => {
   expect(result.error?.issues[0].message).toBe(RegistrationErrorMessages.BirthDateAge);
 });
 
+test('First and last names should not contain numbers or special symbols', () => {
+  const result = registrationSchema.safeParse({
+    firstName: '1',
+    lastName: '2',
+    birthDate: dayjs('1999-06-05T22:00:00.000Z'),
+    shippingAsBilling: true,
+    email: 'jaks134@mail.ru',
+    password: 'fjfD3&dl#sL',
+    addresses: [
+      {
+        street: 'dd',
+        city: '2',
+        country: 'PL',
+        postalCode: '22-223',
+        isDefault: true,
+      },
+    ],
+  });
+  expect(result.success).toBe(false);
+  expect(result.error?.issues[0].message).toBe(RegistrationErrorMessages.FirstNameInvalid);
+  expect(result.error?.issues[1].message).toBe(RegistrationErrorMessages.LastNameInvalid);
+});
+
 test('Name of the city should not contain numbers or special symbols', () => {
   const result = registrationSchema.safeParse({
     firstName: 'f',
