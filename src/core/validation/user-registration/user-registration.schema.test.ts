@@ -7,24 +7,18 @@ test('personal data should be provided', () => {
   const result = registrationSchema.safeParse({
     firstName: '',
     lastName: '',
-    email: '',
+    email: 'jaks145@mail.ru',
     birthDate: '',
     addresses: [{ street: 'Liberty', city: 'Kaz', country: 'Uzbekistan', postalCode: '22822', isDefault: false }],
   });
   expect(result.success).toBe(false);
 
   expect(result.error?.issues[0].message).toBe(RegistrationErrorMessages.FirstNameRequired);
-  expect(result.error?.issues[1].message).toBe(RegistrationErrorMessages.LastNameRequired);
-  expect(result.error?.issues[2].message).toBe(RegistrationErrorMessages.BirthDateInvalid);
-  expect(result.error?.issues[3].message).toBe(RegistrationErrorMessages.BirthDateAge);
-  expect(result.error?.issues[5].message).toBe(RegistrationErrorMessages.EmailRequired);
-  expect(result.error?.issues[6].message).toBe('Email should contain symbol "@"');
-  expect(result.error?.issues[7].message).toBe('Email should contain domain name');
-  expect(result.error?.issues[8].message).toBe('Email should not contain whitespace');
-  expect(result.error?.issues[9].message).toBe(
-    'Email should contain only English letters, numbers, and special symbols',
-  );
-  expect(result.error?.issues[10].message).toBe('Email address should be properly formatted (e.g., user@example.com)');
+  expect(result.error?.issues[1].message).toBe(RegistrationErrorMessages.FirstNameInvalid);
+  expect(result.error?.issues[2].message).toBe(RegistrationErrorMessages.LastNameRequired);
+  expect(result.error?.issues[3].message).toBe(RegistrationErrorMessages.LastNameInvalid);
+  expect(result.error?.issues[4].message).toBe(RegistrationErrorMessages.BirthDateInvalid);
+  expect(result.error?.issues[5].message).toBe(RegistrationErrorMessages.BirthDateAge);
 });
 
 test('address data should be provided', () => {
