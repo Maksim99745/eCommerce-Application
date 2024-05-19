@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useShowMessage } from '@hooks/useShowMessage';
 import { CaptionLink } from '@components/CaptionLink/CaptionLink';
 import { LoginFormComponent, LoginFormProps } from '@pages/Login/components/LoginForm.component';
-import { createAuthErrorMessage } from '@core/errorHandlers/createAuthErrorMessage';
+import { createAuthErrorMessage } from '@core/errorHandlers/authErrors/createAuthErrorMessage';
 
 function LoginPage(): ReactNode {
   const navigate = useNavigate();

@@ -10,7 +10,7 @@ import {
   RegistrationFormComponent,
   RegistrationFormProps,
 } from '@pages/Registration/components/RegistrationForm.component';
-import { createAuthErrorMessage } from '@core/errorHandlers/createAuthErrorMessage';
+import { createAuthErrorMessage } from '@core/errorHandlers/authErrors/createAuthErrorMessage';
 
 function RegistrationPage(): ReactNode {
   const navigate = useNavigate();
