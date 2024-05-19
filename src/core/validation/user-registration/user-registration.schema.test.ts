@@ -8,6 +8,7 @@ test('personal data should be provided', () => {
     firstName: '',
     lastName: '',
     email: 'jaks145@mail.ru',
+    password: '1sGddd%hhhH',
     birthDate: '',
     addresses: [{ street: 'Liberty', city: 'Kaz', country: 'Uzbekistan', postalCode: '22822', isDefault: false }],
   });
