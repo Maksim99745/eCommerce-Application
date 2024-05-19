@@ -1,8 +1,8 @@
 import { AppBar, Avatar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import HeaderActionsComponent from '@pages/Layout/components/HeaderActions/HeaderActions.component';
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
+import HeaderActionsComponent from '../HeaderActions/HeaderActions.component';
 
 interface HeaderProps {
   handleDrawerToggle: () => void;
@@ -11,7 +11,7 @@ interface HeaderProps {
 function HeaderComponent({ handleDrawerToggle }: HeaderProps) {
   return (
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', p: '10px' }}>
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <IconButton
             color="inherit"
