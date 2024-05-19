@@ -7,24 +7,19 @@ test('personal data should be provided', () => {
   const result = registrationSchema.safeParse({
     firstName: '',
     lastName: '',
-    email: '',
+    email: 'jaks145@mail.ru',
+    password: '1sGddd%hhhH',
     birthDate: '',
     addresses: [{ street: 'Liberty', city: 'Kaz', country: 'Uzbekistan', postalCode: '22822', isDefault: false }],
   });
   expect(result.success).toBe(false);
 
   expect(result.error?.issues[0].message).toBe(RegistrationErrorMessages.FirstNameRequired);
-  expect(result.error?.issues[1].message).toBe(RegistrationErrorMessages.LastNameRequired);
-  expect(result.error?.issues[2].message).toBe(RegistrationErrorMessages.BirthDateInvalid);
-  expect(result.error?.issues[3].message).toBe(RegistrationErrorMessages.BirthDateAge);
-  expect(result.error?.issues[5].message).toBe(RegistrationErrorMessages.EmailRequired);
-  expect(result.error?.issues[6].message).toBe('Email should contain symbol "@"');
-  expect(result.error?.issues[7].message).toBe('Email should contain domain name');
-  expect(result.error?.issues[8].message).toBe('Email should not contain whitespace');
-  expect(result.error?.issues[9].message).toBe(
-    'Email should contain only English letters, numbers, and special symbols',
-  );
-  expect(result.error?.issues[10].message).toBe('Email address should be properly formatted (e.g., user@example.com)');
+  expect(result.error?.issues[1].message).toBe(RegistrationErrorMessages.FirstNameInvalid);
+  expect(result.error?.issues[2].message).toBe(RegistrationErrorMessages.LastNameRequired);
+  expect(result.error?.issues[3].message).toBe(RegistrationErrorMessages.LastNameInvalid);
+  expect(result.error?.issues[4].message).toBe(RegistrationErrorMessages.BirthDateInvalid);
+  expect(result.error?.issues[5].message).toBe(RegistrationErrorMessages.BirthDateAge);
 });
 
 test('address data should be provided', () => {
@@ -64,6 +59,29 @@ test('User should be older than 13 y.o.', () => {
   });
   expect(result.success).toBe(false);
   expect(result.error?.issues[0].message).toBe(RegistrationErrorMessages.BirthDateAge);
+});
+
+test('First and last names should not contain numbers or special symbols', () => {
+  const result = registrationSchema.safeParse({
+    firstName: '1',
+    lastName: '2',
+    birthDate: dayjs('1999-06-05T22:00:00.000Z'),
+    shippingAsBilling: true,
+    email: 'jaks134@mail.ru',
+    password: 'fjfD3&dl#sL',
+    addresses: [
+      {
+        street: 'dd',
+        city: '2',
+        country: 'PL',
+        postalCode: '22-223',
+        isDefault: true,
+      },
+    ],
+  });
+  expect(result.success).toBe(false);
+  expect(result.error?.issues[0].message).toBe(RegistrationErrorMessages.FirstNameInvalid);
+  expect(result.error?.issues[1].message).toBe(RegistrationErrorMessages.LastNameInvalid);
 });
 
 test('Name of the city should not contain numbers or special symbols', () => {

@@ -19,6 +19,7 @@ export const postalValidationRegEx: Record<string, RegExp> = {
 export const MIN_AGE = 13;
 export const ISO_DATE_LENGTH = 10;
 export const CITY_REGEX = /^[a-zA-Z\s]+$/;
+export const NAME_SURNAME_REGEX = /^[A-Za-z]+$/;
 
 export const SHIPPING_ADDRESS_IDX = 0;
 export const BILLING_ADDRESS_IDX = 1;
