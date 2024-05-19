@@ -10,6 +10,7 @@ import {
   RegistrationFormComponent,
   RegistrationFormProps,
 } from '@pages/Registration/components/RegistrationForm.component';
+import { createAuthErrorMessage } from '@core/errorHandlers/authErrors/createAuthErrorMessage';
 
 function RegistrationPage(): ReactNode {
   const navigate = useNavigate();
@@ -19,9 +20,14 @@ function RegistrationPage(): ReactNode {
     UserService.register(mapFormToCustomerDraft(data))
       .then(() => {
         navigate('/');
-        showMessage(`Welcome! ${data.firstName} ${data.lastName}`);
+        showMessage(`Welcome ${data.firstName} ${data.lastName}!
+        You have successfully created an account.
+        Happy shopping! 🛍️`);
       })
-      .catch((error) => showMessage(`${error.message}`, 'error'));
+      .catch((error) => {
+        const message = createAuthErrorMessage(error);
+        showMessage(message, 'error');
+      });
   });
 
   return (
