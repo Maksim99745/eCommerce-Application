@@ -13,6 +13,7 @@ export const useShowMessage = (): ShowMessageCallback => {
     enqueueSnackbar(message, {
       variant,
       autoHideDuration: variant === 'success' ? SUCCESS_MSG_DURATION : ERROR_MSG_DURATION,
+      style: { whiteSpace: 'pre-line' },
       anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
     });
   });
