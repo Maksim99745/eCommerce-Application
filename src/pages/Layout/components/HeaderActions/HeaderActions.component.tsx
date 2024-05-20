@@ -11,18 +11,14 @@ import {
   Menu,
   MenuItem,
   Stack,
-  Typography,
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import { useActions } from '@pages/Layout/components/HeaderActions/useActions';
 import { bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
-import { memo } from 'react';
+import { memo, ReactNode, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import HowToRegIcon from '@mui/icons-material/HowToReg';
-import LogoutIcon from '@mui/icons-material/Logout';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { bindMenu } from 'material-ui-popup-state';
 
@@ -30,7 +26,10 @@ const headerActionsStyles = {
   container: { display: 'flex', gap: '10px', alignItems: 'center' },
   cartButton: { p: 1, borderRadius: 4 },
   userButton: { p: 1, borderRadius: '50%', height: '40px', minWidth: '40px' },
-  button: { textTransform: 'none', color: 'inherit', borderColor: 'inherit', gap: '10px' },
+  button: { textTransform: 'none', color: 'inherit', borderColor: 'inherit' },
+  showAfterSm: { display: { xs: 'none', sm: 'flex' } },
+  showAfterMd: { display: { xs: 'none', sm: 'none', md: 'flex' } },
+  showBeforeMd: { display: { md: 'none', lg: 'none', xl: 'none' } },
 };
 
 function HeaderActionsComponent() {
@@ -46,61 +45,73 @@ function HeaderActionsComponent() {
     navigate('/');
   };
 
+  const actions = useActions(popupState, handlerLogout, headerActionsStyles);
+
+  let buttonItems: ReactNode[] = [];
+  let menuItems: ReactNode[] = [];
+
+  const fillButtons = (): void => {
+    buttonItems = actions
+      .filter(({ show }) => show)
+      .map(({ key, to, startIcon, text, onClick, buttonStyle }) => (
+        <Button
+          key={key}
+          component={to ? Link : 'button'}
+          to={to}
+          sx={buttonStyle}
+          onClick={onClick}
+          startIcon={startIcon}
+          variant="outlined"
+        >
+          {text}
+        </Button>
+      ));
+  };
+
+  const fillMenuItems = (): void => {
+    menuItems = actions
+      .filter(({ show }) => show)
+      .sort((item1, item2) => (item1.menuOrder > item2.menuOrder ? 1 : -1))
+      .map(({ key, to, startIcon, text, onClick, menuItemStyle }) => (
+        <MenuItem key={key} component={to ? Link : 'button'} to={to} sx={menuItemStyle} onClick={onClick}>
+          <ListItemIcon>{startIcon}</ListItemIcon>
+          {text}
+        </MenuItem>
+      ));
+
+    if (userSignal.value && lessThanSm) {
+      menuItems.splice(2, 0, <Divider key="divider" />);
+    }
+  };
+
+  fillButtons();
+  fillMenuItems();
+
+  useEffect(() => {
+    fillButtons();
+    fillMenuItems();
+  });
+
   return (
     <Box component="section" sx={headerActionsStyles.container}>
       <Stack spacing={1} direction="row">
-        <Button
-          component={Link}
-          to="/login"
-          sx={{ ...headerActionsStyles.button, display: { xs: 'none', sm: 'flex' } }}
-          variant="outlined"
-        >
-          <ExitToAppIcon /> Sign In
-        </Button>
+        {buttonItems}
 
-        <Button
-          component={Link}
-          to="/registration"
-          sx={{ ...headerActionsStyles.button, display: { xs: 'none', sm: 'flex' } }}
-          variant="outlined"
-        >
-          <HowToRegIcon /> Sign Up
-        </Button>
-
-        {userLoadingSignal.value && (
-          <CircularProgress color="inherit" sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }} />
-        )}
-
-        {!userLoadingSignal.value && !!userSignal.value && (
-          <>
-            <Button
-              component={Link}
-              to="/profile"
-              sx={{ ...headerActionsStyles.button, display: { xs: 'none', sm: 'none', md: 'flex' } }}
-              variant="outlined"
-            >
-              <AccountCircleIcon /> Profile
-            </Button>
-
-            <Button
-              sx={{ ...headerActionsStyles.button, display: { xs: 'none', sm: 'none', md: 'flex' } }}
-              variant="outlined"
-              onClick={handlerLogout}
-              color="secondary"
-            >
-              <LogoutIcon /> Sign Out
-            </Button>
-          </>
-        )}
+        {userLoadingSignal.value && <CircularProgress color="inherit" size={30} sx={headerActionsStyles.showAfterMd} />}
       </Stack>
 
-      <Button component={Link} to="/cart" sx={headerActionsStyles.cartButton} variant="contained">
-        <Typography sx={{ mr: 1 }}>{cartQuantity || 0}</Typography>
-        <ShoppingCartIcon />
+      <Button
+        component={Link}
+        to="/cart"
+        sx={headerActionsStyles.cartButton}
+        variant="contained"
+        endIcon={<ShoppingCartIcon />}
+      >
+        {cartQuantity || 0}
       </Button>
 
-      <Box sx={{ display: { md: 'none', lg: 'none' } }}>
-        {userLoadingSignal.value && <CircularProgress color="inherit" size="30px" />}
+      <Box sx={headerActionsStyles.showBeforeMd}>
+        {userLoadingSignal.value && <CircularProgress color="inherit" size={30} />}
 
         {!userLoadingSignal.value && (userSignal.value || lessThanSm) && (
           <>
@@ -108,41 +119,7 @@ function HeaderActionsComponent() {
               <ManageAccountsIcon />
             </Button>
 
-            <Menu {...bindMenu(popupState)}>
-              {userSignal.value && (
-                <>
-                  <MenuItem onClick={popupState.close} component={Link} to="/profile">
-                    <ListItemIcon>
-                      <AccountCircleIcon />
-                    </ListItemIcon>
-                    Profile
-                  </MenuItem>
-
-                  <MenuItem onClick={handlerLogout}>
-                    <ListItemIcon>
-                      <LogoutIcon />
-                    </ListItemIcon>
-                    Sign Out
-                  </MenuItem>
-
-                  {lessThanSm && <Divider />}
-                </>
-              )}
-
-              <MenuItem onClick={popupState.close} component={Link} to="/login" sx={{ display: { sm: 'none' } }}>
-                <ListItemIcon>
-                  <ExitToAppIcon />
-                </ListItemIcon>
-                Sign In
-              </MenuItem>
-
-              <MenuItem onClick={popupState.close} component={Link} to="/registration" sx={{ display: { sm: 'none' } }}>
-                <ListItemIcon>
-                  <HowToRegIcon />
-                </ListItemIcon>
-                Sign Up
-              </MenuItem>
-            </Menu>
+            <Menu {...bindMenu(popupState)}>{menuItems}</Menu>
           </>
         )}
       </Box>

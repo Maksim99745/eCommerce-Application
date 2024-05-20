@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, Avatar, Button, IconButton, Stack, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
@@ -12,7 +12,7 @@ function HeaderComponent({ handleDrawerToggle }: HeaderProps) {
   return (
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+        <Stack direction="row" spacing={1}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -34,7 +34,7 @@ function HeaderComponent({ handleDrawerToggle }: HeaderProps) {
               Homeware Hub
             </Typography>
           </Button>
-        </Box>
+        </Stack>
 
         <HeaderActionsComponent />
       </Toolbar>
