@@ -1,6 +1,6 @@
 import { countriesOptions } from '@core/validation/user-registration/user-registration.const';
 import { RegistrationForm } from '@models/forms.model';
-import { Stack, Typography } from '@mui/material';
+import { FormLabel, Stack } from '@mui/material';
 import { SelectElement, TextFieldElement } from 'react-hook-form-mui';
 
 export interface UserAddressProps {
@@ -12,21 +12,18 @@ export interface UserAddressProps {
 
 export function UserAddressComponent({ title, addressIndex, onCountryChange, disabled = false }: UserAddressProps) {
   return (
-    <Stack spacing="10px">
-      <Typography variant="h6" gutterBottom>
-        {title}
-      </Typography>
-
+    <Stack spacing={1}>
+      <FormLabel sx={{ pb: 2 }}>{title}</FormLabel>
       <SelectElement<RegistrationForm>
         label="Country"
         name={`addresses.${addressIndex}.country`}
         options={countriesOptions}
         helperText=" "
         required
+        fullWidth
         onChange={onCountryChange}
         disabled={disabled}
       />
-
       <TextFieldElement<RegistrationForm>
         name={`addresses.${addressIndex}.postalCode`}
         label="Postal Code"
@@ -35,7 +32,6 @@ export function UserAddressComponent({ title, addressIndex, onCountryChange, dis
         InputLabelProps={{ shrink: true }}
         disabled={disabled}
       />
-
       <TextFieldElement<RegistrationForm>
         name={`addresses.${addressIndex}.city`}
         label="City"
@@ -44,7 +40,6 @@ export function UserAddressComponent({ title, addressIndex, onCountryChange, dis
         InputLabelProps={{ shrink: true }}
         disabled={disabled}
       />
-
       <TextFieldElement<RegistrationForm>
         name={`addresses.${addressIndex}.street`}
         label="Street"

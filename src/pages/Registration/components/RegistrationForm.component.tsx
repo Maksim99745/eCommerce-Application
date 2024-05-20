@@ -1,9 +1,10 @@
 import {
   BILLING_ADDRESS_IDX,
   defaultCountryOption,
+  NO_IDX,
   SHIPPING_ADDRESS_IDX,
 } from '@core/validation/user-registration/user-registration.const';
-import { RegistrationForm } from '@models/index';
+import { RegistrationForm, RegistrationFormAddress } from '@models/index';
 import { LoadingButton } from '@mui/lab';
 import {
   FormContainer,
@@ -13,20 +14,27 @@ import {
   useForm,
   CheckboxElement,
   useWatch,
+  SelectElement,
 } from 'react-hook-form-mui';
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { Container, FormLabel, Grid, Paper, Typography } from '@mui/material';
+import { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Container, Grid, Paper, Typography } from '@mui/material';
 import { registrationSchema } from '@core/validation/user-registration/user-registration.schema';
 import { UserAddressComponent } from './UserAddress.component';
-import { DefaultAddress } from './DefaultAddress.component';
 
 export interface RegistrationFormProps {
   onSubmit: (registrationData: RegistrationForm) => void;
   isLoading: boolean;
 }
+
+const toAddressString = (address: RegistrationFormAddress): string =>
+  [address.country, address.postalCode, address.city, address.street].filter(Boolean).join(', ');
+
+const withTypeOfAddress = (addressType: RegistrationFormAddress['addressType']) => (address: RegistrationFormAddress) =>
+  address.addressType === addressType;
 
 export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationFormProps) {
   const formContext = useForm<RegistrationForm>({
@@ -37,17 +45,43 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
       lastName: '',
       birthDate: '',
       shippingAsBilling: false,
+      defaultShippingAddressIdx: NO_IDX,
+      defaultBillingAddressIdx: NO_IDX,
       addresses: [
-        { street: '', city: '', country: defaultCountryOption.id, postalCode: '', isDefault: false },
-        { street: '', city: '', country: defaultCountryOption.id, postalCode: '', isDefault: false },
+        { street: '', city: '', country: defaultCountryOption.id, postalCode: '', addressType: 'shipping' },
+        { street: '', city: '', country: defaultCountryOption.id, postalCode: '', addressType: 'billing' },
       ],
     },
     resolver: zodResolver(registrationSchema),
     mode: 'all',
   });
 
-  const { control, trigger } = formContext;
-  const shippingAsBilling = useWatch<RegistrationForm>({ control, name: 'shippingAsBilling' });
+  const { control, trigger, setValue } = formContext;
+  const [shippingAsBilling, addresses] = useWatch({ control, name: ['shippingAsBilling', 'addresses'] });
+
+  const { shippingAddressesOptions, billingAddressesOptions } = useMemo(() => {
+    const shippingAddresses = [
+      { id: NO_IDX, label: 'None' },
+      ...addresses
+        .map((address, index) => ({
+          ...address,
+          id: index,
+          label: toAddressString(address),
+        }))
+        .filter(withTypeOfAddress('shipping')),
+    ];
+    const billingAddresses = [
+      { id: NO_IDX, label: 'None' },
+      ...addresses
+        .map((address, index) => ({
+          ...address,
+          id: index,
+          label: toAddressString(address),
+        }))
+        .filter(withTypeOfAddress('billing')),
+    ];
+    return { shippingAddressesOptions: shippingAddresses, billingAddressesOptions: billingAddresses };
+  }, [addresses]);
 
   return (
     <Paper elevation={3} sx={{ m: 'auto', p: '2dvh 1dvw', maxWidth: '900px', width: '100%' }}>
@@ -60,8 +94,8 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
               </Typography>
             </Grid>
 
-            <Grid container item spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1, md: 2 }}>
-              <Grid item xs={1}>
+            <Grid container item spacing={{ xs: 1, sm: 2 }} columns={{ xxs: 1, md: 2 }}>
+              <Grid item xxs={1}>
                 <TextFieldElement<RegistrationForm>
                   name="email"
                   label="Email"
@@ -73,7 +107,7 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
                 />
               </Grid>
 
-              <Grid item xs={1}>
+              <Grid item xxs={1}>
                 <PasswordElement<RegistrationForm>
                   label="Password"
                   required
@@ -86,8 +120,8 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
               </Grid>
             </Grid>
 
-            <Grid container item spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1, md: 12 }}>
-              <Grid item xs={1} md={6}>
+            <Grid container item spacing={{ xs: 1, sm: 2 }} columns={{ xxs: 1, md: 12 }}>
+              <Grid item xxs={1} md={6}>
                 <TextFieldElement<RegistrationForm>
                   name="firstName"
                   label="First Name"
@@ -99,7 +133,7 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
                 />
               </Grid>
 
-              <Grid item xs={1} md={6}>
+              <Grid item xxs={1} md={6}>
                 <TextFieldElement<RegistrationForm>
                   name="lastName"
                   label="Last Name"
@@ -112,7 +146,7 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
               </Grid>
             </Grid>
 
-            <Grid item xs={1} md={4}>
+            <Grid item xxs={1} md={4}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePickerElement<RegistrationForm>
                   name="birthDate"
@@ -125,8 +159,8 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
               </LocalizationProvider>
             </Grid>
 
-            <Grid container item spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1, md: 2 }}>
-              <Grid item xs={shippingAsBilling ? 2 : 1}>
+            <Grid container item spacing={{ xs: 1, sm: 2 }} columns={{ xxs: 1, md: 2 }}>
+              <Grid item xxs={shippingAsBilling ? 2 : 1}>
                 <Paper elevation={1} sx={{ m: 'auto', p: '1vh 2%', maxWidth: '900px', width: '100%' }}>
                   <UserAddressComponent
                     title="Shipping address"
@@ -136,47 +170,53 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
                   />
                 </Paper>
                 <Grid item>
-                  <DefaultAddress
-                    title="set as default shipping address"
-                    addressIndex={SHIPPING_ADDRESS_IDX}
-                    disabled={isLoading}
-                  />
-                </Grid>
-                {shippingAsBilling && (
-                  <DefaultAddress
-                    title="set as default billing address"
-                    addressIndex={BILLING_ADDRESS_IDX}
-                    disabled={isLoading}
-                  />
-                )}
-                <Grid item>
                   <CheckboxElement<RegistrationForm>
                     name="shippingAsBilling"
                     label="Use as billing address"
                     disabled={isLoading}
+                    onChange={() => setValue('defaultBillingAddressIdx', NO_IDX)}
                   />
                 </Grid>
               </Grid>
 
-              {!shippingAsBilling && (
-                <Grid item xs={1}>
-                  <Paper elevation={1} sx={{ m: 'auto', p: '1vh 2%', maxWidth: '900px', width: '100%' }}>
-                    <UserAddressComponent
-                      title="Billing address"
-                      addressIndex={BILLING_ADDRESS_IDX}
-                      onCountryChange={() => trigger(`addresses.${BILLING_ADDRESS_IDX}.postalCode`)}
-                      disabled={isLoading}
-                    />
-                  </Paper>
-                  <DefaultAddress
-                    title="set as default billing address"
+              <Grid item xxs={1} display={shippingAsBilling ? { xxs: 'none' } : {}}>
+                <Paper elevation={1} sx={{ m: 'auto', p: '1vh 2%', maxWidth: '900px', width: '100%' }}>
+                  <UserAddressComponent
+                    title="Billing address"
                     addressIndex={BILLING_ADDRESS_IDX}
+                    onCountryChange={() => trigger(`addresses.${BILLING_ADDRESS_IDX}.postalCode`)}
                     disabled={isLoading}
                   />
-                </Grid>
-              )}
+                </Paper>
+              </Grid>
             </Grid>
-
+            <Grid container item spacing={{ xs: 1, sm: 2 }} columns={{ xxs: 1, md: 2 }}>
+              <Grid item xxs={2}>
+                <FormLabel sx={{ pb: 1 }}>Default addresses</FormLabel>
+              </Grid>
+              <Grid item xxs={1}>
+                <SelectElement<RegistrationForm>
+                  label="Default shipping address"
+                  name="defaultShippingAddressIdx"
+                  options={shippingAddressesOptions}
+                  helperText=" "
+                  required
+                  disabled={isLoading}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xxs={1}>
+                <SelectElement<RegistrationForm>
+                  label="Default billing address"
+                  name="defaultBillingAddressIdx"
+                  options={shippingAsBilling ? shippingAddressesOptions : billingAddressesOptions}
+                  helperText=" "
+                  required
+                  disabled={isLoading}
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
             <Grid item xs={1}>
               <LoadingButton
                 loading={isLoading}

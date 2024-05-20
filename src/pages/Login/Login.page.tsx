@@ -15,7 +15,7 @@ function LoginPage(): ReactNode {
   const handleFormSubmit = useEventCallback<LoginFormProps['onSubmit']>((data) => {
     UserService.login(data)
       .then(() => {
-        showMessage('Welcome! Happy shopping!');
+        showMessage('Welcome to Homeware Hub! Happy shopping! 🛍️');
         navigate('/');
       })
       .catch((error) => {
