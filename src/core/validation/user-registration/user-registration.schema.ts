@@ -24,7 +24,7 @@ const addressSchema = z.object({
   city: z.string(),
   street: z.string(),
   postalCode: z.string(),
-  isDefault: z.boolean(),
+  addressType: z.enum(['billing', 'shipping']),
 });
 
 export const registrationSchema = z
@@ -40,6 +40,8 @@ export const registrationSchema = z
     birthDate: birthDateSchema,
     shippingAsBilling: z.boolean(),
     addresses: z.array(addressSchema),
+    defaultShippingAddressIdx: z.number(),
+    defaultBillingAddressIdx: z.number(),
   })
   .merge(loginFormSchema)
   .superRefine((formValues, context) => {

@@ -2,6 +2,7 @@ import '@testing-library/jest-dom';
 import { RegistrationErrorMessages } from '@core/validation/user-registration/user-registration.enum';
 import dayjs from 'dayjs';
 import { registrationSchema } from '@core/validation/user-registration/user-registration.schema';
+import { exampleRegistrationData } from '@test/mocks/registration.mock';
 
 test('personal data should be provided', () => {
   const result = registrationSchema.safeParse({
@@ -9,8 +10,13 @@ test('personal data should be provided', () => {
     lastName: '',
     email: 'jaks145@mail.ru',
     password: '1sGddd%hhhH',
+    defaultShippingAddressIdx: -1,
+    defaultBillingAddressIdx: -1,
+    shippingAsBilling: true,
     birthDate: '',
-    addresses: [{ street: 'Liberty', city: 'Kaz', country: 'Uzbekistan', postalCode: '22822', isDefault: false }],
+    addresses: [
+      { street: 'Liberty', city: 'Kaz', country: 'Uzbekistan', postalCode: '22822', addressType: 'shipping' },
+    ],
   });
   expect(result.success).toBe(false);
 
@@ -28,9 +34,11 @@ test('address data should be provided', () => {
     lastName: 'g',
     birthDate: dayjs('1999-06-05T22:00:00.000Z'),
     shippingAsBilling: true,
+    defaultShippingAddressIdx: -1,
+    defaultBillingAddressIdx: -1,
     email: 'jaks134@mail.ru',
     password: 'fjfD3&dl#sL',
-    addresses: [{ street: '', city: '', country: '', postalCode: '', isDefault: true }],
+    addresses: [{ street: '', city: '', country: '', postalCode: '', addressType: 'shipping' }],
   });
   expect(result.success).toBe(false);
   expect(result.error?.issues[0].message).toBe(RegistrationErrorMessages.CountryRequired);
@@ -40,45 +48,13 @@ test('address data should be provided', () => {
 });
 
 test('User should be older than 13 y.o.', () => {
-  const result = registrationSchema.safeParse({
-    firstName: 'f',
-    lastName: 'g',
-    birthDate: dayjs('2018-06-05T22:00:00.000Z'),
-    shippingAsBilling: true,
-    email: 'jaks134@mail.ru',
-    password: 'fjfD3&dl#sL',
-    addresses: [
-      {
-        street: 'dd',
-        city: 'dd',
-        country: 'PL',
-        postalCode: '22-223',
-        isDefault: true,
-      },
-    ],
-  });
+  const result = registrationSchema.safeParse(exampleRegistrationData);
   expect(result.success).toBe(false);
   expect(result.error?.issues[0].message).toBe(RegistrationErrorMessages.BirthDateAge);
 });
 
 test('First and last names should not contain numbers or special symbols', () => {
-  const result = registrationSchema.safeParse({
-    firstName: '1',
-    lastName: '2',
-    birthDate: dayjs('1999-06-05T22:00:00.000Z'),
-    shippingAsBilling: true,
-    email: 'jaks134@mail.ru',
-    password: 'fjfD3&dl#sL',
-    addresses: [
-      {
-        street: 'dd',
-        city: '2',
-        country: 'PL',
-        postalCode: '22-223',
-        isDefault: true,
-      },
-    ],
-  });
+  const result = registrationSchema.safeParse({ ...exampleRegistrationData, firstName: '1', lastName: '2' });
   expect(result.success).toBe(false);
   expect(result.error?.issues[0].message).toBe(RegistrationErrorMessages.FirstNameInvalid);
   expect(result.error?.issues[1].message).toBe(RegistrationErrorMessages.LastNameInvalid);
@@ -90,6 +66,8 @@ test('Name of the city should not contain numbers or special symbols', () => {
     lastName: 'g',
     birthDate: dayjs('1999-06-05T22:00:00.000Z'),
     shippingAsBilling: true,
+    defaultShippingAddressIdx: -1,
+    defaultBillingAddressIdx: -1,
     email: 'jaks134@mail.ru',
     password: 'fjfD3&dl#sL',
     addresses: [
@@ -98,7 +76,7 @@ test('Name of the city should not contain numbers or special symbols', () => {
         city: '2',
         country: 'PL',
         postalCode: '22-223',
-        isDefault: true,
+        addressType: 'shipping',
       },
     ],
   });
@@ -111,6 +89,8 @@ test('Invalid post code for country: Poland', () => {
     firstName: 'f',
     lastName: 'g',
     birthDate: dayjs('1999-06-05T22:00:00.000Z'),
+    defaultShippingAddressIdx: -1,
+    defaultBillingAddressIdx: -1,
     shippingAsBilling: true,
     email: 'jaks134@mail.ru',
     password: 'fjfD3&dl#sL',
@@ -120,7 +100,7 @@ test('Invalid post code for country: Poland', () => {
         city: 'Dh',
         country: 'PL',
         postalCode: '22223',
-        isDefault: true,
+        addressType: 'shipping',
       },
     ],
   });
@@ -134,6 +114,8 @@ test('Invalid post code for country: Uzbekistan', () => {
     lastName: 'g',
     birthDate: dayjs('1999-06-05T22:00:00.000Z'),
     shippingAsBilling: true,
+    defaultShippingAddressIdx: -1,
+    defaultBillingAddressIdx: -1,
     email: 'jaks134@mail.ru',
     password: 'fjfD3&dl#sL',
     addresses: [
@@ -142,7 +124,7 @@ test('Invalid post code for country: Uzbekistan', () => {
         city: 'Dh',
         country: 'UZ',
         postalCode: '22223',
-        isDefault: true,
+        addressType: 'shipping',
       },
     ],
   });
@@ -156,6 +138,8 @@ test('Invalid post code for country: Serbia', () => {
     lastName: 'g',
     birthDate: dayjs('1999-06-05T22:00:00.000Z'),
     shippingAsBilling: true,
+    defaultShippingAddressIdx: -1,
+    defaultBillingAddressIdx: -1,
     email: 'jaks134@mail.ru',
     password: 'fjfD3&dl#sL',
     addresses: [
@@ -164,7 +148,7 @@ test('Invalid post code for country: Serbia', () => {
         city: 'Dh',
         country: 'RS',
         postalCode: '2222',
-        isDefault: true,
+        addressType: 'shipping',
       },
     ],
   });
@@ -178,6 +162,8 @@ test('Invalid post code for country: Ukraine', () => {
     lastName: 'g',
     birthDate: dayjs('1999-06-05T22:00:00.000Z'),
     shippingAsBilling: true,
+    defaultShippingAddressIdx: -1,
+    defaultBillingAddressIdx: -1,
     email: 'jaks134@mail.ru',
     password: 'fjfD3&dl#sL',
     addresses: [
@@ -186,7 +172,7 @@ test('Invalid post code for country: Ukraine', () => {
         city: 'Dh',
         country: 'UA',
         postalCode: '2222',
-        isDefault: true,
+        addressType: 'shipping',
       },
     ],
   });

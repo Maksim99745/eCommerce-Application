@@ -6,9 +6,9 @@ export type RegistrationForm = z.infer<typeof registrationSchema>;
 export type LoginForm = z.infer<typeof loginFormSchema>;
 
 export interface RegistrationFormAddress {
+  addressType: 'billing' | 'shipping';
   street: string;
   city: string;
   country: string;
   postalCode: string;
-  isDefault: boolean;
 }
