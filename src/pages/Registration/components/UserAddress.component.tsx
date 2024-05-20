@@ -1,7 +1,7 @@
 import { countriesOptions } from '@core/validation/user-registration/user-registration.const';
 import { RegistrationForm } from '@models/forms.model';
 import { Stack, Typography } from '@mui/material';
-import { SelectElement, SwitchElement, TextFieldElement } from 'react-hook-form-mui';
+import { SelectElement, TextFieldElement } from 'react-hook-form-mui';
 
 export interface UserAddressProps {
   title: string;
@@ -51,12 +51,6 @@ export function UserAddressComponent({ title, addressIndex, onCountryChange, dis
         required
         helperText=" "
         InputLabelProps={{ shrink: true }}
-        disabled={disabled}
-      />
-
-      <SwitchElement<RegistrationForm>
-        label="set as default"
-        name={`addresses.${addressIndex}.isDefault`}
         disabled={disabled}
       />
     </Stack>

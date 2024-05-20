@@ -27,6 +27,5 @@ export function mapFormToCustomerDraft(data: RegistrationForm): MyCustomerDraft 
     shippingAddresses: [SHIPPING_ADDRESS_IDX],
     billingAddresses: [data.shippingAsBilling ? SHIPPING_ADDRESS_IDX : BILLING_ADDRESS_IDX],
   };
-
   return Object.assign(draft, addressesIndices);
 }

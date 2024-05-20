@@ -21,6 +21,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Container, Grid, Paper, Typography } from '@mui/material';
 import { registrationSchema } from '@core/validation/user-registration/user-registration.schema';
 import { UserAddressComponent } from './UserAddress.component';
+import { DefaultAddress } from './DefaultAddress.component';
 
 export interface RegistrationFormProps {
   onSubmit: (registrationData: RegistrationForm) => void;
@@ -135,6 +136,20 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
                   />
                 </Paper>
                 <Grid item>
+                  <DefaultAddress
+                    title="set as default shipping address"
+                    addressIndex={SHIPPING_ADDRESS_IDX}
+                    disabled={isLoading}
+                  />
+                </Grid>
+                {shippingAsBilling && (
+                  <DefaultAddress
+                    title="set as default billing address"
+                    addressIndex={BILLING_ADDRESS_IDX}
+                    disabled={isLoading}
+                  />
+                )}
+                <Grid item>
                   <CheckboxElement<RegistrationForm>
                     name="shippingAsBilling"
                     label="Use as billing address"
@@ -153,6 +168,11 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
                       disabled={isLoading}
                     />
                   </Paper>
+                  <DefaultAddress
+                    title="set as default billing address"
+                    addressIndex={BILLING_ADDRESS_IDX}
+                    disabled={isLoading}
+                  />
                 </Grid>
               )}
             </Grid>
