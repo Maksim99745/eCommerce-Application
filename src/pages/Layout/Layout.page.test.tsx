@@ -3,8 +3,8 @@ import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react';
 import { DEFAULT_REQUEST_DELAY, DEFAULT_REQUEST_TIMEOUT } from '@test/constants/time.const';
 import { MemoryRouter } from 'react-router-dom';
-import LayoutPage from './Layout.page';
 import { SnackbarProvider } from 'notistack';
+import LayoutPage from './Layout.page';
 
 afterEach(cleanup);
 
