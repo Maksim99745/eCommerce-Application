@@ -29,7 +29,7 @@ function HeaderComponent({ handleDrawerToggle }: HeaderProps) {
             sx={{ display: 'flex', gap: '10px', color: '#fff', textTransform: 'none', p: 0 }}
             variant="text"
           >
-            <Avatar alt="Logo" src="/logo.webp" sx={{ width: 40, height: 40, borderRadius: 0 }} />
+            <Avatar alt="Logo" src="/logo.webp" sx={{ width: 30, height: 30, borderRadius: 0 }} />
             <Typography sx={{ fontSize: '1.2rem', fontWeight: 600 }} variant="h1" noWrap>
               Homeware Hub
             </Typography>
