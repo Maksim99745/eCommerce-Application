@@ -4,6 +4,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import LogoutIcon from '@mui/icons-material/Logout';
+import InfoIcon from '@mui/icons-material/Info';
 import { Button, Divider, ListItemIcon, MenuItem, useEventCallback, useMediaQuery, useTheme } from '@mui/material';
 import { ReactNode, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -21,8 +22,9 @@ interface HeaderAction {
 
 const actionStyles = {
   button: { textTransform: 'none', color: 'inherit', borderColor: 'inherit' },
-  showAfterSm: { display: { xs: 'none', sm: 'flex' } },
-  showAfterMd: { display: { xs: 'none', sm: 'none', md: 'flex' } },
+  showAfterXs: { display: { xxs: 'none', xs: 'flex' } },
+  showAfterSm: { display: { xxs: 'none', xs: 'none', sm: 'flex' } },
+  showAfterMd: { display: { xxs: 'none', xs: 'none', sm: 'none', md: 'flex' } },
 };
 
 export const useHeaderActions = (onClick: () => void): { buttonItems: ReactNode; menuItems: ReactNode } => {
@@ -42,6 +44,16 @@ export const useHeaderActions = (onClick: () => void): { buttonItems: ReactNode;
   const actions = useMemo(
     () =>
       [
+        {
+          key: 'about',
+          to: '/about',
+          startIcon: <InfoIcon />,
+          text: 'About',
+          onAction: handleOnClick,
+          buttonStyle: { ...actionStyles.button, ...actionStyles.showAfterXs },
+          menuItemStyle: { display: { xs: 'none' } },
+          show: true,
+        },
         {
           key: 'profile',
           to: '/profile',
@@ -117,7 +129,7 @@ export const useHeaderActions = (onClick: () => void): { buttonItems: ReactNode;
       ));
 
     if (userSignal.value && lessThanSm) {
-      items.splice(2, 0, <Divider key="divider" />);
+      items.splice(-2, 0, <Divider key="divider" />);
     }
 
     return items;
