@@ -27,7 +27,7 @@ module.exports = {
     'no-magic-numbers': [
       'error',
       {
-        ignore: [0, 1, -1, 2],
+        ignore: [0, 1, -1, 2, -2],
         ignoreDefaultValues: true,
         ignoreArrayIndexes: true
       }
