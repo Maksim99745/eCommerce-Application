@@ -125,7 +125,6 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
             </Grid>
 
             <Grid container item spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1, md: 2 }}>
-              {/* eslint-disable-next-line no-magic-numbers */}
               <Grid item xs={shippingAsBilling ? 2 : 1}>
                 <Paper elevation={1} sx={{ m: 'auto', p: '1vh 2%', maxWidth: '900px', width: '100%' }}>
                   <UserAddressComponent

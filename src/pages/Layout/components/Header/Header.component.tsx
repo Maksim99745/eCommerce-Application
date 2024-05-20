@@ -1,18 +1,38 @@
-import { AppBar, Avatar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, Avatar, Button, IconButton, keyframes, Stack, styled, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import HeaderActionsComponent from '@pages/Layout/components/HeaderActions/HeaderActions.component';
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
+import HeaderActionsComponent from '../HeaderActions/HeaderActions.component';
 
 interface HeaderProps {
   handleDrawerToggle: () => void;
+  isDrawerOpen: boolean;
 }
 
-function HeaderComponent({ handleDrawerToggle }: HeaderProps) {
+const fadeIn = keyframes`
+  from {
+    transform: rotate(180deg);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+`;
+
+const AnimatedIcon = styled('div')(() => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  animation: `${fadeIn} 0.3s ease-in-out`,
+}));
+
+function HeaderComponent({ handleDrawerToggle, isDrawerOpen }: HeaderProps) {
   return (
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', p: '10px' }}>
-        <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Stack direction="row" spacing={1}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -20,21 +40,21 @@ function HeaderComponent({ handleDrawerToggle }: HeaderProps) {
             onClick={handleDrawerToggle}
             sx={{ display: { sm: 'none' }, height: 40, width: 40, p: 0 }}
           >
-            <MenuIcon />
+            <AnimatedIcon key={String(isDrawerOpen)}>{isDrawerOpen ? <MenuOpenIcon /> : <MenuIcon />}</AnimatedIcon>
           </IconButton>
 
           <Button
             component={Link}
             to="/"
-            sx={{ display: 'flex', gap: '10px', color: '#fff', textTransform: 'none', p: 0 }}
+            sx={{ display: 'flex', gap: '10px', color: 'inherit', textTransform: 'none', p: 0 }}
             variant="text"
           >
-            <Avatar alt="Logo" src="/logo.webp" sx={{ width: 40, height: 40, borderRadius: 0 }} />
+            <Avatar alt="Logo" src="/logo.webp" sx={{ width: 30, height: 30, borderRadius: 0 }} />
             <Typography sx={{ fontSize: '1.2rem', fontWeight: 600 }} variant="h1" noWrap>
               Homeware Hub
             </Typography>
           </Button>
-        </Box>
+        </Stack>
 
         <HeaderActionsComponent />
       </Toolbar>

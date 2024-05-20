@@ -24,36 +24,37 @@ const layoutStyles = {
 function LayoutPage() {
   const theme = useTheme();
   const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
-  const [isMobileOpen, setIsMobileOpen] = useState(isSmUp);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(isSmUp);
   const [isClosing, setIsClosing] = useState(false);
 
   const handleDrawerClose = useCallback(() => {
     setIsClosing(true);
-    setIsMobileOpen(false);
+    setIsDrawerOpen(false);
   }, []);
 
   const handleDrawerTransitionEnd = useCallback(() => setIsClosing(false), []);
 
   const handleDrawerToggle = useCallback(() => {
     if (!isClosing) {
-      setIsMobileOpen(!isMobileOpen);
+      setIsDrawerOpen(!isDrawerOpen);
     }
-  }, [isClosing, isMobileOpen]);
+  }, [isClosing, isDrawerOpen]);
 
   return (
     <Box sx={layoutStyles.layoutContainer}>
       <CssBaseline />
-      <HeaderComponent handleDrawerToggle={handleDrawerToggle} />
+      <HeaderComponent handleDrawerToggle={handleDrawerToggle} isDrawerOpen={isDrawerOpen} />
+
       <Box component="aside" sx={layoutStyles.aside} aria-label="categories">
         <Drawer
           variant={isSmUp ? 'permanent' : 'temporary'}
-          open={isMobileOpen}
+          open={isDrawerOpen}
           onTransitionEnd={handleDrawerTransitionEnd}
           onClose={handleDrawerClose}
           ModalProps={{ keepMounted: true }}
           sx={layoutStyles.drawer}
         >
-          <SidebarComponent handleDrawerToggle={handleDrawerToggle}>
+          <SidebarComponent>
             <CategoriesListComponent />
           </SidebarComponent>
         </Drawer>
