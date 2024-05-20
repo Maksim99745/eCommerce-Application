@@ -1,6 +1,6 @@
 import { countriesOptions } from '@core/validation/user-registration/user-registration.const';
 import { RegistrationForm } from '@models/forms.model';
-import { FormControl, FormLabel, Stack } from '@mui/material';
+import { FormLabel, Stack } from '@mui/material';
 import { SelectElement, TextFieldElement } from 'react-hook-form-mui';
 
 export interface UserAddressProps {

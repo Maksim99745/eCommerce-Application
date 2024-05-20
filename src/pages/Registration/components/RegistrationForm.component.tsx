@@ -19,7 +19,7 @@ import {
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { Container, Grid, Paper, Typography } from '@mui/material';
+import { Container, FormLabel, Grid, Paper, Typography } from '@mui/material';
 import { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registrationSchema } from '@core/validation/user-registration/user-registration.schema';
@@ -189,7 +189,12 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
                   />
                 </Paper>
               </Grid>
-              <Grid item xxs={1} sx={{ mt: 2 }}>
+            </Grid>
+            <Grid container item spacing={{ xs: 1, sm: 2 }} columns={{ xxs: 1, md: 2 }}>
+              <Grid item xxs={2}>
+                <FormLabel sx={{ pb: 1 }}>Default addresses</FormLabel>
+              </Grid>
+              <Grid item xxs={1}>
                 <SelectElement<RegistrationForm>
                   label="Default shipping address"
                   name="defaultShippingAddressIdx"
@@ -212,7 +217,6 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
                 />
               </Grid>
             </Grid>
-
             <Grid item xs={1}>
               <LoadingButton
                 loading={isLoading}

@@ -8,6 +8,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import { Button, Divider, ListItemIcon, MenuItem, useEventCallback, useMediaQuery, useTheme } from '@mui/material';
 import { ReactNode, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useShowMessage } from '@hooks/useShowMessage';
 
 interface HeaderAction {
   key: string;
@@ -32,9 +33,10 @@ export const useHeaderActions = (onClick: () => void): { buttonItems: ReactNode;
   const theme = useTheme();
   const lessThanSm = useMediaQuery(theme.breakpoints.down('sm'));
   const handleOnClick = useEventCallback(onClick);
-
+  const showMessage = useShowMessage();
   const handlerLogout = useEventCallback(() => {
     handleOnClick();
+    showMessage(`Dear ${userSignal.value?.firstName} ${userSignal.value?.lastName}, see you next time!`);
     UserService.logout();
     navigate('/');
   });
