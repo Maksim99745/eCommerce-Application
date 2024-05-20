@@ -4,6 +4,7 @@ import { act } from 'react';
 import { DEFAULT_REQUEST_DELAY, DEFAULT_REQUEST_TIMEOUT } from '@test/constants/time.const';
 import { MemoryRouter } from 'react-router-dom';
 import LayoutPage from './Layout.page';
+import { SnackbarProvider } from 'notistack';
 
 afterEach(cleanup);
 
@@ -28,9 +29,11 @@ jest.mock('@core/api/api.service', () => ({
 test('Render the layout page', async () => {
   await act(async () => {
     render(
-      <MemoryRouter>
-        <LayoutPage />
-      </MemoryRouter>,
+      <SnackbarProvider>
+        <MemoryRouter>
+          <LayoutPage />
+        </MemoryRouter>
+      </SnackbarProvider>,
     );
   });
 
