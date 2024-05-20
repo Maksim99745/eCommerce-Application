@@ -12,47 +12,42 @@ export interface UserAddressProps {
 
 export function UserAddressComponent({ title, addressIndex, onCountryChange, disabled = false }: UserAddressProps) {
   return (
-    <Stack spacing="10px">
-      <FormControl>
-        <FormLabel sx={{ pb: 2 }}>{title}</FormLabel>
-
-        <SelectElement<RegistrationForm>
-          label="Country"
-          name={`addresses.${addressIndex}.country`}
-          options={countriesOptions}
-          helperText=" "
-          required
-          onChange={onCountryChange}
-          disabled={disabled}
-        />
-
-        <TextFieldElement<RegistrationForm>
-          name={`addresses.${addressIndex}.postalCode`}
-          label="Postal Code"
-          required
-          helperText=" "
-          InputLabelProps={{ shrink: true }}
-          disabled={disabled}
-        />
-
-        <TextFieldElement<RegistrationForm>
-          name={`addresses.${addressIndex}.city`}
-          label="City"
-          required
-          helperText=" "
-          InputLabelProps={{ shrink: true }}
-          disabled={disabled}
-        />
-
-        <TextFieldElement<RegistrationForm>
-          name={`addresses.${addressIndex}.street`}
-          label="Street"
-          required
-          helperText=" "
-          InputLabelProps={{ shrink: true }}
-          disabled={disabled}
-        />
-      </FormControl>
+    <Stack spacing={1}>
+      <FormLabel sx={{ pb: 2 }}>{title}</FormLabel>
+      <SelectElement<RegistrationForm>
+        label="Country"
+        name={`addresses.${addressIndex}.country`}
+        options={countriesOptions}
+        helperText=" "
+        required
+        fullWidth
+        onChange={onCountryChange}
+        disabled={disabled}
+      />
+      <TextFieldElement<RegistrationForm>
+        name={`addresses.${addressIndex}.postalCode`}
+        label="Postal Code"
+        required
+        helperText=" "
+        InputLabelProps={{ shrink: true }}
+        disabled={disabled}
+      />
+      <TextFieldElement<RegistrationForm>
+        name={`addresses.${addressIndex}.city`}
+        label="City"
+        required
+        helperText=" "
+        InputLabelProps={{ shrink: true }}
+        disabled={disabled}
+      />
+      <TextFieldElement<RegistrationForm>
+        name={`addresses.${addressIndex}.street`}
+        label="Street"
+        required
+        helperText=" "
+        InputLabelProps={{ shrink: true }}
+        disabled={disabled}
+      />
     </Stack>
   );
 }
