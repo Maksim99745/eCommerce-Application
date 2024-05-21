@@ -32,6 +32,7 @@ export class ApiService {
 
     if (token) {
       userLoadingSignal.value = true;
+
       this.getCustomer()
         .then((user) => (userSignal.value = user))
         .catch(() => (userSignal.value = null))
