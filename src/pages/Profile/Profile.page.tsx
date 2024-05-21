@@ -1,28 +1,30 @@
 import { apiService } from '@core/api/api.service';
-import { useState } from 'react';
-import { Customer } from '@commercetools/platform-sdk';
 import { PagePreloader } from '@components/PagePreloader/PagePreloader.component';
-import useOnce from '@hooks/useOnce';
 import { Stack } from '@mui/material';
+import { useRequest } from '@core/api/use-request.hook';
+import { useShowMessage } from '@hooks/useShowMessage';
 import PersonalData from './components/PersonalData.component';
 
-let data: Customer = await apiService.getCustomer();
-
 function ProfilePage() {
-  const [customerData, setCustomerData] = useState(data);
+  const { data, isLoading } = useRequest('https://auth.europe-west1.gcp.commercetools.com/', () =>
+    apiService.getCustomer(),
+  );
+  const showMessage = useShowMessage();
 
-  const fetchCustomerData = async () => {
-    data = await apiService.getCustomer();
-    setCustomerData(data);
-  };
+  if (isLoading) {
+    return <PagePreloader />;
+  }
 
-  useOnce(fetchCustomerData);
+  if (!data) {
+    showMessage('User personal information not found');
+    return null;
+  }
 
-  const { firstName, lastName, dateOfBirth } = customerData;
+  const { firstName, lastName, dateOfBirth } = data;
 
   return (
     <Stack>
-      {data ? <PersonalData firstName={firstName} lastName={lastName} dateOfBirth={dateOfBirth} /> : <PagePreloader />}
+      <PersonalData firstName={firstName} lastName={lastName} dateOfBirth={dateOfBirth} />
     </Stack>
   );
 }
