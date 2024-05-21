@@ -4,9 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import RegistrationPage from './Registration.page';
 
-jest.mock('@core/api/user.service', () => ({
-  UserService: () => ({ register: jest.fn() }),
-}));
+jest.mock('@hooks/useAuth', () => () => ({ register: jest.fn() }));
 
 test('Render the registration page', () => {
   render(
