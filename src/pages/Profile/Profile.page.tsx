@@ -16,7 +16,7 @@ function ProfilePage() {
   }
 
   if (!data) {
-    showMessage('User personal information not found');
+    showMessage('User personal information not found', 'error');
     return null;
   }
 
