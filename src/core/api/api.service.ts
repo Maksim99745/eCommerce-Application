@@ -32,7 +32,6 @@ export class ApiService {
 
     if (token) {
       userLoadingSignal.value = true;
-
       this.getCustomer()
         .then((user) => (userSignal.value = user))
         .catch(() => (userSignal.value = null))
@@ -65,6 +64,7 @@ export class ApiService {
   }
 
   public async getCustomer(): Promise<Customer> {
+    console.log(this.builder);
     return this.callRequest(this.builder.me().get());
   }
 

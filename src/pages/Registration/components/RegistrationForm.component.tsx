@@ -20,7 +20,7 @@ import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Container, FormLabel, Grid, Paper, Typography } from '@mui/material';
-import { useMemo } from 'react';
+import { useCallback } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registrationSchema } from '@core/validation/user-registration/user-registration.schema';
 import { UserAddressComponent } from './UserAddress.component';
@@ -35,6 +35,25 @@ const toAddressString = (address: RegistrationFormAddress): string =>
 
 const withTypeOfAddress = (addressType: RegistrationFormAddress['addressType']) => (address: RegistrationFormAddress) =>
   address.addressType === addressType;
+
+const useAddressRenderOptions = (addressType: RegistrationFormAddress['addressType']) =>
+  useCallback(
+    (addresses: RegistrationFormAddress[]) => [
+      { id: NO_IDX, label: 'None' },
+      ...addresses
+        .map((address, index) => ({
+          ...address,
+          id: index,
+          label: (
+            <Typography sx={{ textWrap: 'pretty', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {toAddressString(address)}
+            </Typography>
+          ),
+        }))
+        .filter(withTypeOfAddress(addressType)),
+    ],
+    [addressType],
+  );
 
 export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationFormProps) {
   const formContext = useForm<RegistrationForm>({
@@ -59,29 +78,8 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
   const { control, trigger, setValue } = formContext;
   const [shippingAsBilling, addresses] = useWatch({ control, name: ['shippingAsBilling', 'addresses'] });
 
-  const { shippingAddressesOptions, billingAddressesOptions } = useMemo(() => {
-    const shippingAddresses = [
-      { id: NO_IDX, label: 'None' },
-      ...addresses
-        .map((address, index) => ({
-          ...address,
-          id: index,
-          label: toAddressString(address),
-        }))
-        .filter(withTypeOfAddress('shipping')),
-    ];
-    const billingAddresses = [
-      { id: NO_IDX, label: 'None' },
-      ...addresses
-        .map((address, index) => ({
-          ...address,
-          id: index,
-          label: toAddressString(address),
-        }))
-        .filter(withTypeOfAddress('billing')),
-    ];
-    return { shippingAddressesOptions: shippingAddresses, billingAddressesOptions: billingAddresses };
-  }, [addresses]);
+  const getShippingAddressOptions = useAddressRenderOptions('shipping');
+  const getBillingAddressOptions = useAddressRenderOptions('billing');
 
   return (
     <Paper elevation={3} sx={{ m: 'auto', p: '2dvh 1dvw', maxWidth: '900px', width: '100%' }}>
@@ -190,7 +188,7 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
                 </Paper>
               </Grid>
             </Grid>
-            <Grid container item spacing={{ xs: 1, sm: 2 }} columns={{ xxs: 1, md: 2 }}>
+            <Grid container item spacing={{ xs: 1, sm: 2 }} columns={{ xxs: 1, md: 2 }} maxWidth="85vw">
               <Grid item xxs={2}>
                 <FormLabel sx={{ pb: 1 }}>Default addresses</FormLabel>
               </Grid>
@@ -198,7 +196,7 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
                 <SelectElement<RegistrationForm>
                   label="Default shipping address"
                   name="defaultShippingAddressIdx"
-                  options={shippingAddressesOptions}
+                  options={getShippingAddressOptions(addresses)}
                   helperText=" "
                   required
                   disabled={isLoading}
@@ -209,7 +207,9 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
                 <SelectElement<RegistrationForm>
                   label="Default billing address"
                   name="defaultBillingAddressIdx"
-                  options={shippingAsBilling ? shippingAddressesOptions : billingAddressesOptions}
+                  options={
+                    shippingAsBilling ? getShippingAddressOptions(addresses) : getBillingAddressOptions(addresses)
+                  }
                   helperText=" "
                   required
                   disabled={isLoading}
