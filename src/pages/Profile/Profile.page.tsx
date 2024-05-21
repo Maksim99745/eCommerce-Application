@@ -1,13 +1,17 @@
 import { apiService } from '@core/api/api.service';
-// import { PagePreloader } from '@components/PagePreloader/PagePreloader.component';
+import { PagePreloader } from '@components/PagePreloader/PagePreloader.component';
 import { Stack } from '@mui/material';
 import { useRequest } from '@core/api/use-request.hook';
 import { useShowMessage } from '@hooks/useShowMessage';
 import PersonalData from './components/PersonalData.component';
 
 function ProfilePage() {
-  const { data } = useRequest('auth.europe-west1.gcp.commercetools.com/', () => apiService.getCustomer());
+  const { data, isLoading } = useRequest('customer', () => apiService.getCustomer());
   const showMessage = useShowMessage();
+
+  if (isLoading) {
+    return <PagePreloader />;
+  }
 
   if (!data) {
     showMessage('User personal information not found', 'error');
@@ -15,10 +19,6 @@ function ProfilePage() {
   }
 
   const { firstName, lastName, dateOfBirth } = data;
-
-  // if (isLoading) {
-  //   return <PagePreloader />;
-  // }
 
   return (
     <Stack>
