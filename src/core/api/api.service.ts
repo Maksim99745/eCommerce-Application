@@ -64,7 +64,6 @@ export class ApiService {
   }
 
   public async getCustomer(): Promise<Customer> {
-    console.log(this.builder);
     return this.callRequest(this.builder.me().get());
   }
 
