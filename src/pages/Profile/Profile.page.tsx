@@ -6,9 +6,7 @@ import { useShowMessage } from '@hooks/useShowMessage';
 import PersonalData from './components/PersonalData.component';
 
 function ProfilePage() {
-  const { data, isLoading } = useRequest('https://auth.europe-west1.gcp.commercetools.com/', () =>
-    apiService.getCustomer(),
-  );
+  const { data, isLoading } = useRequest('auth.europe-west1.gcp.commercetools.com/', () => apiService.getCustomer());
   const showMessage = useShowMessage();
 
   if (isLoading) {
