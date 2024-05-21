@@ -92,8 +92,8 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
               </Typography>
             </Grid>
 
-            <Grid container item spacing={{ xs: 1, sm: 2 }} columns={{ xxs: 1, md: 2 }}>
-              <Grid item xxs={1}>
+            <Grid container item spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1, md: 2 }}>
+              <Grid item xs={1}>
                 <TextFieldElement<RegistrationForm>
                   name="email"
                   label="Email"
@@ -105,7 +105,7 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
                 />
               </Grid>
 
-              <Grid item xxs={1}>
+              <Grid item xs={1}>
                 <PasswordElement<RegistrationForm>
                   label="Password"
                   required
@@ -118,8 +118,8 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
               </Grid>
             </Grid>
 
-            <Grid container item spacing={{ xs: 1, sm: 2 }} columns={{ xxs: 1, md: 12 }}>
-              <Grid item xxs={1} md={6}>
+            <Grid container item spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1, md: 12 }}>
+              <Grid item xs={1} md={6}>
                 <TextFieldElement<RegistrationForm>
                   name="firstName"
                   label="First Name"
@@ -131,7 +131,7 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
                 />
               </Grid>
 
-              <Grid item xxs={1} md={6}>
+              <Grid item xs={1} md={6}>
                 <TextFieldElement<RegistrationForm>
                   name="lastName"
                   label="Last Name"
@@ -144,7 +144,7 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
               </Grid>
             </Grid>
 
-            <Grid item xxs={1} md={4}>
+            <Grid item xs={1} md={4}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePickerElement<RegistrationForm>
                   name="birthDate"
@@ -157,8 +157,8 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
               </LocalizationProvider>
             </Grid>
 
-            <Grid container item spacing={{ xs: 1, sm: 2 }} columns={{ xxs: 1, md: 2 }}>
-              <Grid item xxs={shippingAsBilling ? 2 : 1}>
+            <Grid container item spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1, md: 2 }}>
+              <Grid item xs={shippingAsBilling ? 2 : 1}>
                 <Paper elevation={1} sx={{ m: 'auto', p: '1vh 2%', maxWidth: '900px', width: '100%' }}>
                   <UserAddressComponent
                     title="Shipping address"
@@ -177,7 +177,7 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
                 </Grid>
               </Grid>
 
-              <Grid item xxs={1} display={shippingAsBilling ? { xxs: 'none' } : {}}>
+              <Grid item xs={1} display={shippingAsBilling ? { xs: 'none' } : {}}>
                 <Paper elevation={1} sx={{ m: 'auto', p: '1vh 2%', maxWidth: '900px', width: '100%' }}>
                   <UserAddressComponent
                     title="Billing address"
@@ -188,11 +188,11 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
                 </Paper>
               </Grid>
             </Grid>
-            <Grid container item spacing={{ xs: 1, sm: 2 }} columns={{ xxs: 1, md: 2 }} maxWidth="85vw">
-              <Grid item xxs={2}>
+            <Grid container item spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1, md: 2 }} maxWidth="85vw">
+              <Grid item xs={2}>
                 <FormLabel sx={{ pb: 1 }}>Default addresses</FormLabel>
               </Grid>
-              <Grid item xxs={1}>
+              <Grid item xs={1}>
                 <SelectElement<RegistrationForm>
                   label="Default shipping address"
                   name="defaultShippingAddressIdx"
@@ -203,7 +203,7 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
                   fullWidth
                 />
               </Grid>
-              <Grid item xxs={1}>
+              <Grid item xs={1}>
                 <SelectElement<RegistrationForm>
                   label="Default billing address"
                   name="defaultBillingAddressIdx"
