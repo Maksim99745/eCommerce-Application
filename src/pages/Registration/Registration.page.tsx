@@ -1,5 +1,4 @@
-import { UserService } from '@core/api/user.service';
-import { userLoadingSignal } from '@core/signals/user.signal';
+import useAuth from '@hooks/useAuth';
 import { mapFormToCustomerDraft } from '@utils/map-form-to-customer-draft';
 import { ReactNode } from 'react';
 import { Stack, useEventCallback } from '@mui/material';
@@ -15,9 +14,10 @@ import { createAuthErrorMessage } from '@core/errorHandlers/authErrors/createAut
 function RegistrationPage(): ReactNode {
   const navigate = useNavigate();
   const showMessage = useShowMessage();
+  const { isUserLoading, register } = useAuth();
 
   const handleFormSubmit = useEventCallback<RegistrationFormProps['onSubmit']>((data) => {
-    UserService.register(mapFormToCustomerDraft(data))
+    register(mapFormToCustomerDraft(data))
       .then(() => {
         navigate('/');
         showMessage(`Welcome ${data.firstName} ${data.lastName}!
@@ -32,7 +32,7 @@ function RegistrationPage(): ReactNode {
 
   return (
     <Stack direction="column" alignItems="center">
-      <RegistrationFormComponent onSubmit={handleFormSubmit} isLoading={userLoadingSignal.value} />
+      <RegistrationFormComponent onSubmit={handleFormSubmit} isLoading={isUserLoading} />
       <CaptionLink caption="Already have an account?" linkCaption="Sign in" to="/login" />
     </Stack>
   );

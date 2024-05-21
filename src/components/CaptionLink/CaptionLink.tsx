@@ -1,5 +1,5 @@
+import useAuth from '@hooks/useAuth';
 import { ReactNode } from 'react';
-import { userLoadingSignal } from '@core/signals/user.signal';
 import { Box, Button, Typography } from '@mui/material';
 import { Link, To } from 'react-router-dom';
 
@@ -10,6 +10,8 @@ type CaptionLinkProps = {
 };
 
 export function CaptionLink({ caption, linkCaption, to }: CaptionLinkProps): ReactNode {
+  const { isUserLoading } = useAuth();
+
   return (
     <Box
       sx={{
@@ -23,7 +25,7 @@ export function CaptionLink({ caption, linkCaption, to }: CaptionLinkProps): Rea
       <Typography component="span" align="center" sx={{ mr: 1 }}>
         {caption}
       </Typography>
-      <Button component={Link} to={to} disabled={userLoadingSignal.value} sx={{ textTransform: 'none' }}>
+      <Button component={Link} to={to} disabled={isUserLoading} sx={{ textTransform: 'none' }}>
         {linkCaption}
       </Button>
     </Box>

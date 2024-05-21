@@ -4,9 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import LoginPage from './Login.page';
 
-jest.mock('@core/api/user.service', () => ({
-  UserService: () => ({ login: jest.fn() }),
-}));
+jest.mock('@hooks/useAuth', () => () => ({ login: jest.fn() }));
 
 test('Render the login page', () => {
   render(

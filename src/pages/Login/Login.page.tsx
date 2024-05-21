@@ -1,5 +1,4 @@
-import { UserService } from '@core/api/user.service';
-import { userLoadingSignal } from '@core/signals/user.signal';
+import useAuth from '@hooks/useAuth';
 import { ReactNode } from 'react';
 import { Container, Paper, useEventCallback } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -11,9 +10,10 @@ import { createAuthErrorMessage } from '@core/errorHandlers/authErrors/createAut
 function LoginPage(): ReactNode {
   const navigate = useNavigate();
   const showMessage = useShowMessage();
+  const { isUserLoading, login } = useAuth();
 
   const handleFormSubmit = useEventCallback<LoginFormProps['onSubmit']>((data) => {
-    UserService.login(data)
+    login(data)
       .then(() => {
         showMessage('Welcome to Homeware Hub! Happy shopping! 🛍️');
         navigate('/');
@@ -27,7 +27,7 @@ function LoginPage(): ReactNode {
   return (
     <Paper elevation={3} sx={{ m: 'auto', p: '10vh 2%', maxWidth: '700px' }}>
       <Container maxWidth="sm">
-        <LoginFormComponent onSubmit={handleFormSubmit} isLoading={userLoadingSignal.value} />
+        <LoginFormComponent onSubmit={handleFormSubmit} isLoading={isUserLoading} />
         <CaptionLink caption="Don't have an account?" linkCaption="Sign up" to="/registration" />
       </Container>
     </Paper>

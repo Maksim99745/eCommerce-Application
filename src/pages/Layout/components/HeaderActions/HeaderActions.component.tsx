@@ -1,6 +1,6 @@
 import { apiService } from '@core/api/api.service';
 import { useRequest } from '@core/api/use-request.hook';
-import { userLoadingSignal, userSignal } from '@core/signals/user.signal';
+import useAuth from '@hooks/useAuth';
 import { Box, Button, Menu, Stack, useMediaQuery, useTheme } from '@mui/material';
 import { useHeaderActions } from '@pages/Layout/components/HeaderActions/useHeaderActions';
 import { bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
@@ -16,6 +16,7 @@ function HeaderActionsComponent() {
   const theme = useTheme();
   const lessThanSm = useMediaQuery(theme.breakpoints.down('sm'));
   const { buttonItems, menuItems } = useHeaderActions(() => popupState.close());
+  const { user, isUserLoading } = useAuth();
 
   return (
     <Stack component="section" spacing={1} direction="row" alignItems="center">
@@ -34,7 +35,7 @@ function HeaderActionsComponent() {
       </Button>
 
       <Box sx={{ display: { md: 'none', lg: 'none', xl: 'none' } }}>
-        {!userLoadingSignal.value && (userSignal.value || lessThanSm) && (
+        {!isUserLoading && (user || lessThanSm) && (
           <>
             <Button
               {...bindTrigger(popupState)}

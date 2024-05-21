@@ -1,5 +1,4 @@
-import { UserService } from '@core/api/user.service';
-import { userLoadingSignal, userSignal } from '@core/signals/user.signal';
+import useAuth from '@hooks/useAuth';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
@@ -34,14 +33,15 @@ export const useHeaderActions = (onClick: () => void): { buttonItems: ReactNode;
   const lessThanSm = useMediaQuery(theme.breakpoints.down('sm'));
   const handleOnClick = useEventCallback(onClick);
   const showMessage = useShowMessage();
+
+  const { user, hasUser, logout } = useAuth();
+
   const handlerLogout = useEventCallback(() => {
     handleOnClick();
-    showMessage(`Dear ${userSignal.value?.firstName} ${userSignal.value?.lastName}, see you next time!`);
-    UserService.logout();
+    showMessage(`Dear ${user?.firstName} ${user?.lastName}, see you next time!`);
+    logout();
     navigate('/');
   });
-
-  const hasUser = !userLoadingSignal.value && !!userSignal.value;
 
   const actions = useMemo(
     () =>
@@ -130,12 +130,12 @@ export const useHeaderActions = (onClick: () => void): { buttonItems: ReactNode;
         </MenuItem>
       ));
 
-    if (userSignal.value && lessThanSm) {
+    if (user && lessThanSm) {
       items.splice(-2, 0, <Divider key="divider" />);
     }
 
     return items;
-  }, [actions, lessThanSm]);
+  }, [actions, user, lessThanSm]);
 
   return { buttonItems, menuItems };
 };
