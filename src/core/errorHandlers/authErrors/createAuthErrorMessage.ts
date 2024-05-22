@@ -23,6 +23,10 @@ export function createAuthErrorMessage(error: unknown): string {
       Please check your credentials and try again. 
       If you don't have an account, you can sign up.`;
         break;
+      case 'ResourceNotFound':
+        message = `Oops! The resource you’re looking for couldn’t be found.
+        Please check the details and try again.`;
+        break;
       default:
         message = error.message;
         break;
