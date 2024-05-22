@@ -7,20 +7,6 @@ import { Outlet } from 'react-router-dom';
 import HeaderComponent from '@pages/Layout/components/Header/Header.component';
 import { SidebarComponent } from '@pages/Layout/components/Sidebar/Sidebar.component';
 
-const layoutStyles = {
-  layoutContainer: { display: 'flex', height: '100%' },
-  aside: { width: { sm: drawerWidth }, flexShrink: { sm: 0 } },
-  drawer: { '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth } },
-  mainContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexGrow: 1,
-    p: 0,
-    width: { sm: `calc(100% - ${drawerWidth}px)` },
-  },
-  main: { p: 3, display: 'flex', flexDirection: 'column', flexGrow: 1, overflow: 'auto' },
-};
-
 function LayoutPage() {
   const theme = useTheme();
   const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
@@ -41,18 +27,18 @@ function LayoutPage() {
   }, [isClosing, isDrawerOpen]);
 
   return (
-    <Box sx={layoutStyles.layoutContainer}>
+    <Box sx={{ display: 'flex', height: '100%' }}>
       <CssBaseline />
       <HeaderComponent handleDrawerToggle={handleDrawerToggle} isDrawerOpen={isDrawerOpen} />
 
-      <Box component="aside" sx={layoutStyles.aside} aria-label="categories">
+      <Box component="aside" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="categories">
         <Drawer
           variant={isSmUp ? 'permanent' : 'temporary'}
           open={isDrawerOpen}
           onTransitionEnd={handleDrawerTransitionEnd}
           onClose={handleDrawerClose}
           ModalProps={{ keepMounted: true }}
-          sx={layoutStyles.drawer}
+          sx={{ '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth } }}
         >
           <SidebarComponent>
             <CategoriesListComponent />
@@ -60,9 +46,20 @@ function LayoutPage() {
         </Drawer>
       </Box>
 
-      <Box sx={layoutStyles.mainContainer}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          flexGrow: 1,
+          p: 0,
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+        }}
+      >
         <Toolbar />
-        <Box component="main" sx={layoutStyles.main}>
+        <Box
+          component="main"
+          sx={{ p: { xs: 1, sm: 2 }, display: 'flex', flexDirection: 'column', flexGrow: 1, overflow: 'auto' }}
+        >
           <Outlet />
         </Box>
         <FooterComponent />
