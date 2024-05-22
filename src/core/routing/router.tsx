@@ -1,3 +1,7 @@
+import { apiService } from '@core/api/api.service';
+import { ClientType } from '@core/api/client-type.enum';
+import { tokenCache } from '@core/api/token-cache.service';
+import { setLoading, setUser, userSignal } from '@hooks/useAuth';
 import { Suspense } from 'react';
 import { HasUserRoute, NoUserRoute } from '@core/routing/routes';
 import { createBrowserRouter } from 'react-router-dom';
@@ -6,7 +10,6 @@ import { PagePreloader } from '@components/PagePreloader/PagePreloader.component
 import {
   RegistrationPage,
   AboutPage,
-  BucketPage,
   CartPage,
   CatalogPage,
   LoginPage,
@@ -15,10 +18,41 @@ import {
   ProfilePage,
 } from './routing-pages';
 
+const initAuth = async (): Promise<void> => {
+  setLoading(true);
+
+  await apiService
+    .getCustomer()
+    .then((user) => setUser(user))
+    .catch(async (error): Promise<void> => {
+      if (error?.body?.error !== 'invalid_token') {
+        setUser(null);
+        return;
+      }
+
+      if (apiService.clientType !== ClientType.refreshToken && tokenCache.get()?.refreshToken) {
+        apiService.setBuilder(ClientType.refreshToken);
+        await initAuth();
+        return;
+      }
+
+      apiService.setBuilder(ClientType.anonymous);
+      setUser(null);
+    })
+    .finally(() => setLoading(false));
+};
+
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <LayoutPage />,
+    async loader() {
+      if (userSignal.value === undefined) {
+        await initAuth();
+      }
+
+      return null;
+    },
     errorElement: <NotFoundPage />,
     children: [
       {
@@ -47,14 +81,6 @@ export const router = createBrowserRouter([
               <RegistrationPage />
             </Suspense>
           </NoUserRoute>
-        ),
-      },
-      {
-        path: 'bucket',
-        element: (
-          <Suspense fallback={<PagePreloader />}>
-            <BucketPage />
-          </Suspense>
         ),
       },
       {

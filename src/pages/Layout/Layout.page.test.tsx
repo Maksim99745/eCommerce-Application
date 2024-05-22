@@ -37,9 +37,7 @@ test('Render the layout page', async () => {
     );
   });
 
-  expect(screen.getByText('Loading...')).toBeInTheDocument();
-
-  await waitFor(() => expect(screen.queryByText('Loading...')).not.toBeInTheDocument(), {
+  await waitFor(() => expect(screen.queryByRole('progressbar')).not.toBeInTheDocument(), {
     timeout: DEFAULT_REQUEST_TIMEOUT,
   });
 

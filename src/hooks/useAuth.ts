@@ -1,17 +1,16 @@
 import { Customer, MyCustomerDraft, MyCustomerSignin } from '@commercetools/platform-sdk';
 import { apiService } from '@core/api/api.service';
 import { ClientType } from '@core/api/client-type.enum';
-import { tokenCache } from '@core/api/token-cache.service';
 import { signal } from '@preact/signals-react';
 
-const userSignal = signal<Customer | null>(null);
+export const userSignal = signal<Customer | null | undefined>(undefined);
 const isUserLoadingSignal = signal<boolean>(false);
 
-const setUser = (newUser: Customer | null) => {
+export const setUser = (newUser: Customer | null | undefined) => {
   userSignal.value = newUser;
 };
 
-const setLoading = (isLoading: boolean) => {
+export const setLoading = (isLoading: boolean) => {
   isUserLoadingSignal.value = isLoading;
 };
 
@@ -32,23 +31,22 @@ const login = async (customer: MyCustomerSignin): Promise<{ success: boolean; er
 };
 
 const logout = (): void => {
-  tokenCache.clear();
   setUser(null);
   apiService.setBuilder(ClientType.anonymous);
 };
 
-const register = async (draft: MyCustomerDraft): Promise<{ success: boolean; error?: unknown }> => {
+const register = async (draft: MyCustomerDraft): Promise<void> => {
   setLoading(true);
   const { email, password } = draft;
   try {
     await apiService.register(draft);
     apiService.setBuilder(ClientType.password, { username: email, password });
     await apiService.login({ email, password });
-    setUser(await apiService.getCustomer());
-    return { success: true };
+    const user = await apiService.getCustomer();
+    setUser(user);
   } catch (error) {
     setUser(null);
-    return { success: false, error };
+    throw error;
   } finally {
     setLoading(false);
   }
@@ -58,6 +56,7 @@ const useAuth = () => ({
   user: userSignal.value,
   isUserLoading: isUserLoadingSignal.value,
   hasUser: !!userSignal.value && !isUserLoadingSignal.value,
+  hasNoUser: !userSignal.value && !isUserLoadingSignal.value,
   setUser,
   setLoading,
   login,

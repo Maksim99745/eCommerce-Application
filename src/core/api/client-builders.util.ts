@@ -11,6 +11,7 @@ import { tokenCache } from '@core/api/token-cache.service';
 const getClient = (builder: ClientBuilder): Client => builder.withHttpMiddleware(httpMiddlewareOptions).build();
 
 export const getAnonymousClient = (): Client => {
+  tokenCache.clear();
   const builder = new ClientBuilder().withAnonymousSessionFlow(authMiddlewareOptions);
 
   return getClient(builder);
@@ -37,8 +38,8 @@ export const getRefreshTokenClient = (): Client => {
 };
 
 export const getPasswordClient = (user: UserAuthOptions): Client => {
-  tokenCache.clear();
   const credentials = { clientId, clientSecret, user };
+  tokenCache.clear();
   const builder = new ClientBuilder().withPasswordFlow({ ...authMiddlewareOptions, credentials });
 
   return getClient(builder);
