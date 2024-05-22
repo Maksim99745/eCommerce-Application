@@ -10,7 +10,6 @@ import { PagePreloader } from '@components/PagePreloader/PagePreloader.component
 import {
   RegistrationPage,
   AboutPage,
-  BucketPage,
   CartPage,
   CatalogPage,
   LoginPage,
@@ -82,14 +81,6 @@ export const router = createBrowserRouter([
               <RegistrationPage />
             </Suspense>
           </NoUserRoute>
-        ),
-      },
-      {
-        path: 'bucket',
-        element: (
-          <Suspense fallback={<PagePreloader />}>
-            <BucketPage />
-          </Suspense>
         ),
       },
       {
