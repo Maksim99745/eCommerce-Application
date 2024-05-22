@@ -8,8 +8,8 @@ export interface PersonalDataProps {
 
 function PersonalData({ firstName, lastName, dateOfBirth }: PersonalDataProps) {
   return (
-    <Paper elevation={1} sx={{ p: '1vh 2%', maxWidth: '900px', width: '100%' }}>
-      <Container maxWidth="md">
+    <Container maxWidth="md">
+      <Paper elevation={1} sx={{ p: '1vh 2%', width: '100%' }}>
         <Typography variant="h5" gutterBottom>
           Personal information
         </Typography>
@@ -22,8 +22,8 @@ function PersonalData({ firstName, lastName, dateOfBirth }: PersonalDataProps) {
         <Typography variant="body1" gutterBottom>
           Birth date: {dateOfBirth}
         </Typography>
-      </Container>
-    </Paper>
+      </Paper>
+    </Container>
   );
 }
 
