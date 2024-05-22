@@ -3,7 +3,6 @@ import { Container, Grid, Paper, Typography } from '@mui/material';
 import { Address } from './Address.component';
 
 export function Addresses({ userData }: { userData: Customer }) {
-  console.log(userData);
   const { addresses } = userData;
   return (
     <Container maxWidth="md">
