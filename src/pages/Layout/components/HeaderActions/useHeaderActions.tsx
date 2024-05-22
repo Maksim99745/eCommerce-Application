@@ -22,9 +22,8 @@ interface HeaderAction {
 
 const actionStyles = {
   button: { textTransform: 'none', color: 'inherit', borderColor: 'inherit' },
-  showAfterXs: { display: { xxs: 'none', xs: 'flex' } },
-  showAfterSm: { display: { xxs: 'none', xs: 'none', sm: 'flex' } },
-  showAfterMd: { display: { xxs: 'none', xs: 'none', sm: 'none', md: 'flex' } },
+  showAfterSm: { display: { xs: 'none', sm: 'flex' } },
+  showAfterMd: { display: { xs: 'none', sm: 'none', md: 'flex' } },
 };
 
 export const useHeaderActions = (onClick: () => void): { buttonItems: ReactNode; menuItems: ReactNode } => {
@@ -47,22 +46,12 @@ export const useHeaderActions = (onClick: () => void): { buttonItems: ReactNode;
     () =>
       [
         {
-          key: 'about',
-          to: '/about',
-          startIcon: <InfoIcon />,
-          text: 'About',
-          onAction: handleOnClick,
-          buttonStyle: { ...actionStyles.button, ...actionStyles.showAfterXs },
-          menuItemStyle: { display: { xs: 'none' } },
-          show: true,
-        },
-        {
           key: 'profile',
           to: '/profile',
           startIcon: <AccountCircleIcon />,
           text: 'Profile',
           onAction: handleOnClick,
-          buttonStyle: { ...actionStyles.button, ...actionStyles.showAfterMd },
+          buttonStyle: { display: 'none' },
           menuItemStyle: {},
           show: hasUser,
         },
@@ -72,7 +61,7 @@ export const useHeaderActions = (onClick: () => void): { buttonItems: ReactNode;
           startIcon: <LogoutIcon />,
           text: 'Sign Out',
           onAction: handlerLogout,
-          buttonStyle: { ...actionStyles.button, ...actionStyles.showAfterMd },
+          buttonStyle: { display: 'none' },
           menuItemStyle: {},
           show: hasUser,
         },
@@ -82,9 +71,9 @@ export const useHeaderActions = (onClick: () => void): { buttonItems: ReactNode;
           startIcon: <ExitToAppIcon />,
           text: 'Sign In',
           onAction: handleOnClick,
-          buttonStyle: { ...actionStyles.button, ...actionStyles.showAfterSm },
-          menuItemStyle: { display: { sm: 'none' } },
-          show: true,
+          buttonStyle: { display: 'none' },
+          menuItemStyle: {},
+          show: !user,
         },
         {
           key: 'registration',
@@ -92,32 +81,39 @@ export const useHeaderActions = (onClick: () => void): { buttonItems: ReactNode;
           startIcon: <HowToRegIcon />,
           text: 'Sign Up',
           onAction: handleOnClick,
+          buttonStyle: { display: 'none' },
+          menuItemStyle: {},
+          show: !user,
+        },
+        {
+          key: 'about',
+          to: '/about',
+          startIcon: <InfoIcon />,
+          text: 'About',
+          onAction: handleOnClick,
           buttonStyle: { ...actionStyles.button, ...actionStyles.showAfterSm },
           menuItemStyle: { display: { sm: 'none' } },
           show: true,
         },
       ] satisfies HeaderAction[],
-    [handleOnClick, hasUser, handlerLogout],
+    [handleOnClick, hasUser, user, handlerLogout],
   );
 
   const buttonItems = useMemo<ReactNode>(
-    () =>
-      actions
-        .filter(({ show }) => show)
-        .map(({ key, to, startIcon, text, onAction, buttonStyle }) => (
-          <Button
-            key={key}
-            component={to ? Link : 'button'}
-            to={to}
-            sx={buttonStyle}
-            onClick={onAction}
-            startIcon={startIcon}
-            variant="outlined"
-          >
-            {text}
-          </Button>
-        )),
-    [actions],
+    () => (
+      <Button
+        key="about"
+        component={Link}
+        to="/about"
+        sx={{ ...actionStyles.button, ...actionStyles.showAfterSm }}
+        onClick={handleOnClick}
+        startIcon={<InfoIcon />}
+        variant="outlined"
+      >
+        About
+      </Button>
+    ),
+    [handleOnClick],
   );
 
   const menuItems = useMemo<ReactNode>(() => {
@@ -130,12 +126,12 @@ export const useHeaderActions = (onClick: () => void): { buttonItems: ReactNode;
         </MenuItem>
       ));
 
-    if (user && lessThanSm) {
-      items.splice(-2, 0, <Divider key="divider" />);
+    if (lessThanSm) {
+      items.splice(-1, 0, <Divider key="divider" />);
     }
 
     return items;
-  }, [actions, user, lessThanSm]);
+  }, [actions, lessThanSm]);
 
   return { buttonItems, menuItems };
 };
