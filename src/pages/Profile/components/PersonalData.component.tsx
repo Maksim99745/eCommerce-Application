@@ -1,15 +1,15 @@
-import { Paper, Stack, Typography } from '@mui/material';
+import { Container, Paper, Typography } from '@mui/material';
 
 export interface PersonalDataProps {
-  firstName?: string;
-  lastName?: string;
-  dateOfBirth?: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
 }
 
-function PersonalData({ firstName = '', lastName = '', dateOfBirth = '' }: PersonalDataProps) {
+function PersonalData({ firstName, lastName, dateOfBirth }: PersonalDataProps) {
   return (
     <Paper elevation={1} sx={{ p: '1vh 2%', maxWidth: '900px', width: '100%' }}>
-      <Stack>
+      <Container maxWidth="md">
         <Typography variant="h5" gutterBottom>
           Personal information
         </Typography>
@@ -22,7 +22,7 @@ function PersonalData({ firstName = '', lastName = '', dateOfBirth = '' }: Perso
         <Typography variant="body1" gutterBottom>
           Birth date: {dateOfBirth}
         </Typography>
-      </Stack>
+      </Container>
     </Paper>
   );
 }

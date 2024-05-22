@@ -1,21 +1,20 @@
-import { apiService } from '@core/api/api.service';
-import { PagePreloader } from '@components/PagePreloader/PagePreloader.component';
 import { Stack } from '@mui/material';
-import { useRequest } from '@core/api/use-request.hook';
+import useAuth from '@hooks/useAuth';
+import { PagePreloader } from '@components/PagePreloader/PagePreloader.component';
 import PersonalData from './components/PersonalData.component';
 
 function ProfilePage() {
-  const { data, isLoading } = useRequest('customer', () => apiService.getCustomer());
+  const { user, isUserLoading } = useAuth();
 
-  if (isLoading) {
-    return <PagePreloader />;
-  }
-
-  if (!data) {
+  if (!user) {
     return null;
   }
 
-  const { firstName, lastName, dateOfBirth } = data;
+  if (isUserLoading) {
+    return <PagePreloader />;
+  }
+
+  const { firstName = '', lastName = '', dateOfBirth = '' } = user;
 
   return (
     <Stack>
