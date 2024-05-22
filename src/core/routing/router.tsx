@@ -131,6 +131,14 @@ export const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: ':productKey',
+        element: (
+          <Suspense fallback={<PagePreloader />}>
+            <ProductPage />
+          </Suspense>
+        ),
+      },
     ],
   },
 ]);
