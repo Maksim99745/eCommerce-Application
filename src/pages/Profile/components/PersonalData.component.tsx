@@ -23,15 +23,15 @@ function PersonalData({ firstName, lastName, dateOfBirth }: PersonalDataProps) {
   // TODO: think about birthday validation, date from commerce tools is not appropriate for validation, that's why i changed mode to onChange
   return (
     <Container maxWidth="md">
-      <Paper elevation={1} sx={{ p: '1vh 2%', width: '100%' }}>
+      <Paper elevation={1} sx={{ p: '1vh 2%', width: '100%', m: 1 }}>
         <FormContainer<PersonalInformationForm> formContext={formContext}>
-          <Typography variant="h5" gutterBottom>
+          <Typography variant="h5" gutterBottom sx={{ mb: 2 }}>
             Personal information
           </Typography>
-          <Grid container spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1, md: 3 }}>
+          <Grid container spacing={{ xs: 2 }} columns={{ xs: 1, md: 3 }}>
             <Grid item xs={1}>
               <TextFieldElement<PersonalInformationForm>
-                label="First name:"
+                label="First name"
                 name="firstName"
                 InputProps={{
                   readOnly: true,

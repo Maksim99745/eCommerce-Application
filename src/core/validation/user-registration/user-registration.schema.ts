@@ -29,7 +29,7 @@ export const birthDateSchema = z
   )
   .transform((value: Dayjs) => value.toISOString().substring(0, ISO_DATE_LENGTH));
 
-const addressSchema = z.object({
+export const addressSchema = z.object({
   country: z.string(),
   city: z.string(),
   street: z.string(),
