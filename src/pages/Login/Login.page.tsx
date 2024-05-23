@@ -19,8 +19,7 @@ function LoginPage(): ReactNode {
         navigate('/');
       })
       .catch((error) => {
-        const message = createAppErrorMessage(error);
-        showMessage(message, 'error');
+        showMessage(createAppErrorMessage(error), 'error');
       });
   });
 
