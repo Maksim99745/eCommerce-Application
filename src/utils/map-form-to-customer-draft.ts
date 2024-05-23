@@ -4,9 +4,9 @@ import {
   NO_IDX,
   SHIPPING_ADDRESS_IDX,
 } from '@core/validation/user-registration/user-registration.const';
-import { RegistrationForm, RegistrationFormAddress } from '@models/forms.model';
+import { AddressInformationForm, RegistrationForm } from '@models/forms.model';
 
-function mapFormAddressToCustomerAddress(address: RegistrationFormAddress): BaseAddress {
+function mapFormAddressToCustomerAddress(address: AddressInformationForm): BaseAddress {
   const { street, postalCode, country, city } = address;
   return { streetName: street, postalCode, country, city };
 }

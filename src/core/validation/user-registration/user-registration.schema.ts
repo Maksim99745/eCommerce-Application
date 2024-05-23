@@ -10,7 +10,17 @@ import {
   SHIPPING_ADDRESS_IDX,
 } from './user-registration.const';
 
-const birthDateSchema = z
+export const firstNameSchema = z
+  .string()
+  .regex(/.+/, RegistrationErrorMessages.FirstNameRequired)
+  .regex(NAME_SURNAME_REGEX, RegistrationErrorMessages.FirstNameInvalid);
+
+export const lastNameSchema = z
+  .string()
+  .regex(/.+/, RegistrationErrorMessages.LastNameRequired)
+  .regex(NAME_SURNAME_REGEX, RegistrationErrorMessages.LastNameInvalid);
+
+export const birthDateSchema = z
   .custom<Dayjs>()
   .refine((date) => validateBirthDay(date), RegistrationErrorMessages.BirthDateInvalid)
   .refine(
@@ -19,7 +29,7 @@ const birthDateSchema = z
   )
   .transform((value: Dayjs) => value.toISOString().substring(0, ISO_DATE_LENGTH));
 
-const addressSchema = z.object({
+export const addressSchema = z.object({
   country: z.string(),
   city: z.string(),
   street: z.string(),
@@ -29,14 +39,8 @@ const addressSchema = z.object({
 
 export const registrationSchema = z
   .object({
-    firstName: z
-      .string()
-      .regex(/.+/, RegistrationErrorMessages.FirstNameRequired)
-      .regex(NAME_SURNAME_REGEX, RegistrationErrorMessages.FirstNameInvalid),
-    lastName: z
-      .string()
-      .regex(/.+/, RegistrationErrorMessages.LastNameRequired)
-      .regex(NAME_SURNAME_REGEX, RegistrationErrorMessages.LastNameInvalid),
+    firstName: firstNameSchema,
+    lastName: lastNameSchema,
     birthDate: birthDateSchema,
     shippingAsBilling: z.boolean(),
     addresses: z.array(addressSchema),
