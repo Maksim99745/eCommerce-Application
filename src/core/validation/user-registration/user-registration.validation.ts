@@ -1,7 +1,7 @@
 import { getCountryLabelByCode } from '@utils/get-country-label-by-code';
 import { z } from 'zod';
 import dayjs from 'dayjs';
-import { RegistrationFormAddress } from '@pages/Registration/components/RegistrationForm.component';
+import { AddressInformationForm } from '@models/forms.model';
 import { RegistrationErrorMessages } from './user-registration.enum';
 import { CITY_REGEX, MIN_AGE, postalValidationRegEx } from './user-registration.const';
 
@@ -12,13 +12,13 @@ const getAddressFieldIssue = (field: string, index: number, message: string) => 
   path: ['addresses', index, field],
 });
 
-const validateCountry = (address: RegistrationFormAddress, index: number, context: z.RefinementCtx) => {
+const validateCountry = (address: AddressInformationForm, index: number, context: z.RefinementCtx) => {
   if (!hasFieldValue(address.country)) {
     context.addIssue(getAddressFieldIssue('country', index, RegistrationErrorMessages.CountryRequired));
   }
 };
 
-const validateCity = (address: RegistrationFormAddress, index: number, context: z.RefinementCtx) => {
+const validateCity = (address: AddressInformationForm, index: number, context: z.RefinementCtx) => {
   if (!hasFieldValue(address.city)) {
     context.addIssue(getAddressFieldIssue('city', index, RegistrationErrorMessages.CityRequired));
     return;
@@ -30,13 +30,13 @@ const validateCity = (address: RegistrationFormAddress, index: number, context: 
   }
 };
 
-const validateStreet = (address: RegistrationFormAddress, index: number, context: z.RefinementCtx) => {
+const validateStreet = (address: AddressInformationForm, index: number, context: z.RefinementCtx) => {
   if (!hasFieldValue(address.street)) {
     context.addIssue(getAddressFieldIssue('street', index, RegistrationErrorMessages.StreetRequired));
   }
 };
 
-const validatePostalCode = (addresses: RegistrationFormAddress[], index: number, context: z.RefinementCtx) => {
+const validatePostalCode = (addresses: AddressInformationForm[], index: number, context: z.RefinementCtx) => {
   const address = addresses[index];
 
   if (!hasFieldValue(address.postalCode)) {
@@ -51,7 +51,7 @@ const validatePostalCode = (addresses: RegistrationFormAddress[], index: number,
   }
 };
 
-export const validateAddress = (addresses: RegistrationFormAddress[], index: number, context: z.RefinementCtx) => {
+export const validateAddress = (addresses: AddressInformationForm[], index: number, context: z.RefinementCtx) => {
   const address = addresses[index];
 
   if (!address) {

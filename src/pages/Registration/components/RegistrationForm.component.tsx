@@ -4,7 +4,7 @@ import {
   NO_IDX,
   SHIPPING_ADDRESS_IDX,
 } from '@core/validation/user-registration/user-registration.const';
-import { RegistrationForm } from '@models/index';
+import { AddressInformationForm, RegistrationForm } from '@models/index';
 import { LoadingButton } from '@mui/lab';
 import {
   FormContainer,
@@ -25,27 +25,20 @@ import { registrationSchema } from '@core/validation/user-registration/user-regi
 import { DatePickerElement } from '@components/DataPickerElement/DatePickerElement';
 import { UserAddressComponent } from './UserAddress.component';
 
-export interface RegistrationFormAddress {
-  addressType: 'billing' | 'shipping';
-  street: string;
-  city: string;
-  country: string;
-  postalCode: string;
-}
 export interface RegistrationFormProps {
   onSubmit: (registrationData: RegistrationForm) => void;
   isLoading: boolean;
 }
 
-const toAddressString = (address: RegistrationFormAddress): string =>
+const toAddressString = (address: AddressInformationForm): string =>
   [address.country, address.postalCode, address.city, address.street].filter(Boolean).join(', ');
 
-const withTypeOfAddress = (addressType: RegistrationFormAddress['addressType']) => (address: RegistrationFormAddress) =>
+const withTypeOfAddress = (addressType: AddressInformationForm['addressType']) => (address: AddressInformationForm) =>
   address.addressType === addressType;
 
-const useAddressRenderOptions = (addressType: RegistrationFormAddress['addressType']) =>
+const useAddressRenderOptions = (addressType: AddressInformationForm['addressType']) =>
   useCallback(
-    (addresses: RegistrationFormAddress[]) => [
+    (addresses: AddressInformationForm[]) => [
       { id: NO_IDX, label: 'None' },
       ...addresses
         .map((address, index) => ({
