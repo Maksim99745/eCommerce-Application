@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useShowMessage } from '@hooks/useShowMessage';
 import { CaptionLink } from '@components/CaptionLink/CaptionLink';
 import { LoginFormComponent, LoginFormProps } from '@pages/Login/components/LoginForm.component';
-import { createAuthErrorMessage } from '@core/errorHandlers/authErrors/createAuthErrorMessage';
+import { createAppErrorMessage } from '@core/errorHandlers/createAppErrorMessage';
 
 function LoginPage(): ReactNode {
   const navigate = useNavigate();
@@ -19,8 +19,7 @@ function LoginPage(): ReactNode {
         navigate('/');
       })
       .catch((error) => {
-        const message = createAuthErrorMessage(error);
-        showMessage(message, 'error');
+        showMessage(createAppErrorMessage(error), 'error');
       });
   });
 

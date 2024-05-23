@@ -16,6 +16,7 @@ import {
   MainPage,
   NotFoundPage,
   ProfilePage,
+  ProductPage,
 } from './routing-pages';
 
 const initAuth = async (): Promise<void> => {
@@ -110,10 +111,31 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'categories/:categoryKey',
+        path: 'categories',
+        children: [
+          {
+            path: ':categoryKey',
+            element: (
+              <Suspense fallback={<PagePreloader />}>
+                <CatalogPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: ':categoryKey/:productKey',
+            element: (
+              <Suspense fallback={<PagePreloader />}>
+                <ProductPage />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+      {
+        path: ':productKey',
         element: (
           <Suspense fallback={<PagePreloader />}>
-            <CatalogPage />
+            <ProductPage />
           </Suspense>
         ),
       },

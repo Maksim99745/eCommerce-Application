@@ -1,4 +1,4 @@
 {
-  "pattern": "^(feat|fix|chore|refactor)/RSS-ECOMM-([1-5])_[0-9]{2}-[a-zA-Z0-9-]+",
+  "pattern": "^(feat|fix|chore|refactor)/RSS-ECOMM-([1-5])_([0-9]{2}|no-issue)-[a-zA-Z0-9-]+",
   "errorMsg": "Branch name doesn't follow the defined repository rules"
 }
