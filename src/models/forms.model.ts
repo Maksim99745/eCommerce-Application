@@ -1,5 +1,5 @@
 import { loginFormSchema } from '@core/validation/user-login/user-login.schema';
-import { personalInformationSchema } from '@core/validation/user-profile/personal-information.schema';
+import { personalInformationSchema } from '@core/validation/user-profile/user-profile.schema';
 import { registrationSchema, addressSchema } from '@core/validation/user-registration/user-registration.schema';
 import { z } from 'zod';
 
