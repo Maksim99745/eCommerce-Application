@@ -9,7 +9,7 @@ import {
   RegistrationFormComponent,
   RegistrationFormProps,
 } from '@pages/Registration/components/RegistrationForm.component';
-import { createAuthErrorMessage } from '@core/errorHandlers/authErrors/createAuthErrorMessage';
+import { createAppErrorMessage } from '@core/errorHandlers/createAppErrorMessage';
 
 function RegistrationPage(): ReactNode {
   const navigate = useNavigate();
@@ -25,8 +25,7 @@ function RegistrationPage(): ReactNode {
         Happy shopping! 🛍️`);
       })
       .catch((error) => {
-        const message = createAuthErrorMessage(error);
-        showMessage(message, 'error');
+        showMessage(createAppErrorMessage(error), 'error');
       });
   });
 
