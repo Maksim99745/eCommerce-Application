@@ -4,7 +4,7 @@ import {
   NO_IDX,
   SHIPPING_ADDRESS_IDX,
 } from '@core/validation/user-registration/user-registration.const';
-import { AddressInformationForm, RegistrationForm } from '@models/index';
+import { RegistrationForm } from '@models/index';
 import { LoadingButton } from '@mui/lab';
 import {
   FormContainer,
@@ -19,41 +19,16 @@ import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Container, FormLabel, Grid, Paper, Typography } from '@mui/material';
-import { useCallback } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registrationSchema } from '@core/validation/user-registration/user-registration.schema';
 import { DatePickerElement } from '@components/DataPickerElement/DatePickerElement';
+import { useAddressRenderOptions } from '@utils/user-address-utils';
 import { UserAddressComponent } from './UserAddress.component';
 
 export interface RegistrationFormProps {
   onSubmit: (registrationData: RegistrationForm) => void;
   isLoading: boolean;
 }
-
-const toAddressString = (address: AddressInformationForm): string =>
-  [address.country, address.postalCode, address.city, address.street].filter(Boolean).join(', ');
-
-const withTypeOfAddress = (addressType: AddressInformationForm['addressType']) => (address: AddressInformationForm) =>
-  address.addressType === addressType;
-
-const useAddressRenderOptions = (addressType: AddressInformationForm['addressType']) =>
-  useCallback(
-    (addresses: AddressInformationForm[]) => [
-      { id: NO_IDX, label: 'None' },
-      ...addresses
-        .map((address, index) => ({
-          ...address,
-          id: index,
-          label: (
-            <Typography sx={{ textWrap: 'pretty', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {toAddressString(address)}
-            </Typography>
-          ),
-        }))
-        .filter(withTypeOfAddress(addressType)),
-    ],
-    [addressType],
-  );
 
 export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationFormProps) {
   const formContext = useForm<RegistrationForm>({
