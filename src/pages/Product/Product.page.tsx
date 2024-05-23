@@ -21,10 +21,12 @@ function ProductPage() {
   });
   // console.log(data);
 
+  const defaultImageUrl = '/public/defaultImg.png';
+
   const images = data?.masterVariant.images
-    ? [...data.masterVariant.images, ...data.variants.flatMap((variant) => variant.images)].map((image) => ({
-        original: image?.url || '',
-        thumbnail: image?.url || '',
+    ? [...data.masterVariant.images].map((image) => ({
+        original: image?.url || defaultImageUrl,
+        thumbnail: image?.url || defaultImageUrl,
       }))
     : [];
 
@@ -35,13 +37,14 @@ function ProductPage() {
       </Typography>
       <Box className={styles.imageGalleryContainer}>
         <ReactImageGallery
-          showBullets={false}
+          showThumbnails={images.length > 1}
           showFullscreenButton={false}
           showPlayButton={false}
           items={images}
           onClick={() => {
             // console.log(`TODO later a modal will be shown`, event);
           }}
+          onErrorImageURL={defaultImageUrl}
           renderItem={(item) => <img src={item.original} alt="" className={styles.imageGalleryImage} />}
         />
       </Box>

@@ -1,13 +1,15 @@
 .product-page-container {
-  padding-top: 10px;
+  padding: 25px;
 }
 .image-gallery-container {
-  width: 500px;
+  width: 50%;
   margin: 0 auto;
 }
 
-.imageGalleryImage {
-  width: 500px;
+.image-gallery-image {
+  width: 100%;
+  min-width: 300px;
+  max-width: 500px;
   height: 500px;
   object-fit: scale-down;
 }
@@ -16,11 +18,9 @@
   text-align: center;
   font-weight: 900;
   font-size: 30px;
+  margin-bottom: 35px;
 }
 
 .product-page-info {
   padding-top: 30px;
-}
-
-.product-page-description {
 }
