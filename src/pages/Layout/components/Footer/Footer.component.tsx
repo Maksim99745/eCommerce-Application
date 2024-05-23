@@ -1,10 +1,10 @@
-import { Box } from '@mui/material';
+import { Stack } from '@mui/material';
 
 function FooterComponent() {
   return (
-    <Box component="footer" sx={{ p: 1, display: 'flex', justifyItems: 'center' }}>
-      <p>Footer</p>
-    </Box>
+    <Stack component="footer" sx={{ p: 1, justifyItems: 'center', boxShadow: 3 }}>
+      Footer
+    </Stack>
   );
 }
 

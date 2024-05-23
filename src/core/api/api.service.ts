@@ -8,12 +8,15 @@ import {
   MyCustomerDraft,
   MyCustomerSignin,
   MyCustomerUpdateAction,
+  ProductProjectionPagedSearchResponse,
 } from '@commercetools/platform-sdk';
 import { ApiRequest } from '@commercetools/platform-sdk/dist/declarations/src/generated/shared/utils/requests-utils';
 import { UserAuthOptions } from '@commercetools/sdk-client-v2';
+import { defaultProductsLimit, defaultProductsOffset } from '@constants/products.const';
 import { ClientType } from '@core/api/client-type.enum';
 import { getRequestBuilder } from '@core/api/get-builder.util';
 import { tokenCache } from '@core/api/token-cache.service';
+import { ProductFilter } from '@models/product-filter.model';
 
 export class ApiService {
   private builder!: ByProjectKeyRequestBuilder;
@@ -63,6 +66,26 @@ export class ApiService {
   public async getCartQuantity(): Promise<number> {
     return this.callRequest(this.builder.me().carts().get()).then(
       (carts) => carts.results[0]?.totalLineItemQuantity || 0,
+    );
+  }
+
+  public async getProducts({
+    categoryId,
+    limit = defaultProductsLimit,
+    offset = defaultProductsOffset,
+  }: ProductFilter): Promise<ProductProjectionPagedSearchResponse> {
+    return this.callRequest(
+      this.builder
+        .productProjections()
+        .search()
+        .get({
+          queryArgs: {
+            fuzzy: true,
+            offset,
+            limit,
+            filter: [`categories.id:subtree("${categoryId}")`],
+          },
+        }),
     );
   }
 
