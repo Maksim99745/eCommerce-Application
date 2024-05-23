@@ -1,7 +1,9 @@
-import { personalInformationSchema } from '@core/validation/personal-information/personal-information.chema';
+import { DatePickerElement } from '@components/DataPickerElement/DatePickerElement';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { PersonalInformationForm } from '@models/personal-data.model';
+import { PersonalInformationForm, personalInformationSchema } from '@models/forms.model';
 import { Container, Grid, Paper, Typography } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { FormContainer, TextFieldElement, useForm } from 'react-hook-form-mui';
 
 export interface PersonalDataProps {
@@ -15,15 +17,16 @@ function PersonalData({ firstName, lastName, dateOfBirth }: PersonalDataProps) {
     defaultValues: {
       firstName,
       lastName,
-      birthDate: dateOfBirth,
+      birthDate: new Date(dateOfBirth).toISOString(),
     },
     resolver: zodResolver(personalInformationSchema),
-    mode: 'onChange',
+    mode: 'all',
   });
+
   // TODO: think about birthday validation, date from commerce tools is not appropriate for validation, that's why i changed mode to onChange
   return (
     <Container maxWidth="md">
-      <Paper elevation={1} sx={{ p: '1vh 2%', width: '100%', m: 1 }}>
+      <Paper elevation={1} sx={{ p: '1vh 2%', width: '100%', mb: 2 }}>
         <FormContainer<PersonalInformationForm> formContext={formContext}>
           <Typography variant="h5" gutterBottom sx={{ mb: 2 }}>
             Personal information
@@ -33,6 +36,8 @@ function PersonalData({ firstName, lastName, dateOfBirth }: PersonalDataProps) {
               <TextFieldElement<PersonalInformationForm>
                 label="First name"
                 name="firstName"
+                helperText=" "
+                InputLabelProps={{ shrink: true }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -43,20 +48,23 @@ function PersonalData({ firstName, lastName, dateOfBirth }: PersonalDataProps) {
               <TextFieldElement<PersonalInformationForm>
                 label="Last name"
                 name="lastName"
+                helperText=" "
+                InputLabelProps={{ shrink: true }}
                 InputProps={{
                   readOnly: true,
                 }}
               />
             </Grid>
 
-            <Grid item>
-              <TextFieldElement<PersonalInformationForm>
-                label="Birth date"
-                name="birthDate"
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
+            <Grid item xs={1}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePickerElement
+                  label="Birth date"
+                  name="birthDate"
+                  helperText=" "
+                  // onChange={(value) => console.log(value)}
+                />
+              </LocalizationProvider>
             </Grid>
           </Grid>
         </FormContainer>

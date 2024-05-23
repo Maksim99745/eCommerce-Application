@@ -13,6 +13,7 @@ function mapFormAddressToCustomerAddress(address: RegistrationFormAddress): Base
 
 export function mapFormToCustomerDraft(data: RegistrationForm): MyCustomerDraft {
   const dataAddresses = data.shippingAsBilling ? [data.addresses[SHIPPING_ADDRESS_IDX]] : data.addresses;
+  console.log(data);
   const addresses = dataAddresses.map(mapFormAddressToCustomerAddress);
 
   const draft: MyCustomerDraft = {

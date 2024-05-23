@@ -10,7 +10,6 @@ import {
   FormContainer,
   TextFieldElement,
   PasswordElement,
-  DatePickerElement,
   useForm,
   CheckboxElement,
   useWatch,
@@ -23,6 +22,7 @@ import { Container, FormLabel, Grid, Paper, Typography } from '@mui/material';
 import { useCallback } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registrationSchema } from '@core/validation/user-registration/user-registration.schema';
+import { DatePickerElement } from '@components/DataPickerElement/DatePickerElement';
 import { UserAddressComponent } from './UserAddress.component';
 
 export interface RegistrationFormProps {
@@ -62,7 +62,7 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
       password: '',
       firstName: '',
       lastName: '',
-      birthDate: '',
+      birthDate: undefined,
       shippingAsBilling: false,
       defaultShippingAddressIdx: NO_IDX,
       defaultBillingAddressIdx: NO_IDX,
@@ -146,7 +146,7 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
 
             <Grid item xs={1} md={4}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePickerElement<RegistrationForm>
+                <DatePickerElement
                   name="birthDate"
                   label="Birth Date"
                   required

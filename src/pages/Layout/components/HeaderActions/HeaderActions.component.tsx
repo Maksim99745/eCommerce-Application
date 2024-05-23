@@ -15,7 +15,6 @@ function HeaderActionsComponent() {
   const popupState = usePopupState({ variant: 'popover', popupId: 'userMenu' });
   const { buttonItems, menuItems } = useHeaderActions(() => popupState.close());
   const { isUserLoading } = useAuth();
-
   return (
     <Stack component="section" spacing={1} direction="row" alignItems="center">
       <Stack spacing={1} direction="row">

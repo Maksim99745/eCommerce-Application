@@ -1,5 +1,11 @@
 import { loginFormSchema } from '@core/validation/user-login/user-login.schema';
-import { registrationSchema } from '@core/validation/user-registration/user-registration.schema';
+import {
+  registrationSchema,
+  addressSchema,
+  firstNameSchema,
+  lastNameSchema,
+  birthDateSchema,
+} from '@core/validation/user-registration/user-registration.schema';
 import { z } from 'zod';
 
 export type RegistrationForm = z.infer<typeof registrationSchema>;
@@ -12,3 +18,13 @@ export interface RegistrationFormAddress {
   country: string;
   postalCode: string;
 }
+
+export const personalInformationSchema = z.object({
+  firstName: firstNameSchema,
+  lastName: lastNameSchema,
+  birthDate: birthDateSchema,
+});
+
+export type AddressInformationForm = z.infer<typeof addressSchema>;
+
+export type PersonalInformationForm = z.infer<typeof personalInformationSchema>;
