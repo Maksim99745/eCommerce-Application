@@ -1,6 +1,7 @@
 import { DatePickerElement } from '@components/DataPickerElement/DatePickerElement';
+import { personalInformationSchema } from '@core/validation/user-profile/personal-information.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { PersonalInformationForm, personalInformationSchema } from '@models/forms.model';
+import { PersonalInformationForm } from '@models/forms.model';
 import { Container, Grid, Paper, Typography } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -58,7 +59,7 @@ function PersonalData({ firstName, lastName, dateOfBirth }: PersonalDataProps) {
 
             <Grid item xs={1}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePickerElement label="Birth date" name="birthDate" helperText=" " />
+                <DatePickerElement label="Birth date" name="birthDate" helperText=" " readOnly />
               </LocalizationProvider>
             </Grid>
           </Grid>

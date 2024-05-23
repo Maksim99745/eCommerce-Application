@@ -4,7 +4,7 @@ import {
   NO_IDX,
   SHIPPING_ADDRESS_IDX,
 } from '@core/validation/user-registration/user-registration.const';
-import { RegistrationForm, RegistrationFormAddress } from '@models/index';
+import { RegistrationForm } from '@models/index';
 import { LoadingButton } from '@mui/lab';
 import {
   FormContainer,
@@ -25,6 +25,13 @@ import { registrationSchema } from '@core/validation/user-registration/user-regi
 import { DatePickerElement } from '@components/DataPickerElement/DatePickerElement';
 import { UserAddressComponent } from './UserAddress.component';
 
+export interface RegistrationFormAddress {
+  addressType: 'billing' | 'shipping';
+  street: string;
+  city: string;
+  country: string;
+  postalCode: string;
+}
 export interface RegistrationFormProps {
   onSubmit: (registrationData: RegistrationForm) => void;
   isLoading: boolean;
