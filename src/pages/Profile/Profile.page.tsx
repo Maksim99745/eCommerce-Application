@@ -1,11 +1,15 @@
-import { Stack } from '@mui/material';
+import { Stack, useEventCallback } from '@mui/material';
 import useAuth from '@hooks/useAuth';
 import { PagePreloader } from '@components/PagePreloader/PagePreloader.component';
-import PersonalData from './components/PersonalData.component';
 import { Addresses } from './components/Addresses.component';
+import PersonalFormComponent, { PersonalFormComponentProps } from './components/PersonalData.component';
 
 function ProfilePage() {
   const { user, isUserLoading } = useAuth();
+
+  const handlePersonalFormData = useEventCallback<PersonalFormComponentProps['onSubmit']>((data) => {
+    // console.log('handlePersonalFormData', data);
+  });
 
   if (!user) {
     return null;
@@ -16,7 +20,7 @@ function ProfilePage() {
   }
   return (
     <Stack>
-      <PersonalData userData={user} />
+      <PersonalFormComponent onSubmit={handlePersonalFormData} userData={user} />
       <Addresses userData={user} />
     </Stack>
   );
