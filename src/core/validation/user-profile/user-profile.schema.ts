@@ -10,7 +10,7 @@ import { validateAddress } from '../user-registration/user-registration.validati
 export const personalInformationSchema = z.object({
   firstName: firstNameSchema,
   lastName: lastNameSchema,
-  birthDate: birthDateSchema,
+  dateOfBirth: birthDateSchema,
 });
 
 export const userProfileAddressesSchema = z

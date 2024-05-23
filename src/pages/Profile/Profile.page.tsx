@@ -14,11 +14,9 @@ function ProfilePage() {
   if (isUserLoading) {
     return <PagePreloader />;
   }
-
-  const { firstName = '', lastName = '', dateOfBirth = '' } = user;
   return (
     <Stack>
-      <PersonalData firstName={firstName} lastName={lastName} dateOfBirth={dateOfBirth} />
+      <PersonalData userData={user} />
       <Addresses userData={user} />
     </Stack>
   );

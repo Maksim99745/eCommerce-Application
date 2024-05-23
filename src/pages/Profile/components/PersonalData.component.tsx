@@ -1,3 +1,4 @@
+import { Customer } from '@commercetools/platform-sdk';
 import { DatePickerElement } from '@components/DataPickerElement/DatePickerElement';
 import { personalInformationSchema } from '@core/validation/user-profile/user-profile.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -7,18 +8,14 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { FormContainer, TextFieldElement, useForm } from 'react-hook-form-mui';
 
-export interface PersonalDataProps {
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
-}
+function PersonalData({ userData }: { userData: Customer }) {
+  const { firstName = '', lastName = '', dateOfBirth = '' } = userData;
 
-function PersonalData({ firstName, lastName, dateOfBirth }: PersonalDataProps) {
   const formContext = useForm<PersonalInformationForm>({
     defaultValues: {
       firstName,
       lastName,
-      birthDate: new Date(dateOfBirth).toISOString(),
+      dateOfBirth,
     },
     resolver: zodResolver(personalInformationSchema),
     mode: 'all',
@@ -59,7 +56,7 @@ function PersonalData({ firstName, lastName, dateOfBirth }: PersonalDataProps) {
 
             <Grid item xs={1}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePickerElement label="Birth date" name="birthDate" helperText=" " readOnly />
+                <DatePickerElement label="Birth date" name="dateOfBirth" helperText=" " readOnly />
               </LocalizationProvider>
             </Grid>
           </Grid>
