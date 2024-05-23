@@ -7,9 +7,10 @@ import PersonalFormComponent, { PersonalFormComponentProps } from './components/
 function ProfilePage() {
   const { user, isUserLoading } = useAuth();
 
-  const handlePersonalFormData = useEventCallback<PersonalFormComponentProps['onSubmit']>((data) => {
+  const handlePersonalFormData = useEventCallback<PersonalFormComponentProps['onSubmit']>(
+    (data) => data,
     // console.log('handlePersonalFormData', data);
-  });
+  );
 
   if (!user) {
     return null;
