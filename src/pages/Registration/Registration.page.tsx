@@ -25,8 +25,7 @@ function RegistrationPage(): ReactNode {
         Happy shopping! 🛍️`);
       })
       .catch((error) => {
-        const message = createAppErrorMessage(error);
-        showMessage(message, 'error');
+        showMessage(createAppErrorMessage(error), 'error');
       });
   });
 
