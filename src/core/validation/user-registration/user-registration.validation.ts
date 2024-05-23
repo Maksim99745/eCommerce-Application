@@ -1,7 +1,7 @@
-import { RegistrationFormAddress } from '@models/forms.model';
 import { getCountryLabelByCode } from '@utils/get-country-label-by-code';
 import { z } from 'zod';
 import dayjs from 'dayjs';
+import { RegistrationFormAddress } from '@pages/Registration/components/RegistrationForm.component';
 import { RegistrationErrorMessages } from './user-registration.enum';
 import { CITY_REGEX, MIN_AGE, postalValidationRegEx } from './user-registration.const';
 
