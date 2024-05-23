@@ -1,5 +1,5 @@
 import { DatePickerElement } from '@components/DataPickerElement/DatePickerElement';
-import { personalInformationSchema } from '@core/validation/user-profile/personal-information.schema';
+import { personalInformationSchema } from '@core/validation/user-profile/user-profile.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PersonalInformationForm } from '@models/forms.model';
 import { Container, Grid, Paper, Typography } from '@mui/material';
@@ -21,7 +21,7 @@ function PersonalData({ firstName, lastName, dateOfBirth }: PersonalDataProps) {
       birthDate: new Date(dateOfBirth).toISOString(),
     },
     resolver: zodResolver(personalInformationSchema),
-    mode: 'onChange',
+    mode: 'all',
   });
 
   // TODO: think about birthday validation, date from commerce tools is not appropriate for validation, that's why i changed mode to onChange
