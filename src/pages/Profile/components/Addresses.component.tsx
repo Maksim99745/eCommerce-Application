@@ -43,7 +43,6 @@ export function Addresses({ userData }: { userData: Customer }) {
                   city={address.city || ''}
                   street={address.streetName || ''}
                   postalCode={address.postalCode || ''}
-                  addressType="shipping"
                 />
                 <Typography variant="subtitle2" sx={{ mt: 1, mb: 1 }}>
                   {(isDefaultShippingAddress(userData, address) && 'default shipping address') ||

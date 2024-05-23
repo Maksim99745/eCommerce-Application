@@ -58,12 +58,7 @@ function PersonalData({ firstName, lastName, dateOfBirth }: PersonalDataProps) {
 
             <Grid item xs={1}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePickerElement
-                  label="Birth date"
-                  name="birthDate"
-                  helperText=" "
-                  // onChange={(value) => console.log(value)}
-                />
+                <DatePickerElement label="Birth date" name="birthDate" helperText=" " />
               </LocalizationProvider>
             </Grid>
           </Grid>

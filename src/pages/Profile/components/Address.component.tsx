@@ -10,17 +10,15 @@ export interface AddressDataProps {
   city: string;
   street: string;
   postalCode: string;
-  addressType: 'billing' | 'shipping';
 }
 
-export function AddressComponent({ country, city, street, postalCode, addressType }: AddressDataProps) {
+export function AddressComponent({ country, city, street, postalCode }: AddressDataProps) {
   const formContext = useForm<AddressInformationForm>({
     defaultValues: {
       country,
       city,
       street,
       postalCode,
-      addressType,
     },
     resolver: zodResolver(addressSchema),
     mode: 'onChange',
