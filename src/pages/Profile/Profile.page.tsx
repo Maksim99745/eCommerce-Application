@@ -15,7 +15,6 @@ function ProfilePage() {
     return <PagePreloader />;
   }
 
-  console.log(user);
   const { firstName = '', lastName = '', dateOfBirth = '' } = user;
   return (
     <Stack>
