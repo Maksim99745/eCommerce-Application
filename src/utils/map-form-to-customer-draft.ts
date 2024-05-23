@@ -4,7 +4,8 @@ import {
   NO_IDX,
   SHIPPING_ADDRESS_IDX,
 } from '@core/validation/user-registration/user-registration.const';
-import { RegistrationForm, RegistrationFormAddress } from '@models/forms.model';
+import { RegistrationForm } from '@models/forms.model';
+import { RegistrationFormAddress } from '@pages/Registration/components/RegistrationForm.component';
 
 function mapFormAddressToCustomerAddress(address: RegistrationFormAddress): BaseAddress {
   const { street, postalCode, country, city } = address;

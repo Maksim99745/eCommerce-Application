@@ -21,7 +21,7 @@ function PersonalData({ firstName, lastName, dateOfBirth }: PersonalDataProps) {
       birthDate: new Date(dateOfBirth).toISOString(),
     },
     resolver: zodResolver(personalInformationSchema),
-    mode: 'all',
+    mode: 'onChange',
   });
 
   // TODO: think about birthday validation, date from commerce tools is not appropriate for validation, that's why i changed mode to onChange
