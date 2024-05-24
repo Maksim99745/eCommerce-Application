@@ -6,7 +6,9 @@ import { isErrorWithBody } from '@core/errorHandlers/ErrorWithBody';
 import { isResourceNotFoundError } from '@core/errorHandlers/errors';
 import { useShowMessage } from '@hooks/useShowMessage';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
+import { createAppErrorMessage } from '@core/errorHandlers/createAppErrorMessage';
 import styles from './Product.page.module.scss';
+import { generateProductObj } from './utils/generateProductObj';
 
 function ProductPage() {
   const { productKey = '' } = useParams<'productKey'>();
@@ -14,16 +16,14 @@ function ProductPage() {
   const { data } = useGetProduct(productKey, {
     onError: (e) => {
       if (isErrorWithBody(e) && isResourceNotFoundError(e.body.errors[0])) {
-        // TODO: createErrorMessage
-        showMessage('The Product not found', 'error');
+        showMessage(createAppErrorMessage(e), 'error');
       }
     },
   });
-  // console.log(data);
-  // console.log(`${data?.masterVariant?.prices[0].value.centAmount / 100} €`);
+
+  const productInfo = generateProductObj(data);
 
   const defaultImageUrl = '/public/defaultImg.png';
-
   const images = data?.masterVariant.images
     ? [...data.masterVariant.images].map((image) => ({
         original: image?.url || defaultImageUrl,
@@ -52,16 +52,20 @@ function ProductPage() {
             {data?.name.en}
           </Typography>
           <Typography component="p" className={styles.productPageInfo}>
-            Price:
+            Price: <span className={styles.currentPrice}>{productInfo.currentPrice}</span>
+            <span className={styles.previousPrice}>{productInfo.previousPrice}</span>
           </Typography>
           <Typography component="p" className={styles.productPageInfo}>
-            Brand:
+            Brand: <span className={styles.attributeValue}>{productInfo.brand}</span>
           </Typography>
           <Typography component="p" className={styles.productPageInfo}>
-            Country:
+            Country: <span className={styles.attributeValue}>{productInfo.country}</span>
           </Typography>
           <Typography component="p" className={styles.productPageInfo}>
-            Variants
+            Variants will be here later, if any
+          </Typography>
+          <Typography component="p" className={styles.productPageInfo}>
+            Buttons &quot;Add to Cart&quot;/&quot;Remove from Cart&quot; 🛒 will be here later
           </Typography>
         </Stack>
       </Container>
@@ -69,6 +73,18 @@ function ProductPage() {
       <Stack className={styles.productPageDescription}>
         <Typography component="p" className={styles.productPageDescription}>
           {data?.description?.en}
+        </Typography>
+        <Typography component="p" className={styles.productAttributes}>
+          {productInfo.lengthInfo}
+        </Typography>
+        <Typography component="p" className={styles.productAttributes}>
+          {productInfo.widthInfo}
+        </Typography>
+        <Typography component="p" className={styles.productAttributes}>
+          {productInfo.heightInfo}
+        </Typography>
+        <Typography component="p" className={styles.productAttributes}>
+          {productInfo.volumeInfo}
         </Typography>
       </Stack>
     </Stack>

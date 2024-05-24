@@ -32,21 +32,48 @@
 }
 
 .product-page-title {
-  text-align: center;
   font-weight: 900;
   font-size: 30px;
   margin-bottom: 35px;
 }
 
 .product-page-info {
+  font-size: 24px;
+  font-weight: 900;
   margin-bottom: 5px;
   padding-top: 5px;
 }
 
+.product-attributes {
+  font-size: 24px;
+}
+
+.attribute-value,
+.current-price,
+.previous-price {
+  font-weight: 400;
+  margin-left: 15px;
+}
+
+.current-price {
+  color: darkgreen;
+  font-weight: 800;
+  font-size: 28px;
+}
+
+.previous-price {
+  text-decoration: line-through;
+  color: brown;
+  font-weight: 700;
+}
+
 .product-page-description {
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding-top: 30px;
+  font-size: 22px;
+  margin-bottom: 15px;
 }
 
 @media (max-width: 850px) {
