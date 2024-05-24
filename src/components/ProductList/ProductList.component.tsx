@@ -1,11 +1,12 @@
-import { ProductProjection } from '@commercetools/platform-sdk';
+import { ProductProjection, ProductProjectionPagedSearchResponse } from '@commercetools/platform-sdk';
 import { defaultProductsLimit, defaultProductsOffset } from '@constants/products.const';
 import { useGetProducts } from '@hooks/useGetProducts';
+import useIntersectRef from '@hooks/useIntersectRef';
 import { ProductFilter } from '@models/product-filter.model';
-import { Box, CircularProgress, Grid, Typography } from '@mui/material';
+import { Box, CircularProgress, Grid, Typography, useEventCallback } from '@mui/material';
 import ProductCardComponent from '@components/ProductCard/ProductCard.component';
 import { ProductListSkeletonComponent } from '@components/ProductList/ProductList.component.skeleton';
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 interface ProductListComponentProps {
   categoryId: string;
@@ -13,73 +14,55 @@ interface ProductListComponentProps {
 
 function ProductListComponent({ categoryId }: ProductListComponentProps) {
   const [isInitLoading, setIsInitLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const [products, setProducts] = useState<ProductProjection[]>([]);
   const [filter, setFilter] = useState<ProductFilter>({ categoryId, offset: defaultProductsOffset });
-  const { data: loadedProducts, isLoading, error } = useGetProducts(filter);
-  const loaderRef = useRef(null);
 
-  const resetProductsAndFilter = useCallback(() => {
-    setProducts([]);
-    setFilter({ categoryId, offset: defaultProductsOffset });
-    setHasMore(false);
-  }, [categoryId]);
-
-  const updateProducts = useCallback(() => {
-    if (!loadedProducts?.results) {
+  const updateProducts = useEventCallback((data: ProductProjectionPagedSearchResponse) => {
+    if (!data?.results) {
       return;
     }
 
     const offset = filter.offset || defaultProductsOffset;
-    const count = offset + loadedProducts.count;
-    const loadMore = !!loadedProducts?.total && count < loadedProducts.total;
+    const count = offset + data.count;
+    const loadMore = !!data?.total && count < data.total;
 
     setHasMore(loadMore);
 
     if (offset === defaultProductsOffset) {
       setIsInitLoading(false);
-      setProducts(loadedProducts.results);
+      setProducts(data.results);
       return;
     }
 
     setProducts((prevProducts) => {
       // Fix bug with duplicate products
       const productIds = new Set(prevProducts.map((product) => product.id));
-      const newProducts = loadedProducts.results.filter((product) => !productIds.has(product.id));
+      const newProducts = data.results.filter((product) => !productIds.has(product.id));
       return [...prevProducts, ...newProducts];
     });
-  }, [loadedProducts, filter]);
+  });
 
-  const loadMoreProducts = useCallback(() => {
+  const { isLoading, error } = useGetProducts(filter, { onSuccess: updateProducts });
+
+  const setRef = useIntersectRef(() => {
+    if (!hasMore) {
+      return;
+    }
+
     setFilter((prevFilter) => ({
       ...prevFilter,
       categoryId,
       offset: (prevFilter.offset || defaultProductsOffset) + defaultProductsLimit,
     }));
+  });
+
+  useEffect(() => {
+    setProducts([]);
+    setFilter({ categoryId, offset: defaultProductsOffset });
+    setHasMore(false);
+    setIsInitLoading(true);
   }, [categoryId]);
-
-  const observeLoader = useCallback(() => {
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && hasMore) {
-        loadMoreProducts();
-      }
-    });
-
-    if (loaderRef.current) {
-      observer.observe(loaderRef.current);
-    }
-
-    return () => {
-      if (loaderRef.current) {
-        observer.unobserve(loaderRef.current);
-      }
-    };
-  }, [hasMore, loadMoreProducts]);
-
-  useEffect(() => resetProductsAndFilter(), [resetProductsAndFilter]);
-  useEffect(() => updateProducts(), [updateProducts]);
-  useEffect(() => observeLoader(), [observeLoader]);
-  useEffect(() => setIsInitLoading(true), [categoryId]);
 
   if (error) {
     return <Typography variant="h6">Error loading products</Typography>;
@@ -103,7 +86,7 @@ function ProductListComponent({ categoryId }: ProductListComponentProps) {
 
       {hasMore && (
         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', height: 50 }}>
-          <CircularProgress ref={loaderRef} />
+          <CircularProgress ref={setRef} />
         </Box>
       )}
 
