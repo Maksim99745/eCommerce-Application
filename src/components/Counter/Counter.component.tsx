@@ -50,6 +50,7 @@ function CounterComponent({ onChange, initCount = minCount }: CounterComponentPr
           max: maxCount,
           style: {
             padding: 5,
+            textAlign: 'center',
           },
         }}
         type="tel"
