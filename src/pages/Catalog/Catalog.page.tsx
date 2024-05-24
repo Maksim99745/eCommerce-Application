@@ -42,7 +42,7 @@ function CatalogPage() {
                 position: 'absolute',
                 top: 10,
                 left: 20,
-                color: 'primary.light',
+                color: 'white',
                 fontWeight: 'bold',
                 textShadow:
                   '3px 0px 7px rgba(81,67,21,0.8), -3px 0px 7px rgba(81,67,21,0.8), 0px 4px 7px rgba(81,67,21,0.8)',
