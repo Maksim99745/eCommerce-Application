@@ -14,7 +14,7 @@ export interface FormActionsToolBarProps {
   onAction: (action: EditableFormAction) => void;
 }
 
-export function FormActionsToolBar({ mode, disabled, isLoading, onAction }: FormActionsToolBarProps) {
+export function EditableFormActionsBar({ mode, disabled, isLoading, onAction }: FormActionsToolBarProps) {
   return (
     <>
       {mode === 'view' && (

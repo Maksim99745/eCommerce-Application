@@ -10,7 +10,11 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { FormContainer, TextFieldElement, useForm } from 'react-hook-form-mui';
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import { useState } from 'react';
-import { EditableFormViewMode, FormActionsToolBar, FormActionsToolBarProps } from './FormActionsToolBar';
+import {
+  EditableFormActionsBar,
+  EditableFormViewMode,
+  FormActionsToolBarProps,
+} from '../../../components/EditableFormActionsBar/EditableFormActionsBar';
 
 export interface PersonalFormComponentProps {
   onSubmit: (personalData: PersonalInformationForm) => void;
@@ -48,7 +52,7 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
           <Typography variant="h5" gutterBottom sx={{ mb: 2 }}>
             Personal information
           </Typography>
-          <FormActionsToolBar mode={viewMode} onAction={handleFormModeAction} />
+          <EditableFormActionsBar mode={viewMode} onAction={handleFormModeAction} />
           <Grid container spacing={{ xs: 2 }} columns={{ xs: 1, md: 3 }}>
             <Grid item xs={1}>
               <TextFieldElement<PersonalInformationForm>
