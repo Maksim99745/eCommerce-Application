@@ -1,7 +1,7 @@
 import { Grid, Skeleton } from '@mui/material';
 
 export function ProductListSkeletonComponent() {
-  const cards = Array.from({ length: 4 }).map((_, index) => index);
+  const cards = Array.from({ length: 6 }).map((_, index) => index);
 
   return (
     <Grid container gap={4} columns={2} justifyContent="center" sx={{ p: 0 }}>

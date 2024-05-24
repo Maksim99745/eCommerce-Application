@@ -1,4 +1,4 @@
-export const defaultProductsLimit = 10;
+export const defaultProductsLimit = 12;
 export const defaultProductsOffset = 0;
 export const priceAmount = 100;
 export const minCount = 1;

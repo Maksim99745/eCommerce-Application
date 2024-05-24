@@ -94,7 +94,7 @@ function ProductListComponent({ categoryId }: ProductListComponentProps) {
   }
 
   return (
-    <Grid container gap={4} columns={2} justifyContent="center" sx={{ p: 0 }}>
+    <Grid container gap={4} columns={3} justifyContent="center" sx={{ p: 0 }}>
       {products.map((product) => (
         <Grid item key={product.id} sx={{ width: '100%', maxWidth: 350 }}>
           <ProductCardComponent product={product} />
