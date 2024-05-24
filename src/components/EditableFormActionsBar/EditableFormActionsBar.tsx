@@ -7,7 +7,7 @@ import { LoadingButton } from '@mui/lab';
 export type EditableFormAction = 'edit' | 'cancel' | 'save';
 export type EditableFormViewMode = 'view' | 'edit';
 
-const EditableFormActionsBarButtonStyles = { mb: '15px', textTransform: 'none' };
+const EditableFormActionsBarButtonStyles = { textTransform: 'none' };
 export interface FormActionsToolBarProps {
   mode: EditableFormViewMode;
   disabled?: boolean;
@@ -35,6 +35,7 @@ export function EditableFormActionsBar({ mode, disabled, isLoading, onAction }: 
         <Stack direction="row">
           <LoadingButton
             loading={isLoading}
+            type="submit"
             variant="contained"
             color="primary"
             sx={EditableFormActionsBarButtonStyles}

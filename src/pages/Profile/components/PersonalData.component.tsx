@@ -3,12 +3,10 @@ import { DatePickerElement } from 'react-hook-form-mui/date-pickers';
 import { personalInformationSchema } from '@core/validation/user-profile/user-profile.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PersonalInformationForm } from '@models/forms.model';
-import { LoadingButton } from '@mui/lab';
-import { Container, Grid, Paper, Typography, useEventCallback } from '@mui/material';
+import { Button, Container, Grid, Paper, Stack, Typography, useEventCallback } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { FormContainer, TextFieldElement, useForm } from 'react-hook-form-mui';
-import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import { useState } from 'react';
 import {
   EditableFormActionsBar,
@@ -37,28 +35,33 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
     resolver: zodResolver(personalInformationSchema),
     mode: 'all',
   });
+
+  const { reset } = formContext;
+
   const handleFormModeAction = useEventCallback<FormActionsToolBarProps['onAction']>((action) => {
-    // console.log('handleFormModeAction', action);
     if (action === 'edit') {
       setViewMode('edit');
       setReadOnlyMode(false);
     } else if (action === 'cancel') {
       setViewMode('view');
       setReadOnlyMode(true);
-      // TODO: reset form
+      reset();
     } else if (action === 'save') {
       setReadOnlyMode(true);
+      setViewMode('view');
     }
   });
-  // TODO: think about birthday validation, date from commerce tools is not appropriate for validation, that's why i changed mode to onChange
+
   return (
     <Container maxWidth="md">
       <Paper elevation={1} sx={{ p: '1vh 2%', width: '100%', mb: 2 }}>
         <FormContainer<PersonalInformationForm> formContext={formContext} onSuccess={onSubmit}>
-          <Typography variant="h5" gutterBottom sx={{ mb: 2 }}>
-            Personal information
-          </Typography>
-          <EditableFormActionsBar mode={viewMode} onAction={handleFormModeAction} />
+          <Stack direction="row" spacing="auto" sx={{ mb: 3 }}>
+            <Typography variant="h5" gutterBottom>
+              Personal information
+            </Typography>
+            <EditableFormActionsBar mode={viewMode} onAction={handleFormModeAction} />
+          </Stack>
           <Grid container spacing={{ xs: 1 }} columns={{ xs: 1, md: 3 }}>
             <Grid item xs={1}>
               <TextFieldElement<PersonalInformationForm>
@@ -66,6 +69,7 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
                 name="firstName"
                 helperText=" "
                 InputLabelProps={{ shrink: true }}
+                disabled={isLoading}
                 InputProps={{
                   readOnly: readOnlyMode,
                 }}
@@ -77,6 +81,7 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
                 label="Last name"
                 name="lastName"
                 helperText=" "
+                disabled={isLoading}
                 InputLabelProps={{ shrink: true }}
                 InputProps={{
                   readOnly: readOnlyMode,
@@ -90,26 +95,15 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
                   label="Birth date"
                   name="dateOfBirth"
                   helperText=" "
+                  disabled={isLoading}
                   readOnly={readOnlyMode}
-                  // onChange={(value) => console.log(value)}
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid item xs={1}>
-              <LoadingButton
-                loading={isLoading}
-                type="submit"
-                variant="contained"
-                color="primary"
-                sx={{ mx: 'auto', textTransform: 'none' }}
-                disabled={isLoading}
-                size="small"
-              >
-                <HowToRegOutlinedIcon sx={{ mr: 1 }} />
-                Update
-              </LoadingButton>
-            </Grid>
           </Grid>
+          <Button variant="outlined" type="submit">
+            Temp submit
+          </Button>
         </FormContainer>
       </Paper>
     </Container>

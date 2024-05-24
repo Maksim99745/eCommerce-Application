@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { loginFormSchema } from '@core/validation/user-login/user-login.schema';
 import { RegistrationErrorMessages } from './user-registration.enum';
 import { validateAddress, validateBirthDay, validateBirthDayByAge } from './user-registration.validation';
@@ -21,13 +21,13 @@ export const lastNameSchema = z
   .regex(NAME_SURNAME_REGEX, RegistrationErrorMessages.LastNameInvalid);
 
 export const birthDateSchema = z
-  .custom<Dayjs>()
-  .refine((date) => validateBirthDay(date), RegistrationErrorMessages.BirthDateInvalid)
+  .custom<Dayjs | string>()
+  .refine((date) => validateBirthDay(dayjs(date)), RegistrationErrorMessages.BirthDateInvalid)
   .refine(
-    (date) => (validateBirthDay(date) ? validateBirthDayByAge(date.toISOString()) : false),
+    (date) => (validateBirthDay(dayjs(date)) ? validateBirthDayByAge(dayjs(date).toISOString()) : false),
     RegistrationErrorMessages.BirthDateAge,
   )
-  .transform((value: Dayjs) => value.toISOString().substring(0, ISO_DATE_LENGTH));
+  .transform((value) => dayjs(value).toISOString().substring(0, ISO_DATE_LENGTH));
 
 export const addressSchema = z.object({
   country: z.string(),
