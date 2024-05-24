@@ -13,7 +13,6 @@ interface ProductListComponentProps {
 }
 
 function ProductListComponent({ categoryId }: ProductListComponentProps) {
-  const [isInitLoading, setIsInitLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [products, setProducts] = useState<ProductProjection[]>([]);
   const [filter, setFilter] = useState<ProductFilter>({ categoryId, offset: defaultProductsOffset });
@@ -30,7 +29,6 @@ function ProductListComponent({ categoryId }: ProductListComponentProps) {
     setHasMore(loadMore);
 
     if (offset === defaultProductsOffset) {
-      setIsInitLoading(false);
       setProducts(data.results);
       return;
     }
@@ -61,14 +59,13 @@ function ProductListComponent({ categoryId }: ProductListComponentProps) {
     setProducts([]);
     setFilter({ categoryId, offset: defaultProductsOffset });
     setHasMore(false);
-    setIsInitLoading(true);
   }, [categoryId]);
 
   if (error) {
     return <Typography variant="h6">Error loading products</Typography>;
   }
 
-  if (isInitLoading) {
+  if (!products.length && isLoading) {
     return <ProductListSkeletonComponent />;
   }
 
