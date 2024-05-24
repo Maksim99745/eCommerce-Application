@@ -4,13 +4,12 @@ import {
   NO_IDX,
   SHIPPING_ADDRESS_IDX,
 } from '@core/validation/user-registration/user-registration.const';
-import { RegistrationForm, RegistrationFormAddress } from '@models/index';
+import { RegistrationForm } from '@models/index';
 import { LoadingButton } from '@mui/lab';
 import {
   FormContainer,
   TextFieldElement,
   PasswordElement,
-  DatePickerElement,
   useForm,
   CheckboxElement,
   useWatch,
@@ -20,40 +19,16 @@ import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Container, FormLabel, Grid, Paper, Typography } from '@mui/material';
-import { useCallback } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registrationSchema } from '@core/validation/user-registration/user-registration.schema';
+import { DatePickerElement } from '@components/DataPickerElement/DatePickerElement';
+import { useAddressRenderOptions } from '@utils/user-address-utils';
 import { UserAddressComponent } from './UserAddress.component';
 
 export interface RegistrationFormProps {
   onSubmit: (registrationData: RegistrationForm) => void;
   isLoading: boolean;
 }
-
-const toAddressString = (address: RegistrationFormAddress): string =>
-  [address.country, address.postalCode, address.city, address.street].filter(Boolean).join(', ');
-
-const withTypeOfAddress = (addressType: RegistrationFormAddress['addressType']) => (address: RegistrationFormAddress) =>
-  address.addressType === addressType;
-
-const useAddressRenderOptions = (addressType: RegistrationFormAddress['addressType']) =>
-  useCallback(
-    (addresses: RegistrationFormAddress[]) => [
-      { id: NO_IDX, label: 'None' },
-      ...addresses
-        .map((address, index) => ({
-          ...address,
-          id: index,
-          label: (
-            <Typography sx={{ textWrap: 'pretty', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {toAddressString(address)}
-            </Typography>
-          ),
-        }))
-        .filter(withTypeOfAddress(addressType)),
-    ],
-    [addressType],
-  );
 
 export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationFormProps) {
   const formContext = useForm<RegistrationForm>({
@@ -62,7 +37,7 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
       password: '',
       firstName: '',
       lastName: '',
-      birthDate: '',
+      birthDate: undefined,
       shippingAsBilling: false,
       defaultShippingAddressIdx: NO_IDX,
       defaultBillingAddressIdx: NO_IDX,
@@ -146,7 +121,7 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
 
             <Grid item xs={1} md={4}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePickerElement<RegistrationForm>
+                <DatePickerElement
                   name="birthDate"
                   label="Birth Date"
                   required

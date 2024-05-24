@@ -9,6 +9,7 @@ import {
   MyCustomerSignin,
   MyCustomerUpdateAction,
   ProductProjectionPagedSearchResponse,
+  Product,
 } from '@commercetools/platform-sdk';
 import { ApiRequest } from '@commercetools/platform-sdk/dist/declarations/src/generated/shared/utils/requests-utils';
 import { UserAuthOptions } from '@commercetools/sdk-client-v2';
@@ -45,6 +46,10 @@ export class ApiService {
 
   public async getCategory(key: string): Promise<Category> {
     return this.callRequest(this.builder.categories().withKey({ key }).get());
+  }
+
+  public async getProduct(key: string): Promise<Product> {
+    return this.callRequest(this.builder.products().withKey({ key }).get());
   }
 
   public async login(customer: MyCustomerSignin): Promise<CustomerSignInResult> {
