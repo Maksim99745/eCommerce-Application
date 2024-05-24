@@ -38,7 +38,7 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
     mode: 'all',
   });
   const handleFormModeAction = useEventCallback<FormActionsToolBarProps['onAction']>((action) => {
-    console.log('handleFormModeAction', action);
+    // console.log('handleFormModeAction', action);
     if (action === 'edit') {
       setViewMode('edit');
       setReadOnlyMode(false);
