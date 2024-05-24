@@ -1,5 +1,5 @@
 import { Customer } from '@commercetools/platform-sdk';
-import { DatePickerElement } from '@components/DataPickerElement/DatePickerElement';
+import { DatePickerElement } from 'react-hook-form-mui/date-pickers';
 import { personalInformationSchema } from '@core/validation/user-profile/user-profile.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PersonalInformationForm } from '@models/forms.model';

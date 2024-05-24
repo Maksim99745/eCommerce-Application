@@ -21,7 +21,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Container, FormLabel, Grid, Paper, Typography } from '@mui/material';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registrationSchema } from '@core/validation/user-registration/user-registration.schema';
-import { DatePickerElement } from '@components/DataPickerElement/DatePickerElement';
+import { DatePickerElement } from 'react-hook-form-mui/date-pickers';
 import { useAddressRenderOptions } from '@utils/user-address-utils';
 import { UserAddressComponent } from './UserAddress.component';
 
