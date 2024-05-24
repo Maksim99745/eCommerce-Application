@@ -1,4 +1,4 @@
-import { HideOnPathsComponent } from '@components/HideOnRoot/HideOnPaths.component';
+import { HideOnPathsComponent } from '@components/HideOnPaths/HideOnPaths.component';
 import HomeIcon from '@mui/icons-material/Home';
 import { Breadcrumbs, Chip, ChipProps, emphasize, styled, Toolbar, Typography } from '@mui/material';
 import { ElementType } from 'react';
