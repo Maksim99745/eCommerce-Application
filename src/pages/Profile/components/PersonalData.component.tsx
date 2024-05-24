@@ -59,7 +59,7 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
             Personal information
           </Typography>
           <EditableFormActionsBar mode={viewMode} onAction={handleFormModeAction} />
-          <Grid container spacing={{ xs: 2 }} columns={{ xs: 1, md: 3 }}>
+          <Grid container spacing={{ xs: 1 }} columns={{ xs: 1, md: 3 }}>
             <Grid item xs={1}>
               <TextFieldElement<PersonalInformationForm>
                 label="First name"
