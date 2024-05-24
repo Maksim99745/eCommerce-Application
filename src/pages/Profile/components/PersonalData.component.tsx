@@ -24,6 +24,8 @@ export interface PersonalFormComponentProps {
 
 function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormComponentProps) {
   const [viewMode, setViewMode] = useState<EditableFormViewMode>('view');
+  const [readOnlyMode, setReadOnlyMode] = useState<boolean>(true);
+
   const { firstName = '', lastName = '', dateOfBirth = undefined } = userData;
 
   const formContext = useForm<PersonalInformationForm>({
@@ -36,12 +38,16 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
     mode: 'all',
   });
   const handleFormModeAction = useEventCallback<FormActionsToolBarProps['onAction']>((action) => {
-    // console.log('handleFormModeAction', action);
+    console.log('handleFormModeAction', action);
     if (action === 'edit') {
       setViewMode('edit');
+      setReadOnlyMode(false);
     } else if (action === 'cancel') {
       setViewMode('view');
+      setReadOnlyMode(true);
       // TODO: reset form
+    } else if (action === 'save') {
+      setReadOnlyMode(true);
     }
   });
   // TODO: think about birthday validation, date from commerce tools is not appropriate for validation, that's why i changed mode to onChange
@@ -61,7 +67,7 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
                 helperText=" "
                 InputLabelProps={{ shrink: true }}
                 InputProps={{
-                  readOnly: true,
+                  readOnly: readOnlyMode,
                 }}
               />
             </Grid>
@@ -73,7 +79,7 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
                 helperText=" "
                 InputLabelProps={{ shrink: true }}
                 InputProps={{
-                  readOnly: true,
+                  readOnly: readOnlyMode,
                 }}
               />
             </Grid>
@@ -84,8 +90,7 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
                   label="Birth date"
                   name="dateOfBirth"
                   helperText=" "
-                  // TODO: убери реад онлу
-                  // readOnly
+                  readOnly={readOnlyMode}
                   // onChange={(value) => console.log(value)}
                 />
               </LocalizationProvider>
@@ -98,10 +103,10 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
                 color="primary"
                 sx={{ mx: 'auto', textTransform: 'none' }}
                 disabled={isLoading}
-                size="large"
+                size="small"
               >
                 <HowToRegOutlinedIcon sx={{ mr: 1 }} />
-                Sign Up
+                Update
               </LoadingButton>
             </Grid>
           </Grid>

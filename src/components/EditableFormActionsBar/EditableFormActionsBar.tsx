@@ -23,7 +23,7 @@ export function EditableFormActionsBar({ mode, disabled, isLoading, onAction }: 
           color="primary"
           sx={{ mx: 'auto', textTransform: 'none' }}
           disabled={disabled}
-          size="large"
+          size="small"
           onClick={() => onAction('edit')}
         >
           <EditIcon sx={{ mr: 1 }} />
@@ -39,7 +39,7 @@ export function EditableFormActionsBar({ mode, disabled, isLoading, onAction }: 
             sx={{ mx: 'auto', textTransform: 'none' }}
             disabled={isLoading}
             onClick={() => onAction('save')}
-            size="large"
+            size="small"
           >
             <SaveAsIcon sx={{ mr: 1 }} />
             Save
@@ -50,7 +50,7 @@ export function EditableFormActionsBar({ mode, disabled, isLoading, onAction }: 
             sx={{ mx: 'auto', textTransform: 'none' }}
             disabled={disabled}
             onClick={() => onAction('cancel')}
-            size="large"
+            size="small"
           >
             <CancelIcon sx={{ mr: 1 }} />
             Cancel
