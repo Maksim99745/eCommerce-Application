@@ -6,7 +6,7 @@ export function CatalogPageSkeleton() {
     <Container maxWidth="md" sx={{ p: 0 }}>
       <Paper elevation={1} sx={{ p: 2, width: '100%' }}>
         <Stack gap={2}>
-          <Skeleton variant="rounded" width={300} height={32} />
+          <Skeleton variant="rounded" role="progressbar" width={300} height={32} />
 
           <ProductListSkeletonComponent />
         </Stack>

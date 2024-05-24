@@ -3,6 +3,7 @@ import { DEFAULT_REQUEST_DELAY, DEFAULT_REQUEST_TIMEOUT } from '@test/constants/
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react';
 import CatalogPage from './Catalog.page';
+import '@test/mocks/inersection-observer.mock';
 
 afterEach(cleanup);
 
@@ -22,11 +23,11 @@ test('Render the catalog page', async () => {
     render(<CatalogPage />);
   });
 
-  expect(screen.getByText('Loading...')).toBeInTheDocument();
+  expect(screen.getByRole('progressbar')).toBeInTheDocument();
 
-  await waitFor(() => expect(screen.queryByText('Loading...')).not.toBeInTheDocument(), {
+  await waitFor(() => expect(screen.queryByRole('progressbar')).not.toBeInTheDocument(), {
     timeout: DEFAULT_REQUEST_TIMEOUT,
   });
 
-  expect(await screen.findByText('Catalog for Category 1 page')).toBeInTheDocument();
+  expect(await screen.findByText('Category 1 products')).toBeInTheDocument();
 });
