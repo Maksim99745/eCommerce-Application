@@ -71,21 +71,19 @@ export function ProductCardComponent({ product }: ProductCardComponentProps) {
         />
 
         <CardContent sx={{ px: 2, py: 0 }}>
-          <Tooltip describeChild title={description} arrow TransitionComponent={Zoom} placement="top">
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{
-                height: '100px',
-                overflow: 'hidden',
-                display: '-webkit-box',
-                WebkitLineClamp: '5',
-                WebkitBoxOrient: 'vertical',
-              }}
-            >
-              {description}
-            </Typography>
-          </Tooltip>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              height: '100px',
+              overflow: 'hidden',
+              display: '-webkit-box',
+              WebkitLineClamp: '5',
+              WebkitBoxOrient: 'vertical',
+            }}
+          >
+            {description}
+          </Typography>
         </CardContent>
       </CardActionArea>
 
