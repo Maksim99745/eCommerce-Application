@@ -37,7 +37,7 @@ export function ProductCardComponent({ product }: ProductCardComponentProps) {
   };
 
   const handleGoToProduct = () => {
-    navigate(String(product.key));
+    navigate(`products/${product.key}`);
   };
 
   return (
