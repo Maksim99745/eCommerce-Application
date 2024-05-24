@@ -14,17 +14,16 @@ export const setLoading = (isLoading: boolean) => {
   isUserLoadingSignal.value = isLoading;
 };
 
-const login = async (customer: MyCustomerSignin): Promise<{ success: boolean; error?: unknown }> => {
+const login = async (customer: MyCustomerSignin): Promise<void> => {
   setLoading(true);
   try {
     await apiService.login(customer);
     apiService.setBuilder(ClientType.password, { username: customer.email, password: customer.password });
     const user = await apiService.getCustomer();
     setUser(user);
-    return { success: true };
   } catch (error) {
     setUser(null);
-    return { success: false, error };
+    throw error;
   } finally {
     setLoading(false);
   }

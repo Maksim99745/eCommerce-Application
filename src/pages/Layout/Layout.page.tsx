@@ -38,7 +38,7 @@ function LayoutPage() {
           onTransitionEnd={handleDrawerTransitionEnd}
           onClose={handleDrawerClose}
           ModalProps={{ keepMounted: true }}
-          sx={{ '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth } }}
+          sx={{ '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, boxShadow: 3 } }}
         >
           <SidebarComponent>
             <CategoriesListComponent />

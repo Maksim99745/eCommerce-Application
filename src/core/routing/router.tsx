@@ -54,7 +54,6 @@ export const router = createBrowserRouter([
 
       return null;
     },
-    errorElement: <NotFoundPage />,
     children: [
       {
         index: true,
@@ -140,5 +139,13 @@ export const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: '*',
+    element: (
+      <Suspense fallback={<PagePreloader />}>
+        <NotFoundPage />
+      </Suspense>
+    ),
   },
 ]);

@@ -1,5 +1,7 @@
+import { CatalogPage } from '@core/routing/routing-pages';
+
 function MainPage() {
-  return <h2>Main Page</h2>;
+  return <CatalogPage />;
 }
 
 export default MainPage;

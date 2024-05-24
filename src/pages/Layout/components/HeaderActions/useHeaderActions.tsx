@@ -108,7 +108,7 @@ export const useHeaderActions = (onClick: () => void): { buttonItems: ReactNode;
         sx={{ ...actionStyles.button, ...actionStyles.showAfterSm }}
         onClick={handleOnClick}
         startIcon={<InfoIcon />}
-        variant="outlined"
+        variant="text"
       >
         About
       </Button>
