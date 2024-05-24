@@ -2,17 +2,11 @@ import { useGetCategory } from '@hooks/useGetCategory';
 import { Box, Container, Paper, Stack, Typography } from '@mui/material';
 import { CatalogPageSkeleton } from '@pages/Catalog/Catalog.page.skeleton';
 import ProductListComponent from '@components/ProductList/ProductList.component';
-import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 function CatalogPage() {
   const { categoryKey = 'popular' } = useParams<'categoryKey'>();
   const { data: category, isLoading } = useGetCategory(categoryKey);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    containerRef.current?.scrollIntoView({ behavior: 'instant' });
-  }, []);
 
   if (isLoading) {
     return <CatalogPageSkeleton />;
@@ -54,7 +48,7 @@ function CatalogPage() {
         )}
         {!category.description?.en && <Typography variant="h4">{category.name.en} products</Typography>}
 
-        <Paper elevation={1} sx={{ p: 2, width: '100%', height: '100%', overflow: 'auto' }} ref={containerRef}>
+        <Paper elevation={1} sx={{ p: 0, width: '100%', flex: 1, overflow: 'auto' }}>
           <ProductListComponent categoryId={category.id} />
         </Paper>
       </Stack>

@@ -11,9 +11,7 @@ import {
   CardMedia,
   IconButton,
   Stack,
-  Tooltip,
   Typography,
-  Zoom,
 } from '@mui/material';
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -47,11 +45,9 @@ export function ProductCardComponent({ product }: ProductCardComponentProps) {
       <CardActionArea sx={{ display: 'flex', flexDirection: 'column', gap: 1 }} onClick={handleGoToProduct}>
         <CardHeader
           title={
-            <Tooltip describeChild title={name} arrow TransitionComponent={Zoom} placement="top">
-              <Typography variant="h6" sx={{ lineHeight: '1.2' }}>
-                {name}
-              </Typography>
-            </Tooltip>
+            <Typography variant="h6" sx={{ lineHeight: '1.2' }}>
+              {name}
+            </Typography>
           }
           sx={{
             height: '65px',
