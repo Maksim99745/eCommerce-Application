@@ -2,17 +2,11 @@ import { useGetCategory } from '@hooks/useGetCategory';
 import { Box, Container, Paper, Stack, Typography } from '@mui/material';
 import { CatalogPageSkeleton } from '@pages/Catalog/Catalog.page.skeleton';
 import ProductListComponent from '@components/ProductList/ProductList.component';
-import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 function CatalogPage() {
   const { categoryKey = 'popular' } = useParams<'categoryKey'>();
   const { data: category, isLoading } = useGetCategory(categoryKey);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    containerRef.current?.scrollIntoView({ behavior: 'instant' });
-  }, []);
 
   if (isLoading) {
     return <CatalogPageSkeleton />;
@@ -24,12 +18,12 @@ function CatalogPage() {
 
   return (
     <Container maxWidth="xl" sx={{ p: 0, height: '100%' }}>
-      <Stack gap={2} sx={{ height: '100%' }}>
+      <Stack gap={2} sx={{ height: '100%', overflow: 'auto' }}>
         {category.description?.en && (
           <Box
             sx={{
               width: '100%',
-              height: '200px',
+              minHeight: '200px',
               position: 'relative',
               backgroundImage: `url("${category.description.en}")`,
               backgroundSize: 'cover',
@@ -54,7 +48,7 @@ function CatalogPage() {
         )}
         {!category.description?.en && <Typography variant="h4">{category.name.en} products</Typography>}
 
-        <Paper elevation={1} sx={{ p: 2, width: '100%', height: '100%', overflow: 'auto' }} ref={containerRef}>
+        <Paper elevation={1} sx={{ p: 0, width: '100%', flex: 1 }}>
           <ProductListComponent categoryId={category.id} />
         </Paper>
       </Stack>
