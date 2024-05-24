@@ -3,10 +3,10 @@ import { ProductListSkeletonComponent } from '@components/ProductList/ProductLis
 
 export function CatalogPageSkeleton() {
   return (
-    <Container maxWidth="md" sx={{ p: 0 }}>
+    <Container maxWidth="xl" sx={{ p: 0 }}>
       <Paper elevation={1} sx={{ p: 2, width: '100%' }}>
         <Stack gap={2}>
-          <Skeleton variant="rounded" role="progressbar" width={300} height={32} />
+          <Skeleton variant="rounded" role="progressbar" width="100%" height={180} />
 
           <ProductListSkeletonComponent />
         </Stack>
