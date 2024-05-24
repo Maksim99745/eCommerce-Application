@@ -18,12 +18,12 @@ function CatalogPage() {
 
   return (
     <Container maxWidth="xl" sx={{ p: 0, height: '100%' }}>
-      <Stack gap={2} sx={{ height: '100%' }}>
+      <Stack gap={2} sx={{ height: '100%', overflow: 'auto' }}>
         {category.description?.en && (
           <Box
             sx={{
               width: '100%',
-              height: '200px',
+              minHeight: '200px',
               position: 'relative',
               backgroundImage: `url("${category.description.en}")`,
               backgroundSize: 'cover',
@@ -48,7 +48,7 @@ function CatalogPage() {
         )}
         {!category.description?.en && <Typography variant="h4">{category.name.en} products</Typography>}
 
-        <Paper elevation={1} sx={{ p: 0, width: '100%', flex: 1, overflow: 'auto' }}>
+        <Paper elevation={1} sx={{ p: 0, width: '100%', flex: 1 }}>
           <ProductListComponent categoryId={category.id} />
         </Paper>
       </Stack>
