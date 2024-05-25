@@ -1,6 +1,6 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
 import CounterComponent from '@components/Counter/Counter.component';
-import { priceAmount } from '@constants/products.const';
+import { productCurrencyMap } from '@constants/products.const';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import {
   Card,
@@ -13,6 +13,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { mapProductToProductCard } from '@utils/map-product-to-product-card';
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,11 +23,7 @@ interface ProductCardComponentProps {
 
 export function ProductCardComponent({ product }: ProductCardComponentProps) {
   const navigate = useNavigate();
-  const name = product.name.en;
-  const image = product.masterVariant.images?.[0].url;
-  const price = (product.masterVariant.prices?.[0].value.centAmount || priceAmount) / priceAmount;
-  const currency = product.masterVariant.prices?.[0].value.currencyCode;
-  const description = product.description?.en;
+  const { name, image, price, discounted, currency, description } = mapProductToProductCard(product);
 
   const handleAddToCart = () => {
     console.warn('Add to cart:', product);
@@ -85,9 +82,30 @@ export function ProductCardComponent({ product }: ProductCardComponentProps) {
 
       <CardActions sx={{ px: 2, pt: 1, pb: 2 }}>
         <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ width: '100%' }}>
-          <Typography variant="body1" aria-label="product-price">
-            {price} {currency}
-          </Typography>
+          <Stack>
+            <Typography
+              variant="body1"
+              aria-label="product-price"
+              sx={{
+                textDecoration: discounted ? 'line-through' : 'none',
+                color: discounted ? 'text.disabled' : 'inherit',
+                fontWeight: discounted ? 'normal' : 'bold',
+              }}
+            >
+              {price} {productCurrencyMap[currency]}
+            </Typography>
+
+            {!!discounted && (
+              <Typography
+                variant="body1"
+                color="error"
+                aria-label="product-discounted-price"
+                sx={{ fontWeight: 'bold' }}
+              >
+                {discounted} {productCurrencyMap[currency]}
+              </Typography>
+            )}
+          </Stack>
 
           <CounterComponent onChange={handleChangeCount} aria-label="product-counter" />
 
