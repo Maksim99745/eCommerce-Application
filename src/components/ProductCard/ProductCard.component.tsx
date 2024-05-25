@@ -1,6 +1,6 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
 import CounterComponent from '@components/Counter/Counter.component';
-import { priceAmount, productCurrencyMap } from '@constants/products.const';
+import { productCurrencyMap } from '@constants/products.const';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import {
   Card,
@@ -13,6 +13,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { mapProductToProductCard } from '@utils/map-product-to-product-card';
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,12 +23,7 @@ interface ProductCardComponentProps {
 
 export function ProductCardComponent({ product }: ProductCardComponentProps) {
   const navigate = useNavigate();
-  const name = product.name.en;
-  const image = product.masterVariant.images?.[0].url;
-  const price = (product.masterVariant.prices?.[0].value.centAmount || 0) / priceAmount;
-  const currency = product.masterVariant.prices?.[0].value.currencyCode || 'EUR';
-  const description = product.description?.en;
-  const discounted = (product.masterVariant.prices?.[0].discounted?.value.centAmount || 0) / priceAmount;
+  const { name, image, price, discounted, currency, description } = mapProductToProductCard(product);
 
   const handleAddToCart = () => {
     console.warn('Add to cart:', product);
