@@ -2,19 +2,15 @@ import { useGetProduct } from '@hooks/useGetProduct';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Stack, Typography } from '@mui/material';
 import ReactImageGallery from 'react-image-gallery';
-import { useShowMessage } from '@hooks/useShowMessage';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
-import { createAppErrorMessage } from '@core/errorHandlers/createAppErrorMessage';
 import styles from './Product.page.module.scss';
 import { generateProductObj } from './utils/generateProductObj';
 
 function ProductPage() {
   const { productKey = '' } = useParams<'productKey'>();
-  const showMessage = useShowMessage();
   const navigate = useNavigate();
   const { data } = useGetProduct(productKey, {
-    onError: (e) => {
-      showMessage(createAppErrorMessage(e), 'error');
+    onError: () => {
       navigate('/404');
     },
   });
