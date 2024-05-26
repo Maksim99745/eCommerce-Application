@@ -1,9 +1,7 @@
 import { useGetProduct } from '@hooks/useGetProduct';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Stack, Typography } from '@mui/material';
 import ReactImageGallery from 'react-image-gallery';
-import { isErrorWithBody } from '@core/errorHandlers/ErrorWithBody';
-import { isResourceNotFoundError } from '@core/errorHandlers/errors';
 import { useShowMessage } from '@hooks/useShowMessage';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
 import { createAppErrorMessage } from '@core/errorHandlers/createAppErrorMessage';
@@ -13,11 +11,11 @@ import { generateProductObj } from './utils/generateProductObj';
 function ProductPage() {
   const { productKey = '' } = useParams<'productKey'>();
   const showMessage = useShowMessage();
+  const navigate = useNavigate();
   const { data } = useGetProduct(productKey, {
     onError: (e) => {
-      if (isErrorWithBody(e) && isResourceNotFoundError(e.body.errors[0])) {
-        showMessage(createAppErrorMessage(e), 'error');
-      }
+      showMessage(createAppErrorMessage(e), 'error');
+      navigate('/');
     },
   });
 
