@@ -26,7 +26,7 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
   const [viewMode, setViewMode] = useState<EditableFormViewMode>('view');
   const [readOnlyMode, setReadOnlyMode] = useState<boolean>(true);
 
-  const { firstName = '', lastName = '', dateOfBirth = undefined } = userData;
+  const { firstName = '', lastName = '', dateOfBirth = undefined, email = '' } = userData;
 
   dayjs.extend(utc);
 
@@ -35,6 +35,7 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
       firstName,
       lastName,
       dateOfBirth: dayjs.utc(dateOfBirth).toISOString(),
+      email,
     },
     resolver: zodResolver(personalInformationSchema),
     mode: 'all',
@@ -69,12 +70,13 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
             </Typography>
             <EditableFormActionsBar mode={viewMode} onAction={handleFormModeAction} />
           </Stack>
-          <Grid container spacing={{ xs: 1 }} columns={{ xs: 1, md: 3 }}>
+          <Grid container spacing={{ xs: 1 }} columns={{ xs: 1, md: 2 }}>
             <Grid item xs={1}>
               <TextFieldElement<PersonalInformationForm>
                 label="First name"
                 name="firstName"
                 helperText=" "
+                fullWidth
                 InputLabelProps={{ shrink: true }}
                 disabled={isLoading}
                 InputProps={{
@@ -89,6 +91,21 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
                 name="lastName"
                 helperText=" "
                 disabled={isLoading}
+                fullWidth
+                InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  readOnly: readOnlyMode,
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={1}>
+              <TextFieldElement<PersonalInformationForm>
+                label="Email"
+                name="email"
+                helperText=" "
+                disabled={isLoading}
+                fullWidth
                 InputLabelProps={{ shrink: true }}
                 InputProps={{
                   readOnly: readOnlyMode,
