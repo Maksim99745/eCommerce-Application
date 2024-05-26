@@ -8,7 +8,7 @@ jest.mock('@hooks/useAuth', () => ({
   useAuth: jest.fn(),
 }));
 
-// eslint-disable-next-line jest/no-disabled-tests
+// Skip the test
 test.skip('Render the profile page', async () => {
   await act(async () => {
     render(<ProfilePage />);
