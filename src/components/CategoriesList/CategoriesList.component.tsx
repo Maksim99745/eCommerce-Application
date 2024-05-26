@@ -4,7 +4,11 @@ import { useRequest } from '@hooks/useRequest';
 import { List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
 
-export function CategoriesListComponent() {
+interface CategoryListProps {
+  onSelectCategory?: (categoryId?: string) => void;
+}
+
+export function CategoriesListComponent({ onSelectCategory }: CategoryListProps) {
   const { categoryKey = '' } = useParams<'categoryKey'>();
   const { data: categories, isLoading, error } = useRequest('categories', () => apiService.getCategories());
 
@@ -18,7 +22,7 @@ export function CategoriesListComponent() {
           {categories.results
             .filter(({ key }) => key !== 'popular')
             .map(({ id, key, name }) => (
-              <ListItem key={id} disablePadding>
+              <ListItem key={id} disablePadding onClick={() => onSelectCategory?.()}>
                 <ListItemButton component={Link} to={`/categories/${key}`} selected={key === categoryKey}>
                   <ListItemText primary={name.en} />
                 </ListItemButton>
