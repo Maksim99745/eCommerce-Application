@@ -15,7 +15,7 @@ function ProductPage() {
   const { data } = useGetProduct(productKey, {
     onError: (e) => {
       showMessage(createAppErrorMessage(e), 'error');
-      navigate('/');
+      navigate('/404');
     },
   });
 
