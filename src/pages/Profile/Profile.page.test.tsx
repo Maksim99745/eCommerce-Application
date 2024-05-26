@@ -4,7 +4,9 @@ import { act } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import ProfilePage from './Profile.page';
 
-jest.mock('@hooks/useAuth', () => ({ user: jest.fn() }));
+jest.mock('@hooks/useAuth', () => ({
+  useAuth: jest.fn(),
+}));
 
 // eslint-disable-next-line jest/no-disabled-tests
 test.skip('Render the profile page', async () => {

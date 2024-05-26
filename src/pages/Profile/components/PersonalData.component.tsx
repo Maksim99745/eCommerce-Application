@@ -3,7 +3,7 @@ import { DatePickerElement } from 'react-hook-form-mui/date-pickers';
 import { personalInformationSchema } from '@core/validation/user-profile/user-profile.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PersonalInformationForm } from '@models/forms.model';
-import { Button, Container, Grid, Paper, Stack, Typography, useEventCallback } from '@mui/material';
+import { Container, Grid, Paper, Stack, Typography, useEventCallback } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { FormContainer, TextFieldElement, useForm } from 'react-hook-form-mui';
@@ -36,7 +36,7 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
     mode: 'all',
   });
 
-  const { reset } = formContext;
+  const { handleSubmit, reset } = formContext;
 
   const handleFormModeAction = useEventCallback<FormActionsToolBarProps['onAction']>((action) => {
     if (action === 'edit') {
@@ -47,8 +47,11 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
       setReadOnlyMode(true);
       reset();
     } else if (action === 'save') {
-      setReadOnlyMode(true);
-      setViewMode('view');
+      handleSubmit((data: PersonalInformationForm) => {
+        onSubmit(data);
+        setReadOnlyMode(true);
+        setViewMode('view');
+      })();
     }
   });
 
@@ -101,9 +104,6 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
               </LocalizationProvider>
             </Grid>
           </Grid>
-          <Button variant="outlined" type="submit">
-            Temp submit
-          </Button>
         </FormContainer>
       </Paper>
     </Container>

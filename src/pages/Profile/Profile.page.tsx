@@ -10,16 +10,29 @@ function ProfilePage() {
   const { user, isUserLoading, setUser } = useAuth();
   const showMessage = useShowMessage();
 
-  const handlePersonalFormData = useEventCallback<PersonalFormComponentProps['onSubmit']>(
-    async (data) => {
-      // TODO: find another action
-      const updatedUser = await apiService.updateCustomer({ action: 'setFirstName', firstName: data.firstName });
-      showMessage('Personal information successfully updated');
-      await setUser(updatedUser);
-    },
-    // const updatedUser = apiServise.updateUser(data) and look at site about actions or relogi
-    // take new user from updated user and passe in setUser
-  );
+  const handlePersonalFormData = useEventCallback<PersonalFormComponentProps['onSubmit']>(async (data) => {
+    if (!user) {
+      return null;
+    }
+
+    const updatedUser = await apiService.updateCustomer(
+      user?.version,
+      {
+        action: 'setFirstName',
+        firstName: data.firstName,
+      },
+      {
+        action: 'setLastName',
+        lastName: data.lastName,
+      },
+      {
+        action: 'setDateOfBirth',
+        dateOfBirth: data.dateOfBirth,
+      },
+    );
+    showMessage('Personal information successfully updated');
+    return setUser(updatedUser);
+  });
 
   if (!user) {
     return null;
@@ -28,6 +41,7 @@ function ProfilePage() {
   if (isUserLoading) {
     return <PagePreloader />;
   }
+
   return (
     <Stack>
       <PersonalFormComponent onSubmit={handlePersonalFormData} userData={user} />
