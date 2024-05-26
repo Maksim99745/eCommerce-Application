@@ -1,8 +1,8 @@
 import { Stack, useEventCallback } from '@mui/material';
-import useAuth from '@hooks/useAuth';
 import { PagePreloader } from '@components/PagePreloader/PagePreloader.component';
 import { useShowMessage } from '@hooks/useShowMessage';
 import { apiService } from '@core/api/api.service';
+import useAuth from '@hooks/useAuth';
 import { Addresses } from './components/Addresses.component';
 import PersonalFormComponent, { PersonalFormComponentProps } from './components/PersonalData.component';
 

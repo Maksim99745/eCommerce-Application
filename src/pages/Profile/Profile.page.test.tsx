@@ -4,11 +4,15 @@ import { act } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import ProfilePage from './Profile.page';
 
-jest.mock('@hooks/useAuth', () => ({
-  useAuth: jest.fn(),
-}));
+jest
+  .mock('@hooks/useAuth', () => ({
+    useAuth: jest.fn(),
+  }))
+  .mock('@core/api/api.service', () => ({
+    apiService: jest.fn(),
+  }));
 
-// Skip the test
+// eslint-disable-next-line jest/no-disabled-tests
 test.skip('Render the profile page', async () => {
   await act(async () => {
     render(<ProfilePage />);
