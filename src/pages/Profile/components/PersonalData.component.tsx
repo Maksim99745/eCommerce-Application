@@ -11,9 +11,9 @@ import { useState } from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import {
-  EditableFormActionsBar,
-  EditableFormViewMode,
-  FormActionsToolBarProps,
+  EditableFormActionsBar as ActionsBar,
+  EditableFormViewMode as ViewMode,
+  FormActionsToolBarProps as ToolBarProps,
 } from '../../../components/EditableFormActionsBar/EditableFormActionsBar';
 
 export interface PersonalFormComponentProps {
@@ -23,7 +23,7 @@ export interface PersonalFormComponentProps {
 }
 
 function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormComponentProps) {
-  const [viewMode, setViewMode] = useState<EditableFormViewMode>('view');
+  const [viewMode, setViewMode] = useState<ViewMode>('view');
   const [readOnlyMode, setReadOnlyMode] = useState<boolean>(true);
 
   const { firstName = '', lastName = '', dateOfBirth = undefined, email = '' } = userData;
@@ -43,7 +43,7 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
 
   const { handleSubmit, reset } = formContext;
 
-  const handleFormModeAction = useEventCallback<FormActionsToolBarProps['onAction']>((action) => {
+  const handleFormModeAction = useEventCallback<ToolBarProps['onAction']>((action) => {
     if (action === 'edit') {
       setViewMode('edit');
       setReadOnlyMode(false);
@@ -63,12 +63,12 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
   return (
     <Container maxWidth="md">
       <Paper elevation={1} sx={{ p: '1vh 2%', width: '100%', mb: 2 }}>
-        <FormContainer<PersonalInformationForm> formContext={formContext} onSuccess={onSubmit}>
+        <FormContainer<PersonalInformationForm> formContext={formContext}>
           <Stack direction="row" spacing="auto" sx={{ mb: 3 }}>
             <Typography variant="h5" gutterBottom>
               Personal information
             </Typography>
-            <EditableFormActionsBar mode={viewMode} onAction={handleFormModeAction} />
+            <ActionsBar mode={viewMode} onAction={handleFormModeAction} />
           </Stack>
           <Grid container spacing={{ xs: 1 }} columns={{ xs: 1, md: 2 }}>
             <Grid item xs={1}>
