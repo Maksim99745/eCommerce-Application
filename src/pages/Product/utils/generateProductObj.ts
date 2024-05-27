@@ -1,22 +1,18 @@
 import { ProductData } from '@commercetools/platform-sdk';
 import { priceAmount, productCurrencyMap } from '@constants/products.const';
 
-type ProductAttributes = {
-  [key: string]: string;
-};
-
-export function generateProductObj(data: ProductData | undefined): ProductAttributes {
-  const productInfo: ProductAttributes = {};
+export function generateProductObj(data: ProductData | undefined): Record<string, string> {
+  const productInfo: Record<string, string> = {};
 
   if (data?.masterVariant?.attributes) {
     data.masterVariant.attributes.forEach((attribute) => {
       productInfo[attribute.name] = String(attribute.value);
     });
 
-    productInfo.lengthInfo = productInfo.length ? `Length: ${productInfo.length} cm` : '';
-    productInfo.widthInfo = productInfo.width ? `Width: ${productInfo.width} cm` : '';
-    productInfo.heightInfo = productInfo.height ? `Height: ${productInfo.height} cm` : '';
-    productInfo.volumeInfo = productInfo.volume ? `Volume: ${productInfo.volume} lt` : '';
+    // productInfo.lengthInfo = productInfo.length ? `Length: ${productInfo.length} cm` : '';
+    // productInfo.widthInfo = productInfo.width ? `Width: ${productInfo.width} cm` : '';
+    // productInfo.heightInfo = productInfo.height ? `Height: ${productInfo.height} cm` : '';
+    // productInfo.volumeInfo = productInfo.volume ? `Volume: ${productInfo.volume} lt` : '';
   }
 
   if (data?.masterVariant.prices) {
