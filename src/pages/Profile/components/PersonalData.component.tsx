@@ -121,6 +121,8 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
                   helperText=" "
                   disabled={isLoading}
                   readOnly={readOnlyMode}
+                  sx={{ w: '100%' }}
+                  inputProps={{ fullWidth: true }}
                 />
               </LocalizationProvider>
             </Grid>
