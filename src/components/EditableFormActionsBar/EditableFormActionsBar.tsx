@@ -4,7 +4,7 @@ import SaveAsIcon from '@mui/icons-material/SaveAs';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { LoadingButton } from '@mui/lab';
 
-export type EditableFormAction = 'edit' | 'cancel' | 'save';
+export type EditableFormAction = 'edit' | 'cancel';
 export type EditableFormViewMode = 'view' | 'edit';
 
 const EditableFormActionsBarButtonStyles = { textTransform: 'none' };
@@ -36,12 +36,11 @@ export function EditableFormActionsBar({ mode, disabled, isLoading, onAction }: 
         <Stack direction="row">
           <LoadingButton
             loading={isLoading}
-            type="submit"
             variant="contained"
             color="primary"
+            type="submit"
             sx={EditableFormActionsBarButtonStyles}
             disabled={isLoading}
-            onClick={() => onAction('save')}
             size="small"
           >
             <SaveAsIcon sx={{ mr: 1 }} />
@@ -51,7 +50,7 @@ export function EditableFormActionsBar({ mode, disabled, isLoading, onAction }: 
             variant="contained"
             color="primary"
             sx={{ ...EditableFormActionsBarButtonStyles, ml: '5px' }}
-            disabled={disabled}
+            disabled={isLoading}
             onClick={() => onAction('cancel')}
             size="small"
           >
