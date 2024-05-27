@@ -4,6 +4,7 @@ import { useShowMessage } from '@hooks/useShowMessage';
 import { apiService } from '@core/api/api.service';
 import useAuth from '@hooks/useAuth';
 import { PersonalInformationForm } from '@models/forms.model';
+import { createAppErrorMessage } from '@core/errorHandlers/createAppErrorMessage';
 import { Addresses } from './components/Addresses.component';
 import PersonalFormComponent, { PersonalFormComponentProps } from './components/PersonalData.component';
 
@@ -31,12 +32,11 @@ function ProfilePage() {
             },
             { action: 'changeEmail', email: data.email },
           );
-          await setUser(updatedUser);
-          await showMessage('Personal information successfully updated');
+          setUser(updatedUser);
+          showMessage('Personal information successfully updated');
         } catch (error) {
-          if (error instanceof Error) {
-            showMessage(error.message ?? 'An unexpected error occurred', 'error');
-          }
+          const errorMessage = createAppErrorMessage(error);
+          showMessage(errorMessage, 'error');
         }
       }
     },
@@ -52,7 +52,7 @@ function ProfilePage() {
 
   return (
     <Stack>
-      <PersonalFormComponent onSubmit={handlePersonalFormData} userData={user} />
+      <PersonalFormComponent onSubmit={handlePersonalFormData} userData={user} isLoading={isUserLoading} />
       <Addresses userData={user} />
     </Stack>
   );

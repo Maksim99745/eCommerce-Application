@@ -19,9 +19,10 @@ export function EditableFormActionsBar({ mode, disabled, isLoading, onAction }: 
   return (
     <>
       {mode === 'view' && (
-        <Button
+        <LoadingButton
           variant="contained"
           color="primary"
+          loading={isLoading}
           sx={EditableFormActionsBarButtonStyles}
           disabled={disabled}
           size="small"
@@ -29,7 +30,7 @@ export function EditableFormActionsBar({ mode, disabled, isLoading, onAction }: 
         >
           <EditIcon sx={{ mr: 1 }} />
           Edit
-        </Button>
+        </LoadingButton>
       )}
       {mode === 'edit' && (
         <Stack direction="row">

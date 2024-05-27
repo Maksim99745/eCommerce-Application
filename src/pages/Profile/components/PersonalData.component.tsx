@@ -68,14 +68,14 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
             <Typography variant="h5" gutterBottom>
               Personal information
             </Typography>
-            <ActionsBar mode={viewMode} onAction={handleFormModeAction} />
+            <ActionsBar mode={viewMode} onAction={handleFormModeAction} isLoading={isLoading} />
           </Stack>
           <Grid container spacing={{ xs: 1 }} columns={{ xs: 1, md: 2 }}>
             <Grid item xs={1}>
               <TextFieldElement<PersonalInformationForm>
                 label="First name"
                 name="firstName"
-                helperText=" "
+                helperText={' '}
                 fullWidth
                 InputLabelProps={{ shrink: true }}
                 disabled={isLoading}
