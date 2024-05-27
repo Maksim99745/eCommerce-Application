@@ -50,8 +50,9 @@ export function ProfileAddressesForm({ userData, onSubmit, isLoading = false }: 
     resolver: zodResolver(profileAddressesSchema),
     mode: 'all',
   });
-  const { control, reset, trigger, formState } = formContext;
 
+  const { control, reset, trigger, formState } = formContext;
+  const addressesList = useWatch({ control, name: 'addresses' });
   const { fields, append, remove } = useFieldArray<ProfileAddressesFormData>({
     control,
     name: 'addresses',
@@ -96,7 +97,7 @@ export function ProfileAddressesForm({ userData, onSubmit, isLoading = false }: 
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Stack width={1} direction="row" sx={{ overflow: 'hidden' }}>
                     {!!formState?.errors?.addresses?.[index] && <ErrorIcon color="error" />}
-                    <AddressTypeRenderer addressType={address.addressType} sx={{ mr: 2 }} />
+                    <AddressTypeRenderer addressType={addressesList[index].addressType} sx={{ mr: 2 }} />
                     <Typography
                       sx={{
                         textWrap: 'pretty',
@@ -106,7 +107,7 @@ export function ProfileAddressesForm({ userData, onSubmit, isLoading = false }: 
                         width: '100%',
                       }}
                     >
-                      {toAddressString(address)}
+                      {toAddressString(addressesList[index])}
                     </Typography>
                   </Stack>
                 </AccordionSummary>
