@@ -26,7 +26,6 @@ function ProfilePage() {
       <ProfileAddressesForm
         userData={user}
         onSubmit={async (addresses) => {
-          // eslint-disable-next-line no-console
           console.log('~~~~ addresses-form-data: ', addresses);
           return { success: true };
         }}
