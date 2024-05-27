@@ -64,33 +64,33 @@ function ProductPage() {
             <Typography component="h1" className={styles.productPageTitle}>
               {data?.name.en}
             </Typography>
-            {('discountedPrice' in productInfo && (
+            {(!!productInfo.discountedPrice && (
               <Typography component="p" className={styles.productPageInfo}>
                 Price: <span className={styles.currentPrice}>{productInfo.discountedPrice}</span>
                 <span className={styles.previousPrice}>{productInfo.basePrice}</span>
               </Typography>
             )) ||
-              ('basePrice' in productInfo && (
+              (!!productInfo.basePrice && (
                 <Typography component="p" className={styles.productPageInfo}>
                   Price: <span className={styles.currentPrice}>{productInfo.basePrice}</span>
                 </Typography>
               ))}
-            {'brand' in productInfo && (
+            {!!productInfo.brand && (
               <Typography component="p" className={styles.productPageInfo}>
                 Brand: <span className={styles.attributeValue}>{productInfo.brand}</span>
               </Typography>
             )}
-            {'country' in productInfo && (
+            {!!productInfo.country && (
               <Typography component="p" className={styles.productPageInfo}>
                 Country: <span className={styles.attributeValue}>{productInfo.country}</span>
               </Typography>
             )}
-            {'material' in productInfo && (
+            {!!productInfo.material && (
               <Typography component="p" className={styles.productPageInfo}>
                 Material: <span className={styles.attributeValue}>{productInfo.material}</span>
               </Typography>
             )}
-            {'color' in productInfo && (
+            {!!productInfo.color && (
               <Typography component="p" className={styles.productPageInfo}>
                 Color: <span className={styles.attributeValue}>{productInfo.color}</span>
               </Typography>
@@ -109,22 +109,22 @@ function ProductPage() {
             {data?.description?.en}
           </Typography>
           <Box className={styles.productAttributesContainer}>
-            {'length' in productInfo && (
+            {!!productInfo.length && (
               <Typography component="p" className={styles.productAttributes}>
                 Length: <span className={styles.attributeValue}>{productInfo.length} сm</span>
               </Typography>
             )}
-            {'width' in productInfo && (
+            {!!productInfo.width && (
               <Typography component="p" className={styles.productAttributes}>
                 Width: <span className={styles.attributeValue}>{productInfo.width} сm</span>
               </Typography>
             )}
-            {'height' in productInfo && (
+            {!!productInfo.height && (
               <Typography component="p" className={styles.productAttributes}>
                 Height: <span className={styles.attributeValue}>{productInfo.height} сm</span>
               </Typography>
             )}
-            {'volume' in productInfo && (
+            {!!productInfo.volume && (
               <Typography component="p" className={styles.productAttributes}>
                 Volume: <span className={styles.attributeValue}>{productInfo.volume} lt</span>
               </Typography>
