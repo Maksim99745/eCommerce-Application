@@ -3,21 +3,21 @@ import {
   defaultCountryOption,
   NO_IDX,
 } from '@core/validation/user-registration/user-registration.const';
-import { AddressInformationForm, ProfileAddressFormData, ProfileAddressesFormData } from '@models/forms.model';
+import { AddressInformationFormData, ProfileAddressFormData, ProfileAddressesFormData } from '@models/forms.model';
 import { Typography } from '@mui/material';
 import { useCallback } from 'react';
 import { Address, Customer } from '@commercetools/platform-sdk';
 
-export const toAddressString = (address: AddressInformationForm): string =>
+export const toAddressString = (address: AddressInformationFormData): string =>
   address ? [address.country, address.postalCode, address.city, address.street].filter(Boolean).join(', ') : '';
 
 export const withTypeOfAddress =
-  (addressType: AddressInformationForm['addressType']) => (address: AddressInformationForm) =>
+  (addressType: AddressInformationFormData['addressType']) => (address: AddressInformationFormData) =>
     address.addressType === addressType;
 
-export const useAddressRenderOptions = (addressType: AddressInformationForm['addressType']) =>
+export const useAddressRenderOptions = (addressType: AddressInformationFormData['addressType']) =>
   useCallback(
-    (addresses: AddressInformationForm[]) => [
+    (addresses: AddressInformationFormData[]) => [
       { id: NO_IDX, label: 'None' },
       ...addresses
         .map((address, index) => ({

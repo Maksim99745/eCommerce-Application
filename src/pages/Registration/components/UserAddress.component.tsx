@@ -1,5 +1,5 @@
 import { countriesOptions } from '@core/validation/user-registration/user-registration.const';
-import { RegistrationForm } from '@models/forms.model';
+import { RegistrationFormData } from '@models/forms.model';
 import { Stack } from '@mui/material';
 import { SelectElement, TextFieldElement } from 'react-hook-form-mui';
 import { ReactNode } from 'react';
@@ -15,7 +15,7 @@ export function UserAddressComponent({ title, addressIndex, onCountryChange, dis
   return (
     <Stack spacing={1} minWidth={300}>
       {title}
-      <SelectElement<RegistrationForm>
+      <SelectElement<RegistrationFormData>
         label="Country"
         name={`addresses.${addressIndex}.country`}
         options={countriesOptions}
@@ -25,7 +25,7 @@ export function UserAddressComponent({ title, addressIndex, onCountryChange, dis
         onChange={onCountryChange}
         disabled={disabled}
       />
-      <TextFieldElement<RegistrationForm>
+      <TextFieldElement<RegistrationFormData>
         name={`addresses.${addressIndex}.postalCode`}
         label="Postal Code"
         required
@@ -33,7 +33,7 @@ export function UserAddressComponent({ title, addressIndex, onCountryChange, dis
         InputLabelProps={{ shrink: true }}
         disabled={disabled}
       />
-      <TextFieldElement<RegistrationForm>
+      <TextFieldElement<RegistrationFormData>
         name={`addresses.${addressIndex}.city`}
         label="City"
         required
@@ -41,7 +41,7 @@ export function UserAddressComponent({ title, addressIndex, onCountryChange, dis
         InputLabelProps={{ shrink: true }}
         disabled={disabled}
       />
-      <TextFieldElement<RegistrationForm>
+      <TextFieldElement<RegistrationFormData>
         name={`addresses.${addressIndex}.street`}
         label="Street"
         required
