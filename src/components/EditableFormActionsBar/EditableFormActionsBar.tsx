@@ -6,9 +6,6 @@ import { LoadingButton } from '@mui/lab';
 
 export type EditableFormAction = 'edit' | 'cancel';
 export type EditableFormViewMode = 'view' | 'edit';
-
-const EditableFormActionsBarButtonStyles = { textTransform: 'none' };
-
 export interface FormActionsToolBarProps {
   mode: EditableFormViewMode;
   disabled?: boolean;
@@ -25,7 +22,7 @@ export function EditableFormActionsBar({ mode, disabled, isLoading, children, on
           variant="contained"
           color="primary"
           loading={isLoading}
-          sx={EditableFormActionsBarButtonStyles}
+          sx={{ textTransform: 'none' }}
           disabled={disabled}
           size="small"
           onClick={() => onAction('edit')}
@@ -42,7 +39,7 @@ export function EditableFormActionsBar({ mode, disabled, isLoading, children, on
             variant="contained"
             color="primary"
             type="submit"
-            sx={EditableFormActionsBarButtonStyles}
+            sx={{ textTransform: 'none' }}
             disabled={isLoading}
             size="small"
           >
@@ -52,7 +49,7 @@ export function EditableFormActionsBar({ mode, disabled, isLoading, children, on
           <Button
             variant="contained"
             color="primary"
-            sx={{ ...EditableFormActionsBarButtonStyles, ml: '5px' }}
+            sx={{ textTransform: 'none', ml: '5px' }}
             disabled={isLoading}
             onClick={() => onAction('cancel')}
             size="small"
