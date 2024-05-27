@@ -64,9 +64,24 @@ export class ApiService {
     return this.callRequest(this.builder.me().post({ body: { version: customerVersion, actions: [...action] } }));
   }
 
-  // public async updatePassword(newPasswordRequestData: CustomerChangePassword): Promise<Customer> {
-  //   return this.callRequest(this.builder.me().post({ body: newPasswordRequestData }));
-  // }
+  public async changePassword(
+    customerVersion: number,
+    currentPassword: string,
+    newPassword: string,
+  ): Promise<Customer> {
+    return this.callRequest(
+      this.builder
+        .me()
+        .password()
+        .post({
+          body: {
+            version: customerVersion,
+            currentPassword,
+            newPassword,
+          },
+        }),
+    );
+  }
 
   public async getCustomer(): Promise<Customer> {
     return this.callRequest(this.builder.me().get());

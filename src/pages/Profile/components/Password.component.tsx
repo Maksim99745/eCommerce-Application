@@ -1,6 +1,5 @@
-import { personalInformationSchema } from '@core/validation/user-profile/user-profile.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { PasswordInformationForm } from '@models/forms.model';
+import { PasswordInformationFormData } from '@models/forms.model';
 import { Container, Grid, Paper, Stack, Typography, useEventCallback } from '@mui/material';
 import { FormProvider, PasswordElement, useForm } from 'react-hook-form-mui';
 import { useState } from 'react';
@@ -9,9 +8,12 @@ import {
   EditableFormViewMode,
   FormActionsToolBarProps,
 } from '@components/EditableFormActionsBar/EditableFormActionsBar';
+import { passwordInformationSchema } from '@core/validation/user-profile/user-profile.schema';
 
 export interface PasswordFormComponentProps {
-  onSubmit: (passwordData: PasswordInformationForm) => Promise<{ success: true } | { success: false; error: Error }>;
+  onSubmit: (
+    passwordData: PasswordInformationFormData,
+  ) => Promise<{ success: true } | { success: false; error: Error }>;
   isLoading?: boolean;
 }
 
@@ -22,18 +24,18 @@ function PasswordFormComponent({ isLoading, onSubmit }: PasswordFormComponentPro
   const isBusy = isLoading || isSaving;
   const readOnlyMode = viewMode === 'view';
 
-  const formContext = useForm<PasswordInformationForm>({
+  const formContext = useForm<PasswordInformationFormData>({
     defaultValues: {
       password: '',
       newPassword: '',
     },
-    resolver: zodResolver(personalInformationSchema),
+    resolver: zodResolver(passwordInformationSchema),
     mode: 'all',
   });
 
   const { handleSubmit, reset } = formContext;
 
-  const performSave = useEventCallback(async (data: PasswordInformationForm) => {
+  const performSave = useEventCallback(async (data: PasswordInformationFormData) => {
     setIsSaving(true);
     const result = await onSubmit(data);
     setIsSaving(false);
@@ -55,7 +57,7 @@ function PasswordFormComponent({ isLoading, onSubmit }: PasswordFormComponentPro
   return (
     <Container maxWidth="md">
       <Paper elevation={1} sx={{ p: '1vh 2%', width: '100%', mb: 2 }}>
-        <FormProvider<PasswordInformationForm> {...formContext}>
+        <FormProvider<PasswordInformationFormData> {...formContext}>
           <form onSubmit={handleSubmit(performSave)}>
             <Stack direction="row" spacing="auto" sx={{ mb: 3 }}>
               <Typography variant="h5" gutterBottom>
@@ -70,31 +72,25 @@ function PasswordFormComponent({ isLoading, onSubmit }: PasswordFormComponentPro
             </Stack>
             <Grid container spacing={{ xs: 1 }} columns={{ xs: 1, md: 2 }}>
               <Grid item xs={1}>
-                <PasswordElement<PasswordInformationForm>
+                <PasswordElement<PasswordInformationFormData>
                   label="Current password"
                   required
                   name="password"
                   helperText=" "
                   fullWidth
                   InputLabelProps={{ shrink: true }}
-                  InputProps={{
-                    readOnly: readOnlyMode,
-                  }}
-                  disabled={isBusy}
+                  disabled={isBusy || readOnlyMode}
                 />
               </Grid>
               <Grid item xs={1}>
-                <PasswordElement<PasswordInformationForm>
-                  label="new password"
+                <PasswordElement<PasswordInformationFormData>
+                  label="New password"
                   required
                   name="newPassword"
                   helperText=" "
                   fullWidth
                   InputLabelProps={{ shrink: true }}
-                  InputProps={{
-                    readOnly: readOnlyMode,
-                  }}
-                  disabled={isBusy}
+                  disabled={isBusy || readOnlyMode}
                 />
               </Grid>
             </Grid>

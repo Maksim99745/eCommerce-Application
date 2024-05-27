@@ -9,15 +9,11 @@ import { registrationSchema, addressSchema } from '@core/validation/user-registr
 
 import { z } from 'zod';
 
-export type RegistrationForm = z.infer<typeof registrationSchema>;
-export type LoginForm = z.infer<typeof loginFormSchema>;
-export type AddressInformationForm = z.infer<typeof addressSchema>;
-export type PersonalInformationForm = z.infer<typeof personalInformationSchema>;
-
-export type PasswordInformationForm = z.infer<typeof passwordInformationSchema>;
-
-// TODO please rename type names above to xxxxFormData, as below
-// User Profile
-export type AddressType = AddressInformationForm['addressType'];
+export type PasswordInformationFormData = z.infer<typeof passwordInformationSchema>;
+export type RegistrationFormData = z.infer<typeof registrationSchema>;
+export type LoginFormData = z.infer<typeof loginFormSchema>;
+export type AddressInformationFormData = z.infer<typeof addressSchema>;
+export type PersonalInformationFormData = z.infer<typeof personalInformationSchema>;
+export type AddressType = AddressInformationFormData['addressType'];
 export type ProfileAddressFormData = z.infer<typeof profileAddressSchema>;
 export type ProfileAddressesFormData = z.infer<typeof profileAddressesSchema>;

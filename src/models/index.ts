@@ -1,7 +1,7 @@
 export { type SelectOption } from './select-option.model';
 export {
-  type RegistrationForm,
-  type LoginForm,
-  type AddressInformationForm,
-  type PersonalInformationForm,
+  type RegistrationFormData,
+  type LoginFormData,
+  type AddressInformationFormData,
+  type PersonalInformationFormData,
 } from './forms.model';

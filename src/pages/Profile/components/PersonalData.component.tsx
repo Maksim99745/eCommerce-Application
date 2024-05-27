@@ -2,7 +2,7 @@ import { Customer } from '@commercetools/platform-sdk';
 import { DatePickerElement } from 'react-hook-form-mui/date-pickers';
 import { personalInformationSchema } from '@core/validation/user-profile/user-profile.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { PersonalInformationForm } from '@models/forms.model';
+import { PersonalInformationFormData } from '@models/forms.model';
 import { Container, Grid, Paper, Stack, Typography, useEventCallback } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -16,7 +16,9 @@ import {
 import { useEditableFormState } from '@components/EditableFormActionsBar/useEditableFormState';
 
 export interface PersonalFormComponentProps {
-  onSubmit: (personalData: PersonalInformationForm) => Promise<{ success: true } | { success: false; error: Error }>;
+  onSubmit: (
+    personalData: PersonalInformationFormData,
+  ) => Promise<{ success: true } | { success: false; error: Error }>;
   isLoading?: boolean;
   userData: Customer;
 }
@@ -28,7 +30,7 @@ function PersonalFormComponent({ userData, isLoading = false, onSubmit }: Person
 
   const { firstName = '', lastName = '', dateOfBirth = undefined, email = '' } = userData;
 
-  const formContext = useForm<PersonalInformationForm>({
+  const formContext = useForm<PersonalInformationFormData>({
     defaultValues: {
       firstName,
       lastName,
@@ -41,7 +43,7 @@ function PersonalFormComponent({ userData, isLoading = false, onSubmit }: Person
 
   const { handleSubmit, reset } = formContext;
 
-  const performSave = useEventCallback(async (data: PersonalInformationForm) => {
+  const performSave = useEventCallback(async (data: PersonalInformationFormData) => {
     setIsSaving(true);
     const result = await onSubmit(data);
     setIsSaving(false);
@@ -63,7 +65,7 @@ function PersonalFormComponent({ userData, isLoading = false, onSubmit }: Person
   return (
     <Container maxWidth="md">
       <Paper elevation={1} sx={{ p: '1vh 2%', width: '100%', mb: 2 }}>
-        <FormProvider<PersonalInformationForm> {...formContext}>
+        <FormProvider<PersonalInformationFormData> {...formContext}>
           <form onSubmit={handleSubmit(performSave)}>
             <Stack direction="row" spacing="auto" sx={{ mb: 3 }}>
               <Typography variant="h5" gutterBottom>
@@ -78,7 +80,7 @@ function PersonalFormComponent({ userData, isLoading = false, onSubmit }: Person
             </Stack>
             <Grid container spacing={{ xs: 1 }} columns={{ xs: 1, md: 2 }}>
               <Grid item xs={1}>
-                <TextFieldElement<PersonalInformationForm>
+                <TextFieldElement<PersonalInformationFormData>
                   label="First name"
                   name="firstName"
                   helperText={' '}
@@ -92,7 +94,7 @@ function PersonalFormComponent({ userData, isLoading = false, onSubmit }: Person
               </Grid>
 
               <Grid item xs={1}>
-                <TextFieldElement<PersonalInformationForm>
+                <TextFieldElement<PersonalInformationFormData>
                   label="Last name"
                   name="lastName"
                   helperText=" "
@@ -106,7 +108,7 @@ function PersonalFormComponent({ userData, isLoading = false, onSubmit }: Person
               </Grid>
 
               <Grid item xs={1}>
-                <TextFieldElement<PersonalInformationForm>
+                <TextFieldElement<PersonalInformationFormData>
                   label="Email"
                   name="email"
                   helperText=" "
