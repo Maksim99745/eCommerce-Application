@@ -9,6 +9,7 @@ function ProfilePage() {
   const { user, isUserLoading } = useAuth();
 
   const handlePersonalSubmit = useSubmitPersonalFormData();
+  // const handlePasswordSubmit = useSubmitNewPassword();
 
   if (!user) {
     return null;
