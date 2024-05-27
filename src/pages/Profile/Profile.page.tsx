@@ -4,12 +4,14 @@ import useAuth from '@hooks/useAuth';
 import { Addresses } from './components/Addresses.component';
 import PersonalFormComponent from './components/PersonalData.component';
 import { useSubmitPersonalFormData } from './components/useSubmitPersonalFormData';
+import PasswordFormComponent from './components/Password.component';
+import { useSubmitNewPassword } from './components/useSubmitNewPassord';
 
 function ProfilePage() {
   const { user, isUserLoading } = useAuth();
 
   const handlePersonalSubmit = useSubmitPersonalFormData();
-  // const handlePasswordSubmit = useSubmitNewPassword();
+  const handlePasswordSubmit = useSubmitNewPassword();
 
   if (!user) {
     return null;
@@ -22,8 +24,15 @@ function ProfilePage() {
   return (
     <Stack>
       <PersonalFormComponent onSubmit={handlePersonalSubmit} userData={user} isLoading={isUserLoading} />
-      {/* <PasswordFormComponent onSubmit={handlePasswordSubmit} isLoading={isUserLoading} /> */}
+      <PasswordFormComponent onSubmit={handlePasswordSubmit} isLoading={isUserLoading} />
       <Addresses userData={user} />
+      {/* <ProfileAddressesForm
+        userData={user}
+        onSubmit={async (addresses) => {
+          console.log('~~~~ addresses-form-data: ', addresses);
+          return { success: true };
+        }}
+      /> */}
     </Stack>
   );
 }

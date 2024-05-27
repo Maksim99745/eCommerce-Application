@@ -6,16 +6,15 @@ import { LoadingButton } from '@mui/lab';
 
 export type EditableFormAction = 'edit' | 'cancel';
 export type EditableFormViewMode = 'view' | 'edit';
-
-const EditableFormActionsBarButtonStyles = { textTransform: 'none' };
 export interface FormActionsToolBarProps {
   mode: EditableFormViewMode;
   disabled?: boolean;
   isLoading?: boolean;
   onAction: (action: EditableFormAction) => void;
+  children?: React.ReactNode;
 }
 
-export function EditableFormActionsBar({ mode, disabled, isLoading, onAction }: FormActionsToolBarProps) {
+export function EditableFormActionsBar({ mode, disabled, isLoading, children, onAction }: FormActionsToolBarProps) {
   return (
     <>
       {mode === 'view' && (
@@ -23,7 +22,7 @@ export function EditableFormActionsBar({ mode, disabled, isLoading, onAction }: 
           variant="contained"
           color="primary"
           loading={isLoading}
-          sx={EditableFormActionsBarButtonStyles}
+          sx={{ textTransform: 'none' }}
           disabled={disabled}
           size="small"
           onClick={() => onAction('edit')}
@@ -33,13 +32,14 @@ export function EditableFormActionsBar({ mode, disabled, isLoading, onAction }: 
         </LoadingButton>
       )}
       {mode === 'edit' && (
-        <Stack direction="row">
+        <Stack direction="row" spacing={1}>
+          {children}
           <LoadingButton
             loading={isLoading}
             variant="contained"
             color="primary"
             type="submit"
-            sx={EditableFormActionsBarButtonStyles}
+            sx={{ textTransform: 'none' }}
             disabled={isLoading}
             size="small"
           >
@@ -49,8 +49,8 @@ export function EditableFormActionsBar({ mode, disabled, isLoading, onAction }: 
           <Button
             variant="contained"
             color="primary"
-            sx={{ ...EditableFormActionsBarButtonStyles, ml: '5px' }}
-            disabled={disabled}
+            sx={{ textTransform: 'none', ml: '5px' }}
+            disabled={isLoading}
             onClick={() => onAction('cancel')}
             size="small"
           >

@@ -7,14 +7,13 @@ import { Container, Grid, Paper, Stack, Typography, useEventCallback } from '@mu
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { FormProvider, TextFieldElement, useForm } from 'react-hook-form-mui';
-import { useState } from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import {
   EditableFormActionsBar,
-  EditableFormViewMode,
   FormActionsToolBarProps,
 } from '@components/EditableFormActionsBar/EditableFormActionsBar';
+import { useEditableFormState } from '@components/EditableFormActionsBar/useEditableFormState';
 
 export interface PersonalFormComponentProps {
   onSubmit: (personalData: PersonalInformationForm) => Promise<{ success: true } | { success: false; error: Error }>;
@@ -24,12 +23,8 @@ export interface PersonalFormComponentProps {
 
 dayjs.extend(utc);
 
-function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormComponentProps) {
-  const [viewMode, setViewMode] = useState<EditableFormViewMode>('view');
-  const [isSaving, setIsSaving] = useState(isLoading);
-
-  const isBusy = isLoading || isSaving;
-  const readOnlyMode = viewMode === 'view';
+function PersonalFormComponent({ userData, isLoading = false, onSubmit }: PersonalFormComponentProps) {
+  const { isBusy, isReadonly, viewMode, setViewMode, setIsSaving } = useEditableFormState({ isLoading });
 
   const { firstName = '', lastName = '', dateOfBirth = undefined, email = '' } = userData;
 
@@ -91,7 +86,7 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
                   InputLabelProps={{ shrink: true }}
                   disabled={isBusy}
                   InputProps={{
-                    readOnly: readOnlyMode,
+                    readOnly: isReadonly,
                   }}
                 />
               </Grid>
@@ -105,7 +100,7 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
                   fullWidth
                   InputLabelProps={{ shrink: true }}
                   InputProps={{
-                    readOnly: readOnlyMode,
+                    readOnly: isReadonly,
                   }}
                 />
               </Grid>
@@ -119,7 +114,7 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
                   fullWidth
                   InputLabelProps={{ shrink: true }}
                   InputProps={{
-                    readOnly: readOnlyMode,
+                    readOnly: isReadonly,
                   }}
                 />
               </Grid>
@@ -131,7 +126,7 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
                     name="dateOfBirth"
                     helperText=" "
                     disabled={isBusy}
-                    readOnly={readOnlyMode}
+                    readOnly={isReadonly}
                     inputProps={{ fullWidth: true }}
                   />
                 </LocalizationProvider>

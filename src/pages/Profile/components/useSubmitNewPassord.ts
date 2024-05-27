@@ -2,44 +2,38 @@ import { createAppErrorMessage } from '@core/errorHandlers/createAppErrorMessage
 import useAuth from '@hooks/useAuth';
 import { useShowMessage } from '@hooks/useShowMessage';
 import { useEventCallback } from '@mui/material';
-import { apiService } from '@core/api/api.service';
-import { PersonalFormComponentProps } from './PersonalData.component';
+import { PasswordFormComponentProps } from './Password.component';
 
 export const useSubmitNewPassword = () => {
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
   const showMessage = useShowMessage();
 
-  return useEventCallback<PersonalFormComponentProps['onSubmit']>(async (data) => {
+  return useEventCallback<PasswordFormComponentProps['onSubmit']>(async (data) => {
     if (!user) {
       return { success: false, error: new Error('User data is not provided.') };
     }
 
     try {
-      // const newPasswordRequestData = {
+      // const newPasswordRequestData: CustomerChangePassword = {
       //   id: user.id,
       //   version: user.version,
       //   currentPassword: data.password,
       //   newPassword: data.newPassword,
       // };
+      // const updatedUser = await apiService.updatePassword(newPasswordRequestData);
+      // const updatedUser = await apiService.updateCustomer(
+      //   user.version,
+      //   {
+      //     action: 'setFirstName',
+      //     firstName: data.firstName,
+      //   },
+      //   {
+      //     action: "",
+      //     lastName: data.lastName,
+      //   },
+      // );
       // setUser(updatedUser);
-      const updatedUser = await apiService.updateCustomer(
-        user.version,
-        {
-          action: 'setFirstName',
-          firstName: data.firstName,
-        },
-        {
-          action: 'setLastName',
-          lastName: data.lastName,
-        },
-        {
-          action: 'setDateOfBirth',
-          dateOfBirth: data.dateOfBirth,
-        },
-        { action: 'changeEmail', email: data.email },
-      );
-      setUser(updatedUser);
-      showMessage('Password successfully updated');
+      showMessage(data.password);
       return { success: true };
     } catch (error) {
       const errorMessage = createAppErrorMessage(error);
