@@ -4,7 +4,6 @@ import { Box, Container, Dialog, Stack, Typography } from '@mui/material';
 import ReactImageGallery from 'react-image-gallery';
 import { useModalState } from '@hooks/useModalState';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
-
 import styles from './Product.page.module.scss';
 import { generateProductObj } from './utils/generateProductObj';
 
@@ -113,6 +112,33 @@ function ProductPage() {
           </Stack>
         </Container>
 
+        <Stack className={styles.productPageDescription}>
+          <Typography component="p" className={styles.productPageDescription}>
+            {data?.description?.en}
+          </Typography>
+          <Box className={styles.productAttributesContainer}>
+            {!!productInfo.length && (
+              <Typography component="p" className={styles.productAttributes}>
+                Length: <span className={styles.attributeValue}>{productInfo.length} сm</span>
+              </Typography>
+            )}
+            {!!productInfo.width && (
+              <Typography component="p" className={styles.productAttributes}>
+                Width: <span className={styles.attributeValue}>{productInfo.width} сm</span>
+              </Typography>
+            )}
+            {!!productInfo.height && (
+              <Typography component="p" className={styles.productAttributes}>
+                Height: <span className={styles.attributeValue}>{productInfo.height} сm</span>
+              </Typography>
+            )}
+            {!!productInfo.volume && (
+              <Typography component="p" className={styles.productAttributes}>
+                Volume: <span className={styles.attributeValue}>{productInfo.volume} lt</span>
+              </Typography>
+            )}
+          </Box>
+        </Stack>
         <Stack className={styles.productPageDescription}>
           <Typography component="p" className={styles.productPageDescription}>
             {data?.description?.en}
