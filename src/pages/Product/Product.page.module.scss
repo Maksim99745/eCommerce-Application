@@ -84,6 +84,21 @@
   font-size: 22px;
   margin-bottom: 15px;
 }
+
+// MODAL
+
+.modal-carousel-container {
+  // width: 900px;
+  // max-width: 80%;
+}
+
+.modal-gallery-image {
+  width: 800px;
+  height: 800px;
+  max-width: 94%;
+  object-fit: cover;
+}
+
 @media (max-width: 950px) {
   .image-short-info-container {
     flex-direction: column;

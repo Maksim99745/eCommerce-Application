@@ -31,19 +31,28 @@ function ProductPage() {
   return (
     <>
       <Dialog
+        className={styles.modalCarouselContainer}
         open={visible}
         onClose={close}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+        <Stack>
+          <Typography component="h2" variant="h6" className={styles.productPageTitle}>
+            {data?.name.en}
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </Box>
+          <ReactImageGallery
+            showThumbnails={images.length > 1}
+            showFullscreenButton={false}
+            showPlayButton={false}
+            items={images}
+            onClick={() => {
+              show();
+            }}
+            onErrorImageURL={defaultImageUrl}
+            renderItem={(item) => <img src={item.original} alt="" className={styles.modalGalleryImage} />}
+          />
+        </Stack>
       </Dialog>
       <Stack className={styles.productPageContainer}>
         <Container className={styles.imageShortInfoContainer}>
