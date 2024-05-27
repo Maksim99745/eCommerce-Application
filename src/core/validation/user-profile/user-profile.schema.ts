@@ -15,13 +15,14 @@ export const personalInformationSchema = z.object({
   email: emailSchema,
 });
 
-export const userProfileAddressesSchema = z
+export const profileAddressSchema = addressSchema.and(z.object({ id: z.string() }));
+
+export const profileAddressesSchema = z
   .object({
-    addresses: z.array(addressSchema.and(z.object({ id: z.string() }))),
+    addresses: z.array(profileAddressSchema),
     defaultShippingAddressIdx: z.number(),
     defaultBillingAddressIdx: z.number(),
   })
-
   .superRefine((formValues, context) => {
     formValues.addresses.forEach((_, index, addresses) => validateAddress(addresses, index, context));
   });

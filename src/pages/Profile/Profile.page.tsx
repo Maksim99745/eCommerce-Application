@@ -1,6 +1,7 @@
 import { Stack } from '@mui/material';
 import { PagePreloader } from '@components/PagePreloader/PagePreloader.component';
 import useAuth from '@hooks/useAuth';
+import { ProfileAddressesForm } from '@pages/Profile/components/ProfileAddressesForm';
 import { Addresses } from './components/Addresses.component';
 import PersonalFormComponent from './components/PersonalData.component';
 import { useSubmitPersonalFormData } from './components/useSubmitPersonalFormData';
@@ -22,6 +23,14 @@ function ProfilePage() {
     <Stack>
       <PersonalFormComponent onSubmit={handlePersonalSubmit} userData={user} isLoading={isUserLoading} />
       <Addresses userData={user} />
+      <ProfileAddressesForm
+        userData={user}
+        onSubmit={async (addresses) => {
+          // eslint-disable-next-line no-console
+          console.log('~~~~ addresses-form-data: ', addresses);
+          return { success: true };
+        }}
+      />
     </Stack>
   );
 }

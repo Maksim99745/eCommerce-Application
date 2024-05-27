@@ -1,10 +1,11 @@
 import { countriesOptions } from '@core/validation/user-registration/user-registration.const';
 import { RegistrationForm } from '@models/forms.model';
-import { FormLabel, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import { SelectElement, TextFieldElement } from 'react-hook-form-mui';
+import { ReactNode } from 'react';
 
 export interface UserAddressProps {
-  title: string;
+  title: ReactNode;
   addressIndex: number;
   onCountryChange?: (country: string) => void;
   disabled?: boolean;
@@ -12,8 +13,8 @@ export interface UserAddressProps {
 
 export function UserAddressComponent({ title, addressIndex, onCountryChange, disabled = false }: UserAddressProps) {
   return (
-    <Stack spacing={1}>
-      <FormLabel sx={{ pb: 2 }}>{title}</FormLabel>
+    <Stack spacing={1} minWidth={300}>
+      {title}
       <SelectElement<RegistrationForm>
         label="Country"
         name={`addresses.${addressIndex}.country`}

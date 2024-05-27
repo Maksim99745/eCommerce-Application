@@ -136,7 +136,7 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
               <Grid item xs={shippingAsBilling ? 2 : 1}>
                 <Paper elevation={1} sx={{ m: 'auto', p: '1vh 2%', maxWidth: '900px', width: '100%' }}>
                   <UserAddressComponent
-                    title="Shipping address"
+                    title={<FormLabel sx={{ pb: 2 }}>Shipping address</FormLabel>}
                     addressIndex={SHIPPING_ADDRESS_IDX}
                     onCountryChange={() => trigger(`addresses.${SHIPPING_ADDRESS_IDX}.postalCode`)}
                     disabled={isLoading}
@@ -155,7 +155,7 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
               <Grid item xs={1} display={shippingAsBilling ? { xs: 'none' } : {}}>
                 <Paper elevation={1} sx={{ m: 'auto', p: '1vh 2%', maxWidth: '900px', width: '100%' }}>
                   <UserAddressComponent
-                    title="Billing address"
+                    title={<FormLabel sx={{ pb: 2 }}>Billing address</FormLabel>}
                     addressIndex={BILLING_ADDRESS_IDX}
                     onCountryChange={() => trigger(`addresses.${BILLING_ADDRESS_IDX}.postalCode`)}
                     disabled={isLoading}

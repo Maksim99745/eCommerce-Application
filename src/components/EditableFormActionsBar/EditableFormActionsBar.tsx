@@ -8,14 +8,16 @@ export type EditableFormAction = 'edit' | 'cancel';
 export type EditableFormViewMode = 'view' | 'edit';
 
 const EditableFormActionsBarButtonStyles = { textTransform: 'none' };
+
 export interface FormActionsToolBarProps {
   mode: EditableFormViewMode;
   disabled?: boolean;
   isLoading?: boolean;
   onAction: (action: EditableFormAction) => void;
+  children?: React.ReactNode;
 }
 
-export function EditableFormActionsBar({ mode, disabled, isLoading, onAction }: FormActionsToolBarProps) {
+export function EditableFormActionsBar({ mode, disabled, isLoading, children, onAction }: FormActionsToolBarProps) {
   return (
     <>
       {mode === 'view' && (
@@ -33,7 +35,8 @@ export function EditableFormActionsBar({ mode, disabled, isLoading, onAction }: 
         </LoadingButton>
       )}
       {mode === 'edit' && (
-        <Stack direction="row">
+        <Stack direction="row" spacing={1}>
+          {children}
           <LoadingButton
             loading={isLoading}
             variant="contained"
