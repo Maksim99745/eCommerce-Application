@@ -148,4 +148,12 @@ export const router = createBrowserRouter([
       </Suspense>
     ),
   },
+  {
+    path: '/404',
+    element: (
+      <Suspense fallback={<PagePreloader />}>
+        <NotFoundPage />
+      </Suspense>
+    ),
+  },
 ]);
