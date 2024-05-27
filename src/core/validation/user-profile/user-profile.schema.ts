@@ -6,13 +6,18 @@ import {
   lastNameSchema,
 } from '../user-registration/user-registration.schema';
 import { validateAddress } from '../user-registration/user-registration.validation';
-import { emailSchema } from '../user-login/user-login.schema';
+import { emailSchema, passwordSchema } from '../user-login/user-login.schema';
 
 export const personalInformationSchema = z.object({
   firstName: firstNameSchema,
   lastName: lastNameSchema,
   dateOfBirth: birthDateSchema,
   email: emailSchema,
+});
+
+export const passwordInformationSchema = z.object({
+  password: passwordSchema,
+  newPassword: passwordSchema,
 });
 
 export const userProfileAddressesSchema = z

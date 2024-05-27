@@ -52,7 +52,7 @@ function PersonalFormComponent({ userData, isLoading, onSubmit }: PersonalFormCo
       setReadOnlyMode(true);
       reset();
     } else if (action === 'save') {
-      handleSubmit((data: PersonalInformationForm) => {
+      handleSubmit(async (data: PersonalInformationForm) => {
         onSubmit(data);
         setReadOnlyMode(true);
         setViewMode('view');
