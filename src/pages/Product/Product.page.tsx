@@ -64,16 +64,35 @@ function ProductPage() {
             <Typography component="h1" className={styles.productPageTitle}>
               {data?.name.en}
             </Typography>
-            <Typography component="p" className={styles.productPageInfo}>
-              Price: <span className={styles.currentPrice}>{productInfo.currentPrice}</span>
-              <span className={styles.previousPrice}>{productInfo.previousPrice}</span>
-            </Typography>
-            <Typography component="p" className={styles.productPageInfo}>
-              Brand: <span className={styles.attributeValue}>{productInfo.brand}</span>
-            </Typography>
+            {('discountedPrice' in productInfo && (
+              <Typography component="p" className={styles.productPageInfo}>
+                Price: <span className={styles.currentPrice}>{productInfo.discountedPrice}</span>
+                <span className={styles.previousPrice}>{productInfo.basePrice}</span>
+              </Typography>
+            )) ||
+              ('basePrice' in productInfo && (
+                <Typography component="p" className={styles.productPageInfo}>
+                  Price: <span className={styles.currentPrice}>{productInfo.basePrice}</span>
+                </Typography>
+              ))}
+            {'brand' in productInfo && (
+              <Typography component="p" className={styles.productPageInfo}>
+                Brand: <span className={styles.attributeValue}>{productInfo.brand}</span>
+              </Typography>
+            )}
             {'country' in productInfo && (
               <Typography component="p" className={styles.productPageInfo}>
                 Country: <span className={styles.attributeValue}>{productInfo.country}</span>
+              </Typography>
+            )}
+            {'material' in productInfo && (
+              <Typography component="p" className={styles.productPageInfo}>
+                Material: <span className={styles.attributeValue}>{productInfo.material}</span>
+              </Typography>
+            )}
+            {'color' in productInfo && (
+              <Typography component="p" className={styles.productPageInfo}>
+                Color: <span className={styles.attributeValue}>{productInfo.color}</span>
               </Typography>
             )}
             <Typography component="p" className={styles.productPageInfo}>
@@ -89,18 +108,28 @@ function ProductPage() {
           <Typography component="p" className={styles.productPageDescription}>
             {data?.description?.en}
           </Typography>
-          <Typography component="p" className={styles.productAttributes}>
-            {productInfo.lengthInfo}
-          </Typography>
-          <Typography component="p" className={styles.productAttributes}>
-            {productInfo.widthInfo}
-          </Typography>
-          <Typography component="p" className={styles.productAttributes}>
-            {productInfo.heightInfo}
-          </Typography>
-          <Typography component="p" className={styles.productAttributes}>
-            {productInfo.volumeInfo}
-          </Typography>
+          <Box className={styles.productAttributesContainer}>
+            {'length' in productInfo && (
+              <Typography component="p" className={styles.productAttributes}>
+                Length: <span className={styles.attributeValue}>{productInfo.length} сm</span>
+              </Typography>
+            )}
+            {'width' in productInfo && (
+              <Typography component="p" className={styles.productAttributes}>
+                Width: <span className={styles.attributeValue}>{productInfo.width} сm</span>
+              </Typography>
+            )}
+            {'height' in productInfo && (
+              <Typography component="p" className={styles.productAttributes}>
+                Height: <span className={styles.attributeValue}>{productInfo.height} сm</span>
+              </Typography>
+            )}
+            {'volume' in productInfo && (
+              <Typography component="p" className={styles.productAttributes}>
+                Volume: <span className={styles.attributeValue}>{productInfo.volume} lt</span>
+              </Typography>
+            )}
+          </Box>
         </Stack>
       </Stack>
     </>

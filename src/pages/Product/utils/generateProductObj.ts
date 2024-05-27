@@ -8,11 +8,6 @@ export function generateProductObj(data: ProductData | undefined): Record<string
     data.masterVariant.attributes.forEach((attribute) => {
       productInfo[attribute.name] = String(attribute.value);
     });
-
-    // productInfo.lengthInfo = productInfo.length ? `Length: ${productInfo.length} cm` : '';
-    // productInfo.widthInfo = productInfo.width ? `Width: ${productInfo.width} cm` : '';
-    // productInfo.heightInfo = productInfo.height ? `Height: ${productInfo.height} cm` : '';
-    // productInfo.volumeInfo = productInfo.volume ? `Volume: ${productInfo.volume} lt` : '';
   }
 
   if (data?.masterVariant.prices) {
@@ -22,8 +17,6 @@ export function generateProductObj(data: ProductData | undefined): Record<string
     if (data.masterVariant.prices[0].discounted?.value.centAmount) {
       productInfo.discountedPrice = `${data.masterVariant.prices[0].discounted.value.centAmount / priceAmount} ${productCurrencyMap.EUR}`;
     }
-    productInfo.currentPrice = productInfo.discountedPrice || productInfo.basePrice;
-    productInfo.previousPrice = productInfo.discountedPrice ? productInfo.basePrice : '';
   }
   return productInfo;
 }

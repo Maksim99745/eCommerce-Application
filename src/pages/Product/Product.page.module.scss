@@ -17,12 +17,6 @@
 .image-gallery-container button svg {
   height: 80px !important;
   width: 40px !important;
-  max-width: 50%;
-}
-
-.image-gallery-container button svg {
-  height: 80px !important;
-  width: 40px !important;
 }
 
 .image-gallery-image {
@@ -50,8 +44,16 @@
   padding-top: 5px;
 }
 
+.product-attributes-container {
+  width: 250px;
+}
+
 .product-attributes {
-  font-size: 24px;
+  font-weight: 700;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 22px;
 }
 
 .attribute-value,
@@ -59,6 +61,7 @@
 .previous-price {
   font-weight: 400;
   margin-left: 15px;
+  width: 50%;
 }
 
 .current-price {
@@ -81,16 +84,29 @@
   font-size: 22px;
   margin-bottom: 15px;
 }
-
-@media (max-width: 850px) {
+@media (max-width: 950px) {
   .image-short-info-container {
     flex-direction: column;
     gap: 30px;
   }
+
   .image-gallery-container {
     max-width: 100%;
   }
+
   .short-info-container {
     width: 100%;
+  }
+
+  .product-page-title {
+    text-align: center;
+  }
+  .product-page-description {
+    padding-top: 0;
+  }
+}
+@media (max-width: 700px) {
+  .image-gallery-image {
+    height: 400px;
   }
 }
