@@ -5,7 +5,7 @@ import { Addresses } from './components/Addresses.component';
 import PersonalFormComponent from './components/PersonalData.component';
 import { useSubmitPersonalFormData } from './components/useSubmitPersonalFormData';
 import PasswordFormComponent from './components/Password.component';
-import { useSubmitNewPassword } from './components/useSubmitNewPassord';
+import { useSubmitNewPassword } from './components/useSubmitNewPassword';
 
 function ProfilePage() {
   const { user, isUserLoading } = useAuth();

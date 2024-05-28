@@ -3,10 +3,11 @@ import useAuth from '@hooks/useAuth';
 import { useShowMessage } from '@hooks/useShowMessage';
 import { useEventCallback } from '@mui/material';
 import { apiService } from '@core/api/api.service';
+import { ClientType } from '@core/api/client-type.enum';
 import { PasswordFormComponentProps } from './Password.component';
 
 export const useSubmitNewPassword = () => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const showMessage = useShowMessage();
 
   return useEventCallback<PasswordFormComponentProps['onSubmit']>(async (data) => {
@@ -16,8 +17,8 @@ export const useSubmitNewPassword = () => {
 
     try {
       const updatedUser = await apiService.changePassword(user.version, data.password, data.newPassword);
-      await apiService.login({ email: updatedUser.email, password: data.newPassword });
-      // setUser(updatedUser);
+      apiService.setBuilder(ClientType.password, { username: user.email, password: data.newPassword });
+      setUser(updatedUser);
       showMessage('Password successfully updated');
       return { success: true };
     } catch (error) {
