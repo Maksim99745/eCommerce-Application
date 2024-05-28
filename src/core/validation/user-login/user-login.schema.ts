@@ -13,19 +13,20 @@ export const emailSchema = z
   .regex(/^[^\s]+$/, 'Email should not contain whitespace')
   .regex(/^[a-zA-Z0-9!@#$%^._&*-]+$/, 'Email should contain only English letters, numbers, and special symbols')
   .email('Email address should be properly formatted (e.g., user@example.com)');
+export const passwordSchema = z
+  .string({ required_error: RegistrationErrorMessages.PasswordRequired })
+  .regex(/.+/, RegistrationErrorMessages.PasswordRequired)
+  .regex(/^[^\s]+$/, 'Password should not contain whitespace')
+  .regex(/(?=.*[A-Z])/, 'Password should contain at least 1 English uppercase letter')
+  .regex(/(?=.*[a-z])/, 'Password should contain at least 1 English lowercase letter')
+  .regex(/(?=.*\d)/, 'Password should contain at least one digit (0-9)')
+  .regex(/(?=.*[!@#$%^&*.])/, 'Password should contain at least one special symbol (!@#$%^&*.)')
+  .min(MIN_LENGTH, `Password length should be at least ${MIN_LENGTH} characters long`)
+  .max(MAX_LENGTH, `Password should not be more, than ${MAX_LENGTH} characters`)
+  .regex(/^[a-zA-Z0-9!@#$%^.&*]+$/, 'Password may contain only English letters, numbers & symbols (!@#$%^&*.)')
+  .regex(TEST_PASSWORD_REG_EX, 'Invalid password');
 
 export const loginFormSchema = z.object({
   email: emailSchema,
-  password: z
-    .string({ required_error: RegistrationErrorMessages.PasswordRequired })
-    .regex(/.+/, RegistrationErrorMessages.PasswordRequired)
-    .regex(/^[^\s]+$/, 'Password should not contain whitespace')
-    .regex(/(?=.*[A-Z])/, 'Password should contain at least 1 English uppercase letter')
-    .regex(/(?=.*[a-z])/, 'Password should contain at least 1 English lowercase letter')
-    .regex(/(?=.*\d)/, 'Password should contain at least one digit (0-9)')
-    .regex(/(?=.*[!@#$%^&*.])/, 'Password should contain at least one special symbol (!@#$%^&*.)')
-    .min(MIN_LENGTH, `Password length should be at least ${MIN_LENGTH} characters long`)
-    .max(MAX_LENGTH, `Password should not be more, than ${MAX_LENGTH} characters`)
-    .regex(/^[a-zA-Z0-9!@#$%^.&*]+$/, 'Password may contain only English letters, numbers & symbols (!@#$%^&*.)')
-    .regex(TEST_PASSWORD_REG_EX, 'Invalid password'),
+  password: passwordSchema,
 });
