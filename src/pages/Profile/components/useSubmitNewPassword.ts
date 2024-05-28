@@ -4,7 +4,6 @@ import { useShowMessage } from '@hooks/useShowMessage';
 import { useEventCallback } from '@mui/material';
 import { apiService } from '@core/api/api.service';
 import { PasswordFormComponentProps } from './Password.component';
-import { ClientType } from '@core/api/client-type.enum';
 
 export type NewPasswordRequestData = {
   version: number;
