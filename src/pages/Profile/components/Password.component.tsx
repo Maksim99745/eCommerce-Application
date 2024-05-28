@@ -42,6 +42,7 @@ function PasswordFormComponent({ isLoading, onSubmit }: PasswordFormComponentPro
 
     if (result.success) {
       setViewMode('view');
+      reset();
     }
   });
 
