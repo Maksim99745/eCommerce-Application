@@ -1,4 +1,9 @@
-import { isDuplicateFieldError, isErrorWithMessage, isInvalidCredentialsError } from './errors';
+import {
+  isDuplicateFieldError,
+  isErrorWithMessage,
+  isInvalidCredentialsError,
+  isResourceNotFoundError,
+} from './errors';
 import { isErrorWithBody } from './ErrorWithBody';
 // TODO: check if it works after Roma fix his issue
 export function createAppErrorMessage(error: unknown): string {
@@ -11,9 +16,9 @@ export function createAppErrorMessage(error: unknown): string {
       Please log in with your existing account or use a different ${field} to sign up.`;
     }
 
-    if (isDuplicateFieldError(errorDetails)) {
-      return `An account with the provided ${field} already exists. 
-      Please log in with your existing account or use a different ${field} to sign up.`;
+    if (isResourceNotFoundError(errorDetails)) {
+      return `It looks like the page or resource you're looking for isn't available. 
+     Please make sure the web address is correct.`;
     }
 
     if (isInvalidCredentialsError(errorDetails)) {

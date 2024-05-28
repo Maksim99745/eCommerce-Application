@@ -1,6 +1,7 @@
 import { CategoriesListComponent } from '@components/CategoriesList/CategoriesList.component';
 import { drawerWidth } from '@constants/ui.const';
 import { Box, CssBaseline, Drawer, Toolbar, useMediaQuery, useTheme } from '@mui/material';
+import BreadcrumbsComponent from '@pages/Layout/components/Breadcrumbs/Breadcrumbs.component';
 import FooterComponent from '@pages/Layout/components/Footer/Footer.component';
 import { useCallback, useState } from 'react';
 import { Outlet } from 'react-router-dom';
@@ -56,6 +57,8 @@ function LayoutPage() {
         }}
       >
         <Toolbar />
+
+        <BreadcrumbsComponent />
         <Box
           component="main"
           sx={{ p: { xs: 1, sm: 2 }, display: 'flex', flexDirection: 'column', flexGrow: 1, overflow: 'auto' }}
