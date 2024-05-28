@@ -1,12 +1,12 @@
 import { useGetProduct } from '@hooks/useGetProduct';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Box, Container, Dialog, Stack, Typography } from '@mui/material';
+import { Box, Container, Stack, Typography } from '@mui/material';
 import ReactImageGallery from 'react-image-gallery';
 import { useModalState } from '@hooks/useModalState';
-import 'react-image-gallery/styles/scss/image-gallery.scss';
-
-import styles from './Product.page.module.scss';
+import ImageModal from '@pages/Product/components/ImageModal';
+import styles from '@pages/Product/Product.page.module.scss';
 import { generateProductObj } from './utils/generateProductObj';
+import 'react-image-gallery/styles/scss/image-gallery.scss';
 
 function ProductPage() {
   const { productKey = '' } = useParams<'productKey'>();
@@ -30,21 +30,7 @@ function ProductPage() {
 
   return (
     <>
-      <Dialog
-        open={visible}
-        onClose={close}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </Box>
-      </Dialog>
+      <ImageModal visible={visible} close={close} images={images} data={data} defaultImageUrl={defaultImageUrl} />
       <Stack className={styles.productPageContainer}>
         <Container className={styles.imageShortInfoContainer}>
           <Stack className={styles.imageGalleryContainer}>
@@ -53,11 +39,11 @@ function ProductPage() {
               showFullscreenButton={false}
               showPlayButton={false}
               items={images}
-              onClick={() => {
-                show();
-              }}
+              onClick={show}
               onErrorImageURL={defaultImageUrl}
-              renderItem={(item) => <img src={item.original} alt="" className={styles.imageGalleryImage} />}
+              renderItem={(item) => (
+                <img src={item.original} alt={data?.name.en} className={styles.imageGalleryImage} />
+              )}
             />
           </Stack>
           <Stack className={styles.shortInfoContainer}>
