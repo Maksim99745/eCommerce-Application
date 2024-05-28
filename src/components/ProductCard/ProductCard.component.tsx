@@ -12,6 +12,8 @@ import {
   IconButton,
   Stack,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { mapProductToProductCard } from '@utils/map-product-to-product-card';
 import { memo } from 'react';
@@ -23,6 +25,8 @@ interface ProductCardComponentProps {
 
 export function ProductCardComponent({ product }: ProductCardComponentProps) {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
   const { name, image, price, discounted, currency, description } = mapProductToProductCard(product);
 
   const handleAddToCart = () => {
@@ -81,8 +85,23 @@ export function ProductCardComponent({ product }: ProductCardComponentProps) {
       </CardActionArea>
 
       <CardActions sx={{ px: 2, pt: 1, pb: 2 }}>
-        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ width: '100%' }}>
-          <Stack>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ width: '100%', position: 'relative' }}
+        >
+          <Stack direction={isMediumScreen ? 'column' : 'row'}>
+            {!!discounted && (
+              <Typography
+                variant="body1"
+                color="darkgreen"
+                aria-label="product-discounted-price"
+                sx={{ fontWeight: 'bold', mr: '10px' }}
+              >
+                {discounted} {productCurrencyMap[currency]}
+              </Typography>
+            )}
             <Typography
               variant="body1"
               aria-label="product-price"
@@ -94,17 +113,6 @@ export function ProductCardComponent({ product }: ProductCardComponentProps) {
             >
               {price} {productCurrencyMap[currency]}
             </Typography>
-
-            {!!discounted && (
-              <Typography
-                variant="body1"
-                color="error"
-                aria-label="product-discounted-price"
-                sx={{ fontWeight: 'bold' }}
-              >
-                {discounted} {productCurrencyMap[currency]}
-              </Typography>
-            )}
           </Stack>
 
           <CounterComponent onChange={handleChangeCount} aria-label="product-counter" />
