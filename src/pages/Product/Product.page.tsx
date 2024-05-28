@@ -27,8 +27,8 @@ function ProductPage() {
     variant.attributes?.find((attr) => attr.name === 'color')?.value || 'primary';
 
   const productInfo = generateProductObj(data);
-  console.log(`data`, data);
-  console.log(`productInfo`, productInfo);
+  // console.log(`data`, data);
+  // console.log(`productInfo`, productInfo);
   const defaultImageUrl = '/public/defaultImg.png';
   const images = data?.masterVariant.images
     ? [...data.masterVariant.images].map((image) => ({
