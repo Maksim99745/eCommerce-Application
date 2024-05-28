@@ -74,7 +74,7 @@ export function ProfileAddressesForm({ userData, onSubmit, isLoading = false }: 
     <Container maxWidth="md">
       <FormContainer formContext={formContext} onSuccess={onSubmit}>
         <Paper elevation={1} sx={{ p: '2vh 3%', width: '100%' }}>
-          <Stack spacing={2} direction="row" justifyContent="space-between">
+          <Stack spacing={2} direction="row" justifyContent="space-between" alignItems="start">
             <Typography variant="h5" gutterBottom sx={{ mb: 2 }}>
               Addresses information
             </Typography>
