@@ -8,6 +8,7 @@ import {
 import { validateAddress } from '../user-registration/user-registration.validation';
 import { emailSchema, passwordSchema } from '../user-login/user-login.schema';
 
+
 export const personalInformationSchema = z.object({
   firstName: firstNameSchema,
   lastName: lastNameSchema,
@@ -21,7 +22,6 @@ export const passwordInformationSchema = z.object({
 });
 
 export const userProfileAddressesSchema = z;
-
 export const profileAddressSchema = addressSchema.and(z.object({ id: z.string() }));
 
 export const profileAddressesSchema = z

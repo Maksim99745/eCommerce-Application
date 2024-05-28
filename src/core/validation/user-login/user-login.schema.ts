@@ -13,7 +13,6 @@ export const emailSchema = z
   .regex(/^[^\s]+$/, 'Email should not contain whitespace')
   .regex(/^[a-zA-Z0-9!@#$%^._&*-]+$/, 'Email should contain only English letters, numbers, and special symbols')
   .email('Email address should be properly formatted (e.g., user@example.com)');
-
 export const passwordSchema = z
   .string({ required_error: RegistrationErrorMessages.PasswordRequired })
   .regex(/.+/, RegistrationErrorMessages.PasswordRequired)

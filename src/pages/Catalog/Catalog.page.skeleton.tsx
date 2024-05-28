@@ -4,9 +4,9 @@ import { ProductListSkeletonComponent } from '@components/ProductList/ProductLis
 export function CatalogPageSkeleton() {
   return (
     <Container maxWidth="xl" sx={{ p: 0 }}>
-      <Paper elevation={1} sx={{ p: 2, width: '100%' }}>
+      <Paper elevation={1} sx={{ p: 0, width: '100%' }}>
         <Stack gap={2}>
-          <Skeleton variant="rounded" role="progressbar" width="100%" height={180} />
+          <Skeleton variant="rounded" role="progressbar" width="100%" height={200} />
 
           <ProductListSkeletonComponent />
         </Stack>
