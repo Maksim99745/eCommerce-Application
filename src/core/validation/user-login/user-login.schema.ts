@@ -5,15 +5,17 @@ const MIN_LENGTH = 8;
 const MAX_LENGTH = 20;
 const TEST_PASSWORD_REG_EX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*.])[A-Za-z\d!@#$%^&*.]{8,20}$/;
 
+export const emailSchema = z
+  .string({ required_error: RegistrationErrorMessages.EmailRequired })
+  .regex(/.+/, RegistrationErrorMessages.EmailRequired)
+  .regex(/(?=.*@)/, 'Email should contain symbol "@"')
+  .regex(/^[^@]+@[^@]+\.[^@]+$/, 'Email should contain domain name')
+  .regex(/^[^\s]+$/, 'Email should not contain whitespace')
+  .regex(/^[a-zA-Z0-9!@#$%^._&*-]+$/, 'Email should contain only English letters, numbers, and special symbols')
+  .email('Email address should be properly formatted (e.g., user@example.com)');
+
 export const loginFormSchema = z.object({
-  email: z
-    .string({ required_error: RegistrationErrorMessages.EmailRequired })
-    .regex(/.+/, RegistrationErrorMessages.EmailRequired)
-    .regex(/(?=.*@)/, 'Email should contain symbol "@"')
-    .regex(/^[^@]+@[^@]+\.[^@]+$/, 'Email should contain domain name')
-    .regex(/^[^\s]+$/, 'Email should not contain whitespace')
-    .regex(/^[a-zA-Z0-9!@#$%^._&*-]+$/, 'Email should contain only English letters, numbers, and special symbols')
-    .email('Email address should be properly formatted (e.g., user@example.com)'),
+  email: emailSchema,
   password: z
     .string({ required_error: RegistrationErrorMessages.PasswordRequired })
     .regex(/.+/, RegistrationErrorMessages.PasswordRequired)

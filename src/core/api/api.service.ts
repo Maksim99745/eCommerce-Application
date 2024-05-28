@@ -60,8 +60,8 @@ export class ApiService {
     return this.callRequest(this.builder.me().signup().post({ body: customer }));
   }
 
-  public async updateCustomer(action: MyCustomerUpdateAction): Promise<Customer> {
-    return this.callRequest(this.builder.me().post({ body: { version: 1, actions: [action] } }));
+  public async updateCustomer(customerVersion: number, ...action: MyCustomerUpdateAction[]): Promise<Customer> {
+    return this.callRequest(this.builder.me().post({ body: { version: customerVersion, actions: [...action] } }));
   }
 
   public async getCustomer(): Promise<Customer> {
