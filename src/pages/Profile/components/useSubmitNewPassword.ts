@@ -12,7 +12,7 @@ export type NewPasswordRequestData = {
   newPassword: string;
 };
 
-export const useSubmitNewPassword = () => {
+export const useSubmitNewPasswordFormData = () => {
   const { user, setUser } = useAuth();
   const showMessage = useShowMessage();
 
