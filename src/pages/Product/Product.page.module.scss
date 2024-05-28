@@ -85,6 +85,13 @@
   margin-bottom: 15px;
 }
 
+.variantButtonGroup {
+  display: flex;
+  padding: 10px 15px;
+  gap: 10px;
+  max-width: fit-content;
+}
+
 @media (max-width: 950px) {
   .image-short-info-container {
     flex-direction: column;
