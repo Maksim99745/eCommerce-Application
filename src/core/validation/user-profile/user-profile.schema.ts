@@ -8,7 +8,6 @@ import {
 import { validateAddress } from '../user-registration/user-registration.validation';
 import { emailSchema, passwordSchema } from '../user-login/user-login.schema';
 
-
 export const personalInformationSchema = z.object({
   firstName: firstNameSchema,
   lastName: lastNameSchema,
