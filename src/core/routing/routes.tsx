@@ -3,23 +3,23 @@ import { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 
 export function NoUserRoute({ children }: { children: ReactNode }) {
-  const { hasNoUser, hasUser } = useAuth();
+  const { hasUser } = useAuth();
 
   return (
     <>
       {hasUser && <Navigate to="/" />}
-      {hasNoUser && children}
+      {children}
     </>
   );
 }
 
 export function HasUserRoute({ children }: { children: ReactNode }) {
-  const { hasNoUser, hasUser } = useAuth();
+  const { hasNoUser } = useAuth();
 
   return (
     <>
       {hasNoUser && <Navigate to="/" />}
-      {hasUser && children}
+      {children}
     </>
   );
 }
