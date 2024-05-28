@@ -42,6 +42,7 @@ function PasswordFormComponent({ isLoading, onSubmit }: PasswordFormComponentPro
 
     if (result.success) {
       setViewMode('view');
+      reset();
     }
   });
 
@@ -58,8 +59,8 @@ function PasswordFormComponent({ isLoading, onSubmit }: PasswordFormComponentPro
     <Container maxWidth="md">
       <Paper elevation={1} sx={{ p: '1vh 2%', width: '100%', mb: 2 }}>
         <FormProvider<PasswordInformationFormData> {...formContext}>
-          <form onSubmit={handleSubmit(performSave)}>
-            <Stack direction="row" spacing="auto" sx={{ mb: 3 }}>
+          <form onSubmit={handleSubmit(performSave)} noValidate>
+            <Stack direction="row" spacing="auto" sx={{ mb: 3 }} alignItems="start">
               <Typography variant="h5" gutterBottom>
                 Set new password
               </Typography>

@@ -51,8 +51,7 @@ export function ProfileAddressesForm({ userData, onSubmit, isLoading = false }: 
     mode: 'all',
   });
 
-  const { control, reset, trigger, formState } = formContext;
-  const addressesList = useWatch({ control, name: 'addresses' });
+  const { control, watch, reset, trigger, formState } = formContext;
   const { fields, append, remove } = useFieldArray<ProfileAddressesFormData>({
     control,
     name: 'addresses',
@@ -94,10 +93,13 @@ export function ProfileAddressesForm({ userData, onSubmit, isLoading = false }: 
           <Stack spacing={0} direction="column" sx={{ overflowX: 'auto' }}>
             {fields.map((address, index) => (
               <Accordion key={address.id}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />} key={address.id}>
                   <Stack width={1} direction="row" sx={{ overflow: 'hidden' }}>
                     {!!formState?.errors?.addresses?.[index] && <ErrorIcon color="error" />}
-                    <AddressTypeRenderer addressType={addressesList[index].addressType} sx={{ mr: 2 }} />
+                    <AddressTypeRenderer
+                      addressType={watch(`addresses.${index}.addressType`) || address.addressType}
+                      sx={{ mr: 2 }}
+                    />
                     <Typography
                       sx={{
                         textWrap: 'pretty',
@@ -107,11 +109,11 @@ export function ProfileAddressesForm({ userData, onSubmit, isLoading = false }: 
                         width: '100%',
                       }}
                     >
-                      {toAddressString(addressesList[index])}
+                      {toAddressString(watch(`addresses.${index}`)) || toAddressString(address)}
                     </Typography>
                   </Stack>
                 </AccordionSummary>
-                <AccordionDetails>
+                <AccordionDetails key={address.id}>
                   <UserAddressComponent
                     disabled={isBusy || isReadonly}
                     title={

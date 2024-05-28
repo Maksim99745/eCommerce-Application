@@ -2,9 +2,10 @@ import { CategoriesListSkeletonComponent } from '@components/CategoriesList/Cate
 import { apiService } from '@core/api/api.service';
 import { useRequest } from '@hooks/useRequest';
 import { List, ListItem, ListItemButton, ListItemText } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 export function CategoriesListComponent() {
+  const { categoryKey = '' } = useParams<'categoryKey'>();
   const { data: categories, isLoading, error } = useRequest('categories', () => apiService.getCategories());
 
   return (
@@ -18,7 +19,7 @@ export function CategoriesListComponent() {
             .filter(({ key }) => key !== 'popular')
             .map(({ id, key, name }) => (
               <ListItem key={id} disablePadding>
-                <ListItemButton component={Link} to={`/categories/${key}`}>
+                <ListItemButton component={Link} to={`/categories/${key}`} selected={key === categoryKey}>
                   <ListItemText primary={name.en} />
                 </ListItemButton>
               </ListItem>
