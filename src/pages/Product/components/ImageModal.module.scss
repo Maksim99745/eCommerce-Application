@@ -28,3 +28,13 @@
     height: 400px;
   }
 }
+
+@media (hover: hover) {
+  .dialog-content nav:hover {
+    cursor: default;
+  }
+
+  .dialog-content img:hover {
+    cursor: pointer;
+  }
+}

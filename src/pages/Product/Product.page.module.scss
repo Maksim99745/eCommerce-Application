@@ -113,3 +113,13 @@
     height: 400px;
   }
 }
+
+@media (hover: hover) {
+  .image-gallery-container nav:hover {
+    cursor: default;
+  }
+
+  .image-gallery-container img:hover {
+    cursor: pointer;
+  }
+}
