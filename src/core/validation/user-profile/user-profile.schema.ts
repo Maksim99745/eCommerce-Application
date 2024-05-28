@@ -20,7 +20,6 @@ export const passwordInformationSchema = z.object({
   newPassword: passwordSchema,
 });
 
-export const userProfileAddressesSchema = z;
 export const profileAddressSchema = addressSchema.and(z.object({ id: z.string() }));
 
 export const profileAddressesSchema = z
