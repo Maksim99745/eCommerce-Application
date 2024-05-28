@@ -85,36 +85,6 @@
   margin-bottom: 15px;
 }
 
-// MODAL
-.dialog-container .MuiPaper-root {
-  overflow-x: hidden;
-}
-
-.modal-gallery-image {
-  width: 700px;
-  height: 600px;
-  max-width: 99%;
-  object-fit: contain;
-}
-
-.image-modal-title-wrap {
-  position: relative;
-}
-
-.image-modal-title {
-  padding: 15px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.close-icon {
-  position: absolute;
-  right: 2%;
-  top: 5%;
-}
-
 @media (max-width: 950px) {
   .image-short-info-container {
     flex-direction: column;
@@ -140,10 +110,6 @@
 
 @media (max-width: 700px) {
   .image-gallery-image {
-    height: 400px;
-  }
-
-  .modal-gallery-image {
     height: 400px;
   }
 }

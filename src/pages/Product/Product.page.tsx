@@ -1,12 +1,12 @@
 import { useGetProduct } from '@hooks/useGetProduct';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Box, Container, Dialog, DialogContent, DialogTitle, IconButton, Stack, Typography } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Box, Container, Stack, Typography } from '@mui/material';
 import ReactImageGallery from 'react-image-gallery';
 import { useModalState } from '@hooks/useModalState';
-import 'react-image-gallery/styles/scss/image-gallery.scss';
-import styles from './Product.page.module.scss';
+import ImageModal from '@pages/Product/components/ImageModal';
+import styles from '@pages/Product/Product.page.module.scss';
 import { generateProductObj } from './utils/generateProductObj';
+import 'react-image-gallery/styles/scss/image-gallery.scss';
 
 function ProductPage() {
   const { productKey = '' } = useParams<'productKey'>();
@@ -30,38 +30,7 @@ function ProductPage() {
 
   return (
     <>
-      <Dialog
-        className={styles.dialogContainer}
-        open={visible}
-        onClose={close}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        maxWidth="md"
-        fullWidth
-        sx={{
-          '& .MuiPaper-root': { overflowX: 'hidden' },
-          '& .image-gallery-thumbnails-container': { maxWidth: '100%', display: 'flex', justifyContent: 'center' },
-        }}
-      >
-        <DialogTitle className={styles.imageModalTitleWrap}>
-          <Typography component="h2" variant="h6" className={styles.imageModalTitle}>
-            {data?.name.en}
-          </Typography>
-          <IconButton edge="end" color="inherit" onClick={close} aria-label="close" className={styles.closeIcon}>
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent className={styles.dialogContent} sx={{ overflowX: 'hidden' }}>
-          <ReactImageGallery
-            showThumbnails={images.length > 1}
-            showFullscreenButton={false}
-            showPlayButton={false}
-            items={images}
-            onErrorImageURL={defaultImageUrl}
-            renderItem={(item) => <img src={item.original} alt="" className={styles.modalGalleryImage} />}
-          />
-        </DialogContent>
-      </Dialog>
+      <ImageModal visible={visible} close={close} images={images} data={data} defaultImageUrl={defaultImageUrl} />
       <Stack className={styles.productPageContainer}>
         <Container className={styles.imageShortInfoContainer}>
           <Stack className={styles.imageGalleryContainer}>
@@ -72,7 +41,9 @@ function ProductPage() {
               items={images}
               onClick={show}
               onErrorImageURL={defaultImageUrl}
-              renderItem={(item) => <img src={item.original} alt="" className={styles.imageGalleryImage} />}
+              renderItem={(item) => (
+                <img src={item.original} alt={data?.name.en} className={styles.imageGalleryImage} />
+              )}
             />
           </Stack>
           <Stack className={styles.shortInfoContainer}>
