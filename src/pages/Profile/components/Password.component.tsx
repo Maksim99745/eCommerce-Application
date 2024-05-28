@@ -21,8 +21,8 @@ function PasswordFormComponent({ isLoading, onSubmit }: PasswordFormComponentPro
   const [viewMode, setViewMode] = useState<EditableFormViewMode>('view');
   const [isSaving, setIsSaving] = useState(isLoading);
 
-  const isBusy = isLoading || isSaving;
   const readOnlyMode = viewMode === 'view';
+  const isBusy = isLoading || isSaving;
 
   const formContext = useForm<PasswordInformationFormData>({
     defaultValues: {
