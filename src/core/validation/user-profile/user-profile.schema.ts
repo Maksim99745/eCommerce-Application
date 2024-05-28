@@ -25,7 +25,6 @@ export const userProfileAddressesSchema = z;
 export const profileAddressSchema = addressSchema.and(z.object({ id: z.string() }));
 
 export const profileAddressesSchema = z
-
   .object({
     addresses: z.array(profileAddressSchema),
     defaultShippingAddressIdx: z.number(),
