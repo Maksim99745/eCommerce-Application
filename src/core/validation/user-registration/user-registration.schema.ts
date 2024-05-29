@@ -37,7 +37,9 @@ export const addressSchema = z.object({
   city: z.string(),
   street: z.string(),
   postalCode: z.string(),
-  addressType: z.enum(['billing', 'shipping']),
+  isBilling: z.boolean(),
+  isShipping: z.boolean(),
+  isNewAddress: z.boolean(),
 });
 
 export const registrationSchema = z

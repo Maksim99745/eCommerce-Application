@@ -14,6 +14,6 @@ export type RegistrationFormData = z.infer<typeof registrationSchema>;
 export type LoginFormData = z.infer<typeof loginFormSchema>;
 export type AddressInformationFormData = z.infer<typeof addressSchema>;
 export type PersonalInformationFormData = z.infer<typeof personalInformationSchema>;
-export type AddressType = AddressInformationFormData['addressType'];
+export type AddressType = 'billing' | 'shipping';
 export type ProfileAddressFormData = z.infer<typeof profileAddressSchema>;
 export type ProfileAddressesFormData = z.infer<typeof profileAddressesSchema>;

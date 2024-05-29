@@ -1,5 +1,4 @@
 import { SelectOption } from '@models/select-option.model';
-import { AddressType } from '@models/forms.model';
 
 export const DEFAULT_COUNTRY_IDX = 0;
 
@@ -11,19 +10,6 @@ export const countriesOptions: Array<SelectOption<'PL' | 'UA' | 'UZ' | 'RS', str
 ];
 
 export const defaultCountryOption = countriesOptions[DEFAULT_COUNTRY_IDX];
-
-export const addressTypeOptions: Array<SelectOption<AddressType, string>> = [
-  {
-    id: 'shipping',
-    label: 'Shipping',
-  },
-  {
-    id: 'billing',
-    label: 'Billing',
-  },
-];
-
-export const defaultAddressTypeOption = addressTypeOptions[0];
 
 export const postalValidationRegEx: Record<string, RegExp> = {
   PL: /^\d{2}-\d{3}$/,

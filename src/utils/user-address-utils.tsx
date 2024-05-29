@@ -1,9 +1,10 @@
+import { defaultCountryOption, NO_IDX } from '@core/validation/user-registration/user-registration.const';
 import {
-  defaultAddressTypeOption,
-  defaultCountryOption,
-  NO_IDX,
-} from '@core/validation/user-registration/user-registration.const';
-import { AddressInformationFormData, ProfileAddressFormData, ProfileAddressesFormData } from '@models/forms.model';
+  AddressInformationFormData,
+  ProfileAddressFormData,
+  ProfileAddressesFormData,
+  AddressType,
+} from '@models/forms.model';
 import { Typography } from '@mui/material';
 import { useCallback } from 'react';
 import { Address, Customer } from '@commercetools/platform-sdk';
@@ -11,11 +12,10 @@ import { Address, Customer } from '@commercetools/platform-sdk';
 export const toAddressString = (address: AddressInformationFormData): string =>
   address ? [address.country, address.postalCode, address.city, address.street].filter(Boolean).join(', ') : '';
 
-export const withTypeOfAddress =
-  (addressType: AddressInformationFormData['addressType']) => (address: AddressInformationFormData) =>
-    address.addressType === addressType;
+export const withTypeOfAddress = (addressType: AddressType) => (address: AddressInformationFormData) =>
+  (addressType === 'billing' && address.isBilling) || (addressType === 'shipping' && address.isShipping);
 
-export const useAddressRenderOptions = (addressType: AddressInformationFormData['addressType']) =>
+export const useAddressRenderOptions = (addressType: AddressType) =>
   useCallback(
     (addresses: AddressInformationFormData[]) => [
       { id: NO_IDX, label: 'None' },
@@ -34,13 +34,15 @@ export const useAddressRenderOptions = (addressType: AddressInformationFormData[
     [addressType],
   );
 
-export const getDefaultUserProfileAddress = (): ProfileAddressFormData => ({
+export const getNewUserProfileAddress = (): ProfileAddressFormData => ({
   id: crypto.randomUUID(),
-  addressType: defaultAddressTypeOption.id,
   country: defaultCountryOption.id,
   city: '',
   postalCode: '',
   street: '',
+  isBilling: false,
+  isShipping: false,
+  isNewAddress: true,
 });
 
 export const getCustomerProfileAddress =
@@ -51,7 +53,9 @@ export const getCustomerProfileAddress =
     postalCode,
     city,
     street: streetName,
-    addressType: userData.billingAddressIds?.includes(id) ? 'billing' : 'shipping',
+    isNewAddress: false,
+    isBilling: !!userData.billingAddressIds?.includes(id),
+    isShipping: !!userData.shippingAddressIds?.includes(id),
   });
 
 export const getCustomerProfileAddresses = (userData: Customer): ProfileAddressesFormData => {

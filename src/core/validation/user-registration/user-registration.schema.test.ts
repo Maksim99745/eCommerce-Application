@@ -15,7 +15,15 @@ test('personal data should be provided', () => {
     shippingAsBilling: true,
     birthDate: '',
     addresses: [
-      { street: 'Liberty', city: 'Kaz', country: 'Uzbekistan', postalCode: '22822', addressType: 'shipping' },
+      {
+        street: 'Liberty',
+        city: 'Kaz',
+        country: 'Uzbekistan',
+        postalCode: '22822',
+        isBilling: false,
+        isShipping: false,
+        isNewAddress: true,
+      },
     ],
   });
   expect(result.success).toBe(false);
@@ -38,7 +46,9 @@ test('address data should be provided', () => {
     defaultBillingAddressIdx: -1,
     email: 'jaks134@mail.ru',
     password: 'fjfD3&dl#sL',
-    addresses: [{ street: '', city: '', country: '', postalCode: '', addressType: 'shipping' }],
+    addresses: [
+      { street: '', city: '', country: '', postalCode: '', isBilling: false, isShipping: false, isNewAddress: true },
+    ],
   });
   expect(result.success).toBe(false);
   expect(result.error?.issues[0].message).toBe(RegistrationErrorMessages.CountryRequired);
@@ -76,7 +86,9 @@ test('Name of the city should not contain numbers or special symbols', () => {
         city: '2',
         country: 'PL',
         postalCode: '22-223',
-        addressType: 'shipping',
+        isBilling: false,
+        isShipping: false,
+        isNewAddress: true,
       },
     ],
   });
@@ -100,7 +112,9 @@ test('Invalid post code for country: Poland', () => {
         city: 'Dh',
         country: 'PL',
         postalCode: '22223',
-        addressType: 'shipping',
+        isBilling: false,
+        isShipping: false,
+        isNewAddress: true,
       },
     ],
   });
@@ -124,7 +138,9 @@ test('Invalid post code for country: Uzbekistan', () => {
         city: 'Dh',
         country: 'UZ',
         postalCode: '22223',
-        addressType: 'shipping',
+        isBilling: false,
+        isShipping: false,
+        isNewAddress: true,
       },
     ],
   });
@@ -148,7 +164,9 @@ test('Invalid post code for country: Serbia', () => {
         city: 'Dh',
         country: 'RS',
         postalCode: '2222',
-        addressType: 'shipping',
+        isBilling: false,
+        isShipping: false,
+        isNewAddress: true,
       },
     ],
   });
@@ -172,7 +190,9 @@ test('Invalid post code for country: Ukraine', () => {
         city: 'Dh',
         country: 'UA',
         postalCode: '2222',
-        addressType: 'shipping',
+        isBilling: false,
+        isShipping: false,
+        isNewAddress: true,
       },
     ],
   });

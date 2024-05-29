@@ -14,23 +14,21 @@ import {
   Typography,
   useEventCallback,
 } from '@mui/material';
-import { FormContainer, RadioButtonGroup, SelectElement, useFieldArray, useForm, useWatch } from 'react-hook-form-mui';
+import { CheckboxElement, FormContainer, SelectElement, useFieldArray, useForm, useWatch } from 'react-hook-form-mui';
 import { UserAddressComponent } from '@pages/Registration/components/UserAddress.component';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { addressTypeOptions } from '@core/validation/user-registration/user-registration.const';
 import { profileAddressesSchema } from '@core/validation/user-profile/user-profile.schema';
 import { ProfileAddressesFormData } from '@models/forms.model';
 import {
   toAddressString,
   useAddressRenderOptions,
-  getDefaultUserProfileAddress,
+  getNewUserProfileAddress,
   getCustomerProfileAddresses,
 } from '@utils/user-address-utils';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ErrorIcon from '@mui/icons-material/Error';
-import { AddressTypeRenderer } from '@components/AddressType/AddressTypeRenderer';
 import {
   EditableFormActionsBar,
   FormActionsToolBarProps,
@@ -84,7 +82,7 @@ export function ProfileAddressesForm({ userData, onSubmit, isLoading = false }: 
               isLoading={isBusy}
               disabled={isBusy}
             >
-              <Button variant="contained" disabled={isBusy} onClick={() => append(getDefaultUserProfileAddress())}>
+              <Button variant="contained" disabled={isBusy} onClick={() => append(getNewUserProfileAddress())}>
                 <AddCircleIcon sx={{ mr: 1 }} />
                 Add
               </Button>
@@ -96,10 +94,10 @@ export function ProfileAddressesForm({ userData, onSubmit, isLoading = false }: 
                 <AccordionSummary expandIcon={<ExpandMoreIcon />} key={address.id}>
                   <Stack width={1} direction="row" sx={{ overflow: 'hidden' }}>
                     {!!formState?.errors?.addresses?.[index] && <ErrorIcon color="error" />}
-                    <AddressTypeRenderer
-                      addressType={watch(`addresses.${index}.addressType`) || address.addressType}
-                      sx={{ mr: 2 }}
-                    />
+                    {/* <AddressTypeRenderer */}
+                    {/*  addressType={watch(`addresses.${index}.addressType`) || address.addressType} */}
+                    {/*  sx={{ mr: 2 }} */}
+                    {/* /> */}
                     <Typography
                       sx={{
                         textWrap: 'pretty',
@@ -118,10 +116,14 @@ export function ProfileAddressesForm({ userData, onSubmit, isLoading = false }: 
                     disabled={isBusy || isReadonly}
                     title={
                       <Stack direction="row" alignItems="center">
-                        <RadioButtonGroup
-                          name={`addresses.${index}.addressType`}
-                          row
-                          options={addressTypeOptions}
+                        <CheckboxElement
+                          name={`addresses.${index}.isShipping`}
+                          label="Shipping"
+                          disabled={isBusy || isReadonly}
+                        />
+                        <CheckboxElement
+                          name={`addresses.${index}.isBilling`}
+                          label="Billing"
                           disabled={isBusy || isReadonly}
                         />
                         <Tooltip title="Remove address">
