@@ -1,9 +1,11 @@
 import { HideOnPathsComponent } from '@components/HideOnPaths/HideOnPaths.component';
 import useCategory from '@hooks/useCategory';
+import { useGetProduct } from '@hooks/useGetProduct';
+import useProduct, { setProduct, setProductLoading } from '@hooks/useProduct';
 import HomeIcon from '@mui/icons-material/Home';
 import { Breadcrumbs, Chip, ChipProps, emphasize, styled, Toolbar, Typography } from '@mui/material';
-import { ElementType } from 'react';
-import { Link, LinkProps, useLocation } from 'react-router-dom';
+import { ElementType, useEffect } from 'react';
+import { Link, LinkProps, useLocation, useParams } from 'react-router-dom';
 
 const hideBreadcrumbsPaths = ['/', '/login', '/registration', '/profile', '/about', '/cart'];
 const excludePaths = ['products', 'categories'];
@@ -34,6 +36,16 @@ const StyledBreadcrumb = styled(Chip)<ChipProps & { component: ElementType } & L
 export default function BreadcrumbsComponent() {
   const location = useLocation();
   const { category } = useCategory();
+  const { productKey = '' } = useParams<'productKey'>();
+  const { product } = useProduct();
+  const { data } = useGetProduct(productKey);
+
+  useEffect(() => {
+    if (!!productKey && !!data) {
+      setProductLoading(true);
+      setProduct(data);
+    }
+  }, [productKey, data]);
   const pathname = location.pathname.replace(/categories\/(.*\/|.*$)/, `${category?.name.en || '...'}/`);
   const paths = pathname.split('/').filter(Boolean);
 
@@ -56,10 +68,10 @@ export default function BreadcrumbsComponent() {
             }
 
             const last = index === paths.length - 1;
-
+            const isProductPage = last && path.match(/^\d+$/);
             return last ? (
               <Typography color="text.secondary" key={path}>
-                {path}
+                {isProductPage ? product || 'Loading...' : path}
               </Typography>
             ) : (
               <StyledBreadcrumb

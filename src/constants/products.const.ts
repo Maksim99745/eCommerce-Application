@@ -21,3 +21,5 @@ export const defaultProductsFilter: ProductFilter = {
   colors: [],
   countries: [],
 };
+
+export const defaultProductImageUrl = '/public/defaultImg.png';
