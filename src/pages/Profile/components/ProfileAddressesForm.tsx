@@ -22,8 +22,8 @@ import { ProfileAddressesFormData } from '@models/forms.model';
 import {
   toAddressString,
   useAddressRenderOptions,
-  getNewUserProfileAddress,
   getCustomerProfileAddresses,
+  getNewUserProfileAddress,
 } from '@utils/user-address-utils';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -76,6 +76,7 @@ export function ProfileAddressesForm({ userData, onSubmit, isLoading = false }: 
             <Typography variant="h5" gutterBottom sx={{ mb: 2 }}>
               Addresses information
             </Typography>
+
             <EditableFormActionsBar
               mode={viewMode}
               onAction={handleFormModeAction}
