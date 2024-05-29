@@ -6,8 +6,8 @@ export const priceAmount = 100;
 export const minCount = 1;
 export const maxCount = 99;
 export const minPrice = 0.01;
-export const maxPrice = 10;
-export const stepPrice = 0.01;
+export const maxPrice = 100;
+export const stepPrice = 1;
 
 export const productCurrencyMap: Record<string, string> = {
   USD: '$',

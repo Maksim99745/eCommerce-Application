@@ -26,7 +26,7 @@ export function ProductListFilterComponent({ onChange }: ProductListFilterCompon
 
   return (
     <FormContainer<ProductFilter> formContext={formContext}>
-      <Stack direction="row" gap={1} px={2} flexWrap="wrap">
+      <Stack direction="row" gap={1} px={2} flexWrap="wrap" justifyContent="center">
         <Stack direction="row" minWidth={300} width={300} gap={2} alignItems="center">
           <Chip label={`${minPrice} ${productCurrencyMap.EUR}`} variant="outlined" />
           <Controller
