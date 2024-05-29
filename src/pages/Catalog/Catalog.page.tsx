@@ -1,14 +1,12 @@
-import { useGetCategory } from '@hooks/useGetCategory';
+import useCategory from '@hooks/useCategory';
 import { Box, Container, Paper, Stack, Typography } from '@mui/material';
-import { CatalogPageSkeleton } from '@pages/Catalog/Catalog.page.skeleton';
 import ProductListComponent from '@components/ProductList/ProductList.component';
-import { useParams } from 'react-router-dom';
+import { CatalogPageSkeleton } from '@pages/Catalog/Catalog.page.skeleton';
 
 function CatalogPage() {
-  const { categoryKey = 'popular' } = useParams<'categoryKey'>();
-  const { data: category, isLoading } = useGetCategory(categoryKey);
+  const { category, isCategoryLoading } = useCategory();
 
-  if (isLoading) {
+  if (isCategoryLoading) {
     return <CatalogPageSkeleton />;
   }
 
@@ -49,7 +47,7 @@ function CatalogPage() {
         {!category.description?.en && <Typography variant="h4">{category.name.en} products</Typography>}
 
         <Paper elevation={1} sx={{ p: 0, width: '100%', flex: 1 }}>
-          <ProductListComponent categoryId={category.id} />
+          <ProductListComponent />
         </Paper>
       </Stack>
     </Container>

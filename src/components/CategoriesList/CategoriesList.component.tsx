@@ -1,12 +1,30 @@
 import { CategoriesListSkeletonComponent } from '@components/CategoriesList/CategoriesListSkeleton.component';
-import { apiService } from '@core/api/api.service';
-import { useRequest } from '@hooks/useRequest';
+import useCategory from '@hooks/useCategory';
+import { useGetCategories } from '@hooks/useGetCategories';
 import { List, ListItem, ListItemButton, ListItemText } from '@mui/material';
-import { Link, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useLocation, useParams } from 'react-router-dom';
 
-export function CategoriesListComponent() {
-  const { categoryKey = '' } = useParams<'categoryKey'>();
-  const { data: categories, isLoading, error } = useRequest('categories', () => apiService.getCategories());
+interface CategoryListProps {
+  onSelectCategory?: (categoryId?: string) => void;
+}
+
+export function CategoriesListComponent({ onSelectCategory }: CategoryListProps) {
+  const { categoryKey } = useParams<'categoryKey'>();
+  const { data: categories, isLoading, error } = useGetCategories();
+  const { setCategory } = useCategory();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!categories) {
+      return;
+    }
+
+    const currentKey = location.pathname !== '/' ? categoryKey : 'popular';
+    const category = categories.results.find(({ key }) => key === currentKey) || null;
+
+    setCategory(category);
+  }, [categories, categoryKey, location, setCategory]);
 
   return (
     <>
@@ -17,10 +35,15 @@ export function CategoriesListComponent() {
         <List>
           {categories.results
             .filter(({ key }) => key !== 'popular')
-            .map(({ id, key, name }) => (
-              <ListItem key={id} disablePadding>
-                <ListItemButton component={Link} to={`/categories/${key}`} selected={key === categoryKey}>
-                  <ListItemText primary={name.en} />
+            .map((category) => (
+              <ListItem key={category.id} disablePadding onClick={() => onSelectCategory?.()}>
+                <ListItemButton
+                  component={Link}
+                  to={`/categories/${category.key}`}
+                  selected={category.key === categoryKey}
+                  onClick={() => setCategory(category)}
+                >
+                  <ListItemText primary={category.name.en} />
                 </ListItemButton>
               </ListItem>
             ))}

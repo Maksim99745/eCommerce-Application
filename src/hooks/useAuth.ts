@@ -6,16 +6,17 @@ import { signal } from '@preact/signals-react';
 export const userSignal = signal<Customer | null | undefined>(undefined);
 const isUserLoadingSignal = signal<boolean>(false);
 
-export const setUser = (newUser: Customer | null | undefined) => {
-  userSignal.value = newUser;
-};
-
-export const setLoading = (isLoading: boolean) => {
+export const setUserLoading = (isLoading: boolean) => {
   isUserLoadingSignal.value = isLoading;
 };
 
+export const setUser = (newUser: Customer | null | undefined) => {
+  userSignal.value = newUser;
+  setUserLoading(false);
+};
+
 const login = async (customer: MyCustomerSignin): Promise<void> => {
-  setLoading(true);
+  setUserLoading(true);
   try {
     apiService.setBuilder(ClientType.password, { username: customer.email, password: customer.password });
     await apiService.login(customer);
@@ -24,8 +25,6 @@ const login = async (customer: MyCustomerSignin): Promise<void> => {
   } catch (error) {
     setUser(null);
     throw error;
-  } finally {
-    setLoading(false);
   }
 };
 
@@ -35,7 +34,7 @@ const logout = (): void => {
 };
 
 const register = async (draft: MyCustomerDraft): Promise<void> => {
-  setLoading(true);
+  setUserLoading(true);
   const { email, password } = draft;
   try {
     await apiService.register(draft);
@@ -46,8 +45,6 @@ const register = async (draft: MyCustomerDraft): Promise<void> => {
   } catch (error) {
     setUser(null);
     throw error;
-  } finally {
-    setLoading(false);
   }
 };
 
@@ -57,7 +54,7 @@ const useAuth = () => ({
   hasUser: !!userSignal.value && !isUserLoadingSignal.value,
   hasNoUser: !userSignal.value && !isUserLoadingSignal.value,
   setUser,
-  setLoading,
+  setUserLoading,
   login,
   logout,
   register,
