@@ -15,7 +15,7 @@ import { FormContainer, useFieldArray, useForm } from 'react-hook-form-mui';
 import { UserAddressComponent } from '@pages/Registration/components/UserAddress.component';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { profileAddressesSchema } from '@core/validation/user-profile/user-profile.schema';
-import { ProfileAddressesFormData, ProfileAddressFormData } from '@models/forms.model';
+import { ProfileAddressFormData } from '@models/forms.model';
 import { getCustomerProfileAddresses, toAddressString } from '@utils/user-address-utils';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -34,17 +34,23 @@ export type UserAddressesFormProps = {
 
 export function ProfileAddressesForm({ userData, onSubmit, isLoading = false }: UserAddressesFormProps) {
   const { isBusy, isReadonly, setViewMode, setIsSaving } = useEditableFormState({ initialState: 'edit', isLoading });
-  const formContext = useForm<ProfileAddressesFormData>({
-    defaultValues: getCustomerProfileAddresses(userData),
+
+  const defaultValues = getCustomerProfileAddresses(userData);
+
+  const formContext = useForm({
+    defaultValues,
     resolver: zodResolver(profileAddressesSchema),
     mode: 'all',
   });
 
   const { control, formState } = formContext;
-  const { fields } = useFieldArray<ProfileAddressesFormData>({
+  const { fields } = useFieldArray({
     control,
     name: 'addresses',
   });
+
+  // console.log('Default Values:', defaultValues.addresses);
+  // console.log('Fields:', fields);
 
   const handleRemoveAddress = useEventCallback<RemoveProfileAddressProps['onSubmitRemove']>(async (address) => {
     setIsSaving(true);

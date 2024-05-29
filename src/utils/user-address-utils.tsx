@@ -35,7 +35,7 @@ export const useAddressRenderOptions = (addressType: AddressType) =>
   );
 
 export const getNewUserProfileAddress = (): ProfileAddressFormData => ({
-  id: crypto.randomUUID(),
+  addressUID: crypto.randomUUID(),
   country: defaultCountryOption.id,
   city: '',
   postalCode: '',
@@ -48,7 +48,7 @@ export const getNewUserProfileAddress = (): ProfileAddressFormData => ({
 export const getCustomerProfileAddress =
   (userData: Customer) =>
   ({ id = '', country, postalCode = '', city = '', streetName = '' }: Address): ProfileAddressFormData => ({
-    id,
+    addressUID: id,
     country,
     postalCode,
     city,
