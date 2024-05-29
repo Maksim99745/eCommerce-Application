@@ -25,6 +25,7 @@ function CatalogPage() {
               position: 'relative',
               backgroundImage: `url("${category.description.en}")`,
               backgroundSize: 'cover',
+              backgroundPosition: 'center',
               borderRadius: 3,
             }}
           >

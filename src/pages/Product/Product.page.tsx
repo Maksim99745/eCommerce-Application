@@ -7,6 +7,9 @@ import ImageModal from '@pages/Product/components/ImageModal';
 import styles from '@pages/Product/Product.page.module.scss';
 import { useEffect, useState } from 'react';
 import { ProductVariant } from '@commercetools/platform-sdk';
+import { getColorAttribute } from '@utils/get-color-attribute-value';
+import { defaultProductImageUrl } from '@constants/products.const';
+import { imagesUrls } from '@utils/map-selected-product-images';
 import { generateProductObj } from './utils/generateProductObj';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
 
@@ -31,22 +34,18 @@ function ProductPage() {
     setSelectedVariant(variant);
   };
 
-  const getColorAttribute = (variant: ProductVariant) =>
-    variant.attributes?.find((attr) => attr.name === 'color')?.value || 'primary';
-
   const productInfo = generateProductObj(data);
-
-  const defaultImageUrl = '/public/defaultImg.png';
-  const images = selectedVariant?.images
-    ? [...selectedVariant.images].map((image) => ({
-        original: image?.url || defaultImageUrl,
-        thumbnail: image?.url || defaultImageUrl,
-      }))
-    : [];
+  const images = imagesUrls(selectedVariant);
 
   return (
     <>
-      <ImageModal visible={visible} close={close} images={images} data={data} defaultImageUrl={defaultImageUrl} />
+      <ImageModal
+        visible={visible}
+        close={close}
+        images={images}
+        data={data}
+        defaultImageUrl={defaultProductImageUrl}
+      />
       <Stack className={styles.productPageContainer}>
         <Container className={styles.imageShortInfoContainer}>
           <Stack className={styles.imageGalleryContainer}>
@@ -56,7 +55,7 @@ function ProductPage() {
               showPlayButton={false}
               items={images}
               onClick={show}
-              onErrorImageURL={defaultImageUrl}
+              onErrorImageURL={defaultProductImageUrl}
               renderItem={(item) => (
                 <img src={item.original} alt={data?.name.en} className={styles.imageGalleryImage} />
               )}
