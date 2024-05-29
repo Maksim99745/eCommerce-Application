@@ -8,6 +8,20 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useEffect, useState } from 'react';
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const ITEMS_COUNT = 4.5;
+const ITEMS_WIDTH = 250;
+
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * ITEMS_COUNT + ITEM_PADDING_TOP,
+      width: ITEMS_WIDTH,
+    },
+  },
+};
+
 const getColor = (color: string): string => {
   if (color === 'different') {
     return 'linear-gradient(to bottom, red,orange,yellow,green,blue,indigo,violet)';
@@ -52,6 +66,7 @@ export default function ColorMultiSelectComponent({ colors, onChange }: ColorMul
           value={value}
           size="small"
           input={<OutlinedInput id="color-multi-chip" label="Color" />}
+          MenuProps={MenuProps}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((color) => (
