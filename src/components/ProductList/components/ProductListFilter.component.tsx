@@ -63,6 +63,7 @@ export function ProductListFilterComponent({ onChange }: ProductListFilterCompon
               showChips
               showCheckbox
               options={defaultCountries.map((country) => ({ id: country, label: country }))}
+              sx={{ '.MuiButtonBase-root': { height: '22px' } }}
             />
           )}
         />
@@ -77,6 +78,7 @@ export function ProductListFilterComponent({ onChange }: ProductListFilterCompon
               label="Material"
               showChips
               showCheckbox
+              sx={{ '.MuiButtonBase-root': { height: '22px' } }}
               options={defaultMaterials.map((material) => ({ id: material, label: capitalize(material) }))}
             />
           )}
@@ -92,6 +94,7 @@ export function ProductListFilterComponent({ onChange }: ProductListFilterCompon
               label="Brand"
               showChips
               showCheckbox
+              sx={{ '.MuiButtonBase-root': { height: '22px' } }}
               options={defaultBrands.map((brand) => ({ id: brand, label: brand }))}
             />
           )}

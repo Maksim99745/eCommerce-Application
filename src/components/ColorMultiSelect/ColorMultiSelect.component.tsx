@@ -75,13 +75,14 @@ export default function ColorMultiSelectComponent({ colors, onChange }: ColorMul
                   sx={{
                     background: getColor(color),
                     boxShadow: 1,
-                    p: '3px',
+                    p: '2px',
                     borderRadius: 5,
-                    height: '32px',
+                    // height: '22px',
                     boxSizing: 'border-box',
+                    display: 'flex',
                   }}
                 >
-                  <Chip label={capitalize(color)} sx={{ backgroundColor: indigo[50], height: '100%' }} />
+                  <Chip label={capitalize(color)} sx={{ backgroundColor: indigo[50], height: '18px' }} />
                 </Box>
               ))}
             </Box>
