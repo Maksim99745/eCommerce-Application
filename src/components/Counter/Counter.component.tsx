@@ -37,12 +37,7 @@ function CounterComponent({ onChange, initCount = minCount }: CounterComponentPr
   };
 
   return (
-    <Stack
-      direction="row"
-      alignItems="center"
-      gap="2px"
-      sx={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}
-    >
+    <Stack direction="row" alignItems="center" gap="2px">
       <IconButton onClick={handleDecrement} disabled={count <= 1} size="small">
         <RemoveIcon fontSize="small" />
       </IconButton>
