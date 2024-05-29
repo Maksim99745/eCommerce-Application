@@ -1,1 +1,2 @@
-// Here it will be exports from all files in the folder
+export { type SelectOption } from './select-option.model';
+export { type RegistrationForm, type RegistrationFormAddress, type LoginForm } from './forms.model';

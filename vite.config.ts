@@ -4,7 +4,13 @@ import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      babel: {
+        plugins: [['module:@preact/signals-react-transform']],
+      },
+    }),
+  ],
   envPrefix: 'CTP_',
   resolve: {
     alias: {
@@ -16,6 +22,24 @@ export default defineConfig({
       '@enums': resolve(__dirname, './src/enums/'),
       '@constants': resolve(__dirname, './src/constants/'),
       '@utils': resolve(__dirname, './src/utils/'),
+      '@hooks': resolve(__dirname, './src/hooks/'),
+    },
+  },
+  css: {
+    modules: {
+      localsConvention: 'camelCase',
+    },
+  },
+  build: {
+    chunkSizeWarningLimit: 600,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return id.toString().split('node_modules/')[1].split('/')[0].toString();
+          }
+        },
+      },
     },
   },
 });

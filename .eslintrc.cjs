@@ -27,41 +27,15 @@ module.exports = {
     'no-magic-numbers': [
       'error',
       {
-        ignore: [0, 1],
+        ignore: [0, 1, -1, 2, -2],
         ignoreDefaultValues: true,
         ignoreArrayIndexes: true
       }
     ],
     '@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
-    'no-console': [
-      'error',
-      {
-        allow: [
-          'log',
-          'warn',
-          'dir',
-          'timeLog',
-          'assert',
-          'clear',
-          'count',
-          'countReset',
-          'group',
-          'groupEnd',
-          'table',
-          'dirxml',
-          'error',
-          'groupCollapsed',
-          'Console',
-          'profile',
-          'profileEnd',
-          'timeStamp',
-          'context'
-        ]
-      }
-    ],
+    'no-console': ['error', { allow: ['warn', 'error'] }],
     'max-classes-per-file': ['error', 1],
     'no-debugger': 'error',
-    'lines-between-class-members': ['warn', 'always', { exceptAfterSingleLine: true }],
     '@typescript-eslint/no-explicit-any': 'error',
     '@typescript-eslint/no-namespace': [2, { allowDeclarations: true }],
     '@typescript-eslint/explicit-member-accessibility': [
@@ -77,7 +51,6 @@ module.exports = {
         }
       }
     ],
-    '@typescript-eslint/explicit-function-return-type': 'error',
     '@typescript-eslint/no-non-null-assertion': 'error',
     "@typescript-eslint/consistent-type-assertions": ["error", { "assertionStyle": "never" }],
     'curly': ['error', 'all'],
@@ -99,5 +72,11 @@ module.exports = {
     'jest-dom/prefer-required': 'error',
     'jest-dom/prefer-to-have-attribute': 'error',
     'unused-imports/no-unused-imports': 'error',
+    'import/prefer-default-export': 'off',
+    'class-methods-use-this': 'off',
+    'react/require-default-props': 'off',
+    '@typescript-eslint/lines-between-class-members': 'off',
+    'no-return-assign': 'off',
+    'react/jsx-props-no-spreading': 'off'
   }
 };

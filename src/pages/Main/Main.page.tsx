@@ -1,6 +1,4 @@
-import { ReactNode } from 'react';
-
-function MainPage(): ReactNode {
+function MainPage() {
   return <h2>Main Page</h2>;
 }
 

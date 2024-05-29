@@ -40,6 +40,11 @@ Project goals:
 - Task Board: [**GitHub Pages**](https://github.com/users/Maksim99745/projects/2/views/1)
 - Code style: [**Wiki**]()
 
+## Deploys
+
+-Sprint #2
+https://ecommerce-sprint-2-release.netlify.app/
+
 ## Setup instructions
 
 1. Make sure you have node.js installed on your machine before proceeding with the setup or installation process.
@@ -86,51 +91,82 @@ Branch name should be in the format feat|fix|chore|refactor/RSS-ECOMM-sprintNumb
 
 ### Build
 
-Run `npm run build` to build the project. It will be stored in the `dist/` directory.
+To build the project run
+
+```
+npm run build
+```
+
+It will be stored in the `dist/` directory.
 
 ### ESLint check
 
-Run `npm run lint` to check for code style and potential errors in the `src/` directory, including TypeScript and TSX files (--ext ts,tsx). It also reports any unused disable directives (--report-unused-disable-directives) and sets the maximum number of warnings to 0 (--max-warnings 0), which means ESLint will treat warnings as errors. This script helps quickly identify code style issues and potential errors in the project
+To check for code style and potential errors in the `src/` directory, including TypeScript and TSX files (--ext ts,tsx), run
+
+```
+npm run lint
+```
+
+It also reports any unused disable directives (--report-unused-disable-directives) and sets the maximum number of warnings to 0 (--max-warnings 0), which means ESLint will treat warnings as errors. This script helps quickly identify code style issues and potential errors in the project
 
 ### ESLint fix issues
 
-Run `npm run lint:fix` to automatically fixe ESLint errors and code style issues in the `src/` directory
+To automatically fixe ESLint errors and code style issues in the `src/` directory run:
+
+```
+npm run lint:fix
+```
 
 ### Check the production build
 
-To check if the production build looks OK in your local environment run
+To check if the production build looks OK in your local environment use:
 
 ```
 npm run preview
 ```
 
-It will run script `vite preview` to boot up a local static web server that serves the files from dist at http://localhost:4173.
+It will run scripts `vite build && vite preview` to create `dist` folder (if absent), build the project and boot up a local static web server that serves the files from dist at http://localhost:4173.
+
 _It is important to note that `vite preview` is intended for previewing the build locally and not meant as a production server._
 
 ### Prettier check
 
-Run `npm run prettier` to check if your files in the `src/` directory are formatted. This will output a human-friendly message and a list of unformatted files, if any.
-It will run the script, that is set to ignore unknown file types. Prettier will not attempt to check files with extensions that it does not recognize.
+To check if your files in the `src/` directory are formatted run
 
 ```
-prettier --check --ignore-unknown src/
+npm run prettier
 ```
+
+This will output a human-friendly message and a list of unformatted files, if any.
+It will run `prettier --check --ignore-unknown src/`, that is set to ignore unknown file types. Prettier will not attempt to check files with extensions that it does not recognize.
 
 ### Prettier fix issues
 
-Run `npm run prettier:fix` to fix code formatting issues in the `src/` directory using Prettier. The `--ignore-unknown` flag is also used to instruct Prettier not to format files with extensions that it does not recognize.
+To fix code formatting issues in the `src/` directory using Prettier run:
+
+```
+npm run prettier:fix
+```
+
+The `--ignore-unknown` flag is also used to instruct Prettier not to format files with extensions that it does not recognize.
 
 ### ESLint and Prettier fix issues
 
-To make ESLint fix code style issues, and then format code using Prettier in the `src/` directory - use `npm run formatAll` It will run script:
+To make ESLint fix code style issues, and then format code using Prettier in the `src/` directory - use
 
 ```
-npm run lint:fix && npm run prettier:fix
+npm run format:all
 ```
+
+It will run scripts `npm run lint:fix && npm run prettier:fix`
 
 ### Set up Git hooks
 
-To automatically set up Git hooks for code linting and formatting, run the following command after installing project dependencies: `npm run prepare`
+To automatically set up Git hooks for code linting and formatting, run the following command after installing project dependencies:
+
+```
+npm run prepare
+```
 
 ### TypeScript Type Checking
 
@@ -140,21 +176,31 @@ To perform TypeScript type checking without generating JavaScript files, run the
 npm run types-check
 ```
 
-### Pre-Push Checks
+### Total code checking by 1 command
 
-To perform pre-push checks, ensuring code quality and consistency before pushing changes to the repository, run the command `npm run pre-push`
+To perform total code checking, ensuring code quality and consistency before pushing changes to the repository or before building and deploying, run the command
+
+```
+npm run validate:all
+```
 
 ### Utilizing unit tests
 
-Run `npm run test` to execute the unit tests via [Jest](https://jestjs.io).
+To execute the unit tests via [Jest](https://jestjs.io) tun
 
-### We use commercetools
+```
+npm run test
+```
+
+## We use commercetools
+
 - [SDK documentation](https://docs.commercetools.com/sdk/javascript-sdk)
 - [API](https://docs.commercetools.com/api)
 - [Import products](https://docs.commercetools.com/merchant-center/import-products)
 - [Use SDK example](https://github.com/commercetools/commercetools-ts-sdk-template)
 
 You have to add `.env` file to the project's root with these variables:
+
 ```env
 CTP_PROJECT_KEY=your-project-key
 CTP_CLIENT_SECRET=your-client-secret

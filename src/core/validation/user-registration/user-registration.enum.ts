@@ -1,0 +1,17 @@
+export enum RegistrationErrorMessages {
+  EmailRequired = 'Email is required',
+  PasswordRequired = 'Password is required',
+  FirstNameRequired = 'First name is required',
+  FirstNameInvalid = 'First name should not contain numbers or special symbols',
+  LastNameRequired = 'Last name is required',
+  LastNameInvalid = 'Last name should not contain numbers or special symbols',
+  BirthDateInvalid = 'Please provide correct birth date',
+  BirthDateAge = 'User should be older than 13 y.o.',
+  CityRequired = 'City is required',
+  CityInvalid = 'Name of the city should not contain numbers or special symbols',
+  AddressRequired = 'Address is required',
+  StreetRequired = 'Street is required',
+  CountryRequired = 'Country is required',
+  PostalCodeRequired = 'Postal code is required',
+  PostalCodeInvalid = 'Invalid post code for country',
+}

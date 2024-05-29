@@ -1,0 +1,492 @@
+Subject: [PATCH] toMaksim-2
+---
+Index: src/pages/Registration/components/DefaultAddress.component.tsx
+===================================================================
+diff --git a/src/pages/Registration/components/DefaultAddress.component.tsx b/src/pages/Registration/components/DefaultAddress.component.tsx
+deleted file mode 100644
+--- a/src/pages/Registration/components/DefaultAddress.component.tsx	(revision fdd3288bae2dee55441e7c8f7bb173a05bf1b0a1)
++++ /dev/null	(revision fdd3288bae2dee55441e7c8f7bb173a05bf1b0a1)
+@@ -1,17 +0,0 @@
+-import { RegistrationForm } from '@models/forms.model';
+-import { Grid } from '@mui/material';
+-import { SwitchElement } from 'react-hook-form-mui';
+-
+-export interface SwitchDefaultAddressProps {
+-  title: string;
+-  addressIndex: number;
+-  disabled?: boolean;
+-}
+-
+-export const DefaultAddress = ({ title, addressIndex, disabled = false }: SwitchDefaultAddressProps) => {
+-  return (
+-    <Grid item xs={1}>
+-      <SwitchElement<RegistrationForm> label={title} name={`addresses.${addressIndex}.isDefault`} disabled={disabled} />
+-    </Grid>
+-  );
+-};
+Index: src/core/validation/user-registration/user-registration.const.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/core/validation/user-registration/user-registration.const.ts b/src/core/validation/user-registration/user-registration.const.ts
+--- a/src/core/validation/user-registration/user-registration.const.ts	(revision fdd3288bae2dee55441e7c8f7bb173a05bf1b0a1)
++++ b/src/core/validation/user-registration/user-registration.const.ts	(date 1716210864764)
+@@ -1,5 +1,7 @@
+ import { SelectOption } from '@models/select-option.model';
+ 
++export const DEFAULT_COUNTRY_IDX = 0;
++
+ export const countriesOptions: SelectOption[] = [
+   { id: 'PL', label: 'Poland' },
+   { id: 'UA', label: 'Ukraine' },
+@@ -7,7 +9,7 @@
+   { id: 'RS', label: 'Serbia' },
+ ];
+ 
+-export const defaultCountryOption = countriesOptions[0];
++export const defaultCountryOption = countriesOptions[DEFAULT_COUNTRY_IDX];
+ 
+ export const postalValidationRegEx: Record<string, RegExp> = {
+   PL: /^\d{2}-\d{3}$/,
+@@ -21,5 +23,6 @@
+ export const CITY_REGEX = /^[a-zA-Z\s]+$/;
+ export const NAME_SURNAME_REGEX = /^[A-Za-z]+$/;
+ 
++export const NO_IDX = -1;
+ export const SHIPPING_ADDRESS_IDX = 0;
+ export const BILLING_ADDRESS_IDX = 1;
+Index: src/pages/Login/Login.page.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pages/Login/Login.page.tsx b/src/pages/Login/Login.page.tsx
+--- a/src/pages/Login/Login.page.tsx	(revision fdd3288bae2dee55441e7c8f7bb173a05bf1b0a1)
++++ b/src/pages/Login/Login.page.tsx	(date 1716211125015)
+@@ -15,7 +15,7 @@
+   const handleFormSubmit = useEventCallback<LoginFormProps['onSubmit']>((data) => {
+     UserService.login(data)
+       .then(() => {
+-        showMessage('Welcome! Happy shopping!');
++        showMessage('Welcome to Homeware Hub! Happy shopping! 🛍️');
+         navigate('/');
+       })
+       .catch((error) => {
+Index: src/core/validation/user-registration/user-registration.schema.test.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/core/validation/user-registration/user-registration.schema.test.ts b/src/core/validation/user-registration/user-registration.schema.test.ts
+--- a/src/core/validation/user-registration/user-registration.schema.test.ts	(revision fdd3288bae2dee55441e7c8f7bb173a05bf1b0a1)
++++ b/src/core/validation/user-registration/user-registration.schema.test.ts	(date 1716211248806)
+@@ -53,7 +53,6 @@
+         city: 'dd',
+         country: 'PL',
+         postalCode: '22-223',
+-        isDefault: true,
+       },
+     ],
+   });
+@@ -75,7 +74,6 @@
+         city: '2',
+         country: 'PL',
+         postalCode: '22-223',
+-        isDefault: true,
+       },
+     ],
+   });
+@@ -98,7 +96,6 @@
+         city: '2',
+         country: 'PL',
+         postalCode: '22-223',
+-        isDefault: true,
+       },
+     ],
+   });
+@@ -120,7 +117,6 @@
+         city: 'Dh',
+         country: 'PL',
+         postalCode: '22223',
+-        isDefault: true,
+       },
+     ],
+   });
+@@ -142,7 +138,6 @@
+         city: 'Dh',
+         country: 'UZ',
+         postalCode: '22223',
+-        isDefault: true,
+       },
+     ],
+   });
+@@ -164,7 +159,6 @@
+         city: 'Dh',
+         country: 'RS',
+         postalCode: '2222',
+-        isDefault: true,
+       },
+     ],
+   });
+Index: src/core/validation/user-registration/user-registration.schema.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/core/validation/user-registration/user-registration.schema.ts b/src/core/validation/user-registration/user-registration.schema.ts
+--- a/src/core/validation/user-registration/user-registration.schema.ts	(revision fdd3288bae2dee55441e7c8f7bb173a05bf1b0a1)
++++ b/src/core/validation/user-registration/user-registration.schema.ts	(date 1716210864775)
+@@ -24,7 +24,7 @@
+   city: z.string(),
+   street: z.string(),
+   postalCode: z.string(),
+-  isDefault: z.boolean(),
++  addressType: z.enum(['billing', 'shipping']),
+ });
+ 
+ export const registrationSchema = z
+@@ -40,6 +40,8 @@
+     birthDate: birthDateSchema,
+     shippingAsBilling: z.boolean(),
+     addresses: z.array(addressSchema),
++    defaultShippingAddressIdx: z.number(),
++    defaultBillingAddressIdx: z.number(),
+   })
+   .merge(loginFormSchema)
+   .superRefine((formValues, context) => {
+Index: src/models/forms.model.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/models/forms.model.ts b/src/models/forms.model.ts
+--- a/src/models/forms.model.ts	(revision fdd3288bae2dee55441e7c8f7bb173a05bf1b0a1)
++++ b/src/models/forms.model.ts	(date 1716210864784)
+@@ -6,9 +6,9 @@
+ export type LoginForm = z.infer<typeof loginFormSchema>;
+ 
+ export interface RegistrationFormAddress {
++  addressType: 'billing' | 'shipping';
+   street: string;
+   city: string;
+   country: string;
+   postalCode: string;
+-  isDefault: boolean;
+ }
+Index: src/utils/map-form-to-customer-draft.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/utils/map-form-to-customer-draft.ts b/src/utils/map-form-to-customer-draft.ts
+--- a/src/utils/map-form-to-customer-draft.ts	(revision fdd3288bae2dee55441e7c8f7bb173a05bf1b0a1)
++++ b/src/utils/map-form-to-customer-draft.ts	(date 1716210864836)
+@@ -1,5 +1,9 @@
+ import { BaseAddress, MyCustomerDraft } from '@commercetools/platform-sdk';
+-import { BILLING_ADDRESS_IDX, SHIPPING_ADDRESS_IDX } from '@core/validation/user-registration/user-registration.const';
++import {
++  BILLING_ADDRESS_IDX,
++  NO_IDX,
++  SHIPPING_ADDRESS_IDX,
++} from '@core/validation/user-registration/user-registration.const';
+ import { RegistrationForm, RegistrationFormAddress } from '@models/forms.model';
+ 
+ function mapFormAddressToCustomerAddress(address: RegistrationFormAddress): BaseAddress {
+@@ -10,7 +14,6 @@
+ export function mapFormToCustomerDraft(data: RegistrationForm): MyCustomerDraft {
+   const dataAddresses = data.shippingAsBilling ? [data.addresses[SHIPPING_ADDRESS_IDX]] : data.addresses;
+   const addresses = dataAddresses.map(mapFormAddressToCustomerAddress);
+-  const defaultBillingAddress = data.shippingAsBilling ? SHIPPING_ADDRESS_IDX : BILLING_ADDRESS_IDX;
+ 
+   const draft: MyCustomerDraft = {
+     firstName: data.firstName,
+@@ -19,8 +22,8 @@
+     password: data.password,
+     dateOfBirth: data.birthDate,
+     addresses,
+-    ...(data.addresses[SHIPPING_ADDRESS_IDX].isDefault ? { defaultShippingAddress: SHIPPING_ADDRESS_IDX } : {}),
+-    ...(data.addresses[BILLING_ADDRESS_IDX].isDefault ? { defaultBillingAddress } : {}),
++    ...(data.defaultShippingAddressIdx !== NO_IDX ? { defaultShippingAddress: data.defaultShippingAddressIdx } : {}),
++    ...(data.defaultBillingAddressIdx !== NO_IDX ? { defaultBillingAddress: data.defaultBillingAddressIdx } : {}),
+   };
+ 
+   const addressesIndices = {
+Index: src/pages/Registration/components/RegistrationForm.component.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pages/Registration/components/RegistrationForm.component.tsx b/src/pages/Registration/components/RegistrationForm.component.tsx
+--- a/src/pages/Registration/components/RegistrationForm.component.tsx	(revision fdd3288bae2dee55441e7c8f7bb173a05bf1b0a1)
++++ b/src/pages/Registration/components/RegistrationForm.component.tsx	(date 1716211070889)
+@@ -1,9 +1,10 @@
+ import {
+   BILLING_ADDRESS_IDX,
+   defaultCountryOption,
++  NO_IDX,
+   SHIPPING_ADDRESS_IDX,
+ } from '@core/validation/user-registration/user-registration.const';
+-import { RegistrationForm } from '@models/index';
++import { RegistrationForm, RegistrationFormAddress } from '@models/index';
+ import { LoadingButton } from '@mui/lab';
+ import {
+   FormContainer,
+@@ -13,21 +14,28 @@
+   useForm,
+   CheckboxElement,
+   useWatch,
++  SelectElement,
+ } from 'react-hook-form-mui';
+ import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
+ import { LocalizationProvider } from '@mui/x-date-pickers';
+ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+-import { zodResolver } from '@hookform/resolvers/zod';
+ import { Container, Grid, Paper, Typography } from '@mui/material';
++import { useMemo } from 'react';
++import { zodResolver } from '@hookform/resolvers/zod';
+ import { registrationSchema } from '@core/validation/user-registration/user-registration.schema';
+ import { UserAddressComponent } from './UserAddress.component';
+-import { DefaultAddress } from './DefaultAddress.component';
+ 
+ export interface RegistrationFormProps {
+   onSubmit: (registrationData: RegistrationForm) => void;
+   isLoading: boolean;
+ }
+ 
++const toAddressString = (address: RegistrationFormAddress): string =>
++  [address.country, address.postalCode, address.city, address.street].filter(Boolean).join(', ');
++
++const withTypeOfAddress = (addressType: RegistrationFormAddress['addressType']) => (address: RegistrationFormAddress) =>
++  address.addressType === addressType;
++
+ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationFormProps) {
+   const formContext = useForm<RegistrationForm>({
+     defaultValues: {
+@@ -37,17 +45,43 @@
+       lastName: '',
+       birthDate: '',
+       shippingAsBilling: false,
++      defaultShippingAddressIdx: NO_IDX,
++      defaultBillingAddressIdx: NO_IDX,
+       addresses: [
+-        { street: '', city: '', country: defaultCountryOption.id, postalCode: '', isDefault: false },
+-        { street: '', city: '', country: defaultCountryOption.id, postalCode: '', isDefault: false },
++        { street: '', city: '', country: defaultCountryOption.id, postalCode: '', addressType: 'shipping' },
++        { street: '', city: '', country: defaultCountryOption.id, postalCode: '', addressType: 'billing' },
+       ],
+     },
+     resolver: zodResolver(registrationSchema),
+     mode: 'all',
+   });
+ 
+-  const { control, trigger } = formContext;
+-  const shippingAsBilling = useWatch<RegistrationForm>({ control, name: 'shippingAsBilling' });
++  const { control, trigger, setValue } = formContext;
++  const [shippingAsBilling, addresses] = useWatch({ control, name: ['shippingAsBilling', 'addresses'] });
++
++  const { shippingAddressesOptions, billingAddressesOptions } = useMemo(() => {
++    const shippingAddresses = [
++      { id: NO_IDX, label: 'None' },
++      ...addresses
++        .map((address, index) => ({
++          ...address,
++          id: index,
++          label: toAddressString(address),
++        }))
++        .filter(withTypeOfAddress('shipping')),
++    ];
++    const billingAddresses = [
++      { id: NO_IDX, label: 'None' },
++      ...addresses
++        .map((address, index) => ({
++          ...address,
++          id: index,
++          label: toAddressString(address),
++        }))
++        .filter(withTypeOfAddress('billing')),
++    ];
++    return { shippingAddressesOptions: shippingAddresses, billingAddressesOptions: billingAddresses };
++  }, [addresses]);
+ 
+   return (
+     <Paper elevation={3} sx={{ m: 'auto', p: '2dvh 1dvw', maxWidth: '900px', width: '100%' }}>
+@@ -135,46 +169,48 @@
+                     disabled={isLoading}
+                   />
+                 </Paper>
+-                <Grid item>
+-                  <DefaultAddress
+-                    title="set as default shipping address"
+-                    addressIndex={SHIPPING_ADDRESS_IDX}
+-                    disabled={isLoading}
+-                  />
+-                </Grid>
+-                {shippingAsBilling && (
+-                  <DefaultAddress
+-                    title="set as default billing address"
+-                    addressIndex={BILLING_ADDRESS_IDX}
+-                    disabled={isLoading}
+-                  />
+-                )}
+                 <Grid item>
+                   <CheckboxElement<RegistrationForm>
+                     name="shippingAsBilling"
+                     label="Use as billing address"
+                     disabled={isLoading}
++                    onChange={() => setValue('defaultBillingAddressIdx', NO_IDX)}
+                   />
+                 </Grid>
+               </Grid>
+ 
+-              {!shippingAsBilling && (
+-                <Grid item xs={1}>
+-                  <Paper elevation={1} sx={{ m: 'auto', p: '1vh 2%', maxWidth: '900px', width: '100%' }}>
+-                    <UserAddressComponent
+-                      title="Billing address"
+-                      addressIndex={BILLING_ADDRESS_IDX}
+-                      onCountryChange={() => trigger(`addresses.${BILLING_ADDRESS_IDX}.postalCode`)}
+-                      disabled={isLoading}
+-                    />
+-                  </Paper>
+-                  <DefaultAddress
+-                    title="set as default billing address"
+-                    addressIndex={BILLING_ADDRESS_IDX}
+-                    disabled={isLoading}
+-                  />
+-                </Grid>
+-              )}
++              <Grid item xs={1} display={shippingAsBilling ? { xs: 'none' } : {}}>
++                <Paper elevation={1} sx={{ m: 'auto', p: '1vh 2%', maxWidth: '900px', width: '100%' }}>
++                  <UserAddressComponent
++                    title="Billing address"
++                    addressIndex={BILLING_ADDRESS_IDX}
++                    onCountryChange={() => trigger(`addresses.${BILLING_ADDRESS_IDX}.postalCode`)}
++                    disabled={isLoading}
++                  />
++                </Paper>
++              </Grid>
++              <Grid item xs={1}>
++                <SelectElement<RegistrationForm>
++                  label="Default shipping address"
++                  name="defaultShippingAddressIdx"
++                  options={shippingAddressesOptions}
++                  helperText=" "
++                  required
++                  disabled={isLoading}
++                  fullWidth
++                />
++              </Grid>
++              <Grid item xs={1}>
++                <SelectElement<RegistrationForm>
++                  label="Default billing address"
++                  name="defaultBillingAddressIdx"
++                  options={shippingAsBilling ? shippingAddressesOptions : billingAddressesOptions}
++                  helperText=" "
++                  required
++                  disabled={isLoading}
++                  fullWidth
++                />
++              </Grid>
+             </Grid>
+ 
+             <Grid item xs={1}>
+Index: src/pages/Registration/components/UserAddress.component.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pages/Registration/components/UserAddress.component.tsx b/src/pages/Registration/components/UserAddress.component.tsx
+--- a/src/pages/Registration/components/UserAddress.component.tsx	(revision fdd3288bae2dee55441e7c8f7bb173a05bf1b0a1)
++++ b/src/pages/Registration/components/UserAddress.component.tsx	(date 1716210864816)
+@@ -1,6 +1,6 @@
+ import { countriesOptions } from '@core/validation/user-registration/user-registration.const';
+ import { RegistrationForm } from '@models/forms.model';
+-import { Stack, Typography } from '@mui/material';
++import { FormControl, FormLabel, Stack } from '@mui/material';
+ import { SelectElement, TextFieldElement } from 'react-hook-form-mui';
+ 
+ export interface UserAddressProps {
+@@ -13,46 +13,46 @@
+ export function UserAddressComponent({ title, addressIndex, onCountryChange, disabled = false }: UserAddressProps) {
+   return (
+     <Stack spacing="10px">
+-      <Typography variant="h6" gutterBottom>
+-        {title}
+-      </Typography>
++      <FormControl>
++        <FormLabel sx={{ pb: 2 }}>{title}</FormLabel>
+ 
+-      <SelectElement<RegistrationForm>
+-        label="Country"
+-        name={`addresses.${addressIndex}.country`}
+-        options={countriesOptions}
+-        helperText=" "
+-        required
+-        onChange={onCountryChange}
+-        disabled={disabled}
+-      />
++        <SelectElement<RegistrationForm>
++          label="Country"
++          name={`addresses.${addressIndex}.country`}
++          options={countriesOptions}
++          helperText=" "
++          required
++          onChange={onCountryChange}
++          disabled={disabled}
++        />
+ 
+-      <TextFieldElement<RegistrationForm>
+-        name={`addresses.${addressIndex}.postalCode`}
+-        label="Postal Code"
+-        required
+-        helperText=" "
+-        InputLabelProps={{ shrink: true }}
+-        disabled={disabled}
+-      />
++        <TextFieldElement<RegistrationForm>
++          name={`addresses.${addressIndex}.postalCode`}
++          label="Postal Code"
++          required
++          helperText=" "
++          InputLabelProps={{ shrink: true }}
++          disabled={disabled}
++        />
+ 
+-      <TextFieldElement<RegistrationForm>
+-        name={`addresses.${addressIndex}.city`}
+-        label="City"
+-        required
+-        helperText=" "
+-        InputLabelProps={{ shrink: true }}
+-        disabled={disabled}
+-      />
++        <TextFieldElement<RegistrationForm>
++          name={`addresses.${addressIndex}.city`}
++          label="City"
++          required
++          helperText=" "
++          InputLabelProps={{ shrink: true }}
++          disabled={disabled}
++        />
+ 
+-      <TextFieldElement<RegistrationForm>
+-        name={`addresses.${addressIndex}.street`}
+-        label="Street"
+-        required
+-        helperText=" "
+-        InputLabelProps={{ shrink: true }}
+-        disabled={disabled}
+-      />
++        <TextFieldElement<RegistrationForm>
++          name={`addresses.${addressIndex}.street`}
++          label="Street"
++          required
++          helperText=" "
++          InputLabelProps={{ shrink: true }}
++          disabled={disabled}
++        />
++      </FormControl>
+     </Stack>
+   );
+ }

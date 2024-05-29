@@ -1,7 +1,7 @@
 {
   "name": "ecommerce",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.1",
   "engines": {
     "node": "^20",
     "npm": "^10"
@@ -12,29 +12,45 @@
     "build": "vite build",
     "lint": "eslint src/ --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint src/ --fix",
-    "preview": "vite preview",
+    "preview": "vite build && vite preview",
     "prettier": "prettier --check --ignore-unknown src/",
     "prettier:fix": "prettier --write --ignore-unknown src/",
-    "formatAll": "npm run lint:fix && npm run prettier:fix",
+    "format:all": "npm run lint:fix && npm run prettier:fix",
     "prepare": "husky",
     "types-check": "tsc --noEmit",
-    "pre-push": "npm run lint && npm run prettier && npm run types-check && npm run test",
+    "validate:all": "npm run lint && npm run prettier && npm run types-check && npm run test",
     "test": "jest --coverage"
   },
   "dependencies": {
     "@commercetools/platform-sdk": "^7.8.0",
     "@commercetools/sdk-client-v2": "^2.5.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.23.0"
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@hookform/resolvers": "^3.3.4",
+    "@mui/icons-material": "^5.15.16",
+    "@mui/lab": "^5.0.0-alpha.170",
+    "@mui/material": "^5.15.16",
+    "@mui/x-date-pickers": "^6.19.9",
+    "@preact/signals-react": "^2.0.1",
+    "dayjs": "^1.11.11",
+    "material-ui-popup-state": "^5.1.0",
+    "notistack": "^2.0.8",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.51.4",
+    "react-hook-form-mui": "^6.8.0",
+    "react-router-dom": "^6.23.0",
+    "swr": "^2.2.5",
+    "zod": "^3.23.7"
   },
   "devDependencies": {
+    "@preact/signals-react-transform": "^0.3.1",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^15.0.6",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.8",
-    "@types/react": "^18.2.66",
-    "@types/react-dom": "^18.2.22",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.2.1",
@@ -69,8 +85,8 @@
   "config": {
     "commit-message-validator": {
       "_comment": "pattern can be Regex string or array of Regex string",
-      "pattern": "^(feat|fix|chore|refactor|build)/RSS-ECOMM-[1-5]_[0-9]{2}: .+$",
-      "errorMessage": "Please follow the template: feat|fix|chore|refactor|build/RSS-ECOMM-sprintNumber_issueNumber: Description of the changeю (e.g., feat/RSS-ECOMM-1_02: Set up folder structure )"
+      "pattern": "^(feat|fix|chore|refactor|build|update)/RSS-ECOMM-[1-5]_[0-9]{2}: .+$",
+      "errorMessage": "Please follow the template: feat|fix|chore|refactor|build|update/RSS-ECOMM-sprintNumber_issueNumber: Description of the change (e.g., feat/RSS-ECOMM-1_02: Set up folder structure )"
     }
   }
 }

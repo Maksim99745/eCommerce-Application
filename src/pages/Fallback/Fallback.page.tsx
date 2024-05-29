@@ -1,7 +1,11 @@
-import { ReactNode } from 'react';
+import { Box, CircularProgress } from '@mui/material';
 
-function FallbackPage(): ReactNode {
-  return <p>Performing initial data load</p>;
+function FallbackPage() {
+  return (
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+      <CircularProgress />
+    </Box>
+  );
 }
 
 export default FallbackPage;
