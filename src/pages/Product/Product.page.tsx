@@ -5,7 +5,7 @@ import ReactImageGallery from 'react-image-gallery';
 import { useModalState } from '@hooks/useModalState';
 import ImageModal from '@pages/Product/components/ImageModal';
 import styles from '@pages/Product/Product.page.module.scss';
-import { SetStateAction, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ProductVariant } from '@commercetools/platform-sdk';
 import { generateProductObj } from './utils/generateProductObj';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
@@ -20,18 +20,25 @@ function ProductPage() {
     },
   });
   const [selectedVariant, setSelectedVariant] = useState(data?.masterVariant);
-  const handleVariantClick = (variant: SetStateAction<ProductVariant | undefined>) => {
+
+  useEffect(() => {
+    if (data?.masterVariant) {
+      setSelectedVariant(data.masterVariant);
+    }
+  }, [data]);
+
+  const handleVariantClick = (variant: ProductVariant) => {
     setSelectedVariant(variant);
   };
+
   const getColorAttribute = (variant: ProductVariant) =>
     variant.attributes?.find((attr) => attr.name === 'color')?.value || 'primary';
 
   const productInfo = generateProductObj(data);
-  // console.log(`data`, data);
-  // console.log(`productInfo`, productInfo);
+
   const defaultImageUrl = '/public/defaultImg.png';
-  const images = data?.masterVariant.images
-    ? [...data.masterVariant.images].map((image) => ({
+  const images = selectedVariant?.images
+    ? [...selectedVariant.images].map((image) => ({
         original: image?.url || defaultImageUrl,
         thumbnail: image?.url || defaultImageUrl,
       }))
@@ -85,9 +92,9 @@ function ProductPage() {
                 Material: <span className={styles.attributeValue}>{productInfo.material}</span>
               </Typography>
             )}
-            {!!productInfo.color && (
+            {!!selectedVariant && (
               <Typography component="p" className={styles.productPageInfo}>
-                Color: <span className={styles.attributeValue}>{productInfo.color}</span>
+                Color: <span className={styles.attributeValue}>{getColorAttribute(selectedVariant)}</span>
               </Typography>
             )}
             {!!data?.variants?.length && (
@@ -95,30 +102,37 @@ function ProductPage() {
                 variant="contained"
                 aria-label="Basic button group"
                 className={styles.variantButtonGroup}
-                sx={{ '& .MuiButton-root': { border: 'none' }, '& .MuiButton-root.Mui-disabled': { border: 'none' } }}
+                sx={{
+                  '& .MuiButton-root': { border: '2px inset transparent' },
+                }}
               >
                 <Button
+                  className={
+                    selectedVariant?.id === data?.masterVariant.id ? styles.selectedVariantButton : styles.variantButton
+                  }
                   key={data?.masterVariant.id}
                   variant="contained"
+                  onClick={() => handleVariantClick(data?.masterVariant)}
                   sx={{
-                    border: 'none',
-                    backgroundColor: `${data?.masterVariant.attributes?.find((attr) => attr.name === 'color')?.value}`,
-                    textTransform: 'capitalize',
+                    backgroundColor: `${getColorAttribute(data?.masterVariant)}`,
+                    '&:hover': {
+                      backgroundColor: `${getColorAttribute(data?.masterVariant)}`,
+                    },
                   }}
                 >
-                  {data?.masterVariant.attributes?.find((attr) => attr.name === 'color')?.value}
+                  {getColorAttribute(data?.masterVariant)}
                 </Button>
                 {data?.variants.map((variant) => (
                   <Button
                     key={variant.id}
                     variant="contained"
                     onClick={() => handleVariantClick(variant)}
-                    className={selectedVariant?.id === variant.id ? styles.activeVariantButton : ''}
+                    className={selectedVariant?.id === variant.id ? styles.selectedVariantButton : styles.variantButton}
                     sx={{
                       backgroundColor: getColorAttribute(variant),
-                      color: 'white',
-                      textTransform: 'capitalize',
-                      textShadow: 'rgb(0, 0, 0) 0 0 3px',
+                      '&:hover': {
+                        backgroundColor: `${getColorAttribute(variant)}`,
+                      },
                     }}
                   >
                     {getColorAttribute(variant)}
