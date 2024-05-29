@@ -7,12 +7,14 @@ import { useSubmitPersonalFormData } from './components/useSubmitPersonalFormDat
 import PasswordFormComponent from './components/Password.component';
 import { useSubmitNewPasswordFormData } from './components/useSubmitNewPassword';
 import { ProfileAddressesForm } from './components/ProfileAddressesForm';
+import { useSubmitAddresses } from './components/useSubmitAddresses';
 
 function ProfilePage() {
   const { user, isUserLoading } = useAuth();
 
   const handlePersonalSubmit = useSubmitPersonalFormData();
   const handlePasswordSubmit = useSubmitNewPasswordFormData();
+  const handleAddressesSubmit = useSubmitAddresses();
 
   if (!user) {
     return null;
@@ -27,13 +29,7 @@ function ProfilePage() {
       <PersonalFormComponent onSubmit={handlePersonalSubmit} userData={user} isLoading={isUserLoading} />
       <PasswordFormComponent onSubmit={handlePasswordSubmit} isLoading={isUserLoading} />
       <Addresses userData={user} />
-      <ProfileAddressesForm
-        userData={user}
-        onSubmit={async (addresses) => {
-          console.log('~~~~ addresses-form-data: ', addresses);
-          return { success: true };
-        }}
-      />
+      <ProfileAddressesForm userData={user} onSubmit={handleAddressesSubmit} />
     </Stack>
   );
 }
