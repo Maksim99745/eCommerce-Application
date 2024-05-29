@@ -1,11 +1,17 @@
 import { Stack } from '@mui/material';
-import useAuth from '@hooks/useAuth';
 import { PagePreloader } from '@components/PagePreloader/PagePreloader.component';
-import PersonalData from './components/PersonalData.component';
+import useAuth from '@hooks/useAuth';
 import { Addresses } from './components/Addresses.component';
+import PersonalFormComponent from './components/PersonalData.component';
+import { useSubmitPersonalFormData } from './components/useSubmitPersonalFormData';
+import PasswordFormComponent from './components/Password.component';
+import { useSubmitNewPasswordFormData } from './components/useSubmitNewPassword';
 
 function ProfilePage() {
   const { user, isUserLoading } = useAuth();
+
+  const handlePersonalSubmit = useSubmitPersonalFormData();
+  const handlePasswordSubmit = useSubmitNewPasswordFormData();
 
   if (!user) {
     return null;
@@ -15,11 +21,18 @@ function ProfilePage() {
     return <PagePreloader />;
   }
 
-  const { firstName = '', lastName = '', dateOfBirth = '' } = user;
   return (
     <Stack>
-      <PersonalData firstName={firstName} lastName={lastName} dateOfBirth={dateOfBirth} />
+      <PersonalFormComponent onSubmit={handlePersonalSubmit} userData={user} isLoading={isUserLoading} />
+      <PasswordFormComponent onSubmit={handlePasswordSubmit} isLoading={isUserLoading} />
       <Addresses userData={user} />
+      {/* <ProfileAddressesForm
+        userData={user}
+        onSubmit={async (addresses) => {
+          console.log('~~~~ addresses-form-data: ', addresses);
+          return { success: true };
+        }}
+      /> */}
     </Stack>
   );
 }

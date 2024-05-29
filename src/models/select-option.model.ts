@@ -1,4 +1,4 @@
-export type SelectOption = {
-  id: string;
-  label: string;
+export type SelectOption<ID = string, Label = string> = {
+  id: ID;
+  label: Label;
 };

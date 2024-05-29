@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { loginFormSchema } from '@core/validation/user-login/user-login.schema';
 import { RegistrationErrorMessages } from './user-registration.enum';
 import { validateAddress, validateBirthDay, validateBirthDayByAge } from './user-registration.validation';
@@ -9,6 +10,8 @@ import {
   NAME_SURNAME_REGEX,
   SHIPPING_ADDRESS_IDX,
 } from './user-registration.const';
+
+dayjs.extend(utc);
 
 export const firstNameSchema = z
   .string()
@@ -21,13 +24,13 @@ export const lastNameSchema = z
   .regex(NAME_SURNAME_REGEX, RegistrationErrorMessages.LastNameInvalid);
 
 export const birthDateSchema = z
-  .custom<Dayjs>()
-  .refine((date) => validateBirthDay(date), RegistrationErrorMessages.BirthDateInvalid)
+  .custom<Dayjs | string>()
+  .refine((date) => validateBirthDay(dayjs.utc(date)), RegistrationErrorMessages.BirthDateInvalid)
   .refine(
-    (date) => (validateBirthDay(date) ? validateBirthDayByAge(date.toISOString()) : false),
+    (date) => (validateBirthDay(dayjs.utc(date)) ? validateBirthDayByAge(dayjs.utc(date).toISOString()) : false),
     RegistrationErrorMessages.BirthDateAge,
   )
-  .transform((value: Dayjs) => value.toISOString().substring(0, ISO_DATE_LENGTH));
+  .transform((value) => dayjs.utc(value).toISOString().substring(0, ISO_DATE_LENGTH));
 
 export const addressSchema = z.object({
   country: z.string(),

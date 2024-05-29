@@ -138,7 +138,7 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: ':productKey',
+        path: 'products/:productKey',
         element: (
           <Suspense fallback={<PagePreloader />}>
             <ProductPage />
@@ -149,6 +149,14 @@ export const router = createBrowserRouter([
   },
   {
     path: '*',
+    element: (
+      <Suspense fallback={<PagePreloader />}>
+        <NotFoundPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/404',
     element: (
       <Suspense fallback={<PagePreloader />}>
         <NotFoundPage />

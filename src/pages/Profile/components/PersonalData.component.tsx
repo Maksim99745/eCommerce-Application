@@ -1,72 +1,144 @@
-import { DatePickerElement } from '@components/DataPickerElement/DatePickerElement';
-import { personalInformationSchema } from '@core/validation/user-profile/personal-information.schema';
+import { Customer } from '@commercetools/platform-sdk';
+import { DatePickerElement } from 'react-hook-form-mui/date-pickers';
+import { personalInformationSchema } from '@core/validation/user-profile/user-profile.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { PersonalInformationForm } from '@models/forms.model';
-import { Container, Grid, Paper, Typography } from '@mui/material';
+import { PersonalInformationFormData } from '@models/forms.model';
+import { Container, Grid, Paper, Stack, Typography, useEventCallback } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { FormContainer, TextFieldElement, useForm } from 'react-hook-form-mui';
+import { FormProvider, TextFieldElement, useForm } from 'react-hook-form-mui';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import {
+  EditableFormActionsBar,
+  FormActionsToolBarProps,
+} from '@components/EditableFormActionsBar/EditableFormActionsBar';
+import { useEditableFormState } from '@components/EditableFormActionsBar/useEditableFormState';
 
-export interface PersonalDataProps {
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
+export interface PersonalFormComponentProps {
+  onSubmit: (
+    personalData: PersonalInformationFormData,
+  ) => Promise<{ success: true } | { success: false; error: Error }>;
+  isLoading?: boolean;
+  userData: Customer;
 }
 
-function PersonalData({ firstName, lastName, dateOfBirth }: PersonalDataProps) {
-  const formContext = useForm<PersonalInformationForm>({
+dayjs.extend(utc);
+
+function PersonalFormComponent({ userData, isLoading = false, onSubmit }: PersonalFormComponentProps) {
+  const { isBusy, isReadonly, viewMode, setViewMode, setIsSaving } = useEditableFormState({ isLoading });
+
+  const { firstName = '', lastName = '', dateOfBirth = undefined, email = '' } = userData;
+
+  const formContext = useForm<PersonalInformationFormData>({
     defaultValues: {
       firstName,
       lastName,
-      birthDate: new Date(dateOfBirth).toISOString(),
+      dateOfBirth: dayjs.utc(dateOfBirth).toISOString(),
+      email,
     },
     resolver: zodResolver(personalInformationSchema),
-    mode: 'onChange',
+    mode: 'all',
   });
 
-  // TODO: think about birthday validation, date from commerce tools is not appropriate for validation, that's why i changed mode to onChange
+  const { handleSubmit, reset } = formContext;
+
+  const performSave = useEventCallback(async (data: PersonalInformationFormData) => {
+    setIsSaving(true);
+    const result = await onSubmit(data);
+    setIsSaving(false);
+
+    if (result.success) {
+      setViewMode('view');
+    }
+  });
+
+  const handleFormModeAction = useEventCallback<FormActionsToolBarProps['onAction']>((action) => {
+    if (action === 'edit') {
+      setViewMode('edit');
+    } else if (action === 'cancel') {
+      setViewMode('view');
+      reset();
+    }
+  });
+
   return (
     <Container maxWidth="md">
       <Paper elevation={1} sx={{ p: '1vh 2%', width: '100%', mb: 2 }}>
-        <FormContainer<PersonalInformationForm> formContext={formContext}>
-          <Typography variant="h5" gutterBottom sx={{ mb: 2 }}>
-            Personal information
-          </Typography>
-          <Grid container spacing={{ xs: 2 }} columns={{ xs: 1, md: 3 }}>
-            <Grid item xs={1}>
-              <TextFieldElement<PersonalInformationForm>
-                label="First name"
-                name="firstName"
-                helperText=" "
-                InputLabelProps={{ shrink: true }}
-                InputProps={{
-                  readOnly: true,
-                }}
+        <FormProvider<PersonalInformationFormData> {...formContext}>
+          <form onSubmit={handleSubmit(performSave)} noValidate>
+            <Stack direction="row" spacing="auto" sx={{ mb: 3 }} alignItems="start">
+              <Typography variant="h5" gutterBottom>
+                Personal information
+              </Typography>
+              <EditableFormActionsBar
+                mode={viewMode}
+                onAction={handleFormModeAction}
+                isLoading={isBusy}
+                disabled={isBusy}
               />
-            </Grid>
+            </Stack>
+            <Grid container spacing={{ xs: 1 }} columns={{ xs: 1, md: 2 }}>
+              <Grid item xs={1}>
+                <TextFieldElement<PersonalInformationFormData>
+                  label="First name"
+                  name="firstName"
+                  helperText={' '}
+                  fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  disabled={isBusy}
+                  InputProps={{
+                    readOnly: isReadonly,
+                  }}
+                />
+              </Grid>
 
-            <Grid item xs={1}>
-              <TextFieldElement<PersonalInformationForm>
-                label="Last name"
-                name="lastName"
-                helperText=" "
-                InputLabelProps={{ shrink: true }}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Grid>
+              <Grid item xs={1}>
+                <TextFieldElement<PersonalInformationFormData>
+                  label="Last name"
+                  name="lastName"
+                  helperText=" "
+                  disabled={isBusy}
+                  fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  InputProps={{
+                    readOnly: isReadonly,
+                  }}
+                />
+              </Grid>
 
-            <Grid item xs={1}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePickerElement label="Birth date" name="birthDate" helperText=" " readOnly />
-              </LocalizationProvider>
+              <Grid item xs={1}>
+                <TextFieldElement<PersonalInformationFormData>
+                  label="Email"
+                  name="email"
+                  helperText=" "
+                  disabled={isBusy}
+                  fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  InputProps={{
+                    readOnly: isReadonly,
+                  }}
+                />
+              </Grid>
+
+              <Grid item xs={1}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePickerElement
+                    label="Birth date"
+                    name="dateOfBirth"
+                    helperText=" "
+                    disabled={isBusy}
+                    readOnly={isReadonly}
+                    inputProps={{ fullWidth: true }}
+                  />
+                </LocalizationProvider>
+              </Grid>
             </Grid>
-          </Grid>
-        </FormContainer>
+          </form>
+        </FormProvider>
       </Paper>
     </Container>
   );
 }
 
-export default PersonalData;
+export default PersonalFormComponent;

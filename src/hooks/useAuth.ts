@@ -18,8 +18,8 @@ export const setUser = (newUser: Customer | null | undefined) => {
 const login = async (customer: MyCustomerSignin): Promise<void> => {
   setUserLoading(true);
   try {
-    await apiService.login(customer);
     apiService.setBuilder(ClientType.password, { username: customer.email, password: customer.password });
+    await apiService.login(customer);
     const user = await apiService.getCustomer();
     setUser(user);
   } catch (error) {
