@@ -42,7 +42,7 @@ function LayoutPage() {
           sx={{ '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, boxShadow: 3 } }}
         >
           <SidebarComponent>
-            <CategoriesListComponent />
+            <CategoriesListComponent onSelectCategory={handleDrawerClose} />
           </SidebarComponent>
         </Drawer>
       </Box>

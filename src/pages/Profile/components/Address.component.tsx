@@ -1,7 +1,7 @@
 import { countriesOptions } from '@core/validation/user-registration/user-registration.const';
 import { addressSchema } from '@core/validation/user-registration/user-registration.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AddressInformationForm } from '@models/forms.model';
+import { AddressInformationFormData } from '@models/forms.model';
 import { Grid } from '@mui/material';
 import { FormContainer, SelectElement, TextFieldElement, useForm } from 'react-hook-form-mui';
 
@@ -13,7 +13,7 @@ export interface AddressDataProps {
 }
 
 export function AddressComponent({ country, city, street, postalCode }: AddressDataProps) {
-  const formContext = useForm<AddressInformationForm>({
+  const formContext = useForm<AddressInformationFormData>({
     defaultValues: {
       country,
       city,
@@ -25,22 +25,22 @@ export function AddressComponent({ country, city, street, postalCode }: AddressD
   });
 
   return (
-    <FormContainer<AddressInformationForm> formContext={formContext}>
+    <FormContainer<AddressInformationFormData> formContext={formContext}>
       <Grid container spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1 }}>
         <Grid item xs={1}>
-          <SelectElement<AddressInformationForm>
+          <SelectElement<AddressInformationFormData>
             label="Country"
             name="country"
             options={countriesOptions}
             fullWidth
-            InputProps={{
-              readOnly: true,
-            }}
+            // InputProps={{
+            //   readOnly: true,
+            // }}
             InputLabelProps={{ shrink: true }}
           />
         </Grid>
         <Grid item xs={1}>
-          <TextFieldElement<AddressInformationForm>
+          <TextFieldElement<AddressInformationFormData>
             label="City"
             name="city"
             InputLabelProps={{ shrink: true }}
@@ -52,7 +52,7 @@ export function AddressComponent({ country, city, street, postalCode }: AddressD
         </Grid>
 
         <Grid item xs={1}>
-          <TextFieldElement<AddressInformationForm>
+          <TextFieldElement<AddressInformationFormData>
             label="Street"
             name="street"
             InputLabelProps={{ shrink: true }}
@@ -63,7 +63,7 @@ export function AddressComponent({ country, city, street, postalCode }: AddressD
           />
         </Grid>
         <Grid item xs={1}>
-          <TextFieldElement<AddressInformationForm>
+          <TextFieldElement<AddressInformationFormData>
             label="Postal code"
             name="postalCode"
             InputLabelProps={{ shrink: true }}

@@ -33,6 +33,7 @@
     "@mui/x-date-pickers": "^7.5.0",
     "@preact/signals-react": "^2.0.1",
     "dayjs": "^1.11.11",
+    "dayjs-plugin-utc": "^0.1.2",
     "material-ui-popup-state": "^5.1.0",
     "notistack": "^2.0.8",
     "react": "^18.3.1",
@@ -43,6 +44,7 @@
     "react-router-dom": "^6.23.0",
     "swr": "^2.2.5",
     "ts-pattern": "^5.1.1",
+    "use-debounce": "^10.0.1",
     "zod": "^3.23.7"
   },
   "devDependencies": {

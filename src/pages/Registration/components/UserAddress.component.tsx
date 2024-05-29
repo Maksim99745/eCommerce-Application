@@ -1,10 +1,11 @@
 import { countriesOptions } from '@core/validation/user-registration/user-registration.const';
-import { RegistrationForm } from '@models/forms.model';
-import { FormLabel, Stack } from '@mui/material';
+import { RegistrationFormData } from '@models/forms.model';
+import { Stack } from '@mui/material';
 import { SelectElement, TextFieldElement } from 'react-hook-form-mui';
+import { ReactNode } from 'react';
 
 export interface UserAddressProps {
-  title: string;
+  title: ReactNode;
   addressIndex: number;
   onCountryChange?: (country: string) => void;
   disabled?: boolean;
@@ -12,9 +13,9 @@ export interface UserAddressProps {
 
 export function UserAddressComponent({ title, addressIndex, onCountryChange, disabled = false }: UserAddressProps) {
   return (
-    <Stack spacing={1}>
-      <FormLabel sx={{ pb: 2 }}>{title}</FormLabel>
-      <SelectElement<RegistrationForm>
+    <Stack spacing={1} minWidth={300}>
+      {title}
+      <SelectElement<RegistrationFormData>
         label="Country"
         name={`addresses.${addressIndex}.country`}
         options={countriesOptions}
@@ -24,7 +25,7 @@ export function UserAddressComponent({ title, addressIndex, onCountryChange, dis
         onChange={onCountryChange}
         disabled={disabled}
       />
-      <TextFieldElement<RegistrationForm>
+      <TextFieldElement<RegistrationFormData>
         name={`addresses.${addressIndex}.postalCode`}
         label="Postal Code"
         required
@@ -32,7 +33,7 @@ export function UserAddressComponent({ title, addressIndex, onCountryChange, dis
         InputLabelProps={{ shrink: true }}
         disabled={disabled}
       />
-      <TextFieldElement<RegistrationForm>
+      <TextFieldElement<RegistrationFormData>
         name={`addresses.${addressIndex}.city`}
         label="City"
         required
@@ -40,7 +41,7 @@ export function UserAddressComponent({ title, addressIndex, onCountryChange, dis
         InputLabelProps={{ shrink: true }}
         disabled={disabled}
       />
-      <TextFieldElement<RegistrationForm>
+      <TextFieldElement<RegistrationFormData>
         name={`addresses.${addressIndex}.street`}
         label="Street"
         required

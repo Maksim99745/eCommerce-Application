@@ -4,16 +4,16 @@ import { Stack, Typography } from '@mui/material';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginFormSchema } from '@core/validation/user-login/user-login.schema';
 import LoginIcon from '@mui/icons-material/Login';
-import { LoginForm } from '@models/index';
+import { LoginFormData } from '@models/index';
 
 export interface LoginFormProps {
-  onSubmit: (registrationData: LoginForm) => void;
+  onSubmit: (registrationData: LoginFormData) => void;
   isLoading: boolean;
 }
 
 export function LoginFormComponent({ onSubmit, isLoading }: LoginFormProps) {
   return (
-    <FormContainer<LoginForm>
+    <FormContainer<LoginFormData>
       resolver={zodResolver(loginFormSchema)}
       defaultValues={{
         email: '',
