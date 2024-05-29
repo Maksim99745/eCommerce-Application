@@ -5,13 +5,20 @@ import { SelectElement, TextFieldElement } from 'react-hook-form-mui';
 import { ReactNode } from 'react';
 
 export interface UserAddressProps {
-  title: ReactNode;
+  title?: ReactNode;
   addressIndex: number;
   onCountryChange?: (country: string) => void;
   disabled?: boolean;
+  isReadonly?: boolean;
 }
 
-export function UserAddressComponent({ title, addressIndex, onCountryChange, disabled = false }: UserAddressProps) {
+export function UserAddressComponent({
+  title,
+  addressIndex,
+  onCountryChange,
+  disabled = false,
+  isReadonly = false,
+}: UserAddressProps) {
   return (
     <Stack spacing={1} minWidth={300}>
       {title}
@@ -24,6 +31,9 @@ export function UserAddressComponent({ title, addressIndex, onCountryChange, dis
         fullWidth
         onChange={onCountryChange}
         disabled={disabled}
+        InputProps={{
+          readOnly: isReadonly,
+        }}
       />
       <TextFieldElement<RegistrationFormData>
         name={`addresses.${addressIndex}.postalCode`}
@@ -32,6 +42,9 @@ export function UserAddressComponent({ title, addressIndex, onCountryChange, dis
         helperText=" "
         InputLabelProps={{ shrink: true }}
         disabled={disabled}
+        InputProps={{
+          readOnly: isReadonly,
+        }}
       />
       <TextFieldElement<RegistrationFormData>
         name={`addresses.${addressIndex}.city`}
@@ -40,6 +53,9 @@ export function UserAddressComponent({ title, addressIndex, onCountryChange, dis
         helperText=" "
         InputLabelProps={{ shrink: true }}
         disabled={disabled}
+        InputProps={{
+          readOnly: isReadonly,
+        }}
       />
       <TextFieldElement<RegistrationFormData>
         name={`addresses.${addressIndex}.street`}
@@ -48,6 +64,9 @@ export function UserAddressComponent({ title, addressIndex, onCountryChange, dis
         helperText=" "
         InputLabelProps={{ shrink: true }}
         disabled={disabled}
+        InputProps={{
+          readOnly: isReadonly,
+        }}
       />
     </Stack>
   );

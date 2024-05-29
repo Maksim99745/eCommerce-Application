@@ -2,13 +2,8 @@ import { createAppErrorMessage } from '@core/errorHandlers/createAppErrorMessage
 import useAuth from '@hooks/useAuth';
 import { useShowMessage } from '@hooks/useShowMessage';
 import { useEventCallback } from '@mui/material';
-import { UserAddressesFormProps } from './ProfileAddressesForm';
-
-export type AddressesRequestData = {
-  version: number;
-  currentPassword: string;
-  newPassword: string;
-};
+import { assertIsNonNullable } from '@utils/commonUtils';
+import { UserAddressesFormProps } from '@pages/Profile/components/ProfileAddressesForm';
 
 export const useSubmitAddresses = () => {
   const { user } = useAuth();
@@ -16,9 +11,7 @@ export const useSubmitAddresses = () => {
 
   return useEventCallback<UserAddressesFormProps['onSubmit']>(async (_addresses) => {
     try {
-      if (!user) {
-        throw new Error('User data is not provided.');
-      }
+      assertIsNonNullable(user, 'User data is not provided.');
       // console.log('~~~~ addresses-form-data: ', addresses);
       showMessage('Addresses successfully updated');
       return { success: true };

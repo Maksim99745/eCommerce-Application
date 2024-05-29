@@ -18,7 +18,6 @@ import { ClientType } from '@core/api/client-type.enum';
 import { getRequestBuilder } from '@core/api/get-builder.util';
 import { tokenCache } from '@core/api/token-cache.service';
 import { ProductFilter } from '@models/product-filter.model';
-import { NewPasswordRequestData } from '@pages/Profile/components/useSubmitNewPassword';
 
 export class ApiService {
   private builder!: ByProjectKeyRequestBuilder;
@@ -65,7 +64,11 @@ export class ApiService {
     return this.callRequest(this.builder.me().post({ body: { version: customerVersion, actions: [...action] } }));
   }
 
-  public async changePassword(newPasswordData: NewPasswordRequestData): Promise<Customer> {
+  public async changePassword(newPasswordData: {
+    version: number;
+    currentPassword: string;
+    newPassword: string;
+  }): Promise<Customer> {
     return this.callRequest(
       this.builder
         .me()

@@ -3,13 +3,8 @@ import useAuth from '@hooks/useAuth';
 import { useShowMessage } from '@hooks/useShowMessage';
 import { useEventCallback } from '@mui/material';
 import { apiService } from '@core/api/api.service';
-import { PasswordFormComponentProps } from './Password.component';
-
-export type NewPasswordRequestData = {
-  version: number;
-  currentPassword: string;
-  newPassword: string;
-};
+import { assertIsNonNullable } from '@utils/commonUtils';
+import { PasswordFormComponentProps } from '@pages/Profile/components/Password.component';
 
 export const useSubmitNewPasswordFormData = () => {
   const { user, login } = useAuth();
@@ -17,9 +12,7 @@ export const useSubmitNewPasswordFormData = () => {
 
   return useEventCallback<PasswordFormComponentProps['onSubmit']>(async (data) => {
     try {
-      if (!user) {
-        throw new Error('User data is not provided.');
-      }
+      assertIsNonNullable(user, 'User data is not provided.');
       await apiService.changePassword({
         version: user.version,
         currentPassword: data.password,

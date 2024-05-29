@@ -3,7 +3,8 @@ import { createAppErrorMessage } from '@core/errorHandlers/createAppErrorMessage
 import useAuth from '@hooks/useAuth';
 import { useShowMessage } from '@hooks/useShowMessage';
 import { useEventCallback } from '@mui/material';
-import { PersonalFormComponentProps } from './PersonalData.component';
+import { assertIsNonNullable } from '@utils/commonUtils';
+import { PersonalFormComponentProps } from '@pages/Profile/components/PersonalData.component';
 
 export const useSubmitPersonalFormData = () => {
   const { user, setUser } = useAuth();
@@ -11,9 +12,7 @@ export const useSubmitPersonalFormData = () => {
 
   return useEventCallback<PersonalFormComponentProps['onSubmit']>(async (data) => {
     try {
-      if (!user) {
-        throw new Error('User data is not provided.');
-      }
+      assertIsNonNullable(user, 'User data is not provided.');
       const updatedUser = await apiService.updateCustomer(
         user.version,
         {

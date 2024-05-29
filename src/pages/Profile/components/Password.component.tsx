@@ -9,11 +9,10 @@ import {
   FormActionsToolBarProps,
 } from '@components/EditableFormActionsBar/EditableFormActionsBar';
 import { passwordInformationSchema } from '@core/validation/user-profile/user-profile.schema';
+import { OperationResult } from '@models/index';
 
 export interface PasswordFormComponentProps {
-  onSubmit: (
-    passwordData: PasswordInformationFormData,
-  ) => Promise<{ success: true } | { success: false; error: Error }>;
+  onSubmit: (passwordData: PasswordInformationFormData) => Promise<OperationResult>;
   isLoading?: boolean;
 }
 
