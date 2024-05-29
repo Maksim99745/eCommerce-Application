@@ -2,21 +2,22 @@ import ColorMultiSelectComponent from '@components/ColorMultiSelect/ColorMultiSe
 import RangeSliderComponent from '@components/RangeSlider/RangeSlider.component';
 import { defaultBrands, defaultCountries, defaultMaterials } from '@constants/attributes.const';
 import { defaultProductsFilter, maxPrice, minPrice, productCurrencyMap, stepPrice } from '@constants/products.const';
+import useCategory from '@hooks/useCategory';
 import { ProductFilter } from '@models/product-filter.model';
 import { Button, capitalize, Chip, Stack } from '@mui/material';
 import { memo, useEffect } from 'react';
 import { Controller, FormContainer, MultiSelectElement, useForm } from 'react-hook-form-mui';
 
 interface ProductListFilterComponentProps {
-  categoryId: string;
   onChange: (filter: ProductFilter) => void;
 }
 
-export function ProductListFilterComponent({ onChange, categoryId }: ProductListFilterComponentProps) {
+export function ProductListFilterComponent({ onChange }: ProductListFilterComponentProps) {
   const formContext = useForm<ProductFilter>({ defaultValues: defaultProductsFilter });
   const { control, reset, watch } = formContext;
+  const { category } = useCategory();
 
-  useEffect(() => reset(), [categoryId, reset]);
+  useEffect(() => reset(), [category, reset]);
 
   useEffect(() => {
     const subscription = watch((fields: ProductFilter) => onChange(fields));

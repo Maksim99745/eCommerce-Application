@@ -1,4 +1,5 @@
 import { HideOnPathsComponent } from '@components/HideOnPaths/HideOnPaths.component';
+import useCategory from '@hooks/useCategory';
 import HomeIcon from '@mui/icons-material/Home';
 import { Breadcrumbs, Chip, ChipProps, emphasize, styled, Toolbar, Typography } from '@mui/material';
 import { ElementType } from 'react';
@@ -32,7 +33,9 @@ const StyledBreadcrumb = styled(Chip)<ChipProps & { component: ElementType } & L
 
 export default function BreadcrumbsComponent() {
   const location = useLocation();
-  const paths = location.pathname.split('/').filter(Boolean);
+  const { category } = useCategory();
+  const pathname = location.pathname.replace(/categories\/(.*\/|.*$)/, `${category?.name.en || '...'}/`);
+  const paths = pathname.split('/').filter(Boolean);
 
   return (
     <HideOnPathsComponent paths={hideBreadcrumbsPaths}>

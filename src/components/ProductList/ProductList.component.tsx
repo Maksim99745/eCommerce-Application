@@ -1,6 +1,7 @@
 import { ProductProjection, ProductProjectionPagedSearchResponse } from '@commercetools/platform-sdk';
 import { ProductListFilterComponent } from '@components/ProductList/components/ProductListFilter.component';
 import { defaultProductsLimit, defaultProductsOffset } from '@constants/products.const';
+import useCategory from '@hooks/useCategory';
 import { useGetProducts } from '@hooks/useGetProducts';
 import useIntersectRef from '@hooks/useIntersectRef';
 import { ProductFilter } from '@models/product-filter.model';
@@ -10,17 +11,14 @@ import { ProductListSkeletonComponent } from '@components/ProductList/ProductLis
 import { getAttributesFilter } from '@utils/get-attributes-filter';
 import { memo, useEffect, useState } from 'react';
 
-interface ProductListComponentProps {
-  categoryId: string;
-}
-
-function ProductListComponent({ categoryId }: ProductListComponentProps) {
+function ProductListComponent() {
   const [hasMore, setHasMore] = useState(true);
   const [products, setProducts] = useState<ProductProjection[]>([]);
+  const { category } = useCategory();
   const [filter, setFilter] = useState<ProductFilter>({
     offset: defaultProductsOffset,
     limit: defaultProductsLimit,
-    categoryId,
+    categoryId: category?.id,
   });
 
   const updateProducts = useEventCallback((data: ProductProjectionPagedSearchResponse) => {
@@ -56,21 +54,20 @@ function ProductListComponent({ categoryId }: ProductListComponentProps) {
 
     setFilter((prevFilter) => ({
       ...prevFilter,
-      categoryId,
+      categoryId: category?.id,
       offset: (prevFilter.offset || defaultProductsOffset) + defaultProductsLimit,
     }));
   });
 
   useEffect(() => {
     setProducts([]);
-    setFilter({ offset: defaultProductsOffset, limit: defaultProductsLimit, categoryId });
+    setFilter({ offset: defaultProductsOffset, limit: defaultProductsLimit, categoryId: category?.id });
     setHasMore(false);
-  }, [categoryId]);
+  }, [category]);
 
   return (
     <Stack>
       <ProductListFilterComponent
-        categoryId={categoryId}
         onChange={(newFilter) => setFilter((oldFilter) => ({ ...oldFilter, ...getAttributesFilter(newFilter) }))}
       />
 
