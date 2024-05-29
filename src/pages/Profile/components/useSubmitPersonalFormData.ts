@@ -10,11 +10,10 @@ export const useSubmitPersonalFormData = () => {
   const showMessage = useShowMessage();
 
   return useEventCallback<PersonalFormComponentProps['onSubmit']>(async (data) => {
-    if (!user) {
-      return { success: false, error: new Error('User data is not provided.') };
-    }
-
     try {
+      if (!user) {
+        throw new Error('User data is not provided.');
+      }
       const updatedUser = await apiService.updateCustomer(
         user.version,
         {

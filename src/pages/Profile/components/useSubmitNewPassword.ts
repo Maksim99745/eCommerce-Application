@@ -16,18 +16,15 @@ export const useSubmitNewPasswordFormData = () => {
   const showMessage = useShowMessage();
 
   return useEventCallback<PasswordFormComponentProps['onSubmit']>(async (data) => {
-    if (!user) {
-      return { success: false, error: new Error('User data is not provided.') };
-    }
-
-    const newPasswordData: NewPasswordRequestData = {
-      version: user.version,
-      currentPassword: data.password,
-      newPassword: data.newPassword,
-    };
-
     try {
-      await apiService.changePassword(newPasswordData);
+      if (!user) {
+        throw new Error('User data is not provided.');
+      }
+      await apiService.changePassword({
+        version: user.version,
+        currentPassword: data.password,
+        newPassword: data.newPassword,
+      });
       login({ email: user.email, password: data.newPassword });
       showMessage('Password successfully updated');
       return { success: true };

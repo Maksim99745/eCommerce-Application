@@ -87,5 +87,4 @@ module.exports = {
     'no-return-assign': 'off',
     'react/jsx-props-no-spreading': 'off',
   },
-
 };

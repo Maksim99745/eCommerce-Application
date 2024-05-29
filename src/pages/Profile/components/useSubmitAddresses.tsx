@@ -15,10 +15,10 @@ export const useSubmitAddresses = () => {
   const showMessage = useShowMessage();
 
   return useEventCallback<UserAddressesFormProps['onSubmit']>(async (_addresses) => {
-    if (!user) {
-      return { success: false, error: new Error('User data is not provided.') };
-    }
     try {
+      if (!user) {
+        throw new Error('User data is not provided.');
+      }
       // console.log('~~~~ addresses-form-data: ', addresses);
       showMessage('Addresses successfully updated');
       return { success: true };
