@@ -58,7 +58,7 @@ export function UserAddressComponent({
         }}
       />
       <TextFieldElement<RegistrationFormData>
-        name={`addresses.${addressIndex}.street`}
+        name={`addresses.${addressIndex}.streetName`}
         label="Street"
         required
         helperText=" "

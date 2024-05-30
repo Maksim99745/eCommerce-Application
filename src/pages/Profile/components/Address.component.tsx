@@ -8,16 +8,16 @@ import { FormContainer, SelectElement, TextFieldElement, useForm } from 'react-h
 export interface AddressDataProps {
   country: string;
   city: string;
-  street: string;
+  streetName: string;
   postalCode: string;
 }
 
-export function AddressComponent({ country, city, street, postalCode }: AddressDataProps) {
+export function AddressComponent({ country, city, streetName, postalCode }: AddressDataProps) {
   const formContext = useForm<AddressInformationFormData>({
     defaultValues: {
       country,
       city,
-      street,
+      streetName,
       postalCode,
     },
     resolver: zodResolver(addressSchema),
@@ -54,7 +54,7 @@ export function AddressComponent({ country, city, street, postalCode }: AddressD
         <Grid item xs={1}>
           <TextFieldElement<AddressInformationFormData>
             label="Street"
-            name="street"
+            name="streetName"
             InputLabelProps={{ shrink: true }}
             fullWidth
             InputProps={{

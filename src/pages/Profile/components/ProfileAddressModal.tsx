@@ -8,21 +8,23 @@ import {
 import { useEditableFormState } from '@components/EditableFormActionsBar/useEditableFormState';
 
 export interface AddNewAddressProps {
+  index: number;
   address: ProfileAddressFormData;
   isDisabled: boolean;
-  onSubmitSave: (newAddress: ProfileAddressFormData) => void;
-  onSubmitUpdate: (newAddress: ProfileAddressFormData) => void;
+  onSubmitSave: (index: number) => void;
+  onSubmitUpdate: (index: number) => void;
   AddressComponent: JSX.Element;
 }
 
 export function ProfileAddressModal({
+  index,
   onSubmitSave,
   onSubmitUpdate,
   AddressComponent,
   isDisabled,
   address,
 }: AddNewAddressProps) {
-  const { isBusy, isReadonly, viewMode, setViewMode, setIsSaving } = useEditableFormState({ isLoading: isDisabled });
+  const { viewMode, setViewMode } = useEditableFormState({ isLoading: isDisabled });
   const { visible, show, close } = useModalState();
 
   const handleFormModeAction = useEventCallback<FormActionsToolBarProps['onAction']>((action) => {
@@ -37,9 +39,9 @@ export function ProfileAddressModal({
 
   const handleSubmitAddress = useEventCallback(() => {
     if (address.isNewAddress === true) {
-      onSubmitSave(address);
+      onSubmitSave(index);
     } else {
-      onSubmitUpdate(address);
+      onSubmitUpdate(index);
     }
     close();
   });

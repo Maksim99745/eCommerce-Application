@@ -31,7 +31,7 @@ const validateCity = (address: AddressInformationFormData, index: number, contex
 };
 
 const validateStreet = (address: AddressInformationFormData, index: number, context: z.RefinementCtx) => {
-  if (!hasFieldValue(address.street)) {
+  if (!hasFieldValue(address.streetName)) {
     context.addIssue(getAddressFieldIssue('street', index, RegistrationErrorMessages.StreetRequired));
   }
 };

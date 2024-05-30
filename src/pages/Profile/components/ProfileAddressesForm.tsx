@@ -11,7 +11,7 @@ import {
   Typography,
   useEventCallback,
 } from '@mui/material';
-import { CheckboxElement, FormContainer, useFieldArray, useForm } from 'react-hook-form-mui';
+import { CheckboxElement, FormContainer, useFieldArray, useForm, useWatch } from 'react-hook-form-mui';
 import { UserAddressComponent } from '@pages/Registration/components/UserAddress.component';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { profileAddressesSchema } from '@core/validation/user-profile/user-profile.schema';
@@ -23,17 +23,24 @@ import { useEditableFormState } from '@components/EditableFormActionsBar/useEdit
 import { RemoveProfileAddress, RemoveProfileAddressProps } from '@pages/Profile/components/RemoveProfileAddress.dialog';
 import { AddressTypeRenderer } from '@pages/Profile/components/AddressTypeRenderer';
 import { OperationResult } from '@models/index';
-import { AddNewAddressProps, ProfileAddressModal } from './NewAddressModal';
+import { AddNewAddressProps, ProfileAddressModal } from './ProfileAddressModal';
 
-export type AddressFormSubmitAction = 'add' | 'update' | 'remove';
 export type UserAddressesFormProps = {
   isLoading?: boolean;
   userData: Customer;
-  onSubmit: (action: AddressFormSubmitAction, address: ProfileAddressFormData) => Promise<OperationResult>;
+  onSubmitAdd: (address: ProfileAddressFormData, addressIndex: number) => Promise<OperationResult>;
+  onSubmitRemove: (address: ProfileAddressFormData) => Promise<OperationResult>;
+  onSubmitUpdate: (address: ProfileAddressFormData) => Promise<OperationResult>;
 };
 
-export function ProfileAddressesForm({ userData, onSubmit, isLoading = false }: UserAddressesFormProps) {
-  const { isBusy, isReadonly, setViewMode, setIsSaving } = useEditableFormState({ initialState: 'edit', isLoading });
+export function ProfileAddressesForm({
+  userData,
+  onSubmitAdd,
+  onSubmitRemove,
+  onSubmitUpdate,
+  isLoading = false,
+}: UserAddressesFormProps) {
+  const { isBusy, setViewMode, setIsSaving } = useEditableFormState({ initialState: 'edit', isLoading });
 
   const formContext = useForm({
     defaultValues: getCustomerProfileAddresses(userData),
@@ -46,10 +53,21 @@ export function ProfileAddressesForm({ userData, onSubmit, isLoading = false }: 
     control,
     name: 'addresses',
   });
+  const currentAddresses = useWatch({ control, name: 'addresses' });
 
   const handleRemoveAddress = useEventCallback<RemoveProfileAddressProps['onSubmitRemove']>(async (address) => {
     setIsSaving(true);
-    const result = await onSubmit('remove', address);
+    const result = await onSubmitRemove(address);
+    setIsSaving(false);
+    if (result.success) {
+      setViewMode('view');
+    }
+  });
+
+  const handleAddNewAddress = useEventCallback<AddNewAddressProps['onSubmitSave']>(async (addressIndex) => {
+    setIsSaving(true);
+    const result = await onSubmitAdd(currentAddresses[addressIndex], addressIndex);
+    // console.log('~~save', currentAddresses[index]);
     setIsSaving(false);
     if (result.success) {
       reset();
@@ -57,19 +75,10 @@ export function ProfileAddressesForm({ userData, onSubmit, isLoading = false }: 
     }
   });
 
-  const handleSaveNewAddress = useEventCallback<AddNewAddressProps['onSubmitSave']>(async (newAddress) => {
+  const handleUpdateAddress = useEventCallback<AddNewAddressProps['onSubmitUpdate']>(async (addressIndex) => {
     setIsSaving(true);
-    const result = await onSubmit('add', newAddress);
-    setIsSaving(false);
-    if (result.success) {
-      reset();
-      setViewMode('view');
-    }
-  });
-
-  const handleUpdateAddress = useEventCallback<AddNewAddressProps['onSubmitSave']>(async (newAddress) => {
-    setIsSaving(true);
-    const result = await onSubmit('update', newAddress);
+    // console.log('~~update', currentAddresses[index]);
+    const result = await onSubmitUpdate(currentAddresses[addressIndex]);
     setIsSaving(false);
     if (result.success) {
       reset();
@@ -94,12 +103,6 @@ export function ProfileAddressesForm({ userData, onSubmit, isLoading = false }: 
             >
               Add
             </Button>
-            {/* <AddNewProfileAddress
-              onSubmitSave={handleSaveNewAddress}
-              isDisabled={isLoading || isBusy}
-              newAddressIndex={fields.length}
-              onClick={(data) => append(data)}
-            /> */}
           </Stack>
           <Stack spacing={0} direction="column" sx={{ overflowX: 'auto' }}>
             {fields.map((address, index) => (
@@ -124,20 +127,21 @@ export function ProfileAddressesForm({ userData, onSubmit, isLoading = false }: 
 
                 <AccordionDetails key={address.id}>
                   <ProfileAddressModal
+                    index={index}
                     address={address}
                     isDisabled={isBusy || isLoading}
-                    onSubmitSave={handleSaveNewAddress}
+                    onSubmitSave={handleAddNewAddress}
                     onSubmitUpdate={handleUpdateAddress}
                     AddressComponent={
                       <UserAddressComponent
                         disabled={isLoading || isBusy}
-                        isReadonly
+                        isReadonly={isLoading || isBusy}
                         addressIndex={index}
                         // TODO move those checkboxes usage in edit mode of modal
                         title={
                           <Stack direction="row" alignItems="center">
-                            <CheckboxElement name={`addresses.${index}.isShipping`} label="Shipping" disabled />
-                            <CheckboxElement name={`addresses.${index}.isBilling`} label="Billing" disabled />
+                            <CheckboxElement name={`addresses.${index}.isShipping`} label="Shipping" />
+                            <CheckboxElement name={`addresses.${index}.isBilling`} label="Billing" />
                           </Stack>
                         }
                         onCountryChange={() => trigger(`addresses.${index}.postalCode`)}

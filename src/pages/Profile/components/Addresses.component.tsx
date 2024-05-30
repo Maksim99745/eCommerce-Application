@@ -41,7 +41,7 @@ export function Addresses({ userData }: { userData: Customer }) {
                 <AddressComponent
                   country={address.country}
                   city={address.city || ''}
-                  street={address.streetName || ''}
+                  streetName={address.streetName || ''}
                   postalCode={address.postalCode || ''}
                 />
                 <Typography variant="subtitle2" sx={{ mt: 1, mb: 1 }}>

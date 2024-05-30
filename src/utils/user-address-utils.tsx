@@ -10,7 +10,7 @@ import { useCallback } from 'react';
 import { Address, Customer } from '@commercetools/platform-sdk';
 
 export const toAddressString = (address: AddressInformationFormData): string =>
-  address ? [address.country, address.postalCode, address.city, address.street].filter(Boolean).join(', ') : '';
+  address ? [address.country, address.postalCode, address.city, address.streetName].filter(Boolean).join(', ') : '';
 
 export const withTypeOfAddress = (addressType: AddressType) => (address: AddressInformationFormData) =>
   (addressType === 'billing' && address.isBilling) || (addressType === 'shipping' && address.isShipping);
@@ -39,7 +39,7 @@ export const getNewUserProfileAddress = (): ProfileAddressFormData => ({
   country: defaultCountryOption.id,
   city: '',
   postalCode: '',
-  street: '',
+  streetName: '',
   isBilling: false,
   isShipping: false,
   isNewAddress: true,
@@ -52,7 +52,7 @@ export const getCustomerProfileAddress =
     country,
     postalCode,
     city,
-    street: streetName,
+    streetName,
     isNewAddress: false,
     isBilling: !!userData.billingAddressIds?.includes(id),
     isShipping: !!userData.shippingAddressIds?.includes(id),

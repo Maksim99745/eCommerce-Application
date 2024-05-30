@@ -7,8 +7,8 @@ import {
 import { AddressInformationFormData, RegistrationFormData } from '@models/forms.model';
 
 function mapFormAddressToCustomerAddress(address: AddressInformationFormData): BaseAddress {
-  const { street, postalCode, country, city } = address;
-  return { streetName: street, postalCode, country, city };
+  const { streetName, postalCode, country, city } = address;
+  return { streetName, postalCode, country, city };
 }
 
 export function mapFormToCustomerDraft(data: RegistrationFormData): MyCustomerDraft {

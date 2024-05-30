@@ -35,7 +35,7 @@ export const birthDateSchema = z
 export const addressSchema = z.object({
   country: z.string(),
   city: z.string(),
-  street: z.string(),
+  streetName: z.string(),
   postalCode: z.string(),
   isBilling: z.boolean(),
   isShipping: z.boolean(),
