@@ -20,9 +20,10 @@ import { getCustomerProfileAddresses, getNewUserProfileAddress, toAddressString 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ErrorIcon from '@mui/icons-material/Error';
 import { useEditableFormState } from '@components/EditableFormActionsBar/useEditableFormState';
-import { RemoveProfileAddress, RemoveProfileAddressProps } from '@pages/Profile/components/RemoveProfileAddress.dialog';
+import { RemoveProfileAddressProps } from '@pages/Profile/components/RemoveProfileAddress.dialog';
 import { AddressTypeRenderer } from '@pages/Profile/components/AddressTypeRenderer';
 import { OperationResult } from '@models/index';
+import { useEffect } from 'react';
 import { AddNewAddressProps, ProfileAddressModal } from './ProfileAddressModal';
 
 export type UserAddressesFormProps = {
@@ -54,6 +55,10 @@ export function ProfileAddressesForm({
     name: 'addresses',
   });
   const currentAddresses = useWatch({ control, name: 'addresses' });
+  // It does n't rerender without it
+  useEffect(() => {
+    reset(getCustomerProfileAddresses(userData));
+  }, [userData, reset]);
 
   const handleRemoveAddress = useEventCallback<RemoveProfileAddressProps['onSubmitRemove']>(async (address) => {
     setIsSaving(true);
@@ -67,21 +72,17 @@ export function ProfileAddressesForm({
   const handleAddNewAddress = useEventCallback<AddNewAddressProps['onSubmitSave']>(async (addressIndex) => {
     setIsSaving(true);
     const result = await onSubmitAdd(currentAddresses[addressIndex], addressIndex);
-    // console.log('~~save', currentAddresses[index]);
     setIsSaving(false);
     if (result.success) {
-      reset();
       setViewMode('view');
     }
   });
 
   const handleUpdateAddress = useEventCallback<AddNewAddressProps['onSubmitUpdate']>(async (addressIndex) => {
     setIsSaving(true);
-    // console.log('~~update', currentAddresses[index]);
     const result = await onSubmitUpdate(currentAddresses[addressIndex]);
     setIsSaving(false);
     if (result.success) {
-      reset();
       setViewMode('view');
     }
   });
@@ -125,13 +126,15 @@ export function ProfileAddressesForm({
                   </Stack>
                 </AccordionSummary>
 
-                <AccordionDetails key={address.id}>
+                <AccordionDetails key={address.id} sx={{ display: 'flex', justifyContent: 'right' }}>
                   <ProfileAddressModal
                     index={index}
                     address={address}
                     isDisabled={isBusy || isLoading}
                     onSubmitSave={handleAddNewAddress}
                     onSubmitUpdate={handleUpdateAddress}
+                    onSubmitRemove={handleRemoveAddress}
+                    isValid={formState.isValid}
                     AddressComponent={
                       <UserAddressComponent
                         disabled={isLoading || isBusy}
@@ -149,9 +152,7 @@ export function ProfileAddressesForm({
                     }
                   />
                 </AccordionDetails>
-                <AccordionActions>
-                  <RemoveProfileAddress address={address} disabled={isBusy} onSubmitRemove={handleRemoveAddress} />
-                </AccordionActions>
+                <AccordionActions />
               </Accordion>
             ))}
           </Stack>

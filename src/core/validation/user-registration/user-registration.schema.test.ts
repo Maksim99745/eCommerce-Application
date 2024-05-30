@@ -16,7 +16,7 @@ test('personal data should be provided', () => {
     birthDate: '',
     addresses: [
       {
-        street: 'Liberty',
+        streetName: 'Liberty',
         city: 'Kaz',
         country: 'Uzbekistan',
         postalCode: '22822',
@@ -47,7 +47,15 @@ test('address data should be provided', () => {
     email: 'jaks134@mail.ru',
     password: 'fjfD3&dl#sL',
     addresses: [
-      { street: '', city: '', country: '', postalCode: '', isBilling: false, isShipping: false, isNewAddress: true },
+      {
+        streetName: '',
+        city: '',
+        country: '',
+        postalCode: '',
+        isBilling: false,
+        isShipping: false,
+        isNewAddress: true,
+      },
     ],
   });
   expect(result.success).toBe(false);
@@ -82,7 +90,7 @@ test('Name of the city should not contain numbers or special symbols', () => {
     password: 'fjfD3&dl#sL',
     addresses: [
       {
-        street: 'dd',
+        streetName: 'dd',
         city: '2',
         country: 'PL',
         postalCode: '22-223',
@@ -108,7 +116,7 @@ test('Invalid post code for country: Poland', () => {
     password: 'fjfD3&dl#sL',
     addresses: [
       {
-        street: 'dd',
+        streetName: 'dd',
         city: 'Dh',
         country: 'PL',
         postalCode: '22223',
@@ -134,7 +142,7 @@ test('Invalid post code for country: Uzbekistan', () => {
     password: 'fjfD3&dl#sL',
     addresses: [
       {
-        street: 'dd',
+        streetName: 'dd',
         city: 'Dh',
         country: 'UZ',
         postalCode: '22223',
@@ -160,7 +168,7 @@ test('Invalid post code for country: Serbia', () => {
     password: 'fjfD3&dl#sL',
     addresses: [
       {
-        street: 'dd',
+        streetName: 'dd',
         city: 'Dh',
         country: 'RS',
         postalCode: '2222',
@@ -186,7 +194,7 @@ test('Invalid post code for country: Ukraine', () => {
     password: 'fjfD3&dl#sL',
     addresses: [
       {
-        street: 'dd',
+        streetName: 'dd',
         city: 'Dh',
         country: 'UA',
         postalCode: '2222',

@@ -26,7 +26,6 @@ function ProfilePage() {
     <Stack>
       <PersonalFormComponent onSubmit={handlePersonalSubmit} userData={user} isLoading={isUserLoading} />
       <PasswordFormComponent onSubmit={handlePasswordSubmit} isLoading={isUserLoading} />
-      {/* <Addresses userData={user} /> */}
       <ProfileAddressesForm
         userData={user}
         isLoading={isUserLoading}

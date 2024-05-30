@@ -23,7 +23,7 @@ export const useSubmitUpdateAddress = () => {
           action: 'addShippingAddressId',
           addressId: address.addressUID,
         });
-      } else {
+      } else if (updatedUser.shippingAddressIds?.includes(address.addressUID)) {
         updatedUser = await apiService.updateCustomer(updatedUser.version, {
           action: 'removeShippingAddressId',
           addressId: address.addressUID,
@@ -34,7 +34,7 @@ export const useSubmitUpdateAddress = () => {
           action: 'addBillingAddressId',
           addressId: address.addressUID,
         });
-      } else {
+      } else if (updatedUser.billingAddressIds?.includes(address.addressUID)) {
         updatedUser = await apiService.updateCustomer(updatedUser.version, {
           action: 'removeBillingAddressId',
           addressId: address.addressUID,

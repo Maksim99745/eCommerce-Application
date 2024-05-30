@@ -1,11 +1,9 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, useEventCallback } from '@mui/material';
 import { useModalState } from '@hooks/useModalState';
 import { ProfileAddressFormData } from '@models/forms.model';
-import {
-  EditableFormActionsBar,
-  FormActionsToolBarProps,
-} from '@components/EditableFormActionsBar/EditableFormActionsBar';
-import { useEditableFormState } from '@components/EditableFormActionsBar/useEditableFormState';
+import { LoadingButton } from '@mui/lab';
+import EditIcon from '@mui/icons-material/Edit';
+import { RemoveProfileAddress } from './RemoveProfileAddress.dialog';
 
 export interface AddNewAddressProps {
   index: number;
@@ -13,29 +11,22 @@ export interface AddNewAddressProps {
   isDisabled: boolean;
   onSubmitSave: (index: number) => void;
   onSubmitUpdate: (index: number) => void;
+  onSubmitRemove: (address: ProfileAddressFormData) => void;
   AddressComponent: JSX.Element;
+  isValid: boolean;
 }
 
 export function ProfileAddressModal({
   index,
   onSubmitSave,
   onSubmitUpdate,
+  onSubmitRemove,
   AddressComponent,
   isDisabled,
   address,
+  isValid,
 }: AddNewAddressProps) {
-  const { viewMode, setViewMode } = useEditableFormState({ isLoading: isDisabled });
   const { visible, show, close } = useModalState();
-
-  const handleFormModeAction = useEventCallback<FormActionsToolBarProps['onAction']>((action) => {
-    if (action === 'edit') {
-      setViewMode('edit');
-      show();
-    } else if (action === 'cancel') {
-      setViewMode('view');
-      close();
-    }
-  });
 
   const handleSubmitAddress = useEventCallback(() => {
     if (address.isNewAddress === true) {
@@ -48,12 +39,19 @@ export function ProfileAddressModal({
 
   return (
     <>
-      <EditableFormActionsBar
-        mode={viewMode}
-        onAction={handleFormModeAction}
-        isLoading={isDisabled}
+      <LoadingButton
+        variant="contained"
+        color="primary"
+        loading={isDisabled}
+        sx={{ textTransform: 'none', mr: '10px' }}
         disabled={isDisabled}
-      />
+        size="small"
+        onClick={() => show()}
+      >
+        <EditIcon sx={{ mr: 1 }} />
+        EDIT
+      </LoadingButton>
+      <RemoveProfileAddress address={address} disabled={isDisabled} onSubmitRemove={onSubmitRemove} />
       <Dialog
         open={visible}
         onClose={close}
@@ -64,7 +62,7 @@ export function ProfileAddressModal({
         <DialogContent>{AddressComponent}</DialogContent>
         <DialogActions>
           <Button onClick={close}>Cancel</Button>
-          <Button onClick={handleSubmitAddress} autoFocus>
+          <Button onClick={handleSubmitAddress} disabled={!isValid} autoFocus>
             Save
           </Button>
         </DialogActions>

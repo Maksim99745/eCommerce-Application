@@ -28,7 +28,7 @@ export function EditableFormActionsBar({ mode, disabled, isLoading, children, on
           onClick={() => onAction('edit')}
         >
           <EditIcon sx={{ mr: 1 }} />
-          Edit
+          EDIT
         </LoadingButton>
       )}
       {mode === 'edit' && (
