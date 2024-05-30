@@ -15,8 +15,8 @@ export const useSubmitAddresses = () => {
       assertIsNonNullable(user, 'User data is not provided.');
       if (action === 'remove') {
         await apiService.updateCustomer(user.version, { action: 'removeAddress', addressId: address.addressUID });
+        showMessage('Addresses successfully deleted');
       }
-      showMessage('Addresses successfully updated');
       return { success: true };
     } catch (error) {
       const errorMessage = createAppErrorMessage(error);
