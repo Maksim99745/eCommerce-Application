@@ -1,5 +1,4 @@
 import { ProductData } from '@commercetools/platform-sdk';
-import { PRODUCT_CRUMB_WORDS_COUNT } from '@constants/ui.const';
 import { signal } from '@preact/signals-react';
 
 export const productSignal = signal<string | null | undefined>(undefined);
@@ -15,7 +14,7 @@ export const setProduct = (newProduct: ProductData | null | undefined) => {
 };
 
 const useProduct = () => ({
-  product: `${productSignal.value?.split(' ').slice(0, PRODUCT_CRUMB_WORDS_COUNT).join(' ')}...`,
+  product: productSignal.value,
   isProductLoading: isProductLoadingSignal.value,
   setProduct,
   setProductLoading,
