@@ -2,8 +2,12 @@ import { priceAmount } from '@constants/products.const';
 import { GetProductsRequest, ProductFilter } from '@models/product-filter.model';
 
 export const mapProductFilterToRequest = (productFilter: ProductFilter) => {
-  const { limit, offset, categoryId, price, countries, colors, brands, materials } = productFilter;
+  const { limit, offset, categoryId, price, countries, colors, brands, materials, query } = productFilter;
   const request: GetProductsRequest = { limit, offset, filter: [] };
+
+  if (query) {
+    request.query = query;
+  }
 
   if (categoryId) {
     request.filter?.push(`categories.id:subtree("${categoryId}")`);
