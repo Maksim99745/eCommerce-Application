@@ -10,7 +10,7 @@ export const useSubmitAddAddress = () => {
   const { user, setUser } = useAuth();
   const showMessage = useShowMessage();
 
-  return useEventCallback<UserAddressesFormProps['onSubmitAdd']>(async (address, index) => {
+  return useEventCallback<UserAddressesFormProps['onSubmitAdd']>(async (address) => {
     try {
       assertIsNonNullable(user, 'User data is not provided.');
 
@@ -18,6 +18,8 @@ export const useSubmitAddAddress = () => {
         action: 'addAddress',
         address,
       });
+
+      const index = updatedUser.addresses.length - 1;
       // Right id is provided by commerce tools, so when we just created address we use it's index in order to access right address in array.
       if (address.isShipping) {
         updatedUser = await apiService.updateCustomer(updatedUser.version, {

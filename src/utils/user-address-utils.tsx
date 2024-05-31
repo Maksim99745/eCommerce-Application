@@ -5,9 +5,9 @@ import {
   ProfileAddressesFormData,
   AddressType,
 } from '@models/forms.model';
-import { Typography } from '@mui/material';
 import { useCallback } from 'react';
 import { Address, Customer } from '@commercetools/platform-sdk';
+import { AddressStringRenderer } from '@pages/Profile/components/AddressStringRenderer';
 
 export const toAddressString = (address: AddressInformationFormData): string =>
   address ? [address.country, address.postalCode, address.city, address.streetName].filter(Boolean).join(', ') : '';
@@ -23,11 +23,7 @@ export const useAddressRenderOptions = (addressType: AddressType) =>
         .map((address, index) => ({
           ...address,
           id: index,
-          label: (
-            <Typography sx={{ textWrap: 'pretty', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {toAddressString(address)}
-            </Typography>
-          ),
+          label: <AddressStringRenderer address={address} />,
         }))
         .filter(withTypeOfAddress(addressType)),
     ],

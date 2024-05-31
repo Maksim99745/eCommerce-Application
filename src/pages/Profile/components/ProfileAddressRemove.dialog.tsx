@@ -7,31 +7,38 @@ import {
   DialogTitle,
   useEventCallback,
 } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { toAddressString } from '@utils/user-address-utils';
-import { ProfileAddressFormData } from '@models/forms.model';
+import { ProfileAddressesFormData, ProfileAddressFormData } from '@models/forms.model';
 import { useModalState } from '@hooks/useModalState';
+import { ElementType } from 'react';
+import { useFormContext, useWatch } from 'react-hook-form-mui';
 
-export interface RemoveProfileAddressProps {
-  address: ProfileAddressFormData;
+export interface ProfileAddressRemoveDialogProps {
+  openControl: ElementType;
+  addressIndex: number;
   disabled?: boolean;
-  onSubmitRemove: (address: ProfileAddressFormData) => void;
+  onSubmit: (address: ProfileAddressFormData) => void;
 }
 
-export function RemoveProfileAddress({ address, disabled = false, onSubmitRemove }: RemoveProfileAddressProps) {
+export function ProfileAddressRemoveDialog({
+  openControl: OpenControl,
+  addressIndex,
+  disabled = false,
+  onSubmit,
+}: ProfileAddressRemoveDialogProps) {
   const { visible, show, close } = useModalState();
+  const { control } = useFormContext<ProfileAddressesFormData>();
+  const currentAddress = useWatch({ control, name: `addresses.${addressIndex}` });
 
   const handleSubmitRemove = useEventCallback(() => {
     close();
-    onSubmitRemove(address);
+    onSubmit(currentAddress);
   });
 
   return (
     <>
-      <Button variant="contained" disabled={disabled} onClick={show}>
-        <DeleteIcon sx={{ mr: 1 }} />
-        Remove
-      </Button>
+      <OpenControl onClick={show} disabled={disabled} />
+
       <Dialog
         open={visible}
         onClose={close}
@@ -41,7 +48,7 @@ export function RemoveProfileAddress({ address, disabled = false, onSubmitRemove
         <DialogTitle id="alert-dialog-title">Remove address</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {`Are You sure to remove ${toAddressString(address)} address ?`}
+            {`Are You sure to remove ${toAddressString(currentAddress)} address ?`}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

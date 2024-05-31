@@ -1,38 +1,49 @@
 import { Customer } from '@commercetools/platform-sdk';
-import {
-  Accordion,
-  AccordionActions,
-  AccordionDetails,
-  AccordionSummary,
-  Button,
-  Container,
-  Paper,
-  Stack,
-  Typography,
-  useEventCallback,
-} from '@mui/material';
-import { CheckboxElement, FormContainer, useFieldArray, useForm, useWatch } from 'react-hook-form-mui';
-import { UserAddressComponent } from '@pages/Registration/components/UserAddress.component';
+import { Button, Container, Paper, Stack, Typography, useEventCallback } from '@mui/material';
+import { FormContainer, useFieldArray, useForm } from 'react-hook-form-mui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { profileAddressesSchema } from '@core/validation/user-profile/user-profile.schema';
 import { ProfileAddressFormData } from '@models/forms.model';
-import { getCustomerProfileAddresses, getNewUserProfileAddress, toAddressString } from '@utils/user-address-utils';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ErrorIcon from '@mui/icons-material/Error';
+import { getCustomerProfileAddresses, getNewUserProfileAddress } from '@utils/user-address-utils';
 import { useEditableFormState } from '@components/EditableFormActionsBar/useEditableFormState';
-import { RemoveProfileAddressProps } from '@pages/Profile/components/RemoveProfileAddress.dialog';
+import {
+  ProfileAddressRemoveDialog,
+  ProfileAddressRemoveDialogProps,
+} from '@pages/Profile/components/ProfileAddressRemove.dialog';
 import { AddressTypeRenderer } from '@pages/Profile/components/AddressTypeRenderer';
 import { OperationResult } from '@models/index';
+import { AddressStringRenderer } from '@pages/Profile/components/AddressStringRenderer';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { ButtonProps } from '@mui/material/Button/Button';
+import EditIcon from '@mui/icons-material/Edit';
 import { useEffect } from 'react';
-import { AddNewAddressProps, ProfileAddressModal } from './ProfileAddressModal';
+import { ProfileAddressEditDialog, ProfileAddressEditDialogProps } from './ProfileAddressEdit.dialog';
 
 export type UserAddressesFormProps = {
   isLoading?: boolean;
   userData: Customer;
-  onSubmitAdd: (address: ProfileAddressFormData, addressIndex: number) => Promise<OperationResult>;
+  onSubmitAdd: (address: ProfileAddressFormData) => Promise<OperationResult>;
   onSubmitRemove: (address: ProfileAddressFormData) => Promise<OperationResult>;
   onSubmitUpdate: (address: ProfileAddressFormData) => Promise<OperationResult>;
 };
+
+function RemoveAddressLine(props: ButtonProps) {
+  return (
+    <Button variant="contained" {...props}>
+      <DeleteIcon sx={{ mr: 1 }} />
+      Remove
+    </Button>
+  );
+}
+
+function EditAddressLine(props: ButtonProps) {
+  return (
+    <Button variant="contained" color="primary" sx={{ textTransform: 'none', mr: '10px' }} size="small" {...props}>
+      <EditIcon sx={{ mr: 1 }} />
+      EDIT
+    </Button>
+  );
+}
 
 export function ProfileAddressesForm({
   userData,
@@ -49,38 +60,32 @@ export function ProfileAddressesForm({
     mode: 'all',
   });
 
-  const { control, trigger, formState, reset } = formContext;
-  const { fields, append } = useFieldArray({
+  const { control, reset } = formContext;
+  const { fields, append, remove } = useFieldArray({
     control,
     name: 'addresses',
   });
-  const currentAddresses = useWatch({ control, name: 'addresses' });
   // It does n't rerender without it
   useEffect(() => {
     reset(getCustomerProfileAddresses(userData));
   }, [userData, reset]);
 
-  const handleRemoveAddress = useEventCallback<RemoveProfileAddressProps['onSubmitRemove']>(async (address) => {
-    setIsSaving(true);
-    const result = await onSubmitRemove(address);
-    setIsSaving(false);
-    if (result.success) {
-      setViewMode('view');
+  const handleRemoveAddress = useEventCallback<ProfileAddressRemoveDialogProps['onSubmit']>(async (address) => {
+    if (address.isNewAddress) {
+      remove(fields.findIndex(({ addressUID }) => addressUID === address.addressUID));
+    } else {
+      setIsSaving(true);
+      const result = await onSubmitRemove(address);
+      setIsSaving(false);
+      if (result.success) {
+        setViewMode('view');
+      }
     }
   });
 
-  const handleAddNewAddress = useEventCallback<AddNewAddressProps['onSubmitSave']>(async (addressIndex) => {
+  const handleAddNewAddress = useEventCallback<ProfileAddressEditDialogProps['onSubmit']>(async (address) => {
     setIsSaving(true);
-    const result = await onSubmitAdd(currentAddresses[addressIndex], addressIndex);
-    setIsSaving(false);
-    if (result.success) {
-      setViewMode('view');
-    }
-  });
-
-  const handleUpdateAddress = useEventCallback<AddNewAddressProps['onSubmitUpdate']>(async (addressIndex) => {
-    setIsSaving(true);
-    const result = await onSubmitUpdate(currentAddresses[addressIndex]);
+    const result = address.isNewAddress ? await onSubmitAdd(address) : await onSubmitUpdate(address);
     setIsSaving(false);
     if (result.success) {
       setViewMode('view');
@@ -95,6 +100,28 @@ export function ProfileAddressesForm({
             <Typography variant="h5" gutterBottom sx={{ mb: 2 }}>
               Addresses information
             </Typography>
+          </Stack>
+          <Stack spacing={0} direction="column" sx={{ overflowX: 'auto' }}>
+            {fields.map((address, index) => (
+              <Stack key={address.id} width={1} direction="row" sx={{ overflow: 'hidden', mt: 2 }}>
+                <AddressTypeRenderer address={address} sx={{ mr: 2 }} />
+                <AddressStringRenderer address={address} />
+                <ProfileAddressEditDialog
+                  openControl={EditAddressLine}
+                  addressIndex={index}
+                  disabled={isBusy || isLoading}
+                  onSubmit={handleAddNewAddress}
+                />
+                <ProfileAddressRemoveDialog
+                  openControl={RemoveAddressLine}
+                  addressIndex={index}
+                  disabled={isBusy || isLoading}
+                  onSubmit={handleRemoveAddress}
+                />
+              </Stack>
+            ))}
+          </Stack>
+          {fields.every((address) => !address.isNewAddress) && (
             <Button
               variant="contained"
               disabled={isBusy}
@@ -102,61 +129,9 @@ export function ProfileAddressesForm({
                 append(getNewUserProfileAddress());
               }}
             >
-              Add
+              Add new address
             </Button>
-          </Stack>
-          <Stack spacing={0} direction="column" sx={{ overflowX: 'auto' }}>
-            {fields.map((address, index) => (
-              <Accordion key={address.id}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />} key={address.id}>
-                  <Stack width={1} direction="row" sx={{ overflow: 'hidden' }}>
-                    {!!formState?.errors?.addresses?.[index] && <ErrorIcon color="error" />}
-                    <AddressTypeRenderer address={address} sx={{ mr: 2 }} />
-                    <Typography
-                      sx={{
-                        textWrap: 'pretty',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        width: '100%',
-                      }}
-                    >
-                      {toAddressString(address)}
-                    </Typography>
-                  </Stack>
-                </AccordionSummary>
-
-                <AccordionDetails key={address.id} sx={{ display: 'flex', justifyContent: 'right' }}>
-                  <ProfileAddressModal
-                    index={index}
-                    address={address}
-                    isDisabled={isBusy || isLoading}
-                    onSubmitSave={handleAddNewAddress}
-                    onSubmitUpdate={handleUpdateAddress}
-                    onSubmitRemove={handleRemoveAddress}
-                    isValid={formState.isValid}
-                    AddressComponent={
-                      // Transfert userAddressComponent to modal
-                      <UserAddressComponent
-                        disabled={isLoading || isBusy}
-                        isReadonly={isLoading || isBusy}
-                        addressIndex={index}
-                        // TODO move those checkboxes usage in edit mode of modal
-                        title={
-                          <Stack direction="row" alignItems="center">
-                            <CheckboxElement name={`addresses.${index}.isShipping`} label="Shipping" />
-                            <CheckboxElement name={`addresses.${index}.isBilling`} label="Billing" />
-                          </Stack>
-                        }
-                        onCountryChange={() => trigger(`addresses.${index}.postalCode`)}
-                      />
-                    }
-                  />
-                </AccordionDetails>
-                <AccordionActions />
-              </Accordion>
-            ))}
-          </Stack>
+          )}
           {/* TODO - move them usages to the separate form (edit/cancel/save), similar to password and/or Personal info */}
           {/* <Grid container item sx={{ pt: 2 }} spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1, md: 2 }} maxWidth="85vw"> */}
           {/*  <Grid item xs={2}> */}
