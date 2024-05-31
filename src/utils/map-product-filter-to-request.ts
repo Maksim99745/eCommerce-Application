@@ -10,7 +10,7 @@ export const mapProductFilterToRequest = (productFilter: ProductFilter) => {
     const { orderBy, ordering } = sort;
     request.sort = `${orderBy}${orderBy === OrderBy.Name ? '.en' : ''} ${ordering}`;
   }
-  
+
   if (query) {
     request.query = query;
   }
