@@ -60,13 +60,6 @@ function HeaderComponent({ handleDrawerToggle, isDrawerOpen }: HeaderProps) {
             </Typography>
           </Button>
         </Stack>
-
-        {/* <Stack direction="row" alignItems="center"> */}
-        {/*  <TextField id="search" label="Search..." variant="outlined" color="secondary" size="small" /> */}
-        {/*  <IconButton type="button" aria-label="search"> */}
-        {/*    <SearchIcon /> */}
-        {/*  </IconButton> */}
-        {/* </Stack> */}
         <SearchComponent />
 
         <HeaderActionsComponent />
