@@ -72,16 +72,19 @@ function ProductListComponent({ query }: ProductListComponentProps) {
       limit: defaultProductsLimit,
       categoryId: category?.id,
       query,
-      sort: filter.sort,
     });
     setHasMore(false);
-  }, [category, query, filter.sort]);
+  }, [category, query]);
+
+  const handleFilterChange = useEventCallback((newFilter: ProductFilter) => {
+    setProducts([]);
+    setFilter((oldFilter) => ({ ...oldFilter, ...getAttributesFilter(newFilter), offset: defaultProductsOffset }));
+    setHasMore(false);
+  });
 
   return (
     <Stack>
-      <ProductListFilterComponent
-        onChange={(newFilter) => setFilter((oldFilter) => ({ ...oldFilter, ...getAttributesFilter(newFilter) }))}
-      />
+      <ProductListFilterComponent onChange={handleFilterChange} />
 
       {!products.length && (isLoading || isValidating) && <ProductListSkeletonComponent />}
       {!products.length && !(isLoading || isValidating) && (

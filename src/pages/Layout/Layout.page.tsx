@@ -61,7 +61,14 @@ function LayoutPage() {
         <BreadcrumbsComponent />
         <Box
           component="main"
-          sx={{ p: { xs: 1, sm: 2 }, display: 'flex', flexDirection: 'column', flexGrow: 1, overflow: 'auto' }}
+          sx={{
+            p: { xs: 1, sm: 2 },
+            display: 'flex',
+            flexDirection: 'column',
+            flexGrow: 1,
+            overflow: 'auto',
+            scrollbarGutter: 'stable',
+          }}
         >
           <Outlet />
         </Box>

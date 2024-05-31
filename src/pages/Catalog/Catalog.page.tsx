@@ -16,7 +16,7 @@ function CatalogPage() {
 
   return (
     <Container maxWidth="xl" sx={{ p: 0, height: '100%' }}>
-      <Stack gap={2} sx={{ height: '100%', overflow: 'auto' }}>
+      <Stack gap={2} sx={{ height: '100%', overflow: 'auto', scrollbarGutter: 'stable' }}>
         {category.description?.en && (
           <Box
             sx={{
