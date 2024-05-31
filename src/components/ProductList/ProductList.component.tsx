@@ -67,9 +67,15 @@ function ProductListComponent({ query }: ProductListComponentProps) {
 
   useEffect(() => {
     setProducts([]);
-    setFilter({ offset: defaultProductsOffset, limit: defaultProductsLimit, categoryId: category?.id, query });
+    setFilter({
+      offset: defaultProductsOffset,
+      limit: defaultProductsLimit,
+      categoryId: category?.id,
+      query,
+      sort: filter.sort,
+    });
     setHasMore(false);
-  }, [category, query]);
+  }, [category, query, filter.sort]);
 
   return (
     <Stack>
