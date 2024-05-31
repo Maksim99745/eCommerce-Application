@@ -136,6 +136,7 @@ export function ProfileAddressesForm({
                     onSubmitRemove={handleRemoveAddress}
                     isValid={formState.isValid}
                     AddressComponent={
+                      // Transfet userAddressComponent to modal
                       <UserAddressComponent
                         disabled={isLoading || isBusy}
                         isReadonly={isLoading || isBusy}

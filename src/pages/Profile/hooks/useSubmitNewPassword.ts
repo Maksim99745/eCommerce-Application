@@ -18,7 +18,7 @@ export const useSubmitNewPasswordFormData = () => {
         currentPassword: data.password,
         newPassword: data.newPassword,
       });
-      login({ email: user.email, password: data.newPassword });
+      await login({ email: user.email, password: data.newPassword });
       showMessage('Password successfully updated');
       return { success: true };
     } catch (error) {
