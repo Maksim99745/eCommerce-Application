@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogTitle, IconButton, Typography } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ReactImageGallery from 'react-image-gallery';
 import { ProductData } from '@commercetools/platform-sdk';
@@ -9,7 +9,7 @@ interface ImageModalProps {
   visible: boolean;
   close: () => void;
   images: Array<{ original: string; thumbnail: string }>;
-  data: ProductData | undefined;
+  data?: ProductData;
   defaultImageUrl: string;
 }
 
@@ -29,11 +29,10 @@ function ImageModal({ images, data, defaultImageUrl, visible, close }: ImageModa
         '& .MuiBackdrop-root': { backgroundColor: 'rgba(0, 0, 0, 0.8)' },
       }}
     >
-      <DialogTitle className={styles.imageModalTitleWrap}>
-        <Typography component="h2" variant="h6" className={styles.imageModalTitle}>
-          {data?.name.en}
-        </Typography>
-        <IconButton edge="end" color="inherit" onClick={close} aria-label="close" className={styles.closeIcon}>
+      <DialogTitle component="h2" variant="h6" className={styles.imageModalTitle}>
+        {data?.name.en}
+
+        <IconButton color="inherit" onClick={close} aria-label="close" className={styles.closeIcon}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>

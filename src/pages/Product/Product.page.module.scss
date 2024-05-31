@@ -85,6 +85,26 @@
   margin-bottom: 15px;
 }
 
+.variant-button-group {
+  display: flex;
+  padding: 10px 15px;
+  gap: 10px;
+  max-width: fit-content;
+}
+
+.variant-button {
+  color: white;
+  text-transform: capitalize;
+  text-shadow: rgb(0, 0, 0) 0 0 3px;
+}
+
+.selected-variant-button {
+  text-transform: capitalize;
+  pointer-events: none;
+  opacity: 0.5;
+  text-shadow: rgb(0, 0, 0) 0 1px 7px;
+}
+
 @media (max-width: 950px) {
   .image-short-info-container {
     flex-direction: column;
@@ -111,5 +131,20 @@
 @media (max-width: 700px) {
   .image-gallery-image {
     height: 400px;
+  }
+}
+
+@media (hover: hover) {
+  .image-gallery-container nav:hover {
+    cursor: default;
+  }
+
+  .image-gallery-container img:hover {
+    cursor: pointer;
+  }
+
+  .variant-button:hover {
+    border: 2px inset black;
+    text-shadow: rgb(0, 0, 0) 0 1px 5px;
   }
 }

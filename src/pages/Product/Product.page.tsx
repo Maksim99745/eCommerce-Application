@@ -1,10 +1,15 @@
 import { useGetProduct } from '@hooks/useGetProduct';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Box, Container, Stack, Typography } from '@mui/material';
+import { Box, Button, ButtonGroup, Container, Stack, Typography } from '@mui/material';
 import ReactImageGallery from 'react-image-gallery';
 import { useModalState } from '@hooks/useModalState';
 import ImageModal from '@pages/Product/components/ImageModal';
 import styles from '@pages/Product/Product.page.module.scss';
+import { useEffect, useState } from 'react';
+import { ProductVariant } from '@commercetools/platform-sdk';
+import { getColorAttribute } from '@utils/get-color-attribute-value';
+import { defaultProductImageUrl } from '@constants/products.const';
+import { imagesUrls } from '@utils/map-selected-product-images';
 import { generateProductObj } from './utils/generateProductObj';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
 
@@ -17,20 +22,30 @@ function ProductPage() {
       navigate('/404');
     },
   });
+  const [selectedVariant, setSelectedVariant] = useState(data?.masterVariant);
+
+  useEffect(() => {
+    if (data?.masterVariant) {
+      setSelectedVariant(data.masterVariant);
+    }
+  }, [data]);
+
+  const handleVariantClick = (variant: ProductVariant) => {
+    setSelectedVariant(variant);
+  };
 
   const productInfo = generateProductObj(data);
-
-  const defaultImageUrl = '/public/defaultImg.png';
-  const images = data?.masterVariant.images
-    ? [...data.masterVariant.images].map((image) => ({
-        original: image?.url || defaultImageUrl,
-        thumbnail: image?.url || defaultImageUrl,
-      }))
-    : [];
+  const images = imagesUrls(selectedVariant);
 
   return (
     <>
-      <ImageModal visible={visible} close={close} images={images} data={data} defaultImageUrl={defaultImageUrl} />
+      <ImageModal
+        visible={visible}
+        close={close}
+        images={images}
+        data={data}
+        defaultImageUrl={defaultProductImageUrl}
+      />
       <Stack className={styles.productPageContainer}>
         <Container className={styles.imageShortInfoContainer}>
           <Stack className={styles.imageGalleryContainer}>
@@ -40,15 +55,15 @@ function ProductPage() {
               showPlayButton={false}
               items={images}
               onClick={show}
-              onErrorImageURL={defaultImageUrl}
+              onErrorImageURL={defaultProductImageUrl}
               renderItem={(item) => (
-                <img src={item.original} alt={data?.name.en} className={styles.imageGalleryImage} />
+                <img src={item.original} alt={productInfo.productName} className={styles.imageGalleryImage} />
               )}
             />
           </Stack>
           <Stack className={styles.shortInfoContainer}>
             <Typography component="h1" className={styles.productPageTitle}>
-              {data?.name.en}
+              {productInfo.productName}
             </Typography>
             {(!!productInfo.discountedPrice && (
               <Typography component="p" className={styles.productPageInfo}>
@@ -76,14 +91,54 @@ function ProductPage() {
                 Material: <span className={styles.attributeValue}>{productInfo.material}</span>
               </Typography>
             )}
-            {!!productInfo.color && (
+            {!!selectedVariant && (
               <Typography component="p" className={styles.productPageInfo}>
-                Color: <span className={styles.attributeValue}>{productInfo.color}</span>
+                Color: <span className={styles.attributeValue}>{getColorAttribute(selectedVariant)}</span>
               </Typography>
             )}
-            <Typography component="p" className={styles.productPageInfo}>
-              Variants will be here later, if any
-            </Typography>
+            {!!data?.variants?.length && (
+              <ButtonGroup
+                variant="contained"
+                aria-label="Basic button group"
+                className={styles.variantButtonGroup}
+                sx={{
+                  '& .MuiButton-root': { border: '2px inset transparent' },
+                }}
+              >
+                <Button
+                  className={
+                    selectedVariant?.id === data?.masterVariant.id ? styles.selectedVariantButton : styles.variantButton
+                  }
+                  key={data?.masterVariant.id}
+                  variant="contained"
+                  onClick={() => handleVariantClick(data?.masterVariant)}
+                  sx={{
+                    backgroundColor: `${getColorAttribute(data?.masterVariant)}`,
+                    '&:hover': {
+                      backgroundColor: `${getColorAttribute(data?.masterVariant)}`,
+                    },
+                  }}
+                >
+                  {getColorAttribute(data?.masterVariant)}
+                </Button>
+                {data?.variants.map((variant) => (
+                  <Button
+                    key={variant.id}
+                    variant="contained"
+                    onClick={() => handleVariantClick(variant)}
+                    className={selectedVariant?.id === variant.id ? styles.selectedVariantButton : styles.variantButton}
+                    sx={{
+                      backgroundColor: getColorAttribute(variant),
+                      '&:hover': {
+                        backgroundColor: `${getColorAttribute(variant)}`,
+                      },
+                    }}
+                  >
+                    {getColorAttribute(variant)}
+                  </Button>
+                ))}
+              </ButtonGroup>
+            )}
             <Typography component="p" className={styles.productPageInfo}>
               Buttons &quot;Add to Cart&quot;/&quot;Remove from Cart&quot; 🛒 will be here later
             </Typography>
