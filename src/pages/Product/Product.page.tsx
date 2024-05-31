@@ -1,4 +1,5 @@
 import { useGetProduct } from '@hooks/useGetProduct';
+import useProduct from '@hooks/useProduct';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Button, ButtonGroup, Container, Stack, Typography } from '@mui/material';
 import ReactImageGallery from 'react-image-gallery';
@@ -17,18 +18,18 @@ function ProductPage() {
   const { productKey = '' } = useParams<'productKey'>();
   const navigate = useNavigate();
   const { close, visible, show } = useModalState();
-  const { data } = useGetProduct(productKey, {
-    onError: () => {
-      navigate('/404');
-    },
-  });
+  const { data } = useGetProduct(productKey, { onError: () => navigate('/404') });
+  const { setProduct, setProductLoading } = useProduct();
   const [selectedVariant, setSelectedVariant] = useState(data?.masterVariant);
 
   useEffect(() => {
+    setProductLoading(true);
+
     if (data?.masterVariant) {
+      setProduct(data);
       setSelectedVariant(data.masterVariant);
     }
-  }, [data]);
+  }, [data, setProduct, setProductLoading]);
 
   const handleVariantClick = (variant: ProductVariant) => {
     setSelectedVariant(variant);
