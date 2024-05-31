@@ -11,9 +11,10 @@ interface ImageModalProps {
   images: Array<{ original: string; thumbnail: string }>;
   data?: ProductData;
   defaultImageUrl: string;
+  clickedImageIndex: number;
 }
 
-function ImageModal({ images, data, defaultImageUrl, visible, close }: ImageModalProps) {
+function ImageModal({ images, data, defaultImageUrl, visible, close, clickedImageIndex }: ImageModalProps) {
   return (
     <Dialog
       className={styles.dialogContainer}
@@ -42,6 +43,7 @@ function ImageModal({ images, data, defaultImageUrl, visible, close }: ImageModa
           showFullscreenButton={false}
           showPlayButton={false}
           items={images}
+          startIndex={clickedImageIndex}
           onErrorImageURL={defaultImageUrl}
           renderItem={(item) => <img src={item.original} alt={data?.name.en} className={styles.modalGalleryImage} />}
         />
