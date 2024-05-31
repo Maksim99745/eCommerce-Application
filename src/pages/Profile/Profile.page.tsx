@@ -5,9 +5,9 @@ import { useSubmitPersonalFormData } from './hooks/useSubmitPersonalFormData';
 import PasswordFormComponent from './components/Password.component';
 import { useSubmitNewPasswordFormData } from './hooks/useSubmitNewPassword';
 import { ProfileAddressesForm } from './components/ProfileAddressesForm';
-import { useSubmitUpdateAddress } from './hooks/useSubmitAddresses';
 import { useSubmitRemoveAddress } from './hooks/useSubmitRemoveAddress';
 import { useSubmitAddAddress } from './hooks/useSubmitAddAddress';
+import { useSubmitUpdateAddress } from './hooks/useSubmitUpdateAddress';
 
 function ProfilePage() {
   const { user, isUserLoading } = useAuth();
