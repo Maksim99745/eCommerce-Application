@@ -1,7 +1,7 @@
 import { ProductData } from '@commercetools/platform-sdk';
 import { signal } from '@preact/signals-react';
 
-export const productSignal = signal<string | null | undefined>(undefined);
+export const productSignal = signal<ProductData | null | undefined>(undefined);
 const isProductLoadingSignal = signal<boolean>(false);
 
 export const setProductLoading = (isLoading: boolean) => {
@@ -9,7 +9,7 @@ export const setProductLoading = (isLoading: boolean) => {
 };
 
 export const setProduct = (newProduct: ProductData | null | undefined) => {
-  productSignal.value = newProduct?.name.en;
+  productSignal.value = newProduct;
   setProductLoading(false);
 };
 
