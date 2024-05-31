@@ -11,13 +11,18 @@ import { ProductListSkeletonComponent } from '@components/ProductList/ProductLis
 import { getAttributesFilter } from '@utils/get-attributes-filter';
 import { memo, useEffect, useState } from 'react';
 
-function ProductListComponent() {
+interface ProductListComponentProps {
+  query?: string;
+}
+
+function ProductListComponent({ query }: ProductListComponentProps) {
   const [hasMore, setHasMore] = useState(true);
   const [products, setProducts] = useState<ProductProjection[]>([]);
   const { category } = useCategory();
   const [filter, setFilter] = useState<ProductFilter>({
     offset: defaultProductsOffset,
     limit: defaultProductsLimit,
+    query,
     categoryId: category?.id,
   });
 
@@ -55,15 +60,16 @@ function ProductListComponent() {
     setFilter((prevFilter) => ({
       ...prevFilter,
       categoryId: category?.id,
+      query,
       offset: (prevFilter.offset || defaultProductsOffset) + defaultProductsLimit,
     }));
   });
 
   useEffect(() => {
     setProducts([]);
-    setFilter({ offset: defaultProductsOffset, limit: defaultProductsLimit, categoryId: category?.id });
+    setFilter({ offset: defaultProductsOffset, limit: defaultProductsLimit, categoryId: category?.id, query });
     setHasMore(false);
-  }, [category]);
+  }, [category, query]);
 
   return (
     <Stack>

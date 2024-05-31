@@ -20,6 +20,7 @@ export interface ProductFilter {
 }
 
 export interface GetProductsRequest {
+  query?: string;
   offset?: number;
   limit?: number;
   sort?: string;
