@@ -94,13 +94,14 @@ export class ApiService {
     filter,
     limit = defaultProductsLimit,
     offset = defaultProductsOffset,
+    sort,
     query,
   }: GetProductsRequest): Promise<ProductProjectionPagedSearchResponse> {
     return this.callRequest(
       this.builder
         .productProjections()
         .search()
-        .get({ queryArgs: { fuzzy: true, offset, limit, filter, 'text.en': query } }),
+        .get({ queryArgs: { fuzzy: true, offset, limit, filter, sort, 'text.en': query } }),
     );
   }
 

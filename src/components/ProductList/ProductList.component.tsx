@@ -67,15 +67,24 @@ function ProductListComponent({ query }: ProductListComponentProps) {
 
   useEffect(() => {
     setProducts([]);
-    setFilter({ offset: defaultProductsOffset, limit: defaultProductsLimit, categoryId: category?.id, query });
+    setFilter({
+      offset: defaultProductsOffset,
+      limit: defaultProductsLimit,
+      categoryId: category?.id,
+      query,
+    });
     setHasMore(false);
   }, [category, query]);
 
+  const handleFilterChange = useEventCallback((newFilter: ProductFilter) => {
+    setProducts([]);
+    setFilter((oldFilter) => ({ ...oldFilter, ...getAttributesFilter(newFilter), offset: defaultProductsOffset }));
+    setHasMore(false);
+  });
+
   return (
     <Stack>
-      <ProductListFilterComponent
-        onChange={(newFilter) => setFilter((oldFilter) => ({ ...oldFilter, ...getAttributesFilter(newFilter) }))}
-      />
+      <ProductListFilterComponent onChange={handleFilterChange} />
 
       {!products.length && (isLoading || isValidating) && <ProductListSkeletonComponent />}
       {!products.length && !(isLoading || isValidating) && (

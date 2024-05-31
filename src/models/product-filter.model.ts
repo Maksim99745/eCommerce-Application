@@ -1,3 +1,6 @@
+import { OrderBy, Ordering } from '@enums/ordering.enum';
+import { ReactNode } from 'react';
+
 export interface Range {
   min?: number | undefined;
   max?: number | undefined;
@@ -9,7 +12,7 @@ export interface ProductFilter {
   categoryId?: string;
   price?: Range;
   query?: string;
-  sort?: 'price_asc' | 'price_desc' | 'name_asc' | 'name_desc';
+  sort?: SortOptionValue;
   brands?: Array<string | undefined>;
   materials?: Array<string | undefined>;
   colors?: Array<string | undefined>;
@@ -20,5 +23,18 @@ export interface GetProductsRequest {
   query?: string;
   offset?: number;
   limit?: number;
+  sort?: string;
   filter?: string[];
+}
+
+export interface SortOptionValue {
+  orderBy?: OrderBy;
+  ordering?: Ordering;
+}
+
+export interface SortOption {
+  label: string;
+  key: string;
+  icon: ReactNode;
+  value: SortOptionValue;
 }

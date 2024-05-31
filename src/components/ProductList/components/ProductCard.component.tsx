@@ -42,7 +42,7 @@ export function ProductCardComponent({ product }: ProductCardComponentProps) {
   };
 
   return (
-    <Card sx={{ boxShadow: 3 }}>
+    <Card sx={{ boxShadow: 3, height: 550 }}>
       <CardActionArea sx={{ display: 'flex', flexDirection: 'column', gap: 1 }} onClick={handleGoToProduct}>
         <CardHeader
           title={

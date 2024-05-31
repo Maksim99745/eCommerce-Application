@@ -1,9 +1,15 @@
 import { priceAmount } from '@constants/products.const';
+import { OrderBy } from '@enums/ordering.enum';
 import { GetProductsRequest, ProductFilter } from '@models/product-filter.model';
 
 export const mapProductFilterToRequest = (productFilter: ProductFilter) => {
-  const { limit, offset, categoryId, price, countries, colors, brands, materials, query } = productFilter;
+  const { limit, offset, categoryId, price, countries, colors, brands, materials, sort, query } = productFilter;
   const request: GetProductsRequest = { limit, offset, filter: [] };
+
+  if (sort) {
+    const { orderBy, ordering } = sort;
+    request.sort = `${orderBy}${orderBy === OrderBy.Name ? '.en' : ''} ${ordering}`;
+  }
 
   if (query) {
     request.query = query;

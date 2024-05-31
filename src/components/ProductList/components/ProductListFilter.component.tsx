@@ -1,4 +1,5 @@
 import ColorMultiSelectComponent from '@components/ColorMultiSelect/ColorMultiSelect.component';
+import { ProductListSortComponent } from '@components/ProductList/components/ProductListSort.component';
 import RangeSliderComponent from '@components/RangeSlider/RangeSlider.component';
 import { defaultBrands, defaultCountries, defaultMaterials } from '@constants/attributes.const';
 import { defaultProductsFilter, maxPrice, minPrice, productCurrencyMap, stepPrice } from '@constants/products.const';
@@ -27,6 +28,12 @@ export function ProductListFilterComponent({ onChange }: ProductListFilterCompon
   return (
     <FormContainer<ProductFilter> formContext={formContext}>
       <Stack direction="row" gap={1} px={2} flexWrap="wrap" justifyContent="center">
+        <Controller
+          name="sort"
+          control={control}
+          render={({ field }) => <ProductListSortComponent onChange={field.onChange} />}
+        />
+
         <Stack direction="row" minWidth={300} width={300} gap={2} alignItems="center">
           <Chip label={`${minPrice} ${productCurrencyMap.EUR}`} variant="outlined" />
           <Controller
