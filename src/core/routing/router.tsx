@@ -18,6 +18,7 @@ import {
   NotFoundPage,
   ProfilePage,
   ProductPage,
+  SearchPage,
 } from './routing-pages';
 
 const initAuth = async (): Promise<void> => {
@@ -142,6 +143,14 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<PagePreloader />}>
             <ProductPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'search',
+        element: (
+          <Suspense fallback={<PagePreloader />}>
+            <SearchPage />
           </Suspense>
         ),
       },
