@@ -21,6 +21,7 @@ function ProductPage() {
   const { data } = useGetProduct(productKey, { onError: () => navigate('/404') });
   const { setProduct, setProductLoading } = useProduct();
   const [selectedVariant, setSelectedVariant] = useState(data?.masterVariant);
+  const [clickedImageIndex, setClickedImageIndex] = useState(0);
 
   useEffect(() => {
     setProductLoading(true);
@@ -35,6 +36,11 @@ function ProductPage() {
     setSelectedVariant(variant);
   };
 
+  const handleImageClick = (index: number) => {
+    setClickedImageIndex(index);
+    show();
+  };
+
   const productInfo = generateProductObj(data);
   const images = imagesUrls(selectedVariant);
 
@@ -46,6 +52,7 @@ function ProductPage() {
         images={images}
         data={data}
         defaultImageUrl={defaultProductImageUrl}
+        clickedImageIndex={clickedImageIndex}
       />
       <Stack className={styles.productPageContainer}>
         <Container className={styles.imageShortInfoContainer}>
@@ -55,7 +62,12 @@ function ProductPage() {
               showFullscreenButton={false}
               showPlayButton={false}
               items={images}
-              onClick={show}
+              onClick={(e) => {
+                // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+                const imgElement = e.target as HTMLImageElement;
+                const clickedIndex = images.findIndex((img) => img.original === imgElement.src);
+                handleImageClick(clickedIndex);
+              }}
               onErrorImageURL={defaultProductImageUrl}
               renderItem={(item) => (
                 <img src={item.original} alt={productInfo.productName} className={styles.imageGalleryImage} />
