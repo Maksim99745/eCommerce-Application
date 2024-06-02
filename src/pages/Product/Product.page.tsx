@@ -38,8 +38,8 @@ function ProductPage() {
   };
 
   const handleImageClick = () => {
-    const currentIndex = imageGalleryRef.current?.getCurrentIndex() ?? 0;
-    setClickedImageIndex(currentIndex);
+    const selectedImageIndex = imageGalleryRef.current?.getCurrentIndex() ?? 0;
+    setClickedImageIndex(selectedImageIndex);
     show();
   };
 
