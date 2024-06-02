@@ -6,7 +6,7 @@ import ReactImageGallery from 'react-image-gallery';
 import { useModalState } from '@hooks/useModalState';
 import ImageModal from '@pages/Product/components/ImageModal';
 import styles from '@pages/Product/Product.page.module.scss';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { ProductVariant } from '@commercetools/platform-sdk';
 import { getColorAttribute } from '@utils/get-color-attribute-value';
 import { defaultProductImageUrl } from '@constants/products.const';
@@ -21,6 +21,8 @@ function ProductPage() {
   const { data } = useGetProduct(productKey, { onError: () => navigate('/404') });
   const { setProduct, setProductLoading } = useProduct();
   const [selectedVariant, setSelectedVariant] = useState(data?.masterVariant);
+  const [clickedImageIndex, setClickedImageIndex] = useState(0);
+  const imageGalleryRef = useRef<ReactImageGallery>(null);
 
   useEffect(() => {
     setProductLoading(true);
@@ -35,6 +37,12 @@ function ProductPage() {
     setSelectedVariant(variant);
   };
 
+  const handleImageClick = () => {
+    const selectedImageIndex = imageGalleryRef.current?.getCurrentIndex() ?? 0;
+    setClickedImageIndex(selectedImageIndex);
+    show();
+  };
+
   const productInfo = generateProductObj(data);
   const images = imagesUrls(selectedVariant);
 
@@ -46,16 +54,18 @@ function ProductPage() {
         images={images}
         data={data}
         defaultImageUrl={defaultProductImageUrl}
+        clickedImageIndex={clickedImageIndex}
       />
       <Stack className={styles.productPageContainer}>
         <Container className={styles.imageShortInfoContainer}>
           <Stack className={styles.imageGalleryContainer}>
             <ReactImageGallery
+              ref={imageGalleryRef}
               showThumbnails={images.length > 1}
               showFullscreenButton={false}
               showPlayButton={false}
               items={images}
-              onClick={show}
+              onClick={handleImageClick}
               onErrorImageURL={defaultProductImageUrl}
               renderItem={(item) => (
                 <img src={item.original} alt={productInfo.productName} className={styles.imageGalleryImage} />
