@@ -8,6 +8,8 @@ import { ProfileAddressesForm } from './components/ProfileAddressesForm';
 import { useSubmitRemoveAddress } from './hooks/useSubmitRemoveAddress';
 import { useSubmitAddAddress } from './hooks/useSubmitAddAddress';
 import { useSubmitUpdateAddress } from './hooks/useSubmitUpdateAddress';
+import { DefaultAddressesForm } from './components/DefaultAddressesForm.compnent';
+import { useSubmitDefaultAddresses } from './hooks/useSubmitDefaultAddresses';
 
 function ProfilePage() {
   const { user, isUserLoading } = useAuth();
@@ -17,6 +19,7 @@ function ProfilePage() {
   const handleAddressesAddSubmit = useSubmitAddAddress();
   const handleRemoveSubmit = useSubmitRemoveAddress();
   const handleUpdateSubmit = useSubmitUpdateAddress();
+  const handleChangeDefaultAddresses = useSubmitDefaultAddresses();
 
   if (!user) {
     return null;
@@ -32,6 +35,11 @@ function ProfilePage() {
         onSubmitAdd={handleAddressesAddSubmit}
         onSubmitRemove={handleRemoveSubmit}
         onSubmitUpdate={handleUpdateSubmit}
+      />
+      <DefaultAddressesForm
+        userData={user}
+        isLoading={isUserLoading}
+        onSubmitDefaultAddresses={handleChangeDefaultAddresses}
       />
     </Stack>
   );

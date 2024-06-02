@@ -6,10 +6,17 @@ import { RegistrationErrorMessages } from './user-registration.enum';
 import { CITY_REGEX, MIN_AGE, postalValidationRegEx } from './user-registration.const';
 
 const hasFieldValue = (field: string) => z.string().regex(/.+/).safeParse(field).success;
+
 const getAddressFieldIssue = (field: string, index: number, message: string) => ({
   code: z.ZodIssueCode.custom,
   message,
   path: ['addresses', index, field],
+});
+
+const getParticularAddressIssue = (field: string, message: string) => ({
+  code: z.ZodIssueCode.custom,
+  message,
+  path: [field],
 });
 
 const validateCountry = (address: AddressInformationFormData, index: number, context: z.RefinementCtx) => {
@@ -48,6 +55,13 @@ const validatePostalCode = (addresses: AddressInformationFormData[], index: numb
   if (!postalCodeTestReg.test(address.postalCode)) {
     const message = `${RegistrationErrorMessages.PostalCodeInvalid}: ${getCountryLabelByCode(address.country)}`;
     context.addIssue(getAddressFieldIssue('postalCode', index, message));
+  }
+};
+// TODO: remove error when 1 is okey
+export const validateAddressType = (address: AddressInformationFormData, context: z.RefinementCtx) => {
+  if (!address.isBilling && !address.isShipping) {
+    context.addIssue(getParticularAddressIssue('isBilling', RegistrationErrorMessages.AddressTypeRequired));
+    context.addIssue(getParticularAddressIssue('isShipping', RegistrationErrorMessages.AddressTypeRequired));
   }
 };
 

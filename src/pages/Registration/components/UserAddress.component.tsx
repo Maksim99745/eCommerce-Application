@@ -26,6 +26,7 @@ export function UserAddressComponent({
         label="Country"
         name={`addresses.${addressIndex}.country`}
         options={countriesOptions}
+        InputLabelProps={{ shrink: true }}
         helperText=" "
         required
         fullWidth

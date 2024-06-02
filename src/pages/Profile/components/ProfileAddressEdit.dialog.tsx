@@ -1,4 +1,14 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, useEventCallback } from '@mui/material';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Stack,
+  Typography,
+  useEventCallback,
+} from '@mui/material';
 import { useModalState } from '@hooks/useModalState';
 import { ProfileAddressesFormData, ProfileAddressFormData } from '@models/forms.model';
 import { CheckboxElement, useFormContext, useWatch } from 'react-hook-form-mui';
@@ -7,6 +17,7 @@ import ErrorIcon from '@mui/icons-material/Error';
 import { ElementType } from 'react';
 
 export interface ProfileAddressEditDialogProps {
+  isNewAddress: boolean;
   openControl: ElementType;
   addressIndex: number;
   disabled?: boolean;
@@ -14,6 +25,7 @@ export interface ProfileAddressEditDialogProps {
 }
 
 export function ProfileAddressEditDialog({
+  isNewAddress,
   addressIndex,
   openControl: OpenControl,
   onSubmit,
@@ -37,18 +49,22 @@ export function ProfileAddressEditDialog({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
+        <DialogTitle id="alert-dialog-title" alignSelf="center">
           {!!formState?.errors?.addresses?.[addressIndex] && <ErrorIcon color="error" />}
-          Add new address
+          {isNewAddress ? 'Add new address' : 'Update address'}
         </DialogTitle>
         <DialogContent>
           <UserAddressComponent
             addressIndex={addressIndex}
-            // TODO move those checkboxes usage in edit mode of modal
             title={
-              <Stack direction="row" alignItems="center">
-                <CheckboxElement name={`addresses.${addressIndex}.isShipping`} label="Shipping" />
-                <CheckboxElement name={`addresses.${addressIndex}.isBilling`} label="Billing" />
+              <Stack>
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                  Select address type
+                </Typography>
+                <Stack alignContent="center">
+                  <CheckboxElement name={`addresses.${addressIndex}.isShipping`} label="* Shipping" helperText=" " />
+                  <CheckboxElement name={`addresses.${addressIndex}.isBilling`} label="* Billing" helperText=" " />
+                </Stack>
               </Stack>
             }
             onCountryChange={() => trigger(`addresses.${addressIndex}.postalCode`)}

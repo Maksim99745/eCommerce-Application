@@ -30,14 +30,24 @@ export const useAddressRenderOptions = (addressType: AddressType) =>
     [addressType],
   );
 
+export const getDefaultAddressIndex = (addressType: AddressType, userData: Customer): number => {
+  const addressId = addressType === 'shipping' ? userData.defaultShippingAddressId : userData.defaultBillingAddressId;
+  if (!addressId) {
+    return NO_IDX;
+  }
+  const searchingAddress = userData.addresses.find((address) => address.id === addressId);
+  const addressIDX = searchingAddress !== undefined ? userData.addresses.indexOf(searchingAddress) : NO_IDX;
+  return addressIDX;
+};
+
 export const getNewUserProfileAddress = (): ProfileAddressFormData => ({
   addressUID: crypto.randomUUID(),
   country: defaultCountryOption.id,
   city: '',
   postalCode: '',
   streetName: '',
-  isBilling: false,
-  isShipping: false,
+  isBilling: true,
+  isShipping: true,
   isNewAddress: true,
 });
 

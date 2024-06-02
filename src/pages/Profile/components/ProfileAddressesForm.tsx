@@ -65,7 +65,7 @@ export function ProfileAddressesForm({
     control,
     name: 'addresses',
   });
-  // It does n't rerender without it
+
   useEffect(() => {
     reset(getCustomerProfileAddresses(userData));
   }, [userData, reset]);
@@ -103,10 +103,11 @@ export function ProfileAddressesForm({
           </Stack>
           <Stack spacing={0} direction="column" sx={{ overflowX: 'auto' }}>
             {fields.map((address, index) => (
-              <Stack key={address.id} width={1} direction="row" sx={{ overflow: 'hidden', mt: 2 }}>
+              <Stack key={address.id} width={1} direction="row" sx={{ overflow: 'hidden', mt: 2, mb: 1 }}>
                 <AddressTypeRenderer address={address} sx={{ mr: 2 }} />
                 <AddressStringRenderer address={address} />
                 <ProfileAddressEditDialog
+                  isNewAddress={address.isNewAddress}
                   openControl={EditAddressLine}
                   addressIndex={index}
                   disabled={isBusy || isLoading}
@@ -132,40 +133,6 @@ export function ProfileAddressesForm({
               Add new address
             </Button>
           )}
-          {/* TODO - move them usages to the separate form (edit/cancel/save), similar to password and/or Personal info */}
-          {/* <Grid container item sx={{ pt: 2 }} spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1, md: 2 }} maxWidth="85vw"> */}
-          {/*  <Grid item xs={2}> */}
-          {/*    <FormLabel sx={{ pb: 1 }}>Default addresses</FormLabel> */}
-          {/*  </Grid> */}
-          {/*  <Grid item xs={1}> */}
-          {/*    <SelectElement<ProfileAddressesFormData> */}
-          {/*      label="Default shipping address" */}
-          {/*      name="defaultShippingAddressIdx" */}
-          {/*      options={getShippingAddressOptions(currentAddresses)} */}
-          {/*      helperText=" " */}
-          {/*      required */}
-          {/*      disabled={isBusy || isReadonly} */}
-          {/*      InputProps={{ */}
-          {/*        readOnly: isReadonly, */}
-          {/*      }} */}
-          {/*      fullWidth */}
-          {/*    /> */}
-          {/*  </Grid> */}
-          {/*  <Grid item xs={1}> */}
-          {/*    <SelectElement<ProfileAddressesFormData> */}
-          {/*      label="Default billing address" */}
-          {/*      name="defaultBillingAddressIdx" */}
-          {/*      options={getBillingAddressOptions(currentAddresses)} */}
-          {/*      helperText=" " */}
-          {/*      required */}
-          {/*      disabled={isBusy || isReadonly} */}
-          {/*      InputProps={{ */}
-          {/*        readOnly: isReadonly, */}
-          {/*      }} */}
-          {/*      fullWidth */}
-          {/*    /> */}
-          {/*  </Grid> */}
-          {/* </Grid> */}
         </Paper>
       </FormContainer>
     </Container>
