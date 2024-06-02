@@ -80,13 +80,13 @@ export function DefaultAddressesForm({
 
   return (
     <Container maxWidth="md">
-      <Paper elevation={1} sx={{ p: '2vh 3%', width: '100%', mt: 2 }}>
+      <Paper elevation={1} sx={{ p: '1vh 3%', width: '100%', mt: 2 }}>
         <FormProvider<DefaultAddressesInformationFormData> {...formContext}>
           <form onSubmit={handleSubmit(performSave)}>
-            <Grid container item sx={{ pt: 2 }} spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1, md: 2 }} maxWidth="85vw">
+            <Grid container item sx={{ pt: 3 }} spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1, md: 2 }} maxWidth="85vw">
               <Grid item xs={2}>
-                <Stack direction="row" spacing="auto" sx={{ mb: 3 }} alignItems="start">
-                  <Typography variant="h5" gutterBottom>
+                <Stack spacing={2} direction="row" justifyContent="space-between" alignItems="start">
+                  <Typography variant="h5" gutterBottom sx={{ mb: 2 }}>
                     Default addresses
                   </Typography>
                   <EditableFormActionsBar
@@ -121,52 +121,6 @@ export function DefaultAddressesForm({
                 />
               </Grid>
             </Grid>
-            {/* <FormProvider<ProfileAddressFormData> {...formContext}>
-          <Grid container item sx={{ pt: 2 }} spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1, md: 2 }} maxWidth="85vw">
-            <Grid item xs={2}>
-              <Stack direction="row" spacing="auto" sx={{ mb: 3 }} alignItems="start">
-                <Typography variant="h5" gutterBottom>
-                  Default addresses
-                </Typography>
-                <EditableFormActionsBar
-                  mode={viewMode}
-                  onAction={handleFormModeAction}
-                  isLoading={isBusy}
-                  disabled={isBusy}
-                />
-              </Stack>
-            </Grid>
-
-            <Grid item xs={1}>
-              <SelectElement<ProfileAddressFormData>
-                label="Default shipping address"
-                name="defaultShippingAddressId"
-                options={getShippingAddressOptions(currentAddresses)}
-                helperText=" "
-                required
-                disabled={isBusy || readOnlyMode}
-                InputProps={{
-                  readOnly: readOnlyMode,
-                }}
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={1}>
-              <SelectElement<ProfileAddressFormData>
-                label="Default billing address"
-                name="defaultBillingAddressId"
-                options={getBillingAddressOptions(currentAddresses)}
-                helperText=" "
-                required
-                disabled={isBusy || readOnlyMode}
-                InputProps={{
-                  readOnly: readOnlyMode,
-                }}
-                fullWidth
-              />
-            </Grid>
-          </Grid> */}
-            {/* </FormProvider> */}
           </form>
         </FormProvider>
       </Paper>
