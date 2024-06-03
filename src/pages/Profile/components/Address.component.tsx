@@ -33,9 +33,6 @@ export function AddressComponent({ country, city, streetName, postalCode }: Addr
             name="country"
             options={countriesOptions}
             fullWidth
-            // InputProps={{
-            //   readOnly: true,
-            // }}
             InputLabelProps={{ shrink: true }}
           />
         </Grid>

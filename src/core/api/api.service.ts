@@ -18,7 +18,7 @@ import { ClientType } from '@core/api/client-type.enum';
 import { getRequestBuilder } from '@core/api/get-builder.util';
 import { tokenCache } from '@core/api/token-cache.service';
 import { GetProductsRequest } from '@models/product-filter.model';
-import { NewPasswordRequestData } from '@pages/Profile/components/useSubmitNewPassword';
+import { NewPasswordRequestData } from '@pages/Profile/hooks/useSubmitNewPassword';
 
 export class ApiService {
   private builder!: ByProjectKeyRequestBuilder;

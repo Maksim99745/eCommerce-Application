@@ -4,12 +4,7 @@ import utc from 'dayjs/plugin/utc';
 import { loginFormSchema } from '@core/validation/user-login/user-login.schema';
 import { RegistrationErrorMessages } from './user-registration.enum';
 import { validateAddress, validateBirthDay, validateBirthDayByAge } from './user-registration.validation';
-import {
-  BILLING_ADDRESS_IDX,
-  ISO_DATE_LENGTH,
-  NAME_SURNAME_REGEX,
-  SHIPPING_ADDRESS_IDX,
-} from './user-registration.const';
+import { BILLING_ADDRESS_IDX, NAME_SURNAME_REGEX, SHIPPING_ADDRESS_IDX } from './user-registration.const';
 
 dayjs.extend(utc);
 
@@ -30,7 +25,10 @@ export const birthDateSchema = z
     (date) => (validateBirthDay(dayjs.utc(date)) ? validateBirthDayByAge(dayjs.utc(date).toISOString()) : false),
     RegistrationErrorMessages.BirthDateAge,
   )
-  .transform((value) => dayjs.utc(value).toISOString().substring(0, ISO_DATE_LENGTH));
+  .transform((value) => {
+    const transformedDate = dayjs.utc(value).local().format('YYYY-MM-DD');
+    return transformedDate;
+  });
 
 export const addressSchema = z.object({
   country: z.string(),

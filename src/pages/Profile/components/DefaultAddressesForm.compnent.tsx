@@ -82,7 +82,7 @@ export function DefaultAddressesForm({
       <Paper elevation={1} sx={{ p: '1vh 3%', width: '100%', mt: 2 }}>
         <FormProvider<DefaultAddressesInformationFormData> {...formContext}>
           <form onSubmit={handleSubmit(performSave)}>
-            <Grid container item sx={{ pt: 3 }} spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1, md: 2 }} maxWidth="85vw">
+            <Grid container item sx={{ pt: 2 }} spacing={{ xs: 1, sm: 2 }} columns={{ xs: 1, md: 2 }}>
               <Grid item xs={2}>
                 <Stack spacing={2} direction="row" justifyContent="space-between" alignItems="start">
                   <Typography variant="h5" gutterBottom sx={{ mb: 2 }}>
