@@ -61,7 +61,17 @@ function HeaderComponent({ handleDrawerToggle, isDrawerOpen }: HeaderProps) {
           </Button>
         </Stack>
         <SearchComponent />
-
+        <Button
+          sx={{ borderRadius: 4, textTransform: 'none', display: { xs: 'none', sm: 'flex' } }}
+          component={Link}
+          to="/catalog"
+          size="medium"
+          variant="contained"
+        >
+          <Typography variant="h6" noWrap sx={{ fontSize: '16px' }}>
+            Catalog
+          </Typography>
+        </Button>
         <HeaderActionsComponent />
       </Toolbar>
     </AppBar>

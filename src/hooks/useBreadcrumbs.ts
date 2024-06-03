@@ -22,6 +22,11 @@ export const useBreadcrumbs = () => {
       i += 1;
     }
 
+    if (paths[i] === 'catalog') {
+      breadcrumb.label = 'catalog' || '...';
+      i += 1;
+    }
+
     if (paths[i] === 'products') {
       breadcrumb.label = isProductLoading || !product?.name.en ? '...' : product.name.en;
       i += 1;
