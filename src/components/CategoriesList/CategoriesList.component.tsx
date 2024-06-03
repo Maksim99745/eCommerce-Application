@@ -2,7 +2,7 @@ import { CategoriesListSkeletonComponent } from '@components/CategoriesList/Cate
 import { POPULAR_CATEGORY } from '@constants/categories.const';
 import useCategory from '@hooks/useCategory';
 import { useGetCategories } from '@hooks/useGetCategories';
-import { List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { Button, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 
@@ -31,7 +31,29 @@ export function CategoriesListComponent({ onSelectCategory }: CategoryListProps)
     <>
       {error && <p>Error: {String(error)}</p>}
       {isLoading && <CategoriesListSkeletonComponent />}
-
+      <Button
+        sx={{ borderRadius: 4, textTransform: 'none', display: { xs: 'flex', sm: 'none' } }}
+        component={Link}
+        to="/catalog"
+        size="medium"
+        variant="text"
+      >
+        <Typography
+          variant="h6"
+          noWrap
+          sx={{
+            fontSize: '16px',
+            textAlign: 'left',
+            width: '100%',
+            pl: '8px',
+            pt: '16px',
+            color: '#000000DE',
+            fontWeight: '600',
+          }}
+        >
+          Catalog
+        </Typography>
+      </Button>
       {categories && (
         <List>
           {categories.results

@@ -154,6 +154,14 @@ export const router = createBrowserRouter([
           </Suspense>
         ),
       },
+      {
+        path: 'catalog',
+        element: (
+          <Suspense fallback={<PagePreloader />}>
+            <CatalogPage />
+          </Suspense>
+        ),
+      },
     ],
   },
   {
