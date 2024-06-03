@@ -29,9 +29,15 @@ export type UserAddressesFormProps = {
 
 function RemoveAddressLine(props: ButtonProps) {
   return (
-    <Button variant="contained" {...props}>
+    <Button
+      variant="contained"
+      color="primary"
+      sx={{ textTransform: 'none', width: 'fit-content' }}
+      size="small"
+      {...props}
+    >
       <DeleteIcon sx={{ mr: 1 }} />
-      Remove
+      REMOVE
     </Button>
   );
 }

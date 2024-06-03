@@ -52,7 +52,9 @@ export function ProfileAddressEditDialog({
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title" alignSelf="center">
-          {!!formState?.errors?.addresses?.[addressIndex] && <ErrorIcon color="error" />}
+          {!!formState?.errors?.addresses?.[addressIndex] && (
+            <ErrorIcon color="error" sx={{ mr: 1, position: 'absolute', right: '70%' }} />
+          )}
           {isNewAddress ? 'Add new address' : 'Update address'}
         </DialogTitle>
         <DialogContent>
