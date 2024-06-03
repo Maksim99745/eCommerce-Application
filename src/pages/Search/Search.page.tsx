@@ -12,7 +12,7 @@ function SearchPage() {
         Search: {query}
       </Typography>
 
-      <ProductListComponent query={query} />
+      <ProductListComponent query={query} productPath="/" />
     </Paper>
   );
 }

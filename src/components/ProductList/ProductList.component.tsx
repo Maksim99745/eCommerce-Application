@@ -13,9 +13,10 @@ import { memo, useEffect, useState } from 'react';
 
 interface ProductListComponentProps {
   query?: string;
+  productPath?: string;
 }
 
-function ProductListComponent({ query }: ProductListComponentProps) {
+function ProductListComponent({ query, productPath = '' }: ProductListComponentProps) {
   const [hasMore, setHasMore] = useState(true);
   const [products, setProducts] = useState<ProductProjection[]>([]);
   const { category } = useCategory();
@@ -97,7 +98,7 @@ function ProductListComponent({ query }: ProductListComponentProps) {
         <Grid container gap={4} columns={3} justifyContent="center" sx={{ p: 2 }}>
           {products.map((product) => (
             <Grid item key={product.id} sx={{ width: '100%', maxWidth: 400 }}>
-              <ProductCardComponent product={product} />
+              <ProductCardComponent product={product} productPath={productPath} />
             </Grid>
           ))}
 

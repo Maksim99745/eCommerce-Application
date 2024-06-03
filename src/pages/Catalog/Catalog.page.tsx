@@ -1,3 +1,4 @@
+import { POPULAR_CATEGORY } from '@constants/categories.const';
 import useCategory from '@hooks/useCategory';
 import { Box, Container, Paper, Stack, Typography } from '@mui/material';
 import ProductListComponent from '@components/ProductList/ProductList.component';
@@ -5,6 +6,9 @@ import { CatalogPageSkeleton } from '@pages/Catalog/Catalog.page.skeleton';
 
 function CatalogPage() {
   const { category, isCategoryLoading } = useCategory();
+
+  const isPopular = category?.key === POPULAR_CATEGORY;
+  const productPath = isPopular ? '/' : './';
 
   if (isCategoryLoading) {
     return <CatalogPageSkeleton />;
@@ -41,7 +45,7 @@ function CatalogPage() {
         </Box>
 
         <Paper elevation={1} sx={{ p: 0, width: '100%', flex: 1 }}>
-          <ProductListComponent />
+          <ProductListComponent productPath={productPath} />
         </Paper>
       </Stack>
     </Container>
