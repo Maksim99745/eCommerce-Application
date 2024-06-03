@@ -33,7 +33,7 @@ export function ProfileAddressEditDialog({
 }: ProfileAddressEditDialogProps) {
   const { visible, show, close } = useModalState();
 
-  const { trigger, control, formState, watch } = useFormContext<ProfileAddressesFormData>();
+  const { trigger, control, formState } = useFormContext<ProfileAddressesFormData>();
   const currentAddress = useWatch({ control, name: `addresses.${addressIndex}` });
   const handleSubmitAddress = useEventCallback(() => {
     close();
@@ -67,11 +67,13 @@ export function ProfileAddressEditDialog({
                   <CheckboxElement
                     name={`addresses.${addressIndex}.isShipping`}
                     label="* Shipping"
+                    helperText=" "
                     onChange={() => trigger(`addresses.${addressIndex}.isBilling`)}
                   />
                   <CheckboxElement
                     name={`addresses.${addressIndex}.isBilling`}
                     label="* Billing"
+                    helperText=" "
                     onChange={() => trigger(`addresses.${addressIndex}.isShipping`)}
                   />
                 </Stack>

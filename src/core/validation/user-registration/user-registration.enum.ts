@@ -14,5 +14,5 @@ export enum RegistrationErrorMessages {
   CountryRequired = 'Country is required',
   PostalCodeRequired = 'Postal code is required',
   PostalCodeInvalid = 'Invalid post code for country',
-  AddressTypeRequired = 'At least one must be selected.',
+  AddressTypeRequired = 'At least one address type must be selected.',
 }
