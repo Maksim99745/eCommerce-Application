@@ -15,6 +15,7 @@ export const productCurrencyMap: Record<string, string> = {
 };
 
 export const defaultProductsFilter: ProductFilter = {
+  sort: undefined,
   price: { min: minPrice, max: maxPrice },
   brands: [],
   materials: [],
