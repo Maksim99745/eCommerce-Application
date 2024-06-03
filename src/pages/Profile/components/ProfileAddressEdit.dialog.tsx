@@ -16,6 +16,7 @@ import { CheckboxElement, useFormContext, useWatch } from 'react-hook-form-mui';
 import { UserAddressComponent } from '@pages/Registration/components/UserAddress.component';
 import ErrorIcon from '@mui/icons-material/Error';
 import { ElementType } from 'react';
+import { RegistrationErrorMessages } from '@core/validation/user-registration/user-registration.enum';
 
 export interface ProfileAddressEditDialogProps {
   isNewAddress: boolean;
@@ -75,7 +76,7 @@ export function ProfileAddressEditDialog({
                   <CheckboxElement name={`addresses.${addressIndex}.isShipping`} label="* Shipping" />
                   <CheckboxElement name={`addresses.${addressIndex}.isBilling`} label="* Billing" />
                   {!watchIsShipping && !watchIsBilling ? (
-                    <FormHelperText error>At least one address type must be selected.</FormHelperText>
+                    <FormHelperText error>{RegistrationErrorMessages.AddressTypeRequired}</FormHelperText>
                   ) : (
                     <FormHelperText error> </FormHelperText>
                   )}
