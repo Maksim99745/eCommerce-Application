@@ -38,7 +38,6 @@ export function DefaultAddressesForm({
   const isBusy = isLoading || isSaving;
 
   const formContext = useForm<DefaultAddressesInformationFormData>({
-    // TODO: check if it's needed to pass real id's because in registration page we passing indexes here we should sending id's;
     defaultValues: {
       defaultBillingAddressIdx: getDefaultAddressIndex('billing', userData),
       defaultShippingAddressIdx: getDefaultAddressIndex('shipping', userData),
