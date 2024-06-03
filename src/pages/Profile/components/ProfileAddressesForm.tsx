@@ -29,14 +29,8 @@ export type UserAddressesFormProps = {
 
 function RemoveAddressLine(props: ButtonProps) {
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      sx={{ textTransform: 'none', width: 'fit-content' }}
-      size="small"
-      {...props}
-    >
-      <DeleteIcon sx={{ mr: 1 }} />
+    <Button variant="contained" color="primary" sx={{ textTransform: 'none', mr: '10px' }} size="small" {...props}>
+      <DeleteIcon sx={{ mr: 1, display: { xs: 'none', md: 'block' } }} />
       REMOVE
     </Button>
   );
@@ -99,9 +93,9 @@ export function ProfileAddressesForm({
   });
 
   return (
-    <Container maxWidth="md">
-      <FormContainer formContext={formContext}>
-        <Paper elevation={1} sx={{ p: '2vh 3%', width: '100%' }}>
+    <Container maxWidth="md" sx={{ maxWidth: { xs: '100%', sm: '100%' } }}>
+      <Paper elevation={1} sx={{ p: '2vh 3%', maxWidth: '100%' }}>
+        <FormContainer formContext={formContext}>
           <Stack spacing={2} direction="row" justifyContent="space-between" alignItems="start">
             <Typography variant="h5" gutterBottom sx={{ mb: 2 }}>
               Addresses information
@@ -109,7 +103,12 @@ export function ProfileAddressesForm({
           </Stack>
           <Stack spacing={0} direction="column" sx={{ overflowX: 'auto' }}>
             {fields.map((address, index) => (
-              <Stack key={address.id} width={1} direction="row" sx={{ overflow: 'hidden', mt: 2, mb: 1 }}>
+              <Stack
+                key={address.id}
+                width={1}
+                direction="row"
+                sx={{ overflow: 'hidden', mt: 2, mb: 1, alignItems: 'start' }}
+              >
                 <AddressTypeRenderer address={address} sx={{ mr: 2 }} />
                 <AddressStringRenderer address={address} />
                 <ProfileAddressEditDialog
@@ -139,8 +138,8 @@ export function ProfileAddressesForm({
               Add new address
             </Button>
           )}
-        </Paper>
-      </FormContainer>
+        </FormContainer>
+      </Paper>
     </Container>
   );
 }

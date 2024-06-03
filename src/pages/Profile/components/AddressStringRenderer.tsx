@@ -9,7 +9,7 @@ export interface AddressStringRendererProps {
 }
 export function AddressStringRenderer({ address, sx = {} }: AddressStringRendererProps) {
   return (
-    <Typography sx={{ textWrap: 'pretty', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', ...sx }}>
+    <Typography sx={{ textWrap: 'pretty', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'balance', ...sx }}>
       {toAddressString(address)}
     </Typography>
   );
