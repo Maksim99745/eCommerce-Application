@@ -5,11 +5,8 @@
   object-fit: contain;
 }
 
-.image-modal-title-wrap {
-  position: relative;
-}
-
 .image-modal-title {
+  position: relative;
   padding: 15px;
   text-align: center;
   white-space: nowrap;
@@ -26,5 +23,15 @@
 @media (max-width: 700px) {
   .modal-gallery-image {
     height: 400px;
+  }
+}
+
+@media (hover: hover) {
+  .dialog-content nav:hover {
+    cursor: default;
+  }
+
+  .dialog-content img:hover {
+    cursor: pointer;
   }
 }

@@ -1,6 +1,8 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
 import CounterComponent from '@components/Counter/Counter.component';
+import { POPULAR_CATEGORY } from '@constants/categories.const';
 import { productCurrencyMap } from '@constants/products.const';
+import useCategory from '@hooks/useCategory';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import {
   Card,
@@ -23,6 +25,7 @@ interface ProductCardComponentProps {
 
 export function ProductCardComponent({ product }: ProductCardComponentProps) {
   const navigate = useNavigate();
+  const { category } = useCategory();
   const { name, image, price, discounted, currency, description } = mapProductToProductCard(product);
 
   const handleAddToCart = () => {
@@ -34,11 +37,12 @@ export function ProductCardComponent({ product }: ProductCardComponentProps) {
   };
 
   const handleGoToProduct = () => {
-    navigate(`products/${product.key}`);
+    const noCategory = !category || category.key === POPULAR_CATEGORY;
+    navigate(`${noCategory ? '/' : ''}products/${product.key}`);
   };
 
   return (
-    <Card sx={{ boxShadow: 3 }}>
+    <Card sx={{ boxShadow: 3, height: 550 }}>
       <CardActionArea sx={{ display: 'flex', flexDirection: 'column', gap: 1 }} onClick={handleGoToProduct}>
         <CardHeader
           title={

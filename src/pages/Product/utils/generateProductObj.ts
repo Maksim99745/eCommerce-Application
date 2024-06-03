@@ -4,6 +4,7 @@ import { priceAmount, productCurrencyMap } from '@constants/products.const';
 export function generateProductObj(data: ProductData | undefined): Record<string, string> {
   const productInfo: Record<string, string> = {};
 
+  productInfo.productName = data?.name.en || '';
   if (data?.masterVariant?.attributes) {
     data.masterVariant.attributes.forEach((attribute) => {
       productInfo[attribute.name] = String(attribute.value);

@@ -1,6 +1,7 @@
 import { AppBar, Avatar, Button, IconButton, keyframes, Stack, styled, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import { SearchComponent } from '@pages/Layout/components/Search/Search.component';
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import HeaderActionsComponent from '../HeaderActions/HeaderActions.component';
@@ -31,8 +32,8 @@ const AnimatedIcon = styled('div')(() => ({
 function HeaderComponent({ handleDrawerToggle, isDrawerOpen }: HeaderProps) {
   return (
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Stack direction="row" spacing={1}>
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
+        <Stack direction="row" gap={1}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -46,15 +47,20 @@ function HeaderComponent({ handleDrawerToggle, isDrawerOpen }: HeaderProps) {
           <Button
             component={Link}
             to="/"
-            sx={{ display: 'flex', gap: '10px', color: 'inherit', textTransform: 'none', p: 0 }}
+            sx={{ display: 'flex', gap: '10px', color: 'inherit', textTransform: 'none', p: 0, minWidth: 40 }}
             variant="text"
           >
             <Avatar alt="Logo" src="/logo.webp" sx={{ width: 30, height: 30, borderRadius: 0 }} />
-            <Typography sx={{ fontSize: '1.2rem', fontWeight: 600 }} variant="h1" noWrap>
+            <Typography
+              sx={{ fontSize: '1.2rem', fontWeight: 600, display: { xs: 'none', sm: 'flex' } }}
+              variant="h1"
+              noWrap
+            >
               Homeware Hub
             </Typography>
           </Button>
         </Stack>
+        <SearchComponent />
 
         <HeaderActionsComponent />
       </Toolbar>

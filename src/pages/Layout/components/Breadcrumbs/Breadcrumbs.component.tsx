@@ -1,11 +1,12 @@
 import { HideOnPathsComponent } from '@components/HideOnPaths/HideOnPaths.component';
+import { useBreadcrumbs } from '@hooks/useBreadcrumbs';
 import HomeIcon from '@mui/icons-material/Home';
-import { Breadcrumbs, Chip, ChipProps, emphasize, styled, Toolbar, Typography } from '@mui/material';
+import { Breadcrumbs, Chip, ChipProps, CircularProgress, emphasize, styled, Toolbar, Typography } from '@mui/material';
+import { blue } from '@mui/material/colors';
 import { ElementType } from 'react';
-import { Link, LinkProps, useLocation } from 'react-router-dom';
+import { Link, LinkProps } from 'react-router-dom';
 
 const hideBreadcrumbsPaths = ['/', '/login', '/registration', '/profile', '/about', '/cart'];
-const excludePaths = ['products', 'categories'];
 const breadcrumbSpacing = 3;
 const hoverCoefficient = 0.06;
 const activeCoefficient = 0.06;
@@ -16,6 +17,8 @@ const StyledBreadcrumb = styled(Chip)<ChipProps & { component: ElementType } & L
   return {
     backgroundColor,
     height: theme.spacing(breadcrumbSpacing),
+    maxWidth: '200px',
+    textOverflow: 'ellipsis',
     color: theme.palette.text.primary,
     fontWeight: theme.typography.fontWeightRegular,
     '&:hover, &:focus': {
@@ -31,15 +34,14 @@ const StyledBreadcrumb = styled(Chip)<ChipProps & { component: ElementType } & L
 });
 
 export default function BreadcrumbsComponent() {
-  const location = useLocation();
-  const paths = location.pathname.split('/').filter(Boolean);
+  const { breadcrumbs } = useBreadcrumbs();
 
   return (
     <HideOnPathsComponent paths={hideBreadcrumbsPaths}>
       <Toolbar
         sx={{
           minHeight: { xs: 40 },
-          backgroundColor: 'primary.light',
+          backgroundColor: blue[200],
           borderBottomLeftRadius: 10,
           borderBottomRightRadius: 10,
         }}
@@ -47,25 +49,20 @@ export default function BreadcrumbsComponent() {
         <Breadcrumbs aria-label="breadcrumb">
           <StyledBreadcrumb component={Link} label="Home" to="/" icon={<HomeIcon />} />
 
-          {paths.map((path, index) => {
-            if (excludePaths.includes(path)) {
-              return null;
+          {breadcrumbs.map(({ label, to, isLast }) => {
+            if (label === '...') {
+              return <CircularProgress key={label} size={20} thickness={5} color="secondary" />;
             }
 
-            const last = index === paths.length - 1;
+            if (isLast) {
+              return (
+                <Typography color="text.secondary" key={label}>
+                  {label}
+                </Typography>
+              );
+            }
 
-            return last ? (
-              <Typography color="text.secondary" key={path}>
-                {path}
-              </Typography>
-            ) : (
-              <StyledBreadcrumb
-                component={Link}
-                key={path}
-                label={path}
-                to={`/${paths.slice(0, index + 1).join('/')}`}
-              />
-            );
+            return <StyledBreadcrumb component={Link} key={label} label={label} to={to} />;
           })}
         </Breadcrumbs>
       </Toolbar>
