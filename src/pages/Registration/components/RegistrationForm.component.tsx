@@ -1,19 +1,18 @@
 import {
   BILLING_ADDRESS_IDX,
-  defaultCountryOption,
   NO_IDX,
   SHIPPING_ADDRESS_IDX,
 } from '@core/validation/user-registration/user-registration.const';
 import { RegistrationFormData } from '@models/index';
 import { LoadingButton } from '@mui/lab';
 import {
-  FormContainer,
-  TextFieldElement,
-  PasswordElement,
-  useForm,
   CheckboxElement,
-  useWatch,
+  FormContainer,
+  PasswordElement,
   SelectElement,
+  TextFieldElement,
+  useForm,
+  useWatch,
 } from 'react-hook-form-mui';
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -22,7 +21,7 @@ import { Container, FormLabel, Grid, Paper, Typography } from '@mui/material';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registrationSchema } from '@core/validation/user-registration/user-registration.schema';
 import { DatePickerElement } from 'react-hook-form-mui/date-pickers';
-import { useAddressRenderOptions } from '@utils/user-address-utils';
+import { getNewUserProfileAddress, useAddressRenderOptions } from '@utils/user-address-utils';
 import { UserAddressComponent } from './UserAddress.component';
 
 export interface RegistrationFormProps {
@@ -42,8 +41,16 @@ export function RegistrationFormComponent({ onSubmit, isLoading }: RegistrationF
       defaultShippingAddressIdx: NO_IDX,
       defaultBillingAddressIdx: NO_IDX,
       addresses: [
-        { street: '', city: '', country: defaultCountryOption.id, postalCode: '', addressType: 'shipping' },
-        { street: '', city: '', country: defaultCountryOption.id, postalCode: '', addressType: 'billing' },
+        {
+          ...getNewUserProfileAddress(),
+          isShipping: true,
+          isBilling: false,
+        },
+        {
+          ...getNewUserProfileAddress(),
+          isShipping: false,
+          isBilling: true,
+        },
       ],
     },
     resolver: zodResolver(registrationSchema),

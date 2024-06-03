@@ -1,38 +1,46 @@
 import { Stack } from '@mui/material';
-import { PagePreloader } from '@components/PagePreloader/PagePreloader.component';
 import useAuth from '@hooks/useAuth';
-import { Addresses } from './components/Addresses.component';
 import PersonalFormComponent from './components/PersonalData.component';
-import { useSubmitPersonalFormData } from './components/useSubmitPersonalFormData';
+import { useSubmitPersonalFormData } from './hooks/useSubmitPersonalFormData';
 import PasswordFormComponent from './components/Password.component';
-import { useSubmitNewPasswordFormData } from './components/useSubmitNewPassword';
+import { useSubmitNewPasswordFormData } from './hooks/useSubmitNewPassword';
+import { ProfileAddressesForm } from './components/ProfileAddressesForm';
+import { useSubmitRemoveAddress } from './hooks/useSubmitRemoveAddress';
+import { useSubmitAddAddress } from './hooks/useSubmitAddAddress';
+import { useSubmitUpdateAddress } from './hooks/useSubmitUpdateAddress';
+import { DefaultAddressesForm } from './components/DefaultAddressesForm.compnent';
+import { useSubmitDefaultAddresses } from './hooks/useSubmitDefaultAddresses';
 
 function ProfilePage() {
   const { user, isUserLoading } = useAuth();
 
   const handlePersonalSubmit = useSubmitPersonalFormData();
   const handlePasswordSubmit = useSubmitNewPasswordFormData();
+  const handleAddressesAddSubmit = useSubmitAddAddress();
+  const handleRemoveSubmit = useSubmitRemoveAddress();
+  const handleUpdateSubmit = useSubmitUpdateAddress();
+  const handleChangeDefaultAddresses = useSubmitDefaultAddresses();
 
   if (!user) {
     return null;
-  }
-
-  if (isUserLoading) {
-    return <PagePreloader />;
   }
 
   return (
     <Stack>
       <PersonalFormComponent onSubmit={handlePersonalSubmit} userData={user} isLoading={isUserLoading} />
       <PasswordFormComponent onSubmit={handlePasswordSubmit} isLoading={isUserLoading} />
-      <Addresses userData={user} />
-      {/* <ProfileAddressesForm
+      <ProfileAddressesForm
         userData={user}
-        onSubmit={async (addresses) => {
-          console.log('~~~~ addresses-form-data: ', addresses);
-          return { success: true };
-        }}
-      /> */}
+        isLoading={isUserLoading}
+        onSubmitAdd={handleAddressesAddSubmit}
+        onSubmitRemove={handleRemoveSubmit}
+        onSubmitUpdate={handleUpdateSubmit}
+      />
+      <DefaultAddressesForm
+        userData={user}
+        isLoading={isUserLoading}
+        onSubmitDefaultAddresses={handleChangeDefaultAddresses}
+      />
     </Stack>
   );
 }

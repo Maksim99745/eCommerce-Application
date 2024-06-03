@@ -14,11 +14,10 @@ import {
   FormActionsToolBarProps,
 } from '@components/EditableFormActionsBar/EditableFormActionsBar';
 import { useEditableFormState } from '@components/EditableFormActionsBar/useEditableFormState';
+import { OperationResult } from '@models/index';
 
 export interface PersonalFormComponentProps {
-  onSubmit: (
-    personalData: PersonalInformationFormData,
-  ) => Promise<{ success: true } | { success: false; error: Error }>;
+  onSubmit: (personalData: PersonalInformationFormData) => Promise<OperationResult>;
   isLoading?: boolean;
   userData: Customer;
 }

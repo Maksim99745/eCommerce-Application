@@ -1,21 +1,21 @@
+import { defaultCountryOption, NO_IDX } from '@core/validation/user-registration/user-registration.const';
 import {
-  defaultAddressTypeOption,
-  defaultCountryOption,
-  NO_IDX,
-} from '@core/validation/user-registration/user-registration.const';
-import { AddressInformationFormData, ProfileAddressFormData, ProfileAddressesFormData } from '@models/forms.model';
-import { Typography } from '@mui/material';
+  AddressInformationFormData,
+  ProfileAddressFormData,
+  ProfileAddressesFormData,
+  AddressType,
+} from '@models/forms.model';
 import { useCallback } from 'react';
 import { Address, Customer } from '@commercetools/platform-sdk';
+import { AddressStringRenderer } from '@pages/Profile/components/AddressStringRenderer';
 
 export const toAddressString = (address: AddressInformationFormData): string =>
-  address ? [address.country, address.postalCode, address.city, address.street].filter(Boolean).join(', ') : '';
+  address ? [address.country, address.postalCode, address.city, address.streetName].filter(Boolean).join(', ') : '';
 
-export const withTypeOfAddress =
-  (addressType: AddressInformationFormData['addressType']) => (address: AddressInformationFormData) =>
-    address.addressType === addressType;
+export const withTypeOfAddress = (addressType: AddressType) => (address: AddressInformationFormData) =>
+  (addressType === 'billing' && address.isBilling) || (addressType === 'shipping' && address.isShipping);
 
-export const useAddressRenderOptions = (addressType: AddressInformationFormData['addressType']) =>
+export const useAddressRenderOptions = (addressType: AddressType) =>
   useCallback(
     (addresses: AddressInformationFormData[]) => [
       { id: NO_IDX, label: 'None' },
@@ -23,35 +23,45 @@ export const useAddressRenderOptions = (addressType: AddressInformationFormData[
         .map((address, index) => ({
           ...address,
           id: index,
-          label: (
-            <Typography sx={{ textWrap: 'pretty', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {toAddressString(address)}
-            </Typography>
-          ),
+          label: <AddressStringRenderer address={address} />,
         }))
         .filter(withTypeOfAddress(addressType)),
     ],
     [addressType],
   );
 
-export const getDefaultUserProfileAddress = (): ProfileAddressFormData => ({
-  id: crypto.randomUUID(),
-  addressType: defaultAddressTypeOption.id,
+export const getDefaultAddressIndex = (addressType: AddressType, userData: Customer): number => {
+  const addressId = addressType === 'shipping' ? userData.defaultShippingAddressId : userData.defaultBillingAddressId;
+  if (!addressId) {
+    return NO_IDX;
+  }
+  const searchingAddress = userData.addresses.find((address) => address.id === addressId);
+  const addressIDX = searchingAddress !== undefined ? userData.addresses.indexOf(searchingAddress) : NO_IDX;
+  return addressIDX;
+};
+
+export const getNewUserProfileAddress = (): ProfileAddressFormData => ({
+  addressUID: crypto.randomUUID(),
   country: defaultCountryOption.id,
   city: '',
   postalCode: '',
-  street: '',
+  streetName: '',
+  isBilling: true,
+  isShipping: true,
+  isNewAddress: true,
 });
 
 export const getCustomerProfileAddress =
   (userData: Customer) =>
   ({ id = '', country, postalCode = '', city = '', streetName = '' }: Address): ProfileAddressFormData => ({
-    id,
+    addressUID: id,
     country,
     postalCode,
     city,
-    street: streetName,
-    addressType: userData.billingAddressIds?.includes(id) ? 'billing' : 'shipping',
+    streetName,
+    isNewAddress: false,
+    isBilling: !!userData.billingAddressIds?.includes(id),
+    isShipping: !!userData.shippingAddressIds?.includes(id),
   });
 
 export const getCustomerProfileAddresses = (userData: Customer): ProfileAddressesFormData => {

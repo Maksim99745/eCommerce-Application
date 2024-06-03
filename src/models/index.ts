@@ -5,3 +5,4 @@ export {
   type AddressInformationFormData,
   type PersonalInformationFormData,
 } from './forms.model';
+export type OperationResult = { success: true } | { success: false; error: Error };

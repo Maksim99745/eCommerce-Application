@@ -6,6 +6,7 @@ import { RegistrationErrorMessages } from './user-registration.enum';
 import { CITY_REGEX, MIN_AGE, postalValidationRegEx } from './user-registration.const';
 
 const hasFieldValue = (field: string) => z.string().regex(/.+/).safeParse(field).success;
+
 const getAddressFieldIssue = (field: string, index: number, message: string) => ({
   code: z.ZodIssueCode.custom,
   message,
@@ -31,7 +32,7 @@ const validateCity = (address: AddressInformationFormData, index: number, contex
 };
 
 const validateStreet = (address: AddressInformationFormData, index: number, context: z.RefinementCtx) => {
-  if (!hasFieldValue(address.street)) {
+  if (!hasFieldValue(address.streetName)) {
     context.addIssue(getAddressFieldIssue('street', index, RegistrationErrorMessages.StreetRequired));
   }
 };
@@ -48,6 +49,19 @@ const validatePostalCode = (addresses: AddressInformationFormData[], index: numb
   if (!postalCodeTestReg.test(address.postalCode)) {
     const message = `${RegistrationErrorMessages.PostalCodeInvalid}: ${getCountryLabelByCode(address.country)}`;
     context.addIssue(getAddressFieldIssue('postalCode', index, message));
+  }
+};
+
+const getParticularAddressIssue = (field: string, message: string) => ({
+  code: z.ZodIssueCode.custom,
+  message,
+  path: [field],
+});
+
+export const validateAddressType = (address: AddressInformationFormData, context: z.RefinementCtx) => {
+  if (!address.isBilling && !address.isShipping) {
+    context.addIssue(getParticularAddressIssue('isBilling', RegistrationErrorMessages.AddressTypeRequired));
+    context.addIssue(getParticularAddressIssue('isShipping', RegistrationErrorMessages.AddressTypeRequired));
   }
 };
 
