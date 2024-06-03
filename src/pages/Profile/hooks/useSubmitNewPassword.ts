@@ -6,6 +6,12 @@ import { apiService } from '@core/api/api.service';
 import { assertIsNonNullable } from '@utils/commonUtils';
 import { PasswordFormComponentProps } from '@pages/Profile/components/Password.component';
 
+export type NewPasswordRequestData = {
+  version: number;
+  currentPassword: string;
+  newPassword: string;
+};
+
 export const useSubmitNewPasswordFormData = () => {
   const { user, login } = useAuth();
   const showMessage = useShowMessage();
