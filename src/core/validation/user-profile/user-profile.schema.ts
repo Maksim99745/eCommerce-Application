@@ -5,7 +5,7 @@ import {
   firstNameSchema,
   lastNameSchema,
 } from '../user-registration/user-registration.schema';
-import { validateAddress } from '../user-registration/user-registration.validation';
+import { validateAddress, validateAddressType } from '../user-registration/user-registration.validation';
 import { emailSchema, passwordSchema } from '../user-login/user-login.schema';
 
 export const personalInformationSchema = z.object({
@@ -20,10 +20,11 @@ export const passwordInformationSchema = z.object({
   newPassword: passwordSchema,
 });
 
-export const profileAddressSchema = addressSchema.and(z.object({ addressUID: z.string() }));
-// .superRefine((formValues, context) => {
-//   validateAddressType(formValues, context);
-// });
+export const profileAddressSchema = addressSchema
+  .and(z.object({ addressUID: z.string() }))
+  .superRefine((formValues, context) => {
+    validateAddressType(formValues, context);
+  });
 
 export const profileAddressesSchema = z
   .object({

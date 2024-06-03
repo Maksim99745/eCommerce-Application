@@ -52,18 +52,18 @@ const validatePostalCode = (addresses: AddressInformationFormData[], index: numb
   }
 };
 
-// const getParticularAddressIssue = (field: string, message: string) => ({
-//   code: z.ZodIssueCode.custom,
-//   message,
-//   path: [field],
-// });
+const getParticularAddressIssue = (field: string, message: string) => ({
+  code: z.ZodIssueCode.custom,
+  message,
+  path: [field],
+});
 
-// export const validateAddressType = (address: AddressInformationFormData, context: z.RefinementCtx) => {
-//   if (!address.isBilling && !address.isShipping) {
-//     context.addIssue(getParticularAddressIssue('isBilling', RegistrationErrorMessages.AddressTypeRequired));
-//     context.addIssue(getParticularAddressIssue('isShipping', RegistrationErrorMessages.AddressTypeRequired));
-//   }
-// };
+export const validateAddressType = (address: AddressInformationFormData, context: z.RefinementCtx) => {
+  if (!address.isBilling && !address.isShipping) {
+    context.addIssue(getParticularAddressIssue('isBilling', RegistrationErrorMessages.AddressTypeRequired));
+    context.addIssue(getParticularAddressIssue('isShipping', RegistrationErrorMessages.AddressTypeRequired));
+  }
+};
 
 export const validateAddress = (addresses: AddressInformationFormData[], index: number, context: z.RefinementCtx) => {
   const address = addresses[index];

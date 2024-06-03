@@ -5,7 +5,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormHelperText,
   Stack,
   Typography,
   useEventCallback,
@@ -16,7 +15,6 @@ import { CheckboxElement, useFormContext, useWatch } from 'react-hook-form-mui';
 import { UserAddressComponent } from '@pages/Registration/components/UserAddress.component';
 import ErrorIcon from '@mui/icons-material/Error';
 import { ElementType } from 'react';
-import { RegistrationErrorMessages } from '@core/validation/user-registration/user-registration.enum';
 
 export interface ProfileAddressEditDialogProps {
   isNewAddress: boolean;
@@ -42,14 +40,7 @@ export function ProfileAddressEditDialog({
     onSubmit(currentAddress);
   });
 
-  const watchIsShipping = watch(`addresses.${addressIndex}.isShipping`);
-  const watchIsBilling = watch(`addresses.${addressIndex}.isBilling`);
-
-  let { isValid } = formState;
-
-  if (!watchIsShipping && !watchIsBilling) {
-    isValid = false;
-  }
+  const { isValid } = formState;
 
   return (
     <Box sx={{ ml: 'auto' }}>
@@ -73,13 +64,16 @@ export function ProfileAddressEditDialog({
                   Select address type
                 </Typography>
                 <Stack alignContent="center">
-                  <CheckboxElement name={`addresses.${addressIndex}.isShipping`} label="* Shipping" />
-                  <CheckboxElement name={`addresses.${addressIndex}.isBilling`} label="* Billing" />
-                  {!watchIsShipping && !watchIsBilling ? (
-                    <FormHelperText error>{RegistrationErrorMessages.AddressTypeRequired}</FormHelperText>
-                  ) : (
-                    <FormHelperText error> </FormHelperText>
-                  )}
+                  <CheckboxElement
+                    name={`addresses.${addressIndex}.isShipping`}
+                    label="* Shipping"
+                    onChange={() => trigger(`addresses.${addressIndex}.isBilling`)}
+                  />
+                  <CheckboxElement
+                    name={`addresses.${addressIndex}.isBilling`}
+                    label="* Billing"
+                    onChange={() => trigger(`addresses.${addressIndex}.isShipping`)}
+                  />
                 </Stack>
               </Stack>
             }
