@@ -13,12 +13,6 @@ const getAddressFieldIssue = (field: string, index: number, message: string) => 
   path: ['addresses', index, field],
 });
 
-const getParticularAddressIssue = (field: string, message: string) => ({
-  code: z.ZodIssueCode.custom,
-  message,
-  path: [field],
-});
-
 const validateCountry = (address: AddressInformationFormData, index: number, context: z.RefinementCtx) => {
   if (!hasFieldValue(address.country)) {
     context.addIssue(getAddressFieldIssue('country', index, RegistrationErrorMessages.CountryRequired));
@@ -57,13 +51,19 @@ const validatePostalCode = (addresses: AddressInformationFormData[], index: numb
     context.addIssue(getAddressFieldIssue('postalCode', index, message));
   }
 };
-// TODO: remove error when 1 is okey
-export const validateAddressType = (address: AddressInformationFormData, context: z.RefinementCtx) => {
-  if (!address.isBilling && !address.isShipping) {
-    context.addIssue(getParticularAddressIssue('isBilling', RegistrationErrorMessages.AddressTypeRequired));
-    context.addIssue(getParticularAddressIssue('isShipping', RegistrationErrorMessages.AddressTypeRequired));
-  }
-};
+
+// const getParticularAddressIssue = (field: string, message: string) => ({
+//   code: z.ZodIssueCode.custom,
+//   message,
+//   path: [field],
+// });
+
+// export const validateAddressType = (address: AddressInformationFormData, context: z.RefinementCtx) => {
+//   if (!address.isBilling && !address.isShipping) {
+//     context.addIssue(getParticularAddressIssue('isBilling', RegistrationErrorMessages.AddressTypeRequired));
+//     context.addIssue(getParticularAddressIssue('isShipping', RegistrationErrorMessages.AddressTypeRequired));
+//   }
+// };
 
 export const validateAddress = (addresses: AddressInformationFormData[], index: number, context: z.RefinementCtx) => {
   const address = addresses[index];

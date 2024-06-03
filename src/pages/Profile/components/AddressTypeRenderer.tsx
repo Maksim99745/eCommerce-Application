@@ -15,9 +15,4 @@ export function AddressTypeRenderer({ address, sx }: AddressTypeRendererProps) {
       {address.isBilling && <AddCardIcon sx={sx} />}
     </>
   );
-
-  // return match(addressType)
-  //   .with('billing', () => <AddCardIcon sx={sx} />)
-  //   .with('shipping', () => )
-  //   .otherwise(() => null);
 }

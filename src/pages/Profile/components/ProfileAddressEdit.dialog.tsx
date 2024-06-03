@@ -5,6 +5,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormHelperText,
   Stack,
   Typography,
   useEventCallback,
@@ -33,12 +34,21 @@ export function ProfileAddressEditDialog({
 }: ProfileAddressEditDialogProps) {
   const { visible, show, close } = useModalState();
 
-  const { trigger, control, formState } = useFormContext<ProfileAddressesFormData>();
+  const { trigger, control, formState, watch } = useFormContext<ProfileAddressesFormData>();
   const currentAddress = useWatch({ control, name: `addresses.${addressIndex}` });
   const handleSubmitAddress = useEventCallback(() => {
     close();
     onSubmit(currentAddress);
   });
+
+  const watchIsShipping = watch(`addresses.${addressIndex}.isShipping`);
+  const watchIsBilling = watch(`addresses.${addressIndex}.isBilling`);
+
+  let { isValid } = formState;
+
+  if (!watchIsShipping && !watchIsBilling) {
+    isValid = false;
+  }
 
   return (
     <Box sx={{ ml: 'auto' }}>
@@ -62,8 +72,13 @@ export function ProfileAddressEditDialog({
                   Select address type
                 </Typography>
                 <Stack alignContent="center">
-                  <CheckboxElement name={`addresses.${addressIndex}.isShipping`} label="* Shipping" helperText=" " />
-                  <CheckboxElement name={`addresses.${addressIndex}.isBilling`} label="* Billing" helperText=" " />
+                  <CheckboxElement name={`addresses.${addressIndex}.isShipping`} label="* Shipping" />
+                  <CheckboxElement name={`addresses.${addressIndex}.isBilling`} label="* Billing" />
+                  {!watchIsShipping && !watchIsBilling ? (
+                    <FormHelperText error>At least one address type must be selected.</FormHelperText>
+                  ) : (
+                    <FormHelperText error> </FormHelperText>
+                  )}
                 </Stack>
               </Stack>
             }
@@ -72,7 +87,7 @@ export function ProfileAddressEditDialog({
         </DialogContent>
         <DialogActions>
           <Button onClick={close}>Cancel</Button>
-          <Button onClick={handleSubmitAddress} disabled={!formState.isValid} autoFocus>
+          <Button onClick={handleSubmitAddress} disabled={!isValid} autoFocus>
             Save
           </Button>
         </DialogActions>
