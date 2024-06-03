@@ -1,7 +1,8 @@
 import { apiService } from '@core/api/api.service';
 import { ClientType } from '@core/api/client-type.enum';
 import { tokenCache } from '@core/api/token-cache.service';
-import { setLoading, setUser, userSignal } from '@hooks/useAuth';
+import { setUserLoading, setUser, userSignal } from '@hooks/useAuth';
+import { setCategoryLoading } from '@hooks/useCategory';
 import { Suspense } from 'react';
 import { HasUserRoute, NoUserRoute } from '@core/routing/routes';
 import { createBrowserRouter } from 'react-router-dom';
@@ -17,10 +18,11 @@ import {
   NotFoundPage,
   ProfilePage,
   ProductPage,
+  SearchPage,
 } from './routing-pages';
 
 const initAuth = async (): Promise<void> => {
-  setLoading(true);
+  setUserLoading(true);
 
   await apiService
     .getCustomer()
@@ -39,8 +41,12 @@ const initAuth = async (): Promise<void> => {
 
       apiService.setBuilder(ClientType.anonymous);
       setUser(null);
-    })
-    .finally(() => setLoading(false));
+    });
+};
+
+const initCategory = (): boolean => {
+  setCategoryLoading(true);
+  return true;
 };
 
 export const router = createBrowserRouter([
@@ -57,6 +63,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
+        loader: initCategory,
         element: (
           <Suspense fallback={<PagePreloader />}>
             <MainPage />
@@ -114,6 +121,7 @@ export const router = createBrowserRouter([
         children: [
           {
             path: ':categoryKey',
+            loader: initCategory,
             element: (
               <Suspense fallback={<PagePreloader />}>
                 <CatalogPage />
@@ -135,6 +143,14 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<PagePreloader />}>
             <ProductPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'search',
+        element: (
+          <Suspense fallback={<PagePreloader />}>
+            <SearchPage />
           </Suspense>
         ),
       },

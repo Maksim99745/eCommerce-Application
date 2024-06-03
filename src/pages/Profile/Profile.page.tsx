@@ -21,6 +21,7 @@ function ProfilePage() {
   const handleUpdateSubmit = useSubmitUpdateAddress();
   const handleChangeDefaultAddresses = useSubmitDefaultAddresses();
 
+
   if (!user) {
     return null;
   }

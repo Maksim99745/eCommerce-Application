@@ -17,7 +17,8 @@ import { defaultProductsLimit, defaultProductsOffset } from '@constants/products
 import { ClientType } from '@core/api/client-type.enum';
 import { getRequestBuilder } from '@core/api/get-builder.util';
 import { tokenCache } from '@core/api/token-cache.service';
-import { ProductFilter } from '@models/product-filter.model';
+import { GetProductsRequest } from '@models/product-filter.model';
+import { NewPasswordRequestData } from '@pages/Profile/components/useSubmitNewPassword';
 
 export class ApiService {
   private builder!: ByProjectKeyRequestBuilder;
@@ -94,22 +95,17 @@ export class ApiService {
   }
 
   public async getProducts({
-    categoryId,
+    filter,
     limit = defaultProductsLimit,
     offset = defaultProductsOffset,
-  }: ProductFilter): Promise<ProductProjectionPagedSearchResponse> {
+    sort,
+    query,
+  }: GetProductsRequest): Promise<ProductProjectionPagedSearchResponse> {
     return this.callRequest(
       this.builder
         .productProjections()
         .search()
-        .get({
-          queryArgs: {
-            fuzzy: true,
-            offset,
-            limit,
-            filter: [`categories.id:subtree("${categoryId}")`],
-          },
-        }),
+        .get({ queryArgs: { fuzzy: true, offset, limit, filter, sort, 'text.en': query } }),
     );
   }
 
