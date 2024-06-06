@@ -47,7 +47,10 @@ export default function BreadcrumbsComponent() {
           p: 1,
         }}
       >
-        <Breadcrumbs aria-label="breadcrumb" sx={{ '.MuiBreadcrumbs-ol': { rowGap: '5px' } }}>
+        <Breadcrumbs
+          aria-label="breadcrumb"
+          sx={{ '.MuiBreadcrumbs-ol': { rowGap: '5px' }, '.MuiBreadcrumbs-li': { display: 'flex' } }}
+        >
           <StyledBreadcrumb component={Link} label="Home" to="/" icon={<HomeIcon />} />
 
           {breadcrumbs.map(({ label, to, isLast }) => {

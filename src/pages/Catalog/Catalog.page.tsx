@@ -1,6 +1,6 @@
 import { POPULAR_CATEGORY } from '@constants/categories.const';
 import useCategory from '@hooks/useCategory';
-import { Box, Container, Paper, Stack, Typography } from '@mui/material';
+import { Box, Container, Stack, Typography } from '@mui/material';
 import ProductListComponent from '@components/ProductList/ProductList.component';
 import { CatalogPageSkeleton } from '@pages/Catalog/Catalog.page.skeleton';
 
@@ -15,8 +15,8 @@ function CatalogPage() {
   }
 
   return (
-    <Container maxWidth="xl" sx={{ p: 0, height: '100%' }}>
-      <Stack gap={2} sx={{ height: '100%', overflow: 'auto', scrollbarGutter: 'stable' }}>
+    <Container maxWidth="xl" sx={{ p: { xs: 1, md: 2 }, height: '100%' }}>
+      <Stack gap={2} sx={{ height: '100%' }}>
         <Box
           sx={{
             width: '100%',
@@ -44,9 +44,7 @@ function CatalogPage() {
           </Typography>
         </Box>
 
-        <Paper elevation={1} sx={{ p: 0, width: '100%', flex: 1 }}>
-          <ProductListComponent productPath={productPath} />
-        </Paper>
+        <ProductListComponent productPath={productPath} />
       </Stack>
     </Container>
   );

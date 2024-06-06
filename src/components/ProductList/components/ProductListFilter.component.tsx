@@ -5,7 +5,7 @@ import { defaultBrands, defaultCountries, defaultMaterials } from '@constants/at
 import { defaultProductsFilter, maxPrice, minPrice, productCurrencyMap, stepPrice } from '@constants/products.const';
 import useCategory from '@hooks/useCategory';
 import { ProductFilter } from '@models/product-filter.model';
-import { Box, Button, capitalize, Chip, Stack } from '@mui/material';
+import { Box, Button, capitalize, Chip, Stack, useTheme } from '@mui/material';
 import { memo, useEffect } from 'react';
 import { Controller, FormContainer, MultiSelectElement, useForm } from 'react-hook-form-mui';
 
@@ -17,6 +17,7 @@ export function ProductListFilterComponent({ onChange }: ProductListFilterCompon
   const formContext = useForm<ProductFilter>({ defaultValues: defaultProductsFilter });
   const { control, reset, watch } = formContext;
   const { category } = useCategory();
+  const theme = useTheme();
 
   useEffect(() => reset(), [category, reset]);
 
@@ -26,9 +27,20 @@ export function ProductListFilterComponent({ onChange }: ProductListFilterCompon
   }, [watch, onChange]);
 
   return (
-    <Box sx={{ position: 'sticky', top: 0, zIndex: 1, bgcolor: 'white', borderRadius: 3, px: 2, py: 1 }}>
+    <Box
+      sx={{
+        position: 'sticky',
+        top: { xs: theme.spacing(-1), md: theme.spacing(-2) },
+        zIndex: 1,
+        bgcolor: 'white',
+        borderRadius: 3,
+        boxShadow: 2,
+        px: { xs: 1, md: 2 },
+        py: 1,
+      }}
+    >
       <FormContainer<ProductFilter> formContext={formContext}>
-        <Stack direction="row" gap={1} px={2} flexWrap="wrap" justifyContent="center">
+        <Stack direction="row" gap={1} flexWrap="wrap" justifyContent="center">
           <Controller
             name="sort"
             control={control}
