@@ -2,7 +2,7 @@ import { ProductProjection, ProductProjectionPagedSearchResponse } from '@commer
 import { ProductListFilterComponent } from '@components/ProductList/components/ProductListFilter.component';
 import { defaultProductsFilter, defaultProductsLimit, defaultProductsOffset } from '@constants/products.const';
 import useCategory from '@hooks/useCategory';
-import { useGetProducts } from '@hooks/useGetProducts';
+import { useGetProducts } from '@core/api/hooks/useGetProducts';
 import useIntersectRef from '@hooks/useIntersectRef';
 import { ProductFilter } from '@models/product-filter.model';
 import { Box, CircularProgress, Grid, Paper, Stack, Typography, useEventCallback } from '@mui/material';

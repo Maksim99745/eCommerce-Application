@@ -1,4 +1,4 @@
-import { useGetProduct } from '@hooks/useGetProduct';
+import { useGetProduct } from '@core/api/hooks/useGetProduct';
 import useProduct from '@hooks/useProduct';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Button, ButtonGroup, Container, Stack, Typography } from '@mui/material';

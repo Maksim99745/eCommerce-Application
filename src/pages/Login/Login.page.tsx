@@ -1,4 +1,4 @@
-import useAuth from '@hooks/useAuth';
+import useAuth from '@core/api/hooks/useAuth';
 import { ReactNode } from 'react';
 import { Container, Paper, useEventCallback } from '@mui/material';
 import { useNavigate } from 'react-router-dom';

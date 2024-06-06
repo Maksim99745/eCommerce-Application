@@ -1,7 +1,7 @@
 import { CategoriesListSkeletonComponent } from '@components/CategoriesList/CategoriesListSkeleton.component';
 import { POPULAR_CATEGORY } from '@constants/categories.const';
 import useCategory from '@hooks/useCategory';
-import { useGetCategories } from '@hooks/useGetCategories';
+import { useGetCategories } from '@core/api/hooks/useGetCategories';
 import { List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import { useEffect } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
