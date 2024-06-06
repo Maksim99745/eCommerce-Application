@@ -9,7 +9,7 @@ import { Box, CircularProgress, Grid, Paper, Stack, Typography, useEventCallback
 import ProductCardComponent from '@components/ProductList/components/ProductCard.component';
 import { ProductListSkeletonComponent } from '@components/ProductList/ProductList.component.skeleton';
 import { getAttributesFilter } from '@utils/get-attributes-filter';
-import { memo, useEffect, useState } from 'react';
+import { memo, useState } from 'react';
 
 interface ProductListComponentProps {
   query?: string;
@@ -48,6 +48,7 @@ function ProductListComponent({ query, productPath = '' }: ProductListComponentP
       // Fix bug with duplicate products
       const productIds = new Set(prevProducts.map((product) => product.id));
       const newProducts = data.results.filter((product) => !productIds.has(product.id));
+
       return [...prevProducts, ...newProducts];
     });
   });
@@ -67,27 +68,14 @@ function ProductListComponent({ query, productPath = '' }: ProductListComponentP
     }));
   });
 
-  useEffect(() => {
-    setProducts([]);
-    setFilter({
-      offset: defaultProductsOffset,
-      limit: defaultProductsLimit,
-      categoryId: category?.id,
-      query,
-      ...defaultProductsFilter,
-    });
-    setHasMore(false);
-  }, [category, query]);
-
   const handleFilterChange = useEventCallback((newFilter: ProductFilter) => {
     const newFullFilter = { ...filter, ...getAttributesFilter(newFilter), offset: defaultProductsOffset };
     if (JSON.stringify(newFullFilter) === JSON.stringify(filter)) {
       return;
     }
 
-    setProducts([]);
-    setFilter(newFullFilter);
     setHasMore(false);
+    setFilter(newFullFilter);
     document.getElementById('main')?.scrollTo({ top: 0, behavior: 'smooth' });
   });
 

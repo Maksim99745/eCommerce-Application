@@ -3,11 +3,13 @@ import { ProductListSortComponent } from '@components/ProductList/components/Pro
 import RangeSliderComponent from '@components/RangeSlider/RangeSlider.component';
 import { defaultBrands, defaultCountries, defaultMaterials } from '@constants/attributes.const';
 import { defaultProductsFilter, maxPrice, minPrice, productCurrencyMap, stepPrice } from '@constants/products.const';
+import { defaultFormDebounce } from '@constants/ui.const';
 import useCategory from '@hooks/useCategory';
 import { ProductFilter } from '@models/product-filter.model';
 import { Box, Button, capitalize, Chip, Stack, useTheme } from '@mui/material';
 import { memo, useEffect } from 'react';
 import { Controller, FormContainer, MultiSelectElement, useForm } from 'react-hook-form-mui';
+import { useDebouncedCallback } from 'use-debounce';
 
 interface ProductListFilterComponentProps {
   onChange: (filter: ProductFilter) => void;
@@ -18,13 +20,14 @@ export function ProductListFilterComponent({ onChange }: ProductListFilterCompon
   const { control, reset, watch } = formContext;
   const { category } = useCategory();
   const theme = useTheme();
+  const debouncedOnChange = useDebouncedCallback((fields) => onChange(fields), defaultFormDebounce);
 
   useEffect(() => reset(), [category, reset]);
 
   useEffect(() => {
-    const subscription = watch((fields: ProductFilter) => onChange(fields));
+    const subscription = watch(debouncedOnChange);
     return () => subscription.unsubscribe();
-  }, [watch, onChange]);
+  }, [watch, debouncedOnChange]);
 
   return (
     <Box
@@ -48,22 +51,33 @@ export function ProductListFilterComponent({ onChange }: ProductListFilterCompon
           />
 
           <Stack direction="row" minWidth={300} width={300} gap={2} alignItems="center">
-            <Chip label={`${minPrice} ${productCurrencyMap.EUR}`} variant="outlined" />
             <Controller
               name="price"
               control={control}
               render={({ field }) => (
-                <RangeSliderComponent
-                  min={minPrice}
-                  max={maxPrice}
-                  step={stepPrice}
-                  range={field.value}
-                  onChange={field.onChange}
-                  getAriaValueText={(value) => `${value} ${productCurrencyMap.EUR}`}
-                />
+                <>
+                  <Chip
+                    label={`${field.value?.min || minPrice} ${productCurrencyMap.EUR}`}
+                    variant="outlined"
+                    sx={{ minWidth: 65 }}
+                  />
+
+                  <RangeSliderComponent
+                    min={minPrice}
+                    max={maxPrice}
+                    step={stepPrice}
+                    range={field.value}
+                    onChange={field.onChange}
+                  />
+
+                  <Chip
+                    label={`${field.value?.max || maxPrice} ${productCurrencyMap.EUR}`}
+                    variant="outlined"
+                    sx={{ minWidth: 65 }}
+                  />
+                </>
               )}
             />
-            <Chip label={`${maxPrice} ${productCurrencyMap.EUR}`} variant="outlined" />
           </Stack>
 
           <Controller
