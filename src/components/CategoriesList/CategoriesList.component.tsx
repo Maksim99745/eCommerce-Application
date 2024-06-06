@@ -31,7 +31,6 @@ export function CategoriesListComponent({ onSelectCategory }: CategoryListProps)
     <>
       {error && <p>Error: {String(error)}</p>}
       {isLoading && <CategoriesListSkeletonComponent />}
-
       {categories && (
         <List>
           {categories.results
