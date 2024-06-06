@@ -1,10 +1,20 @@
-import useAuth from '@hooks/useAuth';
+import useAuth from '@core/api/hooks/useAuth';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
+import InventoryIcon from '@mui/icons-material/Inventory';
 import LogoutIcon from '@mui/icons-material/Logout';
 import InfoIcon from '@mui/icons-material/Info';
-import { Button, Divider, ListItemIcon, MenuItem, useEventCallback, useMediaQuery, useTheme } from '@mui/material';
+import {
+  Button,
+  Divider,
+  ListItemIcon,
+  MenuItem,
+  Typography,
+  useEventCallback,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import { ReactNode, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useShowMessage } from '@hooks/useShowMessage';
@@ -101,17 +111,32 @@ export const useHeaderActions = (onClick: () => void): { buttonItems: ReactNode;
 
   const buttonItems = useMemo<ReactNode>(
     () => (
-      <Button
-        key="about"
-        component={Link}
-        to="/about"
-        sx={{ ...actionStyles.button, ...actionStyles.showAfterSm }}
-        onClick={handleOnClick}
-        startIcon={<InfoIcon />}
-        variant="text"
-      >
-        About
-      </Button>
+      <>
+        <Button
+          sx={{ borderRadius: 4, textTransform: 'none', display: { xs: 'none', sm: 'none', md: 'flex' } }}
+          component={Link}
+          to="/catalog"
+          size="medium"
+          variant="contained"
+          startIcon={<InventoryIcon />}
+        >
+          <Typography variant="h6" noWrap sx={{ fontSize: '16px' }}>
+            Catalog
+          </Typography>
+        </Button>
+
+        <Button
+          key="about"
+          component={Link}
+          to="/about"
+          sx={{ ...actionStyles.button, ...actionStyles.showAfterSm }}
+          onClick={handleOnClick}
+          startIcon={<InfoIcon />}
+          variant="text"
+        >
+          About
+        </Button>
+      </>
     ),
     [handleOnClick],
   );

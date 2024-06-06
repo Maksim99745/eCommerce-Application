@@ -1,6 +1,5 @@
 import { defaultColors } from '@constants/attributes.const';
 import { Box, capitalize, Checkbox, Chip, ListItemIcon, ListItemText } from '@mui/material';
-import { indigo } from '@mui/material/colors';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -70,20 +69,7 @@ export default function ColorMultiSelectComponent({ colors, onChange }: ColorMul
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((color) => (
-                <Box
-                  key={color}
-                  sx={{
-                    background: getColor(color),
-                    boxShadow: 1,
-                    p: '2px',
-                    borderRadius: 5,
-                    // height: '22px',
-                    boxSizing: 'border-box',
-                    display: 'flex',
-                  }}
-                >
-                  <Chip label={capitalize(color)} sx={{ backgroundColor: indigo[50], height: '18px' }} />
-                </Box>
+                <Chip key={color} label=" " sx={{ background: getColor(color), height: 24, width: 24, boxShadow: 1 }} />
               ))}
             </Box>
           )}
@@ -93,10 +79,7 @@ export default function ColorMultiSelectComponent({ colors, onChange }: ColorMul
             <MenuItem key={color} value={color}>
               <Checkbox checked={value.includes(color)} />
               <ListItemIcon>
-                <Chip
-                  label=" "
-                  sx={{ background: getColor(color), height: 24, width: 24, border: '1px black solid' }}
-                />
+                <Chip label=" " sx={{ background: getColor(color), height: 24, width: 24, boxShadow: 1 }} />
               </ListItemIcon>
               <ListItemText primary={capitalize(color)} />
             </MenuItem>

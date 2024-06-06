@@ -1,4 +1,4 @@
-import useAuth from '@hooks/useAuth';
+import useAuth from '@core/api/hooks/useAuth';
 import { mapFormToCustomerDraft } from '@utils/map-form-to-customer-draft';
 import { ReactNode } from 'react';
 import { Stack, useEventCallback } from '@mui/material';

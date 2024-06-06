@@ -1,5 +1,5 @@
 import { Stack } from '@mui/material';
-import useAuth from '@hooks/useAuth';
+import useAuth from '@core/api/hooks/useAuth';
 import PersonalFormComponent from './components/PersonalData.component';
 import { useSubmitPersonalFormData } from './hooks/useSubmitPersonalFormData';
 import PasswordFormComponent from './components/Password.component';

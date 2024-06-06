@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import RegistrationPage from './Registration.page';
 
-jest.mock('@hooks/useAuth', () => () => ({ register: jest.fn() }));
+jest.mock('@core/api/hooks/useAuth', () => () => ({ register: jest.fn() }));
 
 // eslint-disable-next-line jest/no-disabled-tests
 test.skip('Render the registration page', () => {

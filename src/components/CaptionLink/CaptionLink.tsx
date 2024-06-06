@@ -1,4 +1,4 @@
-import useAuth from '@hooks/useAuth';
+import useAuth from '@core/api/hooks/useAuth';
 import { ReactNode } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import { Link, To } from 'react-router-dom';

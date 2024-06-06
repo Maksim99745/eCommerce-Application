@@ -1,4 +1,4 @@
-import useAuth from '@hooks/useAuth';
+import useAuth from '@core/api/hooks/useAuth';
 import { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 
