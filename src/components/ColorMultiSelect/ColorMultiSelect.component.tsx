@@ -69,7 +69,7 @@ export default function ColorMultiSelectComponent({ colors, onChange }: ColorMul
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((color) => (
-                <Chip key={color} label=" " sx={{ background: getColor(color), height: 24, width: 24, boxShadow: 1 }} />
+                <Chip key={color} label=" " sx={{ background: getColor(color), height: 22, width: 22, boxShadow: 1 }} />
               ))}
             </Box>
           )}
