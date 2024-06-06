@@ -1,6 +1,5 @@
-import { apiService } from '@core/api/api.service';
-import { useRequest } from '@hooks/useRequest';
-import useAuth from '@hooks/useAuth';
+import useAuth from '@core/api/hooks/useAuth';
+import { useCart } from '@hooks/useCart';
 import { Badge, BadgeProps, Button, CircularProgress, Menu, Stack, styled } from '@mui/material';
 import { useHeaderActions } from '@pages/Layout/components/HeaderActions/useHeaderActions';
 import { bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
@@ -20,7 +19,7 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
 }));
 
 function HeaderActionsComponent() {
-  const { data: cartQuantity } = useRequest('cartQuantity', () => apiService.getCartQuantity());
+  const { cart } = useCart();
   const popupState = usePopupState({ variant: 'popover', popupId: 'userMenu' });
   const { buttonItems, menuItems } = useHeaderActions(() => popupState.close());
   const { isUserLoading } = useAuth();
@@ -39,7 +38,7 @@ function HeaderActionsComponent() {
         size="large"
         variant="contained"
       >
-        <StyledBadge badgeContent={cartQuantity || 0} color="info">
+        <StyledBadge badgeContent={cart?.totalLineItemQuantity || 0} color="info">
           <ShoppingCartIcon />
         </StyledBadge>
       </Button>

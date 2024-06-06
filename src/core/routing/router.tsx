@@ -1,7 +1,8 @@
 import { apiService } from '@core/api/api.service';
 import { ClientType } from '@core/api/client-type.enum';
 import { tokenCache } from '@core/api/token-cache.service';
-import { setUserLoading, setUser, userSignal } from '@hooks/useAuth';
+import { setUserLoading, setUser, userSignal } from '@core/api/hooks/useAuth';
+import { cartSignal, setCart, setCartLoading } from '@hooks/useCart';
 import { setCategoryLoading } from '@hooks/useCategory';
 import { Suspense } from 'react';
 import { HasUserRoute, NoUserRoute } from '@core/routing/routes';
@@ -44,6 +45,27 @@ const initAuth = async (): Promise<void> => {
     });
 };
 
+const initCart = async (): Promise<void> => {
+  setCartLoading(true);
+
+  let cart = await apiService.getCarts().then((carts) => carts.results[0]);
+  if (!cart) {
+    cart = await apiService.createCart();
+  }
+
+  setCart(cart);
+};
+
+const initApp = async (): Promise<void> => {
+  if (userSignal.value === undefined) {
+    await initAuth();
+  }
+
+  if (cartSignal.value === undefined) {
+    await initCart();
+  }
+};
+
 const initCategory = (): boolean => {
   setCategoryLoading(true);
   return true;
@@ -54,9 +76,7 @@ export const router = createBrowserRouter([
     path: '/',
     element: <LayoutPage />,
     async loader() {
-      if (userSignal.value === undefined) {
-        await initAuth();
-      }
+      await initApp();
 
       return null;
     },

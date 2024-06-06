@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import LoginPage from './Login.page';
 
-jest.mock('@hooks/useAuth', () => () => ({ login: jest.fn() }));
+jest.mock('@core/api/hooks/useAuth', () => () => ({ login: jest.fn() }));
 
 // eslint-disable-next-line jest/no-disabled-tests
 test.skip('Render the login page', () => {

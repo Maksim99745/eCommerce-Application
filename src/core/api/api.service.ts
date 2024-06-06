@@ -10,13 +10,16 @@ import {
   MyCustomerUpdateAction,
   ProductProjectionPagedSearchResponse,
   Product,
+  CartPagedQueryResponse,
+  Cart,
 } from '@commercetools/platform-sdk';
 import { ApiRequest } from '@commercetools/platform-sdk/dist/declarations/src/generated/shared/utils/requests-utils';
 import { UserAuthOptions } from '@commercetools/sdk-client-v2';
-import { defaultProductsLimit, defaultProductsOffset } from '@constants/products.const';
+import { defaultProductsLimit, defaultProductsOffset, minCount } from '@constants/products.const';
 import { ClientType } from '@core/api/client-type.enum';
 import { getRequestBuilder } from '@core/api/get-builder.util';
 import { tokenCache } from '@core/api/token-cache.service';
+import { AddToCartRequest, ChangeCartItemQuantityRequest } from '@models/cart.model';
 import { GetProductsRequest } from '@models/product-filter.model';
 import { NewPasswordRequestData } from '@pages/Profile/hooks/useSubmitNewPassword';
 
@@ -84,9 +87,66 @@ export class ApiService {
     return this.callRequest(this.builder.me().get());
   }
 
-  public async getCartQuantity(): Promise<number> {
-    return this.callRequest(this.builder.me().carts().get()).then(
-      (carts) => carts.results[0]?.totalLineItemQuantity || 0,
+  public async getCarts(): Promise<CartPagedQueryResponse> {
+    return this.callRequest(this.builder.me().carts().get());
+  }
+
+  public async createCart(): Promise<Cart> {
+    return this.callRequest(
+      this.builder
+        .me()
+        .carts()
+        .post({ body: { currency: 'EUR' } }),
+    );
+  }
+
+  public async addToCart({ cart, productId, quantity }: AddToCartRequest): Promise<Cart> {
+    const userCart = cart || (await this.createCart());
+
+    return this.callRequest(
+      this.builder
+        .me()
+        .carts()
+        .withId({ ID: userCart.id })
+        .post({
+          body: {
+            version: userCart.version,
+            actions: [
+              {
+                action: 'addLineItem',
+                productId,
+                quantity,
+              },
+            ],
+          },
+        }),
+    );
+  }
+
+  public async changeCartItemQuantity({
+    cart,
+    lineItemId,
+    quantity = minCount,
+  }: ChangeCartItemQuantityRequest): Promise<Cart> {
+    const userCart = cart || (await this.createCart());
+
+    return this.callRequest(
+      this.builder
+        .me()
+        .carts()
+        .withId({ ID: userCart.id })
+        .post({
+          body: {
+            version: userCart.version,
+            actions: [
+              {
+                action: 'changeLineItemQuantity',
+                lineItemId,
+                quantity,
+              },
+            ],
+          },
+        }),
     );
   }
 

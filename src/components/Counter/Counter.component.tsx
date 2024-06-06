@@ -2,15 +2,18 @@ import { maxCount, minCount } from '@constants/products.const';
 import { IconButton, Stack, TextField } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface CounterComponentProps {
   initCount?: number;
+  disabled?: boolean;
   onChange?: (count: number) => void;
 }
 
-function CounterComponent({ onChange, initCount = minCount }: CounterComponentProps) {
+function CounterComponent({ onChange, initCount = minCount, disabled }: CounterComponentProps) {
   const [count, setCount] = useState(initCount);
+
+  useEffect(() => setCount(initCount), [initCount]);
 
   const handleIncrement = () => {
     setCount((prevCount) => {
@@ -38,13 +41,14 @@ function CounterComponent({ onChange, initCount = minCount }: CounterComponentPr
 
   return (
     <Stack direction="row" alignItems="center" gap="2px">
-      <IconButton onClick={handleDecrement} disabled={count <= 1} size="small">
+      <IconButton onClick={handleDecrement} disabled={disabled || count <= 1} size="small">
         <RemoveIcon fontSize="small" />
       </IconButton>
 
       <TextField
         value={count}
         onChange={handleChange}
+        disabled={disabled}
         inputProps={{
           min: minCount,
           max: maxCount,
@@ -59,7 +63,7 @@ function CounterComponent({ onChange, initCount = minCount }: CounterComponentPr
         sx={{ width: 50, p: 0 }}
       />
 
-      <IconButton onClick={handleIncrement} disabled={count >= maxCount} size="small">
+      <IconButton onClick={handleIncrement} disabled={disabled || count >= maxCount} size="small">
         <AddIcon fontSize="small" />
       </IconButton>
     </Stack>
