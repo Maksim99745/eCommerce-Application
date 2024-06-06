@@ -40,13 +40,14 @@ export default function BreadcrumbsComponent() {
     <HideOnPathsComponent paths={hideBreadcrumbsPaths}>
       <Toolbar
         sx={{
-          minHeight: { xs: 40 },
+          minHeight: { xs: 'auto' },
           backgroundColor: blue[200],
           borderBottomLeftRadius: 10,
           borderBottomRightRadius: 10,
+          p: 1,
         }}
       >
-        <Breadcrumbs aria-label="breadcrumb">
+        <Breadcrumbs aria-label="breadcrumb" sx={{ '.MuiBreadcrumbs-ol': { rowGap: '5px' } }}>
           <StyledBreadcrumb component={Link} label="Home" to="/" icon={<HomeIcon />} />
 
           {breadcrumbs.map(({ label, to, isLast }) => {
@@ -56,7 +57,11 @@ export default function BreadcrumbsComponent() {
 
             if (isLast) {
               return (
-                <Typography color="text.secondary" key={label}>
+                <Typography
+                  color="text.secondary"
+                  key={label}
+                  sx={{ maxWidth: 200, textOverflow: 'ellipsis', textWrap: 'nowrap', overflow: 'hidden' }}
+                >
                   {label}
                 </Typography>
               );

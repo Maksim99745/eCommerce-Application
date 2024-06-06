@@ -1,12 +1,13 @@
 import { CategoriesListComponent } from '@components/CategoriesList/CategoriesList.component';
 import { drawerWidth } from '@constants/ui.const';
-import { Box, CssBaseline, Drawer, Toolbar, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Button, CssBaseline, Divider, Drawer, Toolbar, Typography, useMediaQuery, useTheme } from '@mui/material';
 import BreadcrumbsComponent from '@pages/Layout/components/Breadcrumbs/Breadcrumbs.component';
 import FooterComponent from '@pages/Layout/components/Footer/Footer.component';
 import { useCallback, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import HeaderComponent from '@pages/Layout/components/Header/Header.component';
 import { SidebarComponent } from '@pages/Layout/components/Sidebar/Sidebar.component';
+import InventoryIcon from '@mui/icons-material/Inventory';
 
 function LayoutPage() {
   const theme = useTheme();
@@ -42,6 +43,30 @@ function LayoutPage() {
           sx={{ '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, boxShadow: 3 } }}
         >
           <SidebarComponent>
+            <Button
+              sx={{ borderRadius: 4, textTransform: 'none', display: { xs: 'flex', sm: 'flex', md: 'none' } }}
+              component={Link}
+              to="/catalog"
+              size="medium"
+              variant="text"
+            >
+              <InventoryIcon sx={{ color: 'text.primary', height: 20 }} />
+              <Typography
+                variant="h6"
+                noWrap
+                sx={{
+                  fontSize: '16px',
+                  textAlign: 'left',
+                  width: '100%',
+                  p: 1,
+                  fontWeight: '600',
+                  color: 'text.primary',
+                }}
+              >
+                Catalog
+              </Typography>
+            </Button>
+            <Divider />
             <CategoriesListComponent onSelectCategory={handleDrawerClose} />
           </SidebarComponent>
         </Drawer>
