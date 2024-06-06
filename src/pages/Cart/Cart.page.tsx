@@ -1,5 +1,14 @@
+import { useCart } from '@hooks/useCart';
+import { CartProductsForm } from './components/CartProductsForm';
+
 function CartPage() {
-  return <p>Cart page</p>;
+  const { cart, isCartLoading } = useCart();
+
+  if (!cart) {
+    return null;
+  }
+
+  return <CartProductsForm cartData={cart} isCartLoading={isCartLoading} />;
 }
 
 export default CartPage;
