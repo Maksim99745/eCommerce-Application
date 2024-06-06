@@ -37,15 +37,8 @@ dayjs.extend(utc);
 function PersonalFormComponent({ userData, isLoading = false, onSubmit }: PersonalFormComponentProps) {
   const { isBusy, isReadonly, viewMode, setViewMode, setIsSaving } = useEditableFormState({ isLoading });
 
-  const { firstName = '', lastName = '', dateOfBirth = undefined, email = '' } = userData;
-
   const formContext = useForm<PersonalInformationFormData>({
-    defaultValues: {
-      firstName,
-      lastName,
-      dateOfBirth: dayjs.utc(dateOfBirth).toISOString(),
-      email,
-    },
+    defaultValues: getPersonalFormData(userData),
     resolver: zodResolver(personalInformationSchema),
     mode: 'all',
   });
