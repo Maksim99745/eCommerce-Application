@@ -22,6 +22,16 @@ export interface PersonalFormComponentProps {
   userData: Customer;
 }
 
+const getPersonalFormData = (userData: Customer): PersonalInformationFormData => {
+  const formValues: PersonalInformationFormData = {
+    firstName: userData.firstName || '',
+    lastName: userData.lastName || '',
+    dateOfBirth: dayjs.utc(userData.dateOfBirth).toISOString() || '',
+    email: userData.email || '',
+  };
+  return formValues;
+};
+
 dayjs.extend(utc);
 
 function PersonalFormComponent({ userData, isLoading = false, onSubmit }: PersonalFormComponentProps) {
@@ -57,7 +67,8 @@ function PersonalFormComponent({ userData, isLoading = false, onSubmit }: Person
       setViewMode('edit');
     } else if (action === 'cancel') {
       setViewMode('view');
-      reset(userData);
+
+      reset(getPersonalFormData(userData));
     }
   });
 
