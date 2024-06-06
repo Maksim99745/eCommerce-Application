@@ -8,9 +8,11 @@ function SearchPage() {
 
   return (
     <Paper elevation={1} sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 2 }}>
-      <Typography variant="h4">Search: {query}</Typography>
+      <Typography variant="h4" sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>
+        Search: {query}
+      </Typography>
 
-      <ProductListComponent query={query} />
+      <ProductListComponent query={query} productPath="/" />
     </Paper>
   );
 }

@@ -61,7 +61,6 @@ function HeaderComponent({ handleDrawerToggle, isDrawerOpen }: HeaderProps) {
           </Button>
         </Stack>
         <SearchComponent />
-
         <HeaderActionsComponent />
       </Toolbar>
     </AppBar>

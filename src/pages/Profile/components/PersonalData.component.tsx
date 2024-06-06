@@ -60,7 +60,6 @@ function PersonalFormComponent({ userData, isLoading = false, onSubmit }: Person
       setViewMode('edit');
     } else if (action === 'cancel') {
       setViewMode('view');
-
       reset(getPersonalFormData(userData));
     }
   });
