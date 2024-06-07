@@ -7,7 +7,7 @@ import { SWRConfig } from 'swr';
 export default function App() {
   return (
     <SnackbarProvider maxSnack={5}>
-      <SWRConfig value={{ dedupingInterval: 1000, revalidateOnFocus: false, revalidateOnReconnect: false }}>
+      <SWRConfig value={{ dedupingInterval: 3000, revalidateOnFocus: false, revalidateOnReconnect: false }}>
         <RouterProvider router={router} fallbackElement={<FallbackPage />} />
       </SWRConfig>
     </SnackbarProvider>
