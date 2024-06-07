@@ -17,7 +17,7 @@ interface ProductListComponentProps {
 }
 
 function ProductListComponent({ query, productPath = '' }: ProductListComponentProps) {
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState<boolean | null>(null);
   const [products, setProducts] = useState<ProductProjection[]>([]);
   const { category } = useCategory();
   const [filter, setFilter] = useState<ProductFilter>({
@@ -28,33 +28,49 @@ function ProductListComponent({ query, productPath = '' }: ProductListComponentP
     ...defaultProductsFilter,
   });
 
-  const updateProducts = useEventCallback((data: ProductProjectionPagedSearchResponse) => {
-    if (!data?.results) {
+  const updateFilter = useEventCallback((newFilter: ProductFilter) => {
+    if (JSON.stringify(newFilter) === JSON.stringify(filter)) {
       return;
     }
 
-    const offset = filter.offset || defaultProductsOffset;
-    const count = offset + data.count;
-    const loadMore = !!data?.total && count < data.total;
-
-    setHasMore(loadMore);
-
-    if (offset === defaultProductsOffset) {
-      setProducts(data.results);
-      return;
-    }
-
-    setProducts((prevProducts) => {
-      // Fix bug with duplicate products
-      const productIds = new Set(prevProducts.map((product) => product.id));
-      const newProducts = data.results.filter((product) => !productIds.has(product.id));
-      return [...prevProducts, ...newProducts];
-    });
+    setProducts([]);
+    setHasMore(null);
+    setFilter(newFilter);
   });
 
-  const { isLoading, isValidating } = useGetProducts(filter, { onSuccess: updateProducts });
+  useEffect(
+    () => updateFilter({ ...filter, categoryId: category?.id, query }),
+    [category, filter, query, updateFilter],
+  );
 
-  const setRef = useIntersectRef(() => {
+  useGetProducts(filter, {
+    onSuccess: (data: ProductProjectionPagedSearchResponse) => {
+      if (!data?.results) {
+        return;
+      }
+
+      const offset = filter.offset || defaultProductsOffset;
+      const count = offset + data.count;
+      const loadMore = !!data?.total && count < data.total;
+
+      setHasMore(loadMore);
+
+      if (offset === defaultProductsOffset) {
+        setProducts(data.results);
+        return;
+      }
+
+      setProducts((prevProducts) => {
+        // Fix bug with duplicate products
+        const productIds = new Set(prevProducts.map((product) => product.id));
+        const newProducts = data.results.filter((product) => !productIds.has(product.id));
+
+        return [...prevProducts, ...newProducts];
+      });
+    },
+  });
+
+  const loadMoreRef = useIntersectRef(() => {
     if (!hasMore) {
       return;
     }
@@ -67,27 +83,8 @@ function ProductListComponent({ query, productPath = '' }: ProductListComponentP
     }));
   });
 
-  useEffect(() => {
-    setProducts([]);
-    setFilter({
-      offset: defaultProductsOffset,
-      limit: defaultProductsLimit,
-      categoryId: category?.id,
-      query,
-      ...defaultProductsFilter,
-    });
-    setHasMore(false);
-  }, [category, query]);
-
   const handleFilterChange = useEventCallback((newFilter: ProductFilter) => {
-    const newFullFilter = { ...filter, ...getAttributesFilter(newFilter), offset: defaultProductsOffset };
-    if (JSON.stringify(newFullFilter) === JSON.stringify(filter)) {
-      return;
-    }
-
-    setProducts([]);
-    setFilter(newFullFilter);
-    setHasMore(false);
+    updateFilter({ ...filter, ...getAttributesFilter(newFilter), offset: defaultProductsOffset });
     document.getElementById('main')?.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
@@ -96,8 +93,8 @@ function ProductListComponent({ query, productPath = '' }: ProductListComponentP
       <ProductListFilterComponent onChange={handleFilterChange} />
 
       <Paper elevation={2} sx={{ p: 2, width: '100%', flex: 1 }}>
-        {!products.length && (isLoading || isValidating) && <ProductListSkeletonComponent />}
-        {!products.length && !(isLoading || isValidating) && (
+        {hasMore === null && <ProductListSkeletonComponent />}
+        {!products.length && hasMore !== null && (
           <Typography variant="h4" sx={{ textAlign: 'center', m: 3 }}>
             No products found
           </Typography>
@@ -113,7 +110,7 @@ function ProductListComponent({ query, productPath = '' }: ProductListComponentP
 
             <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', height: 50 }}>
               {hasMore ? (
-                <CircularProgress ref={setRef} />
+                <CircularProgress ref={loadMoreRef} />
               ) : (
                 <Typography variant="h6">Yay! You have seen it all</Typography>
               )}
