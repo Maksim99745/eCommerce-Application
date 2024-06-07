@@ -1,0 +1,150 @@
+.product-page-container {
+  padding: 25px 7px;
+}
+
+.image-short-info-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1%;
+  padding: 0;
+  margin-bottom: 35px;
+}
+
+.image-gallery-container {
+  max-width: 50%;
+}
+
+.image-gallery-container button svg {
+  height: 80px !important;
+  width: 40px !important;
+}
+
+.image-gallery-image {
+  width: 99%;
+  max-width: 500px;
+  height: 500px;
+  object-fit: scale-down;
+}
+
+.short-info-container {
+  width: 50%;
+  padding-top: 20px;
+}
+
+.product-page-title {
+  font-weight: 900;
+  font-size: 30px;
+  margin-bottom: 35px;
+}
+
+.product-page-info {
+  font-size: 24px;
+  font-weight: 900;
+  margin-bottom: 5px;
+  padding-top: 5px;
+}
+
+.product-attributes-container {
+  width: 250px;
+}
+
+.product-attributes {
+  font-weight: 700;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 22px;
+}
+
+.attribute-value,
+.current-price,
+.previous-price {
+  font-weight: 400;
+  margin-left: 15px;
+  width: 50%;
+}
+
+.current-price {
+  color: darkgreen;
+  font-weight: 800;
+  font-size: 28px;
+}
+
+.previous-price {
+  text-decoration: line-through;
+  color: brown;
+  font-weight: 700;
+}
+
+.product-page-description {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 30px;
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+.variant-button-group {
+  display: flex;
+  padding: 10px 15px;
+  gap: 10px;
+  max-width: fit-content;
+}
+
+.variant-button {
+  color: white;
+  text-transform: capitalize;
+  text-shadow: rgb(0, 0, 0) 0 0 3px;
+}
+
+.selected-variant-button {
+  text-transform: capitalize;
+  pointer-events: none;
+  opacity: 0.5;
+  text-shadow: rgb(0, 0, 0) 0 1px 7px;
+}
+
+@media (max-width: 950px) {
+  .image-short-info-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .image-gallery-container {
+    max-width: 100%;
+  }
+
+  .short-info-container {
+    width: 100%;
+  }
+
+  .product-page-title {
+    text-align: center;
+  }
+
+  .product-page-description {
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .image-gallery-image {
+    height: 400px;
+  }
+}
+
+@media (hover: hover) {
+  .image-gallery-container nav:hover {
+    cursor: default;
+  }
+
+  .image-gallery-container img:hover {
+    cursor: pointer;
+  }
+
+  .variant-button:hover {
+    border: 2px inset black;
+    text-shadow: rgb(0, 0, 0) 0 1px 5px;
+  }
+}

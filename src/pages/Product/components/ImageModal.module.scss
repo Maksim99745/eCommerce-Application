@@ -1,0 +1,37 @@
+.modal-gallery-image {
+  width: 700px;
+  height: 600px;
+  max-width: 99%;
+  object-fit: contain;
+}
+
+.image-modal-title {
+  position: relative;
+  padding: 15px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.close-icon {
+  position: absolute;
+  right: 2%;
+  top: 5%;
+}
+
+@media (max-width: 700px) {
+  .modal-gallery-image {
+    height: 400px;
+  }
+}
+
+@media (hover: hover) {
+  .dialog-content nav:hover {
+    cursor: default;
+  }
+
+  .dialog-content img:hover {
+    cursor: pointer;
+  }
+}

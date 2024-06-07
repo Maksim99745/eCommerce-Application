@@ -1,14 +1,19 @@
 import { loginFormSchema } from '@core/validation/user-login/user-login.schema';
-import { registrationSchema } from '@core/validation/user-registration/user-registration.schema';
+import {
+  passwordInformationSchema,
+  personalInformationSchema,
+  profileAddressesSchema,
+  profileAddressSchema,
+} from '@core/validation/user-profile/user-profile.schema';
+import { registrationSchema, addressSchema } from '@core/validation/user-registration/user-registration.schema';
+
 import { z } from 'zod';
 
-export type RegistrationForm = z.infer<typeof registrationSchema>;
-export type LoginForm = z.infer<typeof loginFormSchema>;
-
-export interface RegistrationFormAddress {
-  addressType: 'billing' | 'shipping';
-  street: string;
-  city: string;
-  country: string;
-  postalCode: string;
-}
+export type PasswordInformationFormData = z.infer<typeof passwordInformationSchema>;
+export type RegistrationFormData = z.infer<typeof registrationSchema>;
+export type LoginFormData = z.infer<typeof loginFormSchema>;
+export type AddressInformationFormData = z.infer<typeof addressSchema>;
+export type PersonalInformationFormData = z.infer<typeof personalInformationSchema>;
+export type AddressType = 'billing' | 'shipping';
+export type ProfileAddressFormData = z.infer<typeof profileAddressSchema>;
+export type ProfileAddressesFormData = z.infer<typeof profileAddressesSchema>;

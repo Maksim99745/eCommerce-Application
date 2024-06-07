@@ -21,6 +21,14 @@ module.exports = {
   },
   plugins: ['react-refresh', '@typescript-eslint', 'react', 'prettier', 'jest', 'jest-dom', 'unused-imports'],
   rules: {
+    "@typescript-eslint/no-unused-vars": [
+    "warn", // or "error"
+      {
+        "argsIgnorePattern": "^",
+        "varsIgnorePattern": "^",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     'no-multiple-empty-lines': ['error', { max: 1 }],
@@ -77,6 +85,6 @@ module.exports = {
     'react/require-default-props': 'off',
     '@typescript-eslint/lines-between-class-members': 'off',
     'no-return-assign': 'off',
-    'react/jsx-props-no-spreading': 'off'
-  }
+    'react/jsx-props-no-spreading': 'off',
+  },
 };

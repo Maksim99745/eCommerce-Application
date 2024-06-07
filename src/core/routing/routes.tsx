@@ -1,23 +1,25 @@
-import { userLoadingSignal, userSignal } from '@core/signals/user.signal';
-import FallbackPage from '@pages/Fallback/Fallback.page';
+import useAuth from '@hooks/useAuth';
 import { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 
 export function NoUserRoute({ children }: { children: ReactNode }) {
+  const { hasUser } = useAuth();
+
   return (
     <>
-      {userSignal.value && <Navigate to="/" />}
-      {!userSignal.value && children}
+      {hasUser && <Navigate to="/" />}
+      {children}
     </>
   );
 }
 
 export function HasUserRoute({ children }: { children: ReactNode }) {
+  const { hasNoUser } = useAuth();
+
   return (
     <>
-      {userLoadingSignal.value && <FallbackPage />}
-      {!userSignal.value && <Navigate to="/" />}
-      {userSignal.value && !userLoadingSignal.value && children}
+      {hasNoUser && <Navigate to="/" />}
+      {children}
     </>
   );
 }

@@ -1,42 +1,49 @@
 import { z } from 'zod';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { loginFormSchema } from '@core/validation/user-login/user-login.schema';
 import { RegistrationErrorMessages } from './user-registration.enum';
 import { validateAddress, validateBirthDay, validateBirthDayByAge } from './user-registration.validation';
-import {
-  BILLING_ADDRESS_IDX,
-  ISO_DATE_LENGTH,
-  NAME_SURNAME_REGEX,
-  SHIPPING_ADDRESS_IDX,
-} from './user-registration.const';
+import { BILLING_ADDRESS_IDX, NAME_SURNAME_REGEX, SHIPPING_ADDRESS_IDX } from './user-registration.const';
 
-const birthDateSchema = z
-  .custom<Dayjs>()
-  .refine((date) => validateBirthDay(date), RegistrationErrorMessages.BirthDateInvalid)
+dayjs.extend(utc);
+
+export const firstNameSchema = z
+  .string()
+  .regex(/.+/, RegistrationErrorMessages.FirstNameRequired)
+  .regex(NAME_SURNAME_REGEX, RegistrationErrorMessages.FirstNameInvalid);
+
+export const lastNameSchema = z
+  .string()
+  .regex(/.+/, RegistrationErrorMessages.LastNameRequired)
+  .regex(NAME_SURNAME_REGEX, RegistrationErrorMessages.LastNameInvalid);
+
+export const birthDateSchema = z
+  .custom<Dayjs | string>()
+  .refine((date) => validateBirthDay(dayjs.utc(date)), RegistrationErrorMessages.BirthDateInvalid)
   .refine(
-    (date) => (validateBirthDay(date) ? validateBirthDayByAge(date.toISOString()) : false),
+    (date) => (validateBirthDay(dayjs.utc(date)) ? validateBirthDayByAge(dayjs.utc(date).toISOString()) : false),
     RegistrationErrorMessages.BirthDateAge,
   )
-  .transform((value: Dayjs) => value.toISOString().substring(0, ISO_DATE_LENGTH));
+  .transform((value) => {
+    const transformedDate = dayjs.utc(value).local().format('YYYY-MM-DD');
+    return transformedDate;
+  });
 
-const addressSchema = z.object({
+export const addressSchema = z.object({
   country: z.string(),
   city: z.string(),
-  street: z.string(),
+  streetName: z.string(),
   postalCode: z.string(),
-  addressType: z.enum(['billing', 'shipping']),
+  isBilling: z.boolean(),
+  isShipping: z.boolean(),
+  isNewAddress: z.boolean(),
 });
 
 export const registrationSchema = z
   .object({
-    firstName: z
-      .string()
-      .regex(/.+/, RegistrationErrorMessages.FirstNameRequired)
-      .regex(NAME_SURNAME_REGEX, RegistrationErrorMessages.FirstNameInvalid),
-    lastName: z
-      .string()
-      .regex(/.+/, RegistrationErrorMessages.LastNameRequired)
-      .regex(NAME_SURNAME_REGEX, RegistrationErrorMessages.LastNameInvalid),
+    firstName: firstNameSchema,
+    lastName: lastNameSchema,
     birthDate: birthDateSchema,
     shippingAsBilling: z.boolean(),
     addresses: z.array(addressSchema),

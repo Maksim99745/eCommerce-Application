@@ -1,25 +1,13 @@
 import { CategoriesListComponent } from '@components/CategoriesList/CategoriesList.component';
 import { drawerWidth } from '@constants/ui.const';
-import { Box, CssBaseline, Drawer, Toolbar, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Button, CssBaseline, Divider, Drawer, Toolbar, Typography, useMediaQuery, useTheme } from '@mui/material';
+import BreadcrumbsComponent from '@pages/Layout/components/Breadcrumbs/Breadcrumbs.component';
 import FooterComponent from '@pages/Layout/components/Footer/Footer.component';
 import { useCallback, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import HeaderComponent from '@pages/Layout/components/Header/Header.component';
 import { SidebarComponent } from '@pages/Layout/components/Sidebar/Sidebar.component';
-
-const layoutStyles = {
-  layoutContainer: { display: 'flex', height: '100%' },
-  aside: { width: { sm: drawerWidth }, flexShrink: { sm: 0 } },
-  drawer: { '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth } },
-  mainContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexGrow: 1,
-    p: 0,
-    width: { sm: `calc(100% - ${drawerWidth}px)` },
-  },
-  main: { p: 3, display: 'flex', flexDirection: 'column', flexGrow: 1, overflow: 'auto' },
-};
+import InventoryIcon from '@mui/icons-material/Inventory';
 
 function LayoutPage() {
   const theme = useTheme();
@@ -41,28 +29,72 @@ function LayoutPage() {
   }, [isClosing, isDrawerOpen]);
 
   return (
-    <Box sx={layoutStyles.layoutContainer}>
+    <Box sx={{ display: 'flex', height: '100%' }}>
       <CssBaseline />
       <HeaderComponent handleDrawerToggle={handleDrawerToggle} isDrawerOpen={isDrawerOpen} />
 
-      <Box component="aside" sx={layoutStyles.aside} aria-label="categories">
+      <Box component="aside" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="categories">
         <Drawer
           variant={isSmUp ? 'permanent' : 'temporary'}
           open={isDrawerOpen}
           onTransitionEnd={handleDrawerTransitionEnd}
           onClose={handleDrawerClose}
           ModalProps={{ keepMounted: true }}
-          sx={layoutStyles.drawer}
+          sx={{ '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, boxShadow: 3 } }}
         >
           <SidebarComponent>
-            <CategoriesListComponent />
+            <Button
+              sx={{ borderRadius: 4, textTransform: 'none', display: { xs: 'flex', sm: 'flex', md: 'none' } }}
+              component={Link}
+              to="/catalog"
+              size="medium"
+              variant="text"
+            >
+              <InventoryIcon sx={{ color: 'text.primary', height: 20 }} />
+              <Typography
+                variant="h6"
+                noWrap
+                sx={{
+                  fontSize: '16px',
+                  textAlign: 'left',
+                  width: '100%',
+                  p: 1,
+                  fontWeight: '600',
+                  color: 'text.primary',
+                }}
+              >
+                Catalog
+              </Typography>
+            </Button>
+            <Divider />
+            <CategoriesListComponent onSelectCategory={handleDrawerClose} />
           </SidebarComponent>
         </Drawer>
       </Box>
 
-      <Box sx={layoutStyles.mainContainer}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          flexGrow: 1,
+          p: 0,
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+        }}
+      >
         <Toolbar />
-        <Box component="main" sx={layoutStyles.main}>
+
+        <BreadcrumbsComponent />
+        <Box
+          component="main"
+          sx={{
+            p: { xs: 1, sm: 2 },
+            display: 'flex',
+            flexDirection: 'column',
+            flexGrow: 1,
+            overflow: 'auto',
+            scrollbarGutter: 'stable',
+          }}
+        >
           <Outlet />
         </Box>
         <FooterComponent />

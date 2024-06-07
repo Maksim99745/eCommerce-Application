@@ -2,7 +2,7 @@ import { SelectOption } from '@models/select-option.model';
 
 export const DEFAULT_COUNTRY_IDX = 0;
 
-export const countriesOptions: SelectOption[] = [
+export const countriesOptions: Array<SelectOption<'PL' | 'UA' | 'UZ' | 'RS', string>> = [
   { id: 'PL', label: 'Poland' },
   { id: 'UA', label: 'Ukraine' },
   { id: 'UZ', label: 'Uzbekistan' },

@@ -8,16 +8,21 @@ import {
   MyCustomerDraft,
   MyCustomerSignin,
   MyCustomerUpdateAction,
+  ProductProjectionPagedSearchResponse,
+  Product,
 } from '@commercetools/platform-sdk';
 import { ApiRequest } from '@commercetools/platform-sdk/dist/declarations/src/generated/shared/utils/requests-utils';
 import { UserAuthOptions } from '@commercetools/sdk-client-v2';
+import { defaultProductsLimit, defaultProductsOffset } from '@constants/products.const';
 import { ClientType } from '@core/api/client-type.enum';
 import { getRequestBuilder } from '@core/api/get-builder.util';
 import { tokenCache } from '@core/api/token-cache.service';
-import { userLoadingSignal, userSignal } from '@core/signals/user.signal';
+import { GetProductsRequest } from '@models/product-filter.model';
+import { NewPasswordRequestData } from '@pages/Profile/hooks/useSubmitNewPassword';
 
 export class ApiService {
   private builder!: ByProjectKeyRequestBuilder;
+  public clientType!: ClientType;
 
   constructor() {
     const token = tokenCache.get();
@@ -29,18 +34,10 @@ export class ApiService {
     }
 
     this.setBuilder(type);
-
-    if (token) {
-      userLoadingSignal.value = true;
-
-      this.getCustomer()
-        .then((user) => (userSignal.value = user))
-        .catch(() => (userSignal.value = null))
-        .finally(() => (userLoadingSignal.value = false));
-    }
   }
 
   public setBuilder(type: ClientType, user?: UserAuthOptions): void {
+    this.clientType = type;
     this.builder = getRequestBuilder(type, user);
   }
 
@@ -52,6 +49,10 @@ export class ApiService {
     return this.callRequest(this.builder.categories().withKey({ key }).get());
   }
 
+  public async getProduct(key: string): Promise<Product> {
+    return this.callRequest(this.builder.products().withKey({ key }).get());
+  }
+
   public async login(customer: MyCustomerSignin): Promise<CustomerSignInResult> {
     return this.callRequest(this.builder.me().login().post({ body: customer }));
   }
@@ -60,8 +61,23 @@ export class ApiService {
     return this.callRequest(this.builder.me().signup().post({ body: customer }));
   }
 
-  public async updateCustomer(action: MyCustomerUpdateAction): Promise<Customer> {
-    return this.callRequest(this.builder.me().post({ body: { version: 1, actions: [action] } }));
+  public async updateCustomer(customerVersion: number, ...action: MyCustomerUpdateAction[]): Promise<Customer> {
+    return this.callRequest(this.builder.me().post({ body: { version: customerVersion, actions: [...action] } }));
+  }
+
+  public async changePassword(newPasswordData: NewPasswordRequestData): Promise<Customer> {
+    return this.callRequest(
+      this.builder
+        .me()
+        .password()
+        .post({
+          body: {
+            version: newPasswordData.version,
+            currentPassword: newPasswordData.currentPassword,
+            newPassword: newPasswordData.newPassword,
+          },
+        }),
+    );
   }
 
   public async getCustomer(): Promise<Customer> {
@@ -71,6 +87,21 @@ export class ApiService {
   public async getCartQuantity(): Promise<number> {
     return this.callRequest(this.builder.me().carts().get()).then(
       (carts) => carts.results[0]?.totalLineItemQuantity || 0,
+    );
+  }
+
+  public async getProducts({
+    filter,
+    limit = defaultProductsLimit,
+    offset = defaultProductsOffset,
+    sort,
+    query,
+  }: GetProductsRequest): Promise<ProductProjectionPagedSearchResponse> {
+    return this.callRequest(
+      this.builder
+        .productProjections()
+        .search()
+        .get({ queryArgs: { fuzzy: true, offset, limit, filter, sort, 'text.en': query } }),
     );
   }
 

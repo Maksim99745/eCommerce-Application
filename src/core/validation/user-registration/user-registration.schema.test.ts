@@ -15,7 +15,15 @@ test('personal data should be provided', () => {
     shippingAsBilling: true,
     birthDate: '',
     addresses: [
-      { street: 'Liberty', city: 'Kaz', country: 'Uzbekistan', postalCode: '22822', addressType: 'shipping' },
+      {
+        streetName: 'Liberty',
+        city: 'Kaz',
+        country: 'Uzbekistan',
+        postalCode: '22822',
+        isBilling: false,
+        isShipping: false,
+        isNewAddress: true,
+      },
     ],
   });
   expect(result.success).toBe(false);
@@ -38,7 +46,17 @@ test('address data should be provided', () => {
     defaultBillingAddressIdx: -1,
     email: 'jaks134@mail.ru',
     password: 'fjfD3&dl#sL',
-    addresses: [{ street: '', city: '', country: '', postalCode: '', addressType: 'shipping' }],
+    addresses: [
+      {
+        streetName: '',
+        city: '',
+        country: '',
+        postalCode: '',
+        isBilling: false,
+        isShipping: false,
+        isNewAddress: true,
+      },
+    ],
   });
   expect(result.success).toBe(false);
   expect(result.error?.issues[0].message).toBe(RegistrationErrorMessages.CountryRequired);
@@ -72,11 +90,13 @@ test('Name of the city should not contain numbers or special symbols', () => {
     password: 'fjfD3&dl#sL',
     addresses: [
       {
-        street: 'dd',
+        streetName: 'dd',
         city: '2',
         country: 'PL',
         postalCode: '22-223',
-        addressType: 'shipping',
+        isBilling: false,
+        isShipping: false,
+        isNewAddress: true,
       },
     ],
   });
@@ -96,11 +116,13 @@ test('Invalid post code for country: Poland', () => {
     password: 'fjfD3&dl#sL',
     addresses: [
       {
-        street: 'dd',
+        streetName: 'dd',
         city: 'Dh',
         country: 'PL',
         postalCode: '22223',
-        addressType: 'shipping',
+        isBilling: false,
+        isShipping: false,
+        isNewAddress: true,
       },
     ],
   });
@@ -120,11 +142,13 @@ test('Invalid post code for country: Uzbekistan', () => {
     password: 'fjfD3&dl#sL',
     addresses: [
       {
-        street: 'dd',
+        streetName: 'dd',
         city: 'Dh',
         country: 'UZ',
         postalCode: '22223',
-        addressType: 'shipping',
+        isBilling: false,
+        isShipping: false,
+        isNewAddress: true,
       },
     ],
   });
@@ -144,11 +168,13 @@ test('Invalid post code for country: Serbia', () => {
     password: 'fjfD3&dl#sL',
     addresses: [
       {
-        street: 'dd',
+        streetName: 'dd',
         city: 'Dh',
         country: 'RS',
         postalCode: '2222',
-        addressType: 'shipping',
+        isBilling: false,
+        isShipping: false,
+        isNewAddress: true,
       },
     ],
   });
@@ -168,11 +194,13 @@ test('Invalid post code for country: Ukraine', () => {
     password: 'fjfD3&dl#sL',
     addresses: [
       {
-        street: 'dd',
+        streetName: 'dd',
         city: 'Dh',
         country: 'UA',
         postalCode: '2222',
-        addressType: 'shipping',
+        isBilling: false,
+        isShipping: false,
+        isNewAddress: true,
       },
     ],
   });

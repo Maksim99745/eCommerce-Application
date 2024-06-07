@@ -4,14 +4,14 @@ import {
   NO_IDX,
   SHIPPING_ADDRESS_IDX,
 } from '@core/validation/user-registration/user-registration.const';
-import { RegistrationForm, RegistrationFormAddress } from '@models/forms.model';
+import { AddressInformationFormData, RegistrationFormData } from '@models/forms.model';
 
-function mapFormAddressToCustomerAddress(address: RegistrationFormAddress): BaseAddress {
-  const { street, postalCode, country, city } = address;
-  return { streetName: street, postalCode, country, city };
+function mapFormAddressToCustomerAddress(address: AddressInformationFormData): BaseAddress {
+  const { streetName, postalCode, country, city } = address;
+  return { streetName, postalCode, country, city };
 }
 
-export function mapFormToCustomerDraft(data: RegistrationForm): MyCustomerDraft {
+export function mapFormToCustomerDraft(data: RegistrationFormData): MyCustomerDraft {
   const dataAddresses = data.shippingAsBilling ? [data.addresses[SHIPPING_ADDRESS_IDX]] : data.addresses;
   const addresses = dataAddresses.map(mapFormAddressToCustomerAddress);
 
