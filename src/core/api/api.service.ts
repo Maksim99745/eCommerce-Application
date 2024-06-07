@@ -12,6 +12,7 @@ import {
   Product,
   CartPagedQueryResponse,
   Cart,
+  LineItem,
 } from '@commercetools/platform-sdk';
 import { ApiRequest } from '@commercetools/platform-sdk/dist/declarations/src/generated/shared/utils/requests-utils';
 import { UserAuthOptions } from '@commercetools/sdk-client-v2';
@@ -143,6 +144,28 @@ export class ApiService {
                 action: 'changeLineItemQuantity',
                 lineItemId,
                 quantity,
+              },
+            ],
+          },
+        }),
+    );
+  }
+
+  public async removeCartLineItem({ lineItem, cart }: { lineItem: LineItem; cart?: Cart }): Promise<Cart> {
+    const userCart = cart || (await this.createCart());
+
+    return this.callRequest(
+      this.builder
+        .me()
+        .carts()
+        .withId({ ID: userCart.id })
+        .post({
+          body: {
+            version: userCart.version,
+            actions: [
+              {
+                action: 'removeLineItem',
+                lineItemId: lineItem.id,
               },
             ],
           },

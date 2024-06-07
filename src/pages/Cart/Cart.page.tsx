@@ -1,14 +1,17 @@
 import { useCart } from '@hooks/useCart';
-import { CartProductsForm } from './components/CartProductsForm';
+import { CartLineItemsView } from './components/CartLineItemsView';
+import { useRemoveCartLineItem } from './hooks/useRemoveCartLineItem';
 
 function CartPage() {
   const { cart, isCartLoading } = useCart();
+
+  const handleLineItemRemove = useRemoveCartLineItem();
 
   if (!cart) {
     return null;
   }
 
-  return <CartProductsForm cartData={cart} isCartLoading={isCartLoading} />;
+  return <CartLineItemsView cartData={cart} isLoading={isCartLoading} onLineItemRemove={handleLineItemRemove} />;
 }
 
 export default CartPage;
