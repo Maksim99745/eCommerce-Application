@@ -12,7 +12,7 @@ export function CartLineItemsView({ cartData, isLoading = false, onLineItemRemov
   const { lineItems } = cartData;
 
   return (
-    <Stack spacing={0} direction="column" sx={{ overflowX: 'auto' }}>
+    <Stack spacing={1} direction="column" sx={{ overflowX: 'auto' }}>
       {lineItems.map((cartItem) => (
         <CartLineItem cartItem={cartItem} key={cartItem.id} disabled={isLoading} onRemove={onLineItemRemove} />
       ))}
