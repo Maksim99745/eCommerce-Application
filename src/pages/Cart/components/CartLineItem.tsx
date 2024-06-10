@@ -1,21 +1,35 @@
-import { LineItem } from '@commercetools/platform-sdk';
-import { Box, Button, Container, Grid, Paper, Typography } from '@mui/material';
+import { Cart, LineItem } from '@commercetools/platform-sdk';
+import { Box, Button, Container, Grid, Paper, Typography, useEventCallback } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Divider from '@mui/material/Divider';
+import CounterComponent from '@components/Counter/Counter.component';
+import { useChangeCartItemQuantity } from '@core/api/hooks/useChangeCartItemQuantity';
 import { CartLineItemPrice } from './CartLineItemPrice';
 
 interface CartLineItemProps {
-  cartItem: LineItem;
+  cart: Cart;
+  lineItem: LineItem;
   disabled?: boolean;
-  onRemove: (cartItem: LineItem) => void;
+  onRemove: (lineItem: LineItem) => void;
 }
 
-export function CartLineItem({ cartItem, disabled = false, onRemove }: CartLineItemProps) {
-  const imagePath = cartItem?.variant?.images?.[0]?.url ?? '/public/defaultLineItemImage.jpeg';
+export function CartLineItem({ cart, lineItem, disabled = false, onRemove }: CartLineItemProps) {
+  const imagePath = lineItem?.variant?.images?.[0]?.url ?? '/public/defaultLineItemImage.jpeg';
+
+  const { trigger: changeCartItemQuantity, isMutating: isQuantityChanging } = useChangeCartItemQuantity({
+    cart,
+    lineItemId: lineItem?.id,
+  });
+
+  const handleChangeCount = useEventCallback((count: number) => {
+    if (lineItem) {
+      changeCartItemQuantity({ quantity: count });
+    }
+  });
 
   return (
     <Container maxWidth="md">
-      <Grid key={cartItem.id} container>
+      <Grid key={lineItem.id} container>
         <Paper elevation={2} sx={{ p: '1vh 2%', width: '100%', m: 1 }}>
           <Grid columns={7} container spacing={1} alignItems="center">
             <Grid item xs={2}>
@@ -24,24 +38,29 @@ export function CartLineItem({ cartItem, disabled = false, onRemove }: CartLineI
                 sx={{
                   maxHeight: 100,
                 }}
-                alt={cartItem.name.en}
+                alt={lineItem.name.en}
                 src={imagePath}
               />
             </Grid>
             <Grid item xs={5}>
-              <Typography>{`${cartItem.name.en}`}</Typography>
+              <Typography>{`${lineItem.name.en}`}</Typography>
             </Grid>
           </Grid>
           <Divider sx={{ m: 1 }} />
-          <Grid key={cartItem.id} columns={7} container alignItems="centre">
+          <Grid key={lineItem.id} columns={7} container alignItems="centre">
             <Grid item xs={2}>
-              <Typography>&nbsp;{`amount: ${cartItem.quantity}`}</Typography>
+              <CounterComponent
+                initCount={lineItem?.quantity || 1}
+                onChange={handleChangeCount}
+                disabled={isQuantityChanging || disabled}
+                aria-label="product-counter"
+              />
             </Grid>
             <Grid item xs={3}>
-              <CartLineItemPrice cartItem={cartItem} />
+              <CartLineItemPrice cartItem={lineItem} />
             </Grid>
             <Grid item xs={2}>
-              <Button disabled={disabled} startIcon={<DeleteOutlineIcon />} onClick={() => onRemove(cartItem)}>
+              <Button disabled={disabled} startIcon={<DeleteOutlineIcon />} onClick={() => onRemove(lineItem)}>
                 Remove
               </Button>
             </Grid>

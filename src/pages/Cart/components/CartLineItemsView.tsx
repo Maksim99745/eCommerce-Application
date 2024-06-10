@@ -16,7 +16,13 @@ export function CartLineItemsView({ cartData, isLoading = false, onLineItemRemov
   return (
     <Stack direction="column">
       {lineItems.map((cartItem) => (
-        <CartLineItem cartItem={cartItem} key={cartItem.id} disabled={isLoading} onRemove={onLineItemRemove} />
+        <CartLineItem
+          cart={cartData}
+          lineItem={cartItem}
+          key={cartItem.id}
+          disabled={isLoading}
+          onRemove={onLineItemRemove}
+        />
       ))}
       {isEmptyCart && <EmptyCartMessage />}
     </Stack>
