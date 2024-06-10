@@ -2,6 +2,7 @@ import { Cart, LineItem } from '@commercetools/platform-sdk';
 import { Stack } from '@mui/material';
 import { CartLineItem } from './CartLineItem';
 import { EmptyCartMessage } from './EmptyCartMessage';
+import { CartTotalCost } from './CartTotalCost';
 
 export type CartProductsFormProps = {
   cartData: Cart;
@@ -25,6 +26,7 @@ export function CartLineItemsView({ cartData, isLoading = false, onLineItemRemov
         />
       ))}
       {isEmptyCart && <EmptyCartMessage />}
+      {!isEmptyCart && <CartTotalCost cart={cartData} />}
     </Stack>
   );
 }
