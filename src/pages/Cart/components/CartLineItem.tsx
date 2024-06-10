@@ -42,7 +42,7 @@ export function CartLineItem({ cartItem, disabled = false, onRemove }: CartLineI
             </Grid>
             <Grid item xs={2}>
               <Button disabled={disabled} startIcon={<DeleteOutlineIcon />} onClick={() => onRemove(cartItem)}>
-                Remove{' '}
+                Remove
               </Button>
             </Grid>
           </Grid>
