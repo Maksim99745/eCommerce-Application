@@ -2,6 +2,7 @@ import { Container, Stack } from '@mui/material';
 import AboutImagesContainer from './components/ImagesBlockElement/AboutImagesBlock';
 import DescriptionElement from './components/DescriptionElement/DescriptionElement';
 import TeamMembersSection from './components/TeamMembersSection/TeamMembersBlock';
+import ContributionBlock from './components/Contribution/Contributions';
 
 function AboutPage() {
   return (
@@ -22,6 +23,7 @@ function AboutPage() {
         <AboutImagesContainer />
       </Container>
       <TeamMembersSection />
+      <ContributionBlock />
     </Stack>
   );
 }
