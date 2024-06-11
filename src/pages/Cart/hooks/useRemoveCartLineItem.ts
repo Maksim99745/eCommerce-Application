@@ -13,7 +13,7 @@ export const useRemoveCartLineItem = () => {
     try {
       const newCart = await apiService.removeCartLineItem({ lineItem, cart: cart ?? undefined });
       setCart(newCart);
-      showMessage(`${lineItem.name.en} successfully remove`);
+      showMessage(`Product: ${lineItem.name.en} successfully removed`);
       return { success: true };
     } catch (error) {
       const errorMessage = createAppErrorMessage(error);
