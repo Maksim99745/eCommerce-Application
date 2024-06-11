@@ -1,8 +1,6 @@
 import { Cart, LineItem } from '@commercetools/platform-sdk';
 import { Stack } from '@mui/material';
 import { CartLineItem } from './CartLineItem';
-import { EmptyCartMessage } from './EmptyCartMessage';
-import { CartTotalCost } from './CartTotalCost';
 
 export type CartProductsFormProps = {
   cartData: Cart;
@@ -12,7 +10,6 @@ export type CartProductsFormProps = {
 
 export function CartLineItemsView({ cartData, isLoading = false, onLineItemRemove }: CartProductsFormProps) {
   const { lineItems } = cartData;
-  const isEmptyCart = cartData.lineItems.length === 0;
 
   return (
     <Stack sx={{ justifyContent: 'space-between', height: '100vh' }}>
@@ -27,9 +24,6 @@ export function CartLineItemsView({ cartData, isLoading = false, onLineItemRemov
           />
         ))}
       </Stack>
-
-      {isEmptyCart && <EmptyCartMessage />}
-      {!isEmptyCart && <CartTotalCost cart={cartData} />}
     </Stack>
   );
 }
