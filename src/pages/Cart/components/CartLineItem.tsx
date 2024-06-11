@@ -33,7 +33,7 @@ export function CartLineItem({ cartItem, disabled = false, onRemove }: CartLineI
             </Grid>
           </Grid>
           <Divider sx={{ m: 1 }} />
-          <Grid key={cartItem.id} columns={7} container alignItems="centre">
+          <Grid key={cartItem.id} columns={7} container alignItems="center">
             <Grid item xs={2}>
               <Typography>&nbsp;{`amount: ${cartItem.quantity}`}</Typography>
             </Grid>
