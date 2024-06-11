@@ -1,0 +1,22 @@
+.about-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 45%;
+  max-width: 540px;
+  flex: 0 1 50%;
+}
+
+.about-title {
+  font-size: 45px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 30px;
+}
+
+.about-text {
+  font-size: 18px;
+  line-height: 1.5;
+  letter-spacing: 0.1;
+}

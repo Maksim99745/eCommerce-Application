@@ -1,0 +1,13 @@
+.about-images-container {
+  max-width: 540px;
+  display: flex;
+  gap: 5%;
+  justify-content: center;
+  flex: 0 1 50%;
+}
+
+.images-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
