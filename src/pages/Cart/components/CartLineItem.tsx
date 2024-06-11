@@ -65,7 +65,7 @@ export function CartLineItem({ cart, lineItem, disabled = false, onRemove }: Car
               />
             </Grid>
             <Grid item xs={3}>
-              <CartLineItemPrice cartItem={lineItem} />
+              <CartLineItemPrice lineItem={lineItem} />
             </Grid>
             <Grid item xs={2}>
               <Button disabled={disabled} startIcon={<DeleteOutlineIcon />} onClick={() => onRemove(lineItem)}>
