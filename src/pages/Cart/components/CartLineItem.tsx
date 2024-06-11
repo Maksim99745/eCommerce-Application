@@ -5,6 +5,7 @@ import Divider from '@mui/material/Divider';
 import CounterComponent from '@components/Counter/Counter.component';
 import { useChangeCartItemQuantity } from '@core/api/hooks/useChangeCartItemQuantity';
 import { useNavigate } from 'react-router-dom';
+import { defaultProductImageUrl } from '@constants/products.const';
 import { CartLineItemPrice } from './CartLineItemPrice';
 
 interface CartLineItemProps {
@@ -16,7 +17,7 @@ interface CartLineItemProps {
 
 export function CartLineItem({ cart, lineItem, disabled = false, onRemove }: CartLineItemProps) {
   const navigate = useNavigate();
-  const imagePath = lineItem?.variant?.images?.[0]?.url ?? '/public/defaultLineItemImage.jpeg';
+  const imagePath = lineItem?.variant?.images?.[0]?.url ?? defaultProductImageUrl;
 
   const { trigger: changeCartItemQuantity, isMutating: isQuantityChanging } = useChangeCartItemQuantity({
     cart,
