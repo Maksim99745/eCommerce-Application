@@ -12,18 +12,16 @@ export function CartLineItemsView({ cartData, isLoading = false, onLineItemRemov
   const { lineItems } = cartData;
 
   return (
-    <Stack sx={{ justifyContent: 'space-between', height: '100vh' }}>
-      <Stack>
-        {lineItems.map((cartItem) => (
-          <CartLineItem
-            cart={cartData}
-            lineItem={cartItem}
-            key={cartItem.id}
-            disabled={isLoading}
-            onRemove={onLineItemRemove}
-          />
-        ))}
-      </Stack>
+    <Stack>
+      {lineItems.map((cartItem) => (
+        <CartLineItem
+          cart={cartData}
+          lineItem={cartItem}
+          key={cartItem.id}
+          disabled={isLoading}
+          onRemove={onLineItemRemove}
+        />
+      ))}
     </Stack>
   );
 }
