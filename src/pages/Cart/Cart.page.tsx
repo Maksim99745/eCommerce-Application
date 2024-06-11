@@ -17,7 +17,7 @@ function CartPage() {
   const isEmptyCart = cart.lineItems.length === 0;
 
   return (
-    <Stack sx={{ justifyContent: 'space-between', minHeight: '100%' }}>
+    <Stack sx={{ minHeight: '100%' }}>
       {!isEmptyCart && <CartTotalCost cart={cart} />}
       <CartLineItemsView cartData={cart} isLoading={isCartLoading} onLineItemRemove={handleLineItemRemove} />
       {isEmptyCart && <EmptyCartMessage />}
