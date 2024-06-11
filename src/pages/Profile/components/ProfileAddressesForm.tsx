@@ -93,7 +93,7 @@ export function ProfileAddressesForm({
   });
 
   return (
-    <Container maxWidth="md" sx={{ maxWidth: { xs: '100%', sm: '100%' } }}>
+    <Container maxWidth="md" sx={{ maxWidth: { xs: '100%', sm: 'md' } }}>
       <Paper elevation={1} sx={{ p: '2vh 3%', maxWidth: '100%' }}>
         <FormContainer formContext={formContext}>
           <Stack spacing={2} direction="row" justifyContent="space-between" alignItems="start">

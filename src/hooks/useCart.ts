@@ -2,7 +2,7 @@ import { Cart } from '@commercetools/platform-sdk';
 import { apiService } from '@core/api/api.service';
 import { signal } from '@preact/signals-react';
 
-export const cartSignal = signal<Cart | null | undefined>(undefined);
+const cartSignal = signal<Cart | null | undefined>(undefined);
 const isCartLoadingSignal = signal<boolean>(false);
 
 export const setCartLoading = (isLoading: boolean) => {
