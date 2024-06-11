@@ -3,6 +3,7 @@ import AboutImagesContainer from './components/ImagesBlockElement/AboutImagesBlo
 import DescriptionElement from './components/DescriptionElement/DescriptionElement';
 import TeamMembersSection from './components/TeamMembersSection/TeamMembersBlock';
 import ContributionBlock from './components/Contribution/Contributions';
+import MethodologySection from './components/Methodology/Methodology';
 
 function AboutPage() {
   return (
@@ -24,6 +25,7 @@ function AboutPage() {
       </Container>
       <TeamMembersSection />
       <ContributionBlock />
+      <MethodologySection />
     </Stack>
   );
 }

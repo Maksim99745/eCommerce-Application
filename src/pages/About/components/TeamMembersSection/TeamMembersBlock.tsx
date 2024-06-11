@@ -1,6 +1,6 @@
 import { Container, Typography } from '@mui/material';
+import { teamMembersData } from '../../../../data/TeamMembersData';
 import DeveloperCard from '../DeveloperCard/DeveloperCard';
-import { teamMembersData } from './TeamMembersData';
 import styles from './TeamMembersBlock.module.scss';
 
 function TeamMembersSection() {

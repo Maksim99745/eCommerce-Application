@@ -1,0 +1,58 @@
+.methodologySection {
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.methodology-section-title {
+  max-width: 90%;
+  text-align: center;
+  font-size: 45px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 30px;
+}
+.methodologySectionDescription {
+  margin-bottom: 60px;
+  padding: 25px;
+}
+.methodologyWrap {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 30px;
+  column-gap: 4%;
+  align-items: center;
+  justify-content: center;
+}
+.methodologyTitleWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-top: 50px;
+  margin-bottom: 20px;
+}
+.methodologyTitle {
+  font-weight: 500;
+}
+.methodologyAvatar {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translate(-50%);
+  width: 60px;
+  height: 60px;
+  background-color: aliceblue;
+  border: 2px solid;
+  padding: 2px;
+}
+
+.methodologyItem {
+  padding: 0px 25px 15px;
+  height: 300px;
+}
+
+@media (max-width: 700px) {
+  .methodology-section-title {
+    font-size: 25px;
+  }
+}
