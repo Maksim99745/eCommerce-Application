@@ -18,9 +18,9 @@ function CartPage() {
 
   return (
     <Stack sx={{ justifyContent: 'space-between', minHeight: '100%' }}>
+      {!isEmptyCart && <CartTotalCost cart={cart} />}
       <CartLineItemsView cartData={cart} isLoading={isCartLoading} onLineItemRemove={handleLineItemRemove} />
       {isEmptyCart && <EmptyCartMessage />}
-      {!isEmptyCart && <CartTotalCost cart={cart} />}
     </Stack>
   );
 }
