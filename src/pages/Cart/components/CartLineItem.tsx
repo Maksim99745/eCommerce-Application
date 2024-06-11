@@ -47,7 +47,7 @@ export function CartLineItem({ cart, lineItem, disabled = false, onRemove }: Car
             </Grid>
           </Grid>
           <Divider sx={{ m: 1 }} />
-          <Grid key={lineItem.id} columns={7} container alignItems="centre">
+          <Grid key={lineItem.id} columns={7} container alignItems="center">
             <Grid item xs={2}>
               <CounterComponent
                 initCount={lineItem?.quantity || 1}

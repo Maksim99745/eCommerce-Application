@@ -15,16 +15,19 @@ export function CartLineItemsView({ cartData, isLoading = false, onLineItemRemov
   const isEmptyCart = cartData.lineItems.length === 0;
 
   return (
-    <Stack direction="column">
-      {lineItems.map((cartItem) => (
-        <CartLineItem
-          cart={cartData}
-          lineItem={cartItem}
-          key={cartItem.id}
-          disabled={isLoading}
-          onRemove={onLineItemRemove}
-        />
-      ))}
+    <Stack sx={{ justifyContent: 'space-between', height: '100vh' }}>
+      <Stack>
+        {lineItems.map((cartItem) => (
+          <CartLineItem
+            cart={cartData}
+            lineItem={cartItem}
+            key={cartItem.id}
+            disabled={isLoading}
+            onRemove={onLineItemRemove}
+          />
+        ))}
+      </Stack>
+
       {isEmptyCart && <EmptyCartMessage />}
       {!isEmptyCart && <CartTotalCost cart={cartData} />}
     </Stack>

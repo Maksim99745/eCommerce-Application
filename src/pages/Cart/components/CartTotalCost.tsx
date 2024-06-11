@@ -3,7 +3,7 @@ import { Container, Grid, Paper, Typography } from '@mui/material';
 
 export function CartTotalCost({ cart }: { cart: Cart }) {
   return (
-    <Container maxWidth="md" sx={{ m: 'auto' }}>
+    <Container maxWidth="md">
       <Grid container>
         <Paper elevation={2} sx={{ p: '1vh 2%', width: '100%', m: 1 }}>
           <Grid columns={2} container>
