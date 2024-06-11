@@ -1,0 +1,31 @@
+.team-members-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.team-members-title {
+  max-width: 90%;
+  text-align: center;
+  font-size: 45px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 40px;
+}
+
+.team-members-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 20px;
+  column-gap: 4%;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 700px) {
+  .team-members-title {
+    font-size: 25px;
+    margin-bottom: 30px;
+  }
+}
