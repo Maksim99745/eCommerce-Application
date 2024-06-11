@@ -2,6 +2,7 @@ import { LineItem } from '@commercetools/platform-sdk';
 import { Box, Button, Container, Grid, Paper, Typography } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Divider from '@mui/material/Divider';
+import { defaultProductImageUrl } from '@constants/products.const';
 import { CartLineItemPrice } from './CartLineItemPrice';
 
 interface CartLineItemProps {
@@ -11,7 +12,7 @@ interface CartLineItemProps {
 }
 
 export function CartLineItem({ cartItem, disabled = false, onRemove }: CartLineItemProps) {
-  const imagePath = cartItem?.variant?.images?.[0]?.url ?? '/public/defaultLineItemImage.jpeg';
+  const imagePath = cartItem?.variant?.images?.[0]?.url ?? defaultProductImageUrl;
 
   return (
     <Container maxWidth="md">
