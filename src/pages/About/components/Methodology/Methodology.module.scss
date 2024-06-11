@@ -1,9 +1,10 @@
-.methodologySection {
+.methodology-section {
   margin-bottom: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .methodology-section-title {
   max-width: 90%;
   text-align: center;
@@ -12,11 +13,13 @@
   line-height: 1.2;
   margin-bottom: 30px;
 }
-.methodologySectionDescription {
+
+.methodology-section-description {
   margin-bottom: 60px;
   padding: 25px;
 }
-.methodologyWrap {
+
+.methodology-wrap {
   display: flex;
   flex-wrap: wrap;
   row-gap: 30px;
@@ -24,17 +27,20 @@
   align-items: center;
   justify-content: center;
 }
-.methodologyTitleWrap {
+
+.methodology-title-wrap {
   position: relative;
   display: flex;
   align-items: center;
   padding-top: 50px;
   margin-bottom: 20px;
 }
-.methodologyTitle {
+
+.methodology-title {
   font-weight: 500;
 }
-.methodologyAvatar {
+
+.methodology-avatar {
   position: absolute;
   top: -20px;
   left: 50%;
@@ -46,7 +52,7 @@
   padding: 2px;
 }
 
-.methodologyItem {
+.methodology-item {
   padding: 0px 25px 15px;
   height: 300px;
 }
