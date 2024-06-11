@@ -3,22 +3,24 @@ import { Stack } from '@mui/material';
 import { CartLineItemsView } from './components/CartLineItemsView';
 import { useRemoveCartLineItem } from './hooks/useRemoveCartLineItem';
 import { EmptyCartMessage } from './components/EmptyCartMessage';
-import { CartTotalCost } from './components/CartTotalCost';
+import { CartToolBar } from './components/CartToolBar';
+import { useCleanCart } from './hooks/useCleanCart';
 
 function CartPage() {
   const { cart, isCartLoading } = useCart();
 
   const handleLineItemRemove = useRemoveCartLineItem();
+  const handleCleanCart = useCleanCart();
 
   if (!cart) {
-    return null;
+    return <EmptyCartMessage />;
   }
 
   const isEmptyCart = cart.lineItems.length === 0;
 
   return (
     <Stack sx={{ minHeight: '100%' }}>
-      {!isEmptyCart && <CartTotalCost cart={cart} />}
+      {!isEmptyCart && <CartToolBar cartData={cart} onCleanCart={handleCleanCart} />}
       <CartLineItemsView cartData={cart} isLoading={isCartLoading} onLineItemRemove={handleLineItemRemove} />
       {isEmptyCart && <EmptyCartMessage />}
     </Stack>

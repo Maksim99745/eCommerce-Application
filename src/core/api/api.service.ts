@@ -188,6 +188,17 @@ export class ApiService {
     );
   }
 
+  public async cleanCart({ cart }: { cart?: Cart }): Promise<Cart> {
+    const userCart = cart || (await this.createCart());
+    return this.callRequest(
+      this.builder
+        .me()
+        .carts()
+        .withId({ ID: userCart.id })
+        .delete({ queryArgs: { version: userCart.version } }),
+    );
+  }
+
   private async callRequest<T>(request: ApiRequest<T>): Promise<T> {
     return request.execute().then((response: ClientResponse) => response.body);
   }
