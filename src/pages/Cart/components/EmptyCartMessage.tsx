@@ -38,7 +38,7 @@ export function EmptyCartMessage() {
               mt: 4,
             }}
             alt="Your cart is empty"
-            src="/public/emptyCartImage.png"
+            src="emptyCartImage.png"
           />
         </Grid>
       </Grid>
