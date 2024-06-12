@@ -1,5 +1,5 @@
 import { useCart } from '@hooks/useCart';
-import { Stack } from '@mui/material';
+import { Container, Stack } from '@mui/material';
 import { CartLineItemsView } from './components/CartLineItemsView';
 import { useRemoveCartLineItem } from './hooks/useRemoveCartLineItem';
 import { EmptyCartMessage } from './components/EmptyCartMessage';
@@ -19,11 +19,13 @@ function CartPage() {
   const isEmptyCart = cart.lineItems.length === 0;
 
   return (
-    <Stack sx={{ minHeight: '100%' }}>
-      {!isEmptyCart && <CartToolBar cartData={cart} onCleanCart={handleCleanCart} />}
-      <CartLineItemsView cartData={cart} isLoading={isCartLoading} onLineItemRemove={handleLineItemRemove} />
-      {isEmptyCart && <EmptyCartMessage />}
-    </Stack>
+    <Container maxWidth="md" disableGutters>
+      <Stack sx={{ p: 0 }}>
+        {!isEmptyCart && <CartToolBar cartData={cart} onCleanCart={handleCleanCart} />}
+        <CartLineItemsView cartData={cart} isLoading={isCartLoading} onLineItemRemove={handleLineItemRemove} />
+        {isEmptyCart && <EmptyCartMessage />}
+      </Stack>
+    </Container>
   );
 }
 
