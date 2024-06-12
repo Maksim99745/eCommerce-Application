@@ -59,7 +59,7 @@ export const teamMembersData = [
     info: `I am a junior frontend developer with a background in foreign languages, although I have never worked in that field. Instead, I spent 20 years as an entrepreneur in the trade industry. This experience has made me organized, sociable, and adept at managing conflict situations. I am diligent, punctual, and perhaps even a bit pedantic, as I love maintaining order in every detail.
           After many years in trade, I sought novelty, new knowledge, and new experiences. I found myself drawn to the magic of JavaScript, the excitement of seeing lines of code transform into something visible, beautiful, and understandable. This passion led me to change my profession and pursue a career in frontend development.`,
     github: 'https://github.com/tetiana-ket',
-    photo: 'Tanya.jpg',
+    photo: 'Tetiana.jpg',
     id: 'TetianaShpakova',
     contribution: `Created a project task board using github project management tool, organizing tasks into lists or columns corresponding to their status, broke down each sprint project tasks into smaller, manageable subtasks and assign them to team members, ensuring a clear delegation of responsibilities.
       Set up and configered Vite for the project, supporting both development and production build modes and set other Environment Configuration, such as TypeScript, ESLint, Prettier and Husky.
