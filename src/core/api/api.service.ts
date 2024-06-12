@@ -199,6 +199,28 @@ export class ApiService {
     );
   }
 
+  public async applyPromoCode({ cart, promoCode }: { cart?: Cart; promoCode: string }): Promise<Cart> {
+    const userCart = cart || (await this.createCart());
+
+    return this.callRequest(
+      this.builder
+        .me()
+        .carts()
+        .withId({ ID: userCart.id })
+        .post({
+          body: {
+            version: userCart.version,
+            actions: [
+              {
+                action: 'addDiscountCode',
+                code: promoCode,
+              },
+            ],
+          },
+        }),
+    );
+  }
+
   private async callRequest<T>(request: ApiRequest<T>): Promise<T> {
     return request.execute().then((response: ClientResponse) => response.body);
   }

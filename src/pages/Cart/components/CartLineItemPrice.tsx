@@ -13,7 +13,7 @@ export function CartLineItemPrice({ lineItem }: { lineItem: LineItem }) {
   const totalPriceContent = `Price: ${lineItem.totalPrice.centAmount / priceAmount}${currencyCode}`;
   return (
     <>
-      <Typography>{totalPriceContent}</Typography>
+      <Typography sx={{ fontSize: '17px' }}>{totalPriceContent}</Typography>
       <Typography sx={{ fontSize: '14px', color: 'grey', minHeight: '1.5em' }}>
         {isMoreThanOneInTheCart && pricePerItemContent}
       </Typography>

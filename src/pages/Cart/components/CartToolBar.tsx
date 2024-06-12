@@ -1,14 +1,17 @@
 import { Cart } from '@commercetools/platform-sdk';
 import { Button, ButtonProps, Divider, Grid, Paper, Stack } from '@mui/material';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
-import { useShowMessage } from '@hooks/useShowMessage';
+import { OperationResult } from '@models/index';
+import { CartPromoCodeFormData } from '@models/forms.model';
 import { CartTotalCost } from './CartTotalCost';
 import { CleanCartDialog } from './CleanCartDialog';
+import { CartPromoCode } from './CartApplyPromoCode';
 
 export type CartToolBarProps = {
   cartData: Cart;
   isLoading?: boolean;
   onCleanCart: () => void;
+  onApplyPromoCode: (promoCodeData: CartPromoCodeFormData) => Promise<OperationResult>;
 };
 
 function CleanCart(props: ButtonProps) {
@@ -23,15 +26,7 @@ function CleanCart(props: ButtonProps) {
   );
 }
 
-export function CartToolBar({ cartData, isLoading, onCleanCart }: CartToolBarProps) {
-  const showMessage = useShowMessage();
-
-  const getPromoCode = (): void => {
-    const promoCodes = ['RS5', 'RS10'];
-    const promoCode = promoCodes[Math.floor(Math.random() * promoCodes.length)];
-    showMessage(`Congratulations, your promo-code is ${promoCode}`);
-  };
-
+export function CartToolBar({ cartData, isLoading, onCleanCart, onApplyPromoCode }: CartToolBarProps) {
   return (
     <Grid container sx={{ position: 'sticky', top: '0', zIndex: 1, p: 0 }}>
       <Paper
@@ -47,16 +42,7 @@ export function CartToolBar({ cartData, isLoading, onCleanCart }: CartToolBarPro
           <CleanCartDialog openControl={CleanCart} disabled={isLoading} onCleanCart={onCleanCart} />
         </Stack>
         <Divider sx={{ m: 1 }} />
-        <Grid container columns={12} direction="row" justifyContent="space-between" alignItems="center">
-          <Grid item xs={5}>
-            <Button size="small" onClick={() => getPromoCode()}>
-              Get promo code!
-            </Button>
-          </Grid>
-          <Grid item xs={7}>
-            s
-          </Grid>
-        </Grid>
+        <CartPromoCode onApplyPromoCode={onApplyPromoCode} disabled={isLoading} />
       </Paper>
     </Grid>
   );
