@@ -11,7 +11,7 @@ interface Rsschool {
 
 export default function SocialIconsGroup({ youtube, github, discord }: Rsschool) {
   return (
-    <Box>
+    <Box sx={{ display: { xs: 'none', md: 'block' } }}>
       <Button component={Link} to={youtube} color="inherit" variant="text" target="_blank" rel="noopener noreferrer">
         <YouTubeIcon fontSize="large" />
       </Button>
