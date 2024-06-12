@@ -3,7 +3,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
-import GitHubButton from '@components/CaptionLink/GitHubButton';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import { Link } from 'react-router-dom';
 
 interface TeamMembersData {
@@ -72,7 +72,7 @@ export default function DeveloperCard({ name, role, info, github, photo }: TeamM
           target="_blank"
           rel="noopener noreferrer"
         >
-          Get to know more <GitHubButton url={github} />
+          Get to know more <GitHubIcon fontSize="large" sx={{ ml: '10px' }} />
         </Button>
       </CardActions>
     </Card>
