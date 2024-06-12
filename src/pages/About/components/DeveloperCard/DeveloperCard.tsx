@@ -69,6 +69,8 @@ export default function DeveloperCard({ name, role, info, github, photo }: TeamM
           color="inherit"
           variant="outlined"
           sx={{ textTransform: 'none' }}
+          target="_blank"
+          rel="noopener noreferrer"
         >
           Get to know more <GitHubButton url={github} />
         </Button>
