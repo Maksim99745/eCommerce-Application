@@ -25,16 +25,15 @@ export function CartPromoCode({ onApplyPromoCode, disabled }: CartPromoCodeProps
   const { handleSubmit, reset } = formContext;
 
   const getPromoCode = (): void => {
-    const promoCodes = ['RS5', 'RS10'];
-    const promoCode = promoCodes[Math.floor(Math.random() * promoCodes.length)];
+    const promoCode = 'RS10';
     reset({ promoCode });
-    showMessage(`Congratulations, your personal promo code is ${promoCode}`);
+    showMessage(`Congratulations, your promo code is ${promoCode}`);
   };
 
   const performSave = useEventCallback(async (promoCode: CartPromoCodeFormData) => {
     const result = await onApplyPromoCode(promoCode);
     if (result.success) {
-      reset();
+      reset({ promoCode: '' });
     }
   });
 
@@ -60,7 +59,7 @@ export function CartPromoCode({ onApplyPromoCode, disabled }: CartPromoCodeProps
               Apply code
             </Button>
             <Button size="small" onClick={() => getPromoCode()}>
-              Get personal discount
+              Get my discount
             </Button>
           </Stack>
         </Stack>

@@ -16,7 +16,6 @@ export const useApplyPromoCode = () => {
     };
     try {
       const newCart = await apiService.applyPromoCode(requestData);
-      // console.log(`useApplyPromoCode`, newCart);
       setCart(newCart);
       showMessage(`Promo code successfully applied`);
       return { success: true };
