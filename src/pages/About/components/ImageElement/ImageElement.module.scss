@@ -1,0 +1,29 @@
+.developer-img {
+  max-width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.developer-img-wrap {
+  display: flex;
+  max-width: 350px;
+  max-height: 350px;
+  overflow: hidden;
+}
+
+.mentor-img,
+.developer-img-Maksim {
+  border-radius: 300px;
+}
+
+.developer-img-Maksim img {
+  transform: scale(1.5);
+}
+
+.developer-img-Tanya {
+  border-radius: 241px 0px 242px 242px;
+}
+
+.developer-img-Roma {
+  border-radius: 242px 242px 0px 242px;
+}
