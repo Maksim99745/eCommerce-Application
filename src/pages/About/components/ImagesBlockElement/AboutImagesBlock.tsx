@@ -2,10 +2,10 @@ import styles from './AboutImagesBlock.module.scss';
 import ImageElement from '../ImageElement/ImageElement';
 
 const imagesData = [
-  { src: '/public/Sasha.jpg', alt: 'mentor photo', id: 'mentor-img' },
-  { src: '/public/Tanya.jpg', alt: 'developer photo', id: 'developer-img-Tanya' },
-  { src: '/public/Maksim.jpg', alt: 'developer photo', id: 'developer-img-Maksim' },
-  { src: '/public/Roma.jpeg', alt: 'developer photo', id: 'developer-img-Roma' },
+  { src: 'Sasha.jpg', alt: 'mentor photo', id: 'mentor-img' },
+  { src: 'Tanya.jpg', alt: 'developer photo', id: 'developer-img-Tanya' },
+  { src: 'Maksim.jpg', alt: 'developer photo', id: 'developer-img-Maksim' },
+  { src: 'Roma.jpeg', alt: 'developer photo', id: 'developer-img-Roma' },
 ];
 
 function AboutImagesContainer() {
