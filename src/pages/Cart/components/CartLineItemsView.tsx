@@ -1,7 +1,6 @@
 import { Cart, LineItem } from '@commercetools/platform-sdk';
 import { Stack } from '@mui/material';
 import { CartLineItem } from './CartLineItem';
-import { EmptyCartMessage } from './EmptyCartMessage';
 
 export type CartProductsFormProps = {
   cartData: Cart;
@@ -11,14 +10,18 @@ export type CartProductsFormProps = {
 
 export function CartLineItemsView({ cartData, isLoading = false, onLineItemRemove }: CartProductsFormProps) {
   const { lineItems } = cartData;
-  const isEmptyCart = cartData.lineItems.length === 0;
 
   return (
-    <Stack direction="column">
+    <Stack>
       {lineItems.map((cartItem) => (
-        <CartLineItem cartItem={cartItem} key={cartItem.id} disabled={isLoading} onRemove={onLineItemRemove} />
+        <CartLineItem
+          cart={cartData}
+          lineItem={cartItem}
+          key={cartItem.id}
+          disabled={isLoading}
+          onRemove={onLineItemRemove}
+        />
       ))}
-      {isEmptyCart && <EmptyCartMessage />}
     </Stack>
   );
 }
