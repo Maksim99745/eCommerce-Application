@@ -32,7 +32,6 @@ export function CartToolBar({ cartData, isLoading, onCleanCart }: CartToolBarPro
         >
           <Stack direction="row" justifyContent="space-between">
             <CartTotalCost cart={cartData} />
-
             <CleanCartDialog openControl={CleanCart} disabled={isLoading} onCleanCart={onCleanCart} />
           </Stack>
         </Paper>
