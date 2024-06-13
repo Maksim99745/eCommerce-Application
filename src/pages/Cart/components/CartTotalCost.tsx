@@ -10,8 +10,8 @@ export function CartTotalCost({ cart }: { cart: Cart }) {
   const totalCostContent = `Total price: ${cart.totalPrice.centAmount / priceAmount}${currencyCode}`;
   const oldTotalCostContent = (cart.totalPrice.centAmount + discountedAmount) / priceAmount + currencyCode;
   return (
-    <Stack direction="row" sx={{ gap: 0.5 }}>
-      <Typography variant="h6" sx={{ color: isDiscounted ? 'green' : 'black' }}>
+    <Stack direction="row" sx={{ gap: 0.5, alignItems: 'center' }}>
+      <Typography variant="h6" sx={{ width: 'max-content', color: isDiscounted ? 'green' : 'black' }}>
         {totalCostContent}
       </Typography>
       {isDiscounted && (

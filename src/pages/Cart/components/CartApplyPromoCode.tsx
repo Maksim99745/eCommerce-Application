@@ -55,8 +55,13 @@ export function CartPromoCode({ promoCodes, onApplyPromoCode, disabled }: CartPr
               variant="standard"
             />
             <Stack direction="row" sx={{ gap: 0.5 }}>
-              Applied promo codes:
-              {promoCodes?.map((code) => <Typography key={code.id}>{code?.name?.en}</Typography>)}
+              Active codes:
+              {promoCodes?.map((code, index) => (
+                <Typography key={code.id}>
+                  {code?.name?.en}
+                  {index === promoCodes.length - 1 ? '' : ','}
+                </Typography>
+              ))}
             </Stack>
           </Stack>
 

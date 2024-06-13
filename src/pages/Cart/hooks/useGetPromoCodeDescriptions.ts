@@ -1,23 +1,32 @@
 import { apiService } from '@core/api/api.service';
 import { Cart, DiscountCode } from '@commercetools/platform-sdk';
 import useSWR, { SWRResponse } from 'swr';
+import { createAppErrorMessage } from '@core/errorHandlers/createAppErrorMessage';
+import { useShowMessage } from '@hooks/useShowMessage';
 
-const getPromoCodeDescriptions = async ({ cart }: { cart: Cart }): Promise<DiscountCode[]> => {
+const useFetchPromoCodeDescriptions = async ({ cart }: { cart: Cart }): Promise<DiscountCode[]> => {
+  const showMessage = useShowMessage();
   if (!cart?.discountCodes) {
     return [];
   }
 
-  const promoCodeDescriptions = await Promise.all(
-    cart.discountCodes.map(async (code) => {
-      const promoCodeId = code.discountCode.id;
-      return apiService.getPromoCodeDescription({ promoCodeId });
-    }),
-  );
+  try {
+    const promoCodeDescriptions = await Promise.all(
+      cart.discountCodes.map(async (code) => {
+        const promoCodeId = code.discountCode.id;
+        return apiService.getPromoCodeDescription({ promoCodeId });
+      }),
+    );
 
-  return promoCodeDescriptions;
+    return promoCodeDescriptions;
+  } catch (error) {
+    const errorMessage = createAppErrorMessage(error);
+    showMessage(errorMessage, 'error');
+    return [];
+  }
 };
 
-export const useGetPromoCodeDescriptions = (cart: Cart): SWRResponse<DiscountCode[]> => {
-  const fetcher = () => getPromoCodeDescriptions({ cart });
-  return useSWR(cart ? ['promoCodeDescriptions', cart] : null, fetcher);
+export const useGetPromoCodeDescriptions = ({ cart }: { cart: Cart }): SWRResponse<DiscountCode[]> => {
+  const fetcher = useFetchPromoCodeDescriptions({ cart });
+  return useSWR(cart ? ['promoCodeDescriptions', cart] : null, () => fetcher);
 };

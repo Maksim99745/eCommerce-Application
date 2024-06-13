@@ -29,7 +29,7 @@ function CleanCart(props: ButtonProps) {
 }
 
 export function CartToolBar({ cartData, isLoading, onCleanCart, onApplyPromoCode }: CartToolBarProps) {
-  const { data } = useGetPromoCodeDescriptions(cartData);
+  const { data } = useGetPromoCodeDescriptions({ cart: cartData });
 
   return (
     <Grid container sx={{ position: 'sticky', top: '-16px', zIndex: 1, p: 0 }}>
@@ -41,7 +41,10 @@ export function CartToolBar({ cartData, isLoading, onCleanCart, onApplyPromoCode
           m: 1,
         }}
       >
-        <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center', gap: 0.5 }}>
+        <Stack
+          direction="row"
+          sx={{ justifyContent: 'space-between', alignItems: 'center', alignContent: 'center', gap: 0.5 }}
+        >
           <CartTotalCost cart={cartData} />
           <CleanCartDialog openControl={CleanCart} disabled={isLoading} onCleanCart={onCleanCart} />
         </Stack>
