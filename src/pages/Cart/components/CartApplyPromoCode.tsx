@@ -1,7 +1,7 @@
 import { promoCodeFormSchema } from '@core/validation/cart-promo-code/cart-promo-code.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CartPromoCodeFormData } from '@models/forms.model';
-import { Button, Stack, useEventCallback } from '@mui/material';
+import { Button, Stack, Typography, useEventCallback } from '@mui/material';
 import { FormProvider, useForm } from 'react-hook-form';
 import DiscountIcon from '@mui/icons-material/Discount';
 import { TextFieldElement } from 'react-hook-form-mui';
@@ -10,12 +10,12 @@ import { RemoteOperationCallback } from '@models/remoteOperationCallback';
 import { DiscountCode } from '@commercetools/platform-sdk';
 
 export interface CartPromoCodeProps {
+  promoCodes?: DiscountCode[];
   onApplyPromoCode: RemoteOperationCallback<CartPromoCodeFormData>;
-  onGetPromoCodeDescriptions: () => Promise<DiscountCode[]>;
   disabled?: boolean;
 }
 
-export function CartPromoCode({ onApplyPromoCode, disabled }: CartPromoCodeProps) {
+export function CartPromoCode({ promoCodes, onApplyPromoCode, disabled }: CartPromoCodeProps) {
   const showMessage = useShowMessage();
 
   const formContext = useForm<CartPromoCodeFormData>({
@@ -26,22 +26,9 @@ export function CartPromoCode({ onApplyPromoCode, disabled }: CartPromoCodeProps
 
   const { handleSubmit, reset } = formContext;
 
-  // const [promoCodeDescriptions, setPromoCodeDescriptions] = useState<DiscountCode[]>([]);
-
-  // useEffect(() => {
-  //   const getPromoCodes = async () => {
-  //     const newPromoCodes = await onGetPromoCodeDescriptions();
-  //     setPromoCodeDescriptions(newPromoCodes);
-  //   };
-
-  //   getPromoCodes();
-  // }, [onGetPromoCodeDescriptions]);
-
-  // console.log(promoCodeDescriptions);
-
   const getPromoCode = (): void => {
-    const promoCodes = ['RS5', 'RS10'];
-    const promoCode = promoCodes[Math.floor(Math.random() * promoCodes.length)];
+    const promoCodesCollection = ['RS5', 'RS10'];
+    const promoCode = promoCodesCollection[Math.floor(Math.random() * promoCodesCollection.length)];
     reset({ promoCode });
     showMessage(`Congratulations, your promo code is ${promoCode}`);
   };
@@ -67,18 +54,23 @@ export function CartPromoCode({ onApplyPromoCode, disabled }: CartPromoCodeProps
               sx={{ minWidth: '160px' }}
               variant="standard"
             />
+            <Stack direction="row" sx={{ gap: 0.5 }}>
+              Applied promo codes:
+              {promoCodes?.map((code) => <Typography key={code.id}>{code?.name?.en}</Typography>)}
+            </Stack>
           </Stack>
 
-          <Stack sx={{ gap: 1 }}>
+          <Stack sx={{ gap: 0.5 }}>
             <Button
               startIcon={<DiscountIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}
               type="submit"
+              size="small"
               variant="contained"
             >
               Apply code
             </Button>
             <Button size="small" onClick={() => getPromoCode()}>
-              Get my discount
+              Get discount
             </Button>
           </Stack>
         </Stack>
