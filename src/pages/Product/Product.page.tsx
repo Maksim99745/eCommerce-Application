@@ -1,17 +1,7 @@
 import { useGetProduct } from '@core/api/hooks/useGetProduct';
 import useProduct from '@hooks/useProduct';
 import { useParams, useNavigate } from 'react-router-dom';
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  CircularProgress,
-  Container,
-  IconButton,
-  Stack,
-  Typography,
-  useEventCallback,
-} from '@mui/material';
+import { Button, ButtonGroup, CircularProgress, Container, IconButton, Stack, useEventCallback } from '@mui/material';
 import ReactImageGallery from 'react-image-gallery';
 import { useModalState } from '@hooks/useModalState';
 import ImageModal from '@pages/Product/components/ImageModalComponent/ImageModal';
@@ -30,6 +20,7 @@ import { useCart } from '@hooks/useCart';
 import { generateProductObj } from './utils/generateProductObj';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
 import ProductShortInfo from './components/ProductShortInfo/ProductShortInfo';
+import ProductDescription from './components/ProductDescription/ProductDescription';
 
 function ProductPage() {
   const { productKey = '' } = useParams<'productKey'>();
@@ -198,34 +189,7 @@ function ProductPage() {
             </Stack>
           </Stack>
         </Container>
-
-        <Stack className={styles.productPageDescription}>
-          <Typography component="p" className={styles.productPageDescription}>
-            {current?.description?.en}
-          </Typography>
-          <Box className={styles.productAttributesContainer}>
-            {!!productInfo.length && (
-              <Typography component="p" className={styles.productAttributes}>
-                Length: <span className={styles.attributeValue}>{productInfo.length} сm</span>
-              </Typography>
-            )}
-            {!!productInfo.width && (
-              <Typography component="p" className={styles.productAttributes}>
-                Width: <span className={styles.attributeValue}>{productInfo.width} сm</span>
-              </Typography>
-            )}
-            {!!productInfo.height && (
-              <Typography component="p" className={styles.productAttributes}>
-                Height: <span className={styles.attributeValue}>{productInfo.height} сm</span>
-              </Typography>
-            )}
-            {!!productInfo.volume && (
-              <Typography component="p" className={styles.productAttributes}>
-                Volume: <span className={styles.attributeValue}>{productInfo.volume} lt</span>
-              </Typography>
-            )}
-          </Box>
-        </Stack>
+        <ProductDescription productInfo={productInfo} current={current} />
       </Stack>
     </>
   );
