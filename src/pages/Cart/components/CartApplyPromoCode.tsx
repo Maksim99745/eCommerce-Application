@@ -1,15 +1,15 @@
 import { promoCodeFormSchema } from '@core/validation/cart-promo-code/cart-promo-code.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CartPromoCodeFormData } from '@models/forms.model';
-import { OperationResult } from '@models/index';
 import { Button, Stack, useEventCallback } from '@mui/material';
 import { FormProvider, useForm } from 'react-hook-form';
 import DiscountIcon from '@mui/icons-material/Discount';
 import { TextFieldElement } from 'react-hook-form-mui';
 import { useShowMessage } from '@hooks/useShowMessage';
+import { RemoteOperationCallback } from '@models/remoteOperationCallback';
 
 export interface CartPromoCodeProps {
-  onApplyPromoCode: (promoCodeData: CartPromoCodeFormData) => Promise<OperationResult>;
+  onApplyPromoCode: RemoteOperationCallback<CartPromoCodeFormData>;
   disabled?: boolean;
 }
 

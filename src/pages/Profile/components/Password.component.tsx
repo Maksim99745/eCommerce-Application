@@ -9,10 +9,10 @@ import {
   FormActionsToolBarProps,
 } from '@components/EditableFormActionsBar/EditableFormActionsBar';
 import { passwordInformationSchema } from '@core/validation/user-profile/user-profile.schema';
-import { OperationResult } from '@models/index';
+import { RemoteOperationCallback } from '@models/remoteOperationCallback';
 
 export interface PasswordFormComponentProps {
-  onSubmit: (passwordData: PasswordInformationFormData) => Promise<OperationResult>;
+  onSubmit: RemoteOperationCallback<PasswordInformationFormData>;
   isLoading?: boolean;
 }
 

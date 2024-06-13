@@ -1,8 +1,8 @@
 import { Cart } from '@commercetools/platform-sdk';
 import { Button, ButtonProps, Divider, Grid, Paper, Stack } from '@mui/material';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
-import { OperationResult } from '@models/index';
 import { CartPromoCodeFormData } from '@models/forms.model';
+import { RemoteOperationCallback } from '@models/remoteOperationCallback';
 import { CartTotalCost } from './CartTotalCost';
 import { CleanCartDialog } from './CleanCartDialog';
 import { CartPromoCode } from './CartApplyPromoCode';
@@ -11,7 +11,7 @@ export type CartToolBarProps = {
   cartData: Cart;
   isLoading?: boolean;
   onCleanCart: () => void;
-  onApplyPromoCode: (promoCodeData: CartPromoCodeFormData) => Promise<OperationResult>;
+  onApplyPromoCode: RemoteOperationCallback<CartPromoCodeFormData>;
 };
 
 function CleanCart(props: ButtonProps) {
