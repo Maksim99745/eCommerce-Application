@@ -56,7 +56,9 @@ export function CartPromoCode({ promoCodeIds, onApplyPromoCode, disabled }: Cart
             />
             <Stack direction="row" sx={{ gap: 0.5 }}>
               Active codes:
-              {promoCodeIds?.map((code) => <PromoCodeDescription id={code} key={code} />)}
+              {promoCodeIds?.map((code, index) => (
+                <PromoCodeDescription id={code} key={code} isLastCode={index === promoCodeIds.length - 1} />
+              ))}
             </Stack>
           </Stack>
 
