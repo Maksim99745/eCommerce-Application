@@ -1,21 +1,21 @@
 import { promoCodeFormSchema } from '@core/validation/cart-promo-code/cart-promo-code.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CartPromoCodeFormData } from '@models/forms.model';
-import { Button, Stack, Typography, useEventCallback } from '@mui/material';
+import { Button, Stack, useEventCallback } from '@mui/material';
 import { FormProvider, useForm } from 'react-hook-form';
 import DiscountIcon from '@mui/icons-material/Discount';
 import { TextFieldElement } from 'react-hook-form-mui';
 import { useShowMessage } from '@hooks/useShowMessage';
 import { RemoteOperationCallback } from '@models/remoteOperationCallback';
-import { DiscountCode } from '@commercetools/platform-sdk';
+import { PromoCodeDescription } from './PromoCodeDescription';
 
 export interface CartPromoCodeProps {
-  promoCodes?: DiscountCode[];
+  promoCodeIds: string[];
   onApplyPromoCode: RemoteOperationCallback<CartPromoCodeFormData>;
   disabled?: boolean;
 }
 
-export function CartPromoCode({ promoCodes, onApplyPromoCode, disabled }: CartPromoCodeProps) {
+export function CartPromoCode({ promoCodeIds, onApplyPromoCode, disabled }: CartPromoCodeProps) {
   const showMessage = useShowMessage();
 
   const formContext = useForm<CartPromoCodeFormData>({
@@ -56,12 +56,7 @@ export function CartPromoCode({ promoCodes, onApplyPromoCode, disabled }: CartPr
             />
             <Stack direction="row" sx={{ gap: 0.5 }}>
               Active codes:
-              {promoCodes?.map((code, index) => (
-                <Typography key={code.id}>
-                  {code?.name?.en}
-                  {index === promoCodes.length - 1 ? '' : ','}
-                </Typography>
-              ))}
+              {promoCodeIds?.map((code) => <PromoCodeDescription id={code} key={code} />)}
             </Stack>
           </Stack>
 
