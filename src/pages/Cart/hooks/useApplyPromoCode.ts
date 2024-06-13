@@ -9,15 +9,11 @@ export const useApplyPromoCode = () => {
   const showMessage = useShowMessage();
   const { cart, setCart } = useCart();
 
-  return useEventCallback<CartToolBarProps['onApplyPromoCode']>(async (promoCodeData) => {
-    const requestData = {
-      cart: cart ?? undefined,
-      promoCode: promoCodeData.promoCode,
-    };
+  return useEventCallback<CartToolBarProps['onApplyPromoCode']>(async ({ promoCode }) => {
     try {
-      const newCart = await apiService.applyPromoCode(requestData);
+      const newCart = await apiService.applyPromoCode({ cart: cart ?? undefined, promoCode });
       setCart(newCart);
-      showMessage(`Promo code successfully applied`);
+      showMessage(`Promo code ${promoCode} successfully applied`);
       return { success: true };
     } catch (error) {
       const errorMessage = createAppErrorMessage(error);

@@ -13,6 +13,7 @@ import {
   CartPagedQueryResponse,
   Cart,
   LineItem,
+  DiscountCode,
 } from '@commercetools/platform-sdk';
 import { ApiRequest } from '@commercetools/platform-sdk/dist/declarations/src/generated/shared/utils/requests-utils';
 import { UserAuthOptions } from '@commercetools/sdk-client-v2';
@@ -219,6 +220,10 @@ export class ApiService {
           },
         }),
     );
+  }
+
+  public async getPromoCodeDescription({ promoCodeId }: { promoCodeId: string }): Promise<DiscountCode> {
+    return this.callRequest(this.builder.discountCodes().withId({ ID: promoCodeId }).get());
   }
 
   private async callRequest<T>(request: ApiRequest<T>): Promise<T> {

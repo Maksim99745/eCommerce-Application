@@ -7,9 +7,11 @@ import DiscountIcon from '@mui/icons-material/Discount';
 import { TextFieldElement } from 'react-hook-form-mui';
 import { useShowMessage } from '@hooks/useShowMessage';
 import { RemoteOperationCallback } from '@models/remoteOperationCallback';
+import { DiscountCode } from '@commercetools/platform-sdk';
 
 export interface CartPromoCodeProps {
   onApplyPromoCode: RemoteOperationCallback<CartPromoCodeFormData>;
+  onGetPromoCodeDescriptions: () => Promise<DiscountCode[]>;
   disabled?: boolean;
 }
 
@@ -24,8 +26,22 @@ export function CartPromoCode({ onApplyPromoCode, disabled }: CartPromoCodeProps
 
   const { handleSubmit, reset } = formContext;
 
+  // const [promoCodeDescriptions, setPromoCodeDescriptions] = useState<DiscountCode[]>([]);
+
+  // useEffect(() => {
+  //   const getPromoCodes = async () => {
+  //     const newPromoCodes = await onGetPromoCodeDescriptions();
+  //     setPromoCodeDescriptions(newPromoCodes);
+  //   };
+
+  //   getPromoCodes();
+  // }, [onGetPromoCodeDescriptions]);
+
+  // console.log(promoCodeDescriptions);
+
   const getPromoCode = (): void => {
-    const promoCode = 'RS10';
+    const promoCodes = ['RS5', 'RS10'];
+    const promoCode = promoCodes[Math.floor(Math.random() * promoCodes.length)];
     reset({ promoCode });
     showMessage(`Congratulations, your promo code is ${promoCode}`);
   };
@@ -41,15 +57,18 @@ export function CartPromoCode({ onApplyPromoCode, disabled }: CartPromoCodeProps
     <FormProvider<CartPromoCodeFormData> {...formContext}>
       <form onSubmit={handleSubmit(performSave)} noValidate>
         <Stack direction="row" sx={{ alignItems: 'center', justifyContent: 'space-between', gap: 2, paddingTop: 1 }}>
-          <TextFieldElement<CartPromoCodeFormData>
-            label="Promo code"
-            name="promoCode"
-            helperText={' '}
-            InputLabelProps={{ shrink: true }}
-            disabled={disabled}
-            sx={{ minWidth: '160px' }}
-            variant="standard"
-          />
+          <Stack>
+            <TextFieldElement<CartPromoCodeFormData>
+              label="Promo code"
+              name="promoCode"
+              helperText={' '}
+              InputLabelProps={{ shrink: true }}
+              disabled={disabled}
+              sx={{ minWidth: '160px' }}
+              variant="standard"
+            />
+          </Stack>
+
           <Stack sx={{ gap: 1 }}>
             <Button
               startIcon={<DiscountIcon sx={{ display: { xs: 'none', sm: 'block' } }} />}

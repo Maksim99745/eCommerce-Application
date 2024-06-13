@@ -1,4 +1,4 @@
-import { Cart } from '@commercetools/platform-sdk';
+import { Cart, DiscountCode } from '@commercetools/platform-sdk';
 import { Button, ButtonProps, Divider, Grid, Paper, Stack } from '@mui/material';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import { CartPromoCodeFormData } from '@models/forms.model';
@@ -12,6 +12,7 @@ export type CartToolBarProps = {
   isLoading?: boolean;
   onCleanCart: () => void;
   onApplyPromoCode: RemoteOperationCallback<CartPromoCodeFormData>;
+  onGetPromoCodeDescriptions: () => Promise<DiscountCode[]>;
 };
 
 function CleanCart(props: ButtonProps) {
@@ -26,11 +27,17 @@ function CleanCart(props: ButtonProps) {
   );
 }
 
-export function CartToolBar({ cartData, isLoading, onCleanCart, onApplyPromoCode }: CartToolBarProps) {
+export function CartToolBar({
+  cartData,
+  isLoading,
+  onCleanCart,
+  onApplyPromoCode,
+  onGetPromoCodeDescriptions,
+}: CartToolBarProps) {
   return (
-    <Grid container sx={{ position: 'sticky', top: '0', zIndex: 1, p: 0 }}>
+    <Grid container sx={{ position: 'sticky', top: '-16px', zIndex: 1, p: 0 }}>
       <Paper
-        elevation={2}
+        elevation={4}
         sx={{
           p: '1vh 2%',
           width: '100%',
@@ -42,7 +49,11 @@ export function CartToolBar({ cartData, isLoading, onCleanCart, onApplyPromoCode
           <CleanCartDialog openControl={CleanCart} disabled={isLoading} onCleanCart={onCleanCart} />
         </Stack>
         <Divider sx={{ m: 1 }} />
-        <CartPromoCode onApplyPromoCode={onApplyPromoCode} disabled={isLoading} />
+        <CartPromoCode
+          onGetPromoCodeDescriptions={onGetPromoCodeDescriptions}
+          onApplyPromoCode={onApplyPromoCode}
+          disabled={isLoading}
+        />
       </Paper>
     </Grid>
   );
