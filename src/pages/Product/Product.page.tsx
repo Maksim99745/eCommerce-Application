@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import ReactImageGallery from 'react-image-gallery';
 import { useModalState } from '@hooks/useModalState';
-import ImageModal from '@pages/Product/components/ImageModal';
+import ImageModal from '@pages/Product/components/ImageModalComponent/ImageModal';
 import styles from '@pages/Product/Product.page.module.scss';
 import { useEffect, useState, useRef } from 'react';
 import { LineItem, ProductVariant } from '@commercetools/platform-sdk';
@@ -29,6 +29,7 @@ import { useChangeCartItemQuantity } from '@core/api/hooks/useChangeCartItemQuan
 import { useCart } from '@hooks/useCart';
 import { generateProductObj } from './utils/generateProductObj';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
+import ProductShortInfo from './components/ProductShortInfo/ProductShortInfo';
 
 function ProductPage() {
   const { productKey = '' } = useParams<'productKey'>();
@@ -115,40 +116,7 @@ function ProductPage() {
             />
           </Stack>
           <Stack className={styles.shortInfoContainer}>
-            <Typography component="h1" className={styles.productPageTitle}>
-              {productInfo.productName}
-            </Typography>
-            {(!!productInfo.discountedPrice && (
-              <Typography component="p" className={styles.productPageInfo}>
-                Price: <span className={styles.currentPrice}>{productInfo.discountedPrice}</span>
-                <span className={styles.previousPrice}>{productInfo.basePrice}</span>
-              </Typography>
-            )) ||
-              (!!productInfo.basePrice && (
-                <Typography component="p" className={styles.productPageInfo}>
-                  Price: <span className={styles.currentPrice}>{productInfo.basePrice}</span>
-                </Typography>
-              ))}
-            {!!productInfo.brand && (
-              <Typography component="p" className={styles.productPageInfo}>
-                Brand: <span className={styles.attributeValue}>{productInfo.brand}</span>
-              </Typography>
-            )}
-            {!!productInfo.country && (
-              <Typography component="p" className={styles.productPageInfo}>
-                Country: <span className={styles.attributeValue}>{productInfo.country}</span>
-              </Typography>
-            )}
-            {!!productInfo.material && (
-              <Typography component="p" className={styles.productPageInfo}>
-                Material: <span className={styles.attributeValue}>{productInfo.material}</span>
-              </Typography>
-            )}
-            {!!selectedVariant && (
-              <Typography component="p" className={styles.productPageInfo}>
-                Color: <span className={styles.attributeValue}>{getColorAttribute(selectedVariant)}</span>
-              </Typography>
-            )}
+            <ProductShortInfo productInfo={productInfo} selectedVariant={selectedVariant} />
 
             {!!current?.variants?.length && (
               <ButtonGroup
