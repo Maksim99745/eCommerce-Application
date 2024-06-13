@@ -49,7 +49,9 @@ export function ProductCardComponent({ product, productPath = '' }: ProductCardC
     }
   });
 
-  const handleGoToProduct = useEventCallback(() => navigate(`${productPath}products/${product.key}`));
+  const handleGoToProduct = useEventCallback(() =>
+    navigate(`${productPath}products/${product.key}`, { state: { product } }),
+  );
 
   useEffect(
     () => setLineItem(cart?.lineItems.find((item) => item.productId === product.id) || null),

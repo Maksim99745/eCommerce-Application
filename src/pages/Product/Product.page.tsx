@@ -1,28 +1,64 @@
 import { useGetProduct } from '@core/api/hooks/useGetProduct';
 import useProduct from '@hooks/useProduct';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Box, Button, ButtonGroup, Container, Stack, Typography } from '@mui/material';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  CircularProgress,
+  Container,
+  IconButton,
+  Stack,
+  Typography,
+  useEventCallback,
+} from '@mui/material';
 import ReactImageGallery from 'react-image-gallery';
 import { useModalState } from '@hooks/useModalState';
 import ImageModal from '@pages/Product/components/ImageModal';
 import styles from '@pages/Product/Product.page.module.scss';
 import { useEffect, useState, useRef } from 'react';
-import { ProductVariant } from '@commercetools/platform-sdk';
+import { LineItem, ProductVariant } from '@commercetools/platform-sdk';
 import { getColorAttribute } from '@utils/get-color-attribute-value';
 import { defaultProductImageUrl } from '@constants/products.const';
 import { imagesUrls } from '@utils/map-selected-product-images';
+import CounterComponent from '@components/Counter/Counter.component';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { useAddToCart } from '@core/api/hooks/useAddToCart';
+import { useChangeCartItemQuantity } from '@core/api/hooks/useChangeCartItemQuantity';
+import { useCart } from '@hooks/useCart';
 import { generateProductObj } from './utils/generateProductObj';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
 
 function ProductPage() {
   const { productKey = '' } = useParams<'productKey'>();
+  const { state } = useLocation();
   const navigate = useNavigate();
   const { close, visible, show } = useModalState();
   const { data } = useGetProduct(productKey, { onError: () => navigate('/404') });
+  const product = state?.product || '';
   const { setProduct, setProductLoading } = useProduct();
   const [selectedVariant, setSelectedVariant] = useState(data?.masterVariant);
   const [clickedImageIndex, setClickedImageIndex] = useState(0);
   const imageGalleryRef = useRef<ReactImageGallery>(null);
+
+  const { cart } = useCart();
+  const [lineItem, setLineItem] = useState<LineItem | null>(null);
+  const [quantity, setQuantity] = useState(1);
+  const { trigger: addToCartTrigger, isMutating: isAdding } = useAddToCart({ cart, productId: product.id });
+  const { trigger: changeCartItemQuantity, isMutating: isQuantityChanging } = useChangeCartItemQuantity({
+    cart,
+    lineItemId: lineItem?.id,
+  });
+
+  const handleAddToCart = useEventCallback(() => addToCartTrigger({ quantity }));
+
+  const handleChangeCount = useEventCallback((count: number) => {
+    setQuantity(count);
+
+    if (lineItem) {
+      changeCartItemQuantity({ quantity: count });
+    }
+  });
 
   useEffect(() => {
     setProductLoading(true);
@@ -31,7 +67,9 @@ function ProductPage() {
       setProduct(data);
       setSelectedVariant(data.masterVariant);
     }
-  }, [data, setProduct, setProductLoading]);
+
+    setLineItem(cart?.lineItems.find((item) => item.productId === product.id) || null);
+  }, [data, setProduct, setProductLoading, cart, product.id]);
 
   const handleVariantClick = (variant: ProductVariant) => {
     setSelectedVariant(variant);
@@ -150,9 +188,24 @@ function ProductPage() {
                 ))}
               </ButtonGroup>
             )}
-            <Typography component="p" className={styles.productPageInfo}>
-              Buttons &quot;Add to Cart&quot;/&quot;Remove from Cart&quot; 🛒 will be here later
-            </Typography>
+            <Stack className={styles.productPageActions}>
+              <CounterComponent
+                initCount={lineItem?.quantity || 1}
+                onChange={handleChangeCount}
+                disabled={isQuantityChanging}
+                aria-label="product-counter"
+              />
+              <IconButton
+                className={styles.addBtn}
+                size="large"
+                color="primary"
+                onClick={handleAddToCart}
+                aria-label="add-product-to-cart"
+                disabled={!!lineItem || isAdding}
+              >
+                {isAdding ? <CircularProgress size={24} thickness={5} /> : <AddShoppingCartIcon />}
+              </IconButton>
+            </Stack>
           </Stack>
         </Container>
 
