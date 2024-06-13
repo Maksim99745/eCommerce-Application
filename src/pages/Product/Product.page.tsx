@@ -1,6 +1,6 @@
 import { useGetProduct } from '@core/api/hooks/useGetProduct';
 import useProduct from '@hooks/useProduct';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -23,6 +23,7 @@ import { defaultProductImageUrl } from '@constants/products.const';
 import { imagesUrls } from '@utils/map-selected-product-images';
 import CounterComponent from '@components/Counter/Counter.component';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import { useAddToCart } from '@core/api/hooks/useAddToCart';
 import { useChangeCartItemQuantity } from '@core/api/hooks/useChangeCartItemQuantity';
 import { useCart } from '@hooks/useCart';
@@ -31,26 +32,29 @@ import 'react-image-gallery/styles/scss/image-gallery.scss';
 
 function ProductPage() {
   const { productKey = '' } = useParams<'productKey'>();
-  const { state } = useLocation();
   const navigate = useNavigate();
   const { close, visible, show } = useModalState();
-  const { data } = useGetProduct(productKey, { onError: () => navigate('/404') });
-  const product = state?.product || '';
+  const { data: { id, masterData: { current } } = { id: '', masterData: { current: undefined } } } = useGetProduct(
+    productKey,
+    { onError: () => navigate('/404') },
+  );
   const { setProduct, setProductLoading } = useProduct();
-  const [selectedVariant, setSelectedVariant] = useState(data?.masterVariant);
+  const [selectedVariant, setSelectedVariant] = useState(current?.masterVariant);
   const [clickedImageIndex, setClickedImageIndex] = useState(0);
   const imageGalleryRef = useRef<ReactImageGallery>(null);
 
   const { cart } = useCart();
   const [lineItem, setLineItem] = useState<LineItem | null>(null);
   const [quantity, setQuantity] = useState(1);
-  const { trigger: addToCartTrigger, isMutating: isAdding } = useAddToCart({ cart, productId: product.id });
+  const { trigger: addToCartTrigger, isMutating: isAdding } = useAddToCart({ cart, productId: id });
   const { trigger: changeCartItemQuantity, isMutating: isQuantityChanging } = useChangeCartItemQuantity({
     cart,
     lineItemId: lineItem?.id,
   });
 
   const handleAddToCart = useEventCallback(() => addToCartTrigger({ quantity }));
+  // TODO implement handleRemoveFromCart function
+  const handleRemoveFromCart = useEventCallback(() => addToCartTrigger({ quantity }));
 
   const handleChangeCount = useEventCallback((count: number) => {
     setQuantity(count);
@@ -63,13 +67,13 @@ function ProductPage() {
   useEffect(() => {
     setProductLoading(true);
 
-    if (data?.masterVariant) {
-      setProduct(data);
-      setSelectedVariant(data.masterVariant);
+    if (current?.masterVariant) {
+      setProduct(current);
+      setSelectedVariant(current.masterVariant);
     }
 
-    setLineItem(cart?.lineItems.find((item) => item.productId === product.id) || null);
-  }, [data, setProduct, setProductLoading, cart, product.id]);
+    setLineItem(cart?.lineItems.find((item) => item.productId === id) || null);
+  }, [current, setProduct, setProductLoading, cart, id]);
 
   const handleVariantClick = (variant: ProductVariant) => {
     setSelectedVariant(variant);
@@ -81,7 +85,7 @@ function ProductPage() {
     show();
   };
 
-  const productInfo = generateProductObj(data);
+  const productInfo = generateProductObj(current);
   const images = imagesUrls(selectedVariant);
 
   return (
@@ -90,7 +94,7 @@ function ProductPage() {
         visible={visible}
         close={close}
         images={images}
-        data={data}
+        data={current}
         defaultImageUrl={defaultProductImageUrl}
         clickedImageIndex={clickedImageIndex}
       />
@@ -145,7 +149,8 @@ function ProductPage() {
                 Color: <span className={styles.attributeValue}>{getColorAttribute(selectedVariant)}</span>
               </Typography>
             )}
-            {!!data?.variants?.length && (
+
+            {!!current?.variants?.length && (
               <ButtonGroup
                 variant="contained"
                 aria-label="Basic button group"
@@ -156,21 +161,23 @@ function ProductPage() {
               >
                 <Button
                   className={
-                    selectedVariant?.id === data?.masterVariant.id ? styles.selectedVariantButton : styles.variantButton
+                    selectedVariant?.id === current?.masterVariant.id
+                      ? styles.selectedVariantButton
+                      : styles.variantButton
                   }
-                  key={data?.masterVariant.id}
+                  key={current?.masterVariant.id}
                   variant="contained"
-                  onClick={() => handleVariantClick(data?.masterVariant)}
+                  onClick={() => handleVariantClick(current?.masterVariant)}
                   sx={{
-                    backgroundColor: `${getColorAttribute(data?.masterVariant)}`,
+                    backgroundColor: `${getColorAttribute(current?.masterVariant)}`,
                     '&:hover': {
-                      backgroundColor: `${getColorAttribute(data?.masterVariant)}`,
+                      backgroundColor: `${getColorAttribute(current?.masterVariant)}`,
                     },
                   }}
                 >
-                  {getColorAttribute(data?.masterVariant)}
+                  {getColorAttribute(current?.masterVariant)}
                 </Button>
-                {data?.variants.map((variant) => (
+                {current?.variants.map((variant) => (
                   <Button
                     key={variant.id}
                     variant="contained"
@@ -188,6 +195,7 @@ function ProductPage() {
                 ))}
               </ButtonGroup>
             )}
+
             <Stack className={styles.productPageActions}>
               <CounterComponent
                 initCount={lineItem?.quantity || 1}
@@ -195,23 +203,37 @@ function ProductPage() {
                 disabled={isQuantityChanging}
                 aria-label="product-counter"
               />
-              <IconButton
-                className={styles.addBtn}
-                size="large"
-                color="primary"
-                onClick={handleAddToCart}
-                aria-label="add-product-to-cart"
-                disabled={!!lineItem || isAdding}
-              >
-                {isAdding ? <CircularProgress size={24} thickness={5} /> : <AddShoppingCartIcon />}
-              </IconButton>
+              {lineItem ? (
+                <IconButton
+                  className={styles.addBtn}
+                  size="large"
+                  color="primary"
+                  onClick={handleRemoveFromCart}
+                  aria-label="remove-product-from-cart"
+                  // TODO implement isInProcess variable
+                  disabled={isAdding}
+                >
+                  {isAdding ? <CircularProgress size={24} thickness={5} /> : <RemoveShoppingCartIcon />}
+                </IconButton>
+              ) : (
+                <IconButton
+                  className={styles.addBtn}
+                  size="large"
+                  color="primary"
+                  onClick={handleAddToCart}
+                  aria-label="add-product-to-cart"
+                  disabled={isAdding}
+                >
+                  {isAdding ? <CircularProgress size={24} thickness={5} /> : <AddShoppingCartIcon />}
+                </IconButton>
+              )}
             </Stack>
           </Stack>
         </Container>
 
         <Stack className={styles.productPageDescription}>
           <Typography component="p" className={styles.productPageDescription}>
-            {data?.description?.en}
+            {current?.description?.en}
           </Typography>
           <Box className={styles.productAttributesContainer}>
             {!!productInfo.length && (
