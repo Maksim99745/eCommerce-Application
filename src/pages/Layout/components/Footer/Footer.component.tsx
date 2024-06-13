@@ -2,7 +2,7 @@ import AvatarsGroup from '@components/AvatarGroup/AvatarGroup';
 import SocialIconsGroup from '@components/SocialIconsGroup/SocialIconsGroup';
 import { Toolbar, Button, Container } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { rsschool } from '@constants/rsScoolLinks';
+import { rsschool } from '@constants/rsSchoolLinks';
 import styles from './Footer.component.module.scss';
 
 function FooterComponent() {
@@ -33,9 +33,14 @@ function FooterComponent() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img src="rsschool.png" alt="rs school logo" />
+          <img src={rsschool.rsLogoUrl} alt="rs school logo" />
         </Button>
-        <SocialIconsGroup github={rsschool.github} youtube={rsschool.youtube} discord={rsschool.discord} />
+        <SocialIconsGroup
+          github={rsschool.github}
+          youtube={rsschool.youtube}
+          discord={rsschool.discord}
+          discordIconUrl={rsschool.discordIconUrl}
+        />
       </Container>
     </Toolbar>
   );

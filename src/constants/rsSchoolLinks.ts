@@ -3,4 +3,6 @@ export const rsschool = {
   youtube: 'https://www.youtube.com/c/RollingScopesSchool',
   github: 'https://github.com/rolling-scopes/rsschool-app',
   discord: 'https://discord.com/invite/PRADsJB',
+  rsLogoUrl: 'socialIcons/rsschool.png',
+  discordIconUrl: 'socialIcons/discord.svg',
 };
