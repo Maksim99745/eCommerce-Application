@@ -1,6 +1,7 @@
 import { Box, Button, Container, Grid, Typography } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link } from 'react-router-dom';
+import { cartIconUrl } from '@constants/cartIconUrl';
 
 export function EmptyCartMessage() {
   return (
@@ -38,7 +39,7 @@ export function EmptyCartMessage() {
               mt: 4,
             }}
             alt="Your cart is empty"
-            src="emptyCartImage.png"
+            src={cartIconUrl}
           />
         </Grid>
       </Grid>

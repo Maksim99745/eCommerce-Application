@@ -7,7 +7,15 @@ import MethodologySection from './components/Methodology/Methodology';
 
 function AboutPage() {
   return (
-    <Stack>
+    <Stack
+      sx={{
+        background: {
+          md: 'url(rs.webp) 100% 100%/ 100px 100px no-repeat, url(rs1.webp) 49% 100.5%/ 150px 150px no-repeat',
+          xs: 'url(rs.webp) 100% 100%/ 100px 100px no-repeat',
+        },
+        pb: '70px',
+      }}
+    >
       <Container
         component="section"
         sx={{
