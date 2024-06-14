@@ -6,7 +6,7 @@ import { CatalogPageSkeleton } from '@pages/Catalog/Catalog.page.skeleton';
 import DiscountIcon from '@mui/icons-material/Discount';
 import { GetPromoCodesDialog } from './components/GetPromoCodesDialog';
 
-function GetPromoCodeButton(props: ButtonProps) {
+function GetPromoCode(props: ButtonProps) {
   return (
     <Button variant="contained" startIcon={<DiscountIcon />} {...props}>
       Get promo code
@@ -55,7 +55,7 @@ function CatalogPage() {
             {category?.name?.en || 'Products Catalog'}
           </Typography>
 
-          <GetPromoCodesDialog openControl={GetPromoCodeButton} disabled={isCategoryLoading} />
+          <GetPromoCodesDialog openControl={GetPromoCode} disabled={isCategoryLoading} />
         </Box>
         <ProductListComponent productPath={productPath} />
       </Stack>

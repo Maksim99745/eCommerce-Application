@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { promoCodeFormSchema } from '@core/validation/cart-promo-code/cart-promo-code.schema';
 import { useGetAvailablePromoCodes } from '@pages/Catalog/hooks/useGetAvailablePromoCodes';
 import { MessagesToUser } from '@enums/messagesToUser';
+import { createAppErrorMessage } from '@core/errorHandlers/createAppErrorMessage';
 import { ActivePromoCode } from './ActivePromoCode';
 
 export interface CartPromoCodeProps {
@@ -28,7 +29,13 @@ export function CartPromoCode({ promoCodeIds, onApplyPromoCode, disabled }: Cart
 
   const { handleSubmit, reset, watch } = formContext;
 
-  const { data } = useGetAvailablePromoCodes();
+  const { data, error } = useGetAvailablePromoCodes();
+
+  if (error) {
+    const errorMessage = createAppErrorMessage(error);
+    showMessage(errorMessage, 'error');
+  }
+
   const promoCodes = data?.results || [];
 
   const promoCodeValue = watch('promoCode');
