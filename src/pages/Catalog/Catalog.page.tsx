@@ -1,8 +1,17 @@
 import { POPULAR_CATEGORY } from '@constants/categories.const';
 import useCategory from '@hooks/useCategory';
-import { Box, Container, Stack, Typography } from '@mui/material';
+import { Box, Button, ButtonProps, Container, Stack, Typography } from '@mui/material';
 import ProductListComponent from '@components/ProductList/ProductList.component';
 import { CatalogPageSkeleton } from '@pages/Catalog/Catalog.page.skeleton';
+import { GetPromoCodesDialog } from './components/GetPromoCodesDialog';
+
+function GetPromoCodeButton(props: ButtonProps) {
+  return (
+    <Button variant="contained" {...props}>
+      Get promo code
+    </Button>
+  );
+}
 
 function CatalogPage() {
   const { category, isCategoryLoading } = useCategory();
@@ -26,6 +35,8 @@ function CatalogPage() {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             borderRadius: 3,
+            display: 'flex',
+            alignItems: 'flex-end',
           }}
         >
           <Typography
@@ -42,8 +53,9 @@ function CatalogPage() {
           >
             {category?.name?.en || 'Products Catalog'}
           </Typography>
-        </Box>
 
+          <GetPromoCodesDialog openControl={GetPromoCodeButton} disabled={isCategoryLoading} />
+        </Box>
         <ProductListComponent productPath={productPath} />
       </Stack>
     </Container>

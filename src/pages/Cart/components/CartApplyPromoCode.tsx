@@ -7,6 +7,8 @@ import { useShowMessage } from '@hooks/useShowMessage';
 import { RemoteOperationCallback } from '@models/remoteOperationCallback';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { promoCodeFormSchema } from '@core/validation/cart-promo-code/cart-promo-code.schema';
+import { useGetAvailablePromoCodes } from '@pages/Catalog/hooks/useGetAvailablePromoCodes';
+import { MessagesToUser } from '@enums/messagesToUser';
 import { ActivePromoCode } from './ActivePromoCode';
 
 export interface CartPromoCodeProps {
@@ -26,14 +28,20 @@ export function CartPromoCode({ promoCodeIds, onApplyPromoCode, disabled }: Cart
 
   const { handleSubmit, reset, watch } = formContext;
 
+  const { data } = useGetAvailablePromoCodes();
+  const promoCodes = data?.results || [];
+
   const promoCodeValue = watch('promoCode');
   const isPromoCodePassed = promoCodeValue.length > 0;
 
-  const getPromoCode = (): void => {
-    const promoCodesCollection = ['RS5', 'RS10'];
-    const promoCode = promoCodesCollection[Math.floor(Math.random() * promoCodesCollection.length)];
-    reset({ promoCode });
-    showMessage(`Congratulations, your promo code is ${promoCode}`);
+  const getAvailablePromoCode = (): void => {
+    const promoCode = promoCodes[Math.floor(Math.random() * promoCodes.length)].code;
+    if (promoCode.length >= 1) {
+      reset({ promoCode });
+      showMessage(`Congratulations, your promo code is ${promoCode}`);
+    } else {
+      showMessage(MessagesToUser.NotAvailablePromoCodes);
+    }
   };
 
   const performSave = useEventCallback(async (promoCode: CartPromoCodeFormData) => {
@@ -75,8 +83,8 @@ export function CartPromoCode({ promoCodeIds, onApplyPromoCode, disabled }: Cart
             >
               Apply code
             </Button>
-            <Button size="small" disabled={disabled} onClick={() => getPromoCode()}>
-              Get discount
+            <Button size="small" disabled={disabled} onClick={() => getAvailablePromoCode()}>
+              Get promo code
             </Button>
           </Stack>
         </Stack>
