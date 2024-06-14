@@ -3,11 +3,12 @@ import useCategory from '@hooks/useCategory';
 import { Box, Button, ButtonProps, Container, Stack, Typography } from '@mui/material';
 import ProductListComponent from '@components/ProductList/ProductList.component';
 import { CatalogPageSkeleton } from '@pages/Catalog/Catalog.page.skeleton';
+import DiscountIcon from '@mui/icons-material/Discount';
 import { GetPromoCodesDialog } from './components/GetPromoCodesDialog';
 
 function GetPromoCodeButton(props: ButtonProps) {
   return (
-    <Button variant="contained" {...props}>
+    <Button variant="contained" startIcon={<DiscountIcon />} {...props}>
       Get promo code
     </Button>
   );
