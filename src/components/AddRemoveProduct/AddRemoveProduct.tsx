@@ -15,7 +15,7 @@ interface AddToCartProps {
   variantId?: number;
 }
 
-export default function AddToCartComponent({ productId, variantId }: AddToCartProps) {
+export default function AddRemoveProduct({ productId, variantId }: AddToCartProps) {
   const { cart, isCartLoading } = useCart();
   const [lineItem, setLineItem] = useState<LineItem | null>(null);
   const [quantity, setQuantity] = useState(minCount);

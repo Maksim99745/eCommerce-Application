@@ -11,7 +11,7 @@ import { ProductVariant } from '@commercetools/platform-sdk';
 import { getColorAttribute } from '@utils/get-color-attribute-value';
 import { defaultProductImageUrl } from '@constants/products.const';
 import { imagesUrls } from '@utils/map-selected-product-images';
-import AddToCartComponent from '@components/AddToCartComponent';
+import AddRemoveProduct from '@components/AddRemoveProduct/AddRemoveProduct';
 import { generateProductObj } from './utils/generateProductObj';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
 import ProductShortInfo from './components/ProductShortInfo/ProductShortInfo';
@@ -128,7 +128,7 @@ function ProductPage() {
             )}
 
             <Stack className={styles.productPageActions}>
-              <AddToCartComponent productId={id} variantId={selectedVariant?.id} />
+              <AddRemoveProduct productId={id} variantId={selectedVariant?.id} />
             </Stack>
           </Stack>
         </Container>

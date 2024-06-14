@@ -1,5 +1,6 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
-import AddToCartComponent from '@components/AddToCartComponent';
+import AddRemoveProduct from '@components/AddRemoveProduct/AddRemoveProduct';
+
 import { productCurrencyMap } from '@constants/products.const';
 import {
   Card,
@@ -96,7 +97,7 @@ export function ProductCardComponent({ product, productPath = '' }: ProductCardC
               </Typography>
             )}
           </Stack>
-          <AddToCartComponent productId={product.id} variantId={product.masterVariant.id} />
+          <AddRemoveProduct productId={product.id} variantId={product.masterVariant.id} />
         </Stack>
       </CardActions>
     </Card>
