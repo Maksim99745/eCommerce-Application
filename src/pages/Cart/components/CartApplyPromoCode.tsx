@@ -1,5 +1,3 @@
-import { promoCodeFormSchema } from '@core/validation/cart-promo-code/cart-promo-code.schema';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { CartPromoCodeFormData } from '@models/forms.model';
 import { Button, Stack, useEventCallback } from '@mui/material';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -7,6 +5,8 @@ import DiscountIcon from '@mui/icons-material/Discount';
 import { TextFieldElement } from 'react-hook-form-mui';
 import { useShowMessage } from '@hooks/useShowMessage';
 import { RemoteOperationCallback } from '@models/remoteOperationCallback';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { promoCodeFormSchema } from '@core/validation/cart-promo-code/cart-promo-code.schema';
 import { ActivePromoCode } from './ActivePromoCode';
 
 export interface CartPromoCodeProps {
@@ -24,7 +24,10 @@ export function CartPromoCode({ promoCodeIds, onApplyPromoCode, disabled }: Cart
     mode: 'all',
   });
 
-  const { handleSubmit, reset } = formContext;
+  const { handleSubmit, reset, watch } = formContext;
+
+  const promoCodeValue = watch('promoCode');
+  const isPromoCodePassed = promoCodeValue.length > 0;
 
   const getPromoCode = (): void => {
     const promoCodesCollection = ['RS5', 'RS10'];
@@ -68,10 +71,11 @@ export function CartPromoCode({ promoCodeIds, onApplyPromoCode, disabled }: Cart
               type="submit"
               size="small"
               variant="contained"
+              disabled={disabled || !isPromoCodePassed}
             >
               Apply code
             </Button>
-            <Button size="small" onClick={() => getPromoCode()}>
+            <Button size="small" disabled={disabled} onClick={() => getPromoCode()}>
               Get discount
             </Button>
           </Stack>
