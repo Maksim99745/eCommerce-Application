@@ -1,11 +1,11 @@
 import CounterComponent from '@components/Counter/Counter.component';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useAddToCart } from '@core/api/hooks/useAddToCart';
 import { useChangeCartItemQuantity } from '@core/api/hooks/useChangeCartItemQuantity';
 import { useCart } from '@hooks/useCart';
 import { useEffect, useState } from 'react';
-import { Box, CircularProgress, IconButton, useEventCallback } from '@mui/material';
+import { CircularProgress, IconButton, useEventCallback } from '@mui/material';
 import { LineItem } from '@commercetools/platform-sdk';
 import { useRemoveCartLineItem } from '@pages/Cart/hooks/useRemoveCartLineItem';
 
@@ -47,7 +47,19 @@ export default function AddToCartComponent({ productId }: AddToCartProps) {
         disabled={isQuantityChanging}
         aria-label="product-counter"
       />
-      <Box>
+      {lineItem ? (
+        <IconButton
+          size="large"
+          color="primary"
+          onClick={() => {
+            handleRemoveFromCart(lineItem);
+          }}
+          aria-label="remove-product-from-cart"
+          disabled={!lineItem}
+        >
+          {isCartLoading ? <CircularProgress size={35} thickness={5} /> : <DeleteIcon fontSize="large" color="error" />}
+        </IconButton>
+      ) : (
         <IconButton
           size="large"
           color="primary"
@@ -55,22 +67,13 @@ export default function AddToCartComponent({ productId }: AddToCartProps) {
           aria-label="add-product-to-cart"
           disabled={!!lineItem}
         >
-          {isAdding ? <CircularProgress size={24} thickness={5} /> : <AddShoppingCartIcon />}
+          {isAdding ? (
+            <CircularProgress size={35} thickness={5} />
+          ) : (
+            <AddShoppingCartIcon fontSize="large" color="success" />
+          )}
         </IconButton>
-        <IconButton
-          size="large"
-          color="primary"
-          onClick={() => {
-            if (lineItem) {
-              handleRemoveFromCart(lineItem);
-            }
-          }}
-          aria-label="remove-product-from-cart"
-          disabled={!lineItem}
-        >
-          {isCartLoading ? <CircularProgress size={24} thickness={5} /> : <RemoveShoppingCartIcon />}
-        </IconButton>
-      </Box>
+      )}
     </>
   );
 }
