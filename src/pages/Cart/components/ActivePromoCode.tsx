@@ -1,16 +1,16 @@
 import { Typography } from '@mui/material';
 import { useShowMessage } from '@hooks/useShowMessage';
 import { createAppErrorMessage } from '@core/errorHandlers/createAppErrorMessage';
-import { useGetPromoCodeDescriptions } from '../hooks/useGetPromoCodeDescriptions';
+import { useGetActivePromoCode } from '../hooks/useGetActivePromoCode';
 
 interface Props {
   id: string;
   isLastCode: boolean;
 }
 
-export function PromoCodeDescription({ id, isLastCode }: Props) {
+export function ActivePromoCode({ id, isLastCode }: Props) {
   const showMessage = useShowMessage();
-  const { data, isLoading, error } = useGetPromoCodeDescriptions({ promoCodeId: id });
+  const { data, isLoading, error } = useGetActivePromoCode({ promoCodeId: id });
 
   if (error) {
     const errorMessage = createAppErrorMessage(error);

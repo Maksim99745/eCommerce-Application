@@ -7,7 +7,7 @@ import DiscountIcon from '@mui/icons-material/Discount';
 import { TextFieldElement } from 'react-hook-form-mui';
 import { useShowMessage } from '@hooks/useShowMessage';
 import { RemoteOperationCallback } from '@models/remoteOperationCallback';
-import { PromoCodeDescription } from './PromoCodeDescription';
+import { ActivePromoCode } from './ActivePromoCode';
 
 export interface CartPromoCodeProps {
   promoCodeIds: string[];
@@ -57,7 +57,7 @@ export function CartPromoCode({ promoCodeIds, onApplyPromoCode, disabled }: Cart
             <Stack direction="row" sx={{ gap: 0.5 }}>
               Active codes:
               {promoCodeIds?.map((code, index) => (
-                <PromoCodeDescription id={code} key={code} isLastCode={index === promoCodeIds.length - 1} />
+                <ActivePromoCode id={code} key={code} isLastCode={index === promoCodeIds.length - 1} />
               ))}
             </Stack>
           </Stack>
