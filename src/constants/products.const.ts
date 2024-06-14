@@ -23,4 +23,4 @@ export const defaultProductsFilter: ProductFilter = {
   countries: [],
 };
 
-export const defaultProductImageUrl = 'defaultImg.png';
+export const defaultProductImageUrl = '/public/defaultImg.webp';
