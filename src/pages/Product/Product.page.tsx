@@ -80,6 +80,7 @@ function ProductPage() {
           </Stack>
           <Stack className={styles.shortInfoContainer}>
             <ProductShortInfo productInfo={productInfo} selectedVariant={selectedVariant} />
+
             {!!current?.variants?.length && (
               <ButtonGroup
                 variant="contained"
@@ -125,8 +126,9 @@ function ProductPage() {
                 ))}
               </ButtonGroup>
             )}
+
             <Stack className={styles.productPageActions}>
-              <AddToCartComponent productId={id} />
+              <AddToCartComponent productId={id} variantId={selectedVariant?.id} />
             </Stack>
           </Stack>
         </Container>

@@ -96,7 +96,7 @@ export function ProductCardComponent({ product, productPath = '' }: ProductCardC
               </Typography>
             )}
           </Stack>
-          <AddToCartComponent productId={product.id} />
+          <AddToCartComponent productId={product.id} variantId={product.masterVariant.id} />
         </Stack>
       </CardActions>
     </Card>

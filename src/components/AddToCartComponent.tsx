@@ -8,18 +8,18 @@ import { useEffect, useState } from 'react';
 import { CircularProgress, IconButton, useEventCallback } from '@mui/material';
 import { LineItem } from '@commercetools/platform-sdk';
 import { useRemoveCartLineItem } from '@pages/Cart/hooks/useRemoveCartLineItem';
+import { minCount } from '@constants/products.const';
 
 interface AddToCartProps {
   productId: string;
-  // variantId?: string;
-  // showAddButton?: boolean;
+  variantId?: number;
 }
 
-export default function AddToCartComponent({ productId }: AddToCartProps) {
+export default function AddToCartComponent({ productId, variantId }: AddToCartProps) {
   const { cart, isCartLoading } = useCart();
   const [lineItem, setLineItem] = useState<LineItem | null>(null);
-  const [quantity, setQuantity] = useState(1);
-  const { trigger: addToCartTrigger, isMutating: isAdding } = useAddToCart({ cart, productId });
+  const [quantity, setQuantity] = useState(minCount);
+  const { trigger: addToCartTrigger, isMutating: isAdding } = useAddToCart({ cart, productId, variantId });
   const { trigger: changeCartItemQuantity, isMutating: isQuantityChanging } = useChangeCartItemQuantity({
     cart,
     lineItemId: lineItem?.id,
@@ -36,13 +36,13 @@ export default function AddToCartComponent({ productId }: AddToCartProps) {
   });
 
   useEffect(() => {
-    setLineItem(cart?.lineItems.find((item) => item.productId === productId) || null);
-  }, [cart, productId]);
+    setLineItem(cart?.lineItems.find((item) => item.productId === productId && item.variant.id === variantId) || null);
+  }, [cart, productId, variantId]);
 
   return (
     <>
       <CounterComponent
-        initCount={lineItem?.quantity || 1}
+        initCount={lineItem?.quantity || minCount}
         onChange={handleChangeCount}
         disabled={isQuantityChanging}
         aria-label="product-counter"
@@ -53,6 +53,7 @@ export default function AddToCartComponent({ productId }: AddToCartProps) {
           color="primary"
           onClick={() => {
             handleRemoveFromCart(lineItem);
+            setQuantity(minCount);
           }}
           aria-label="remove-product-from-cart"
           disabled={!lineItem}
