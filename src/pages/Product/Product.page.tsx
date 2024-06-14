@@ -1,37 +1,43 @@
 import { useGetProduct } from '@core/api/hooks/useGetProduct';
 import useProduct from '@hooks/useProduct';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Box, Button, ButtonGroup, Container, Stack, Typography } from '@mui/material';
+import { Button, ButtonGroup, Container, Stack } from '@mui/material';
 import ReactImageGallery from 'react-image-gallery';
 import { useModalState } from '@hooks/useModalState';
-import ImageModal from '@pages/Product/components/ImageModal';
+import ImageModal from '@pages/Product/components/ImageModalComponent/ImageModal';
 import styles from '@pages/Product/Product.page.module.scss';
 import { useEffect, useState, useRef } from 'react';
 import { ProductVariant } from '@commercetools/platform-sdk';
 import { getColorAttribute } from '@utils/get-color-attribute-value';
 import { defaultProductImageUrl } from '@constants/products.const';
 import { imagesUrls } from '@utils/map-selected-product-images';
+import AddRemoveProduct from '@components/AddRemoveProduct/AddRemoveProduct';
 import { generateProductObj } from './utils/generateProductObj';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
+import ProductShortInfo from './components/ProductShortInfo/ProductShortInfo';
+import ProductDescription from './components/ProductDescription/ProductDescription';
 
 function ProductPage() {
   const { productKey = '' } = useParams<'productKey'>();
   const navigate = useNavigate();
   const { close, visible, show } = useModalState();
-  const { data } = useGetProduct(productKey, { onError: () => navigate('/404') });
+  const { data: { id, masterData: { current } } = { id: '', masterData: { current: undefined } } } = useGetProduct(
+    productKey,
+    { onError: () => navigate('/404') },
+  );
   const { setProduct, setProductLoading } = useProduct();
-  const [selectedVariant, setSelectedVariant] = useState(data?.masterVariant);
+  const [selectedVariant, setSelectedVariant] = useState(current?.masterVariant);
   const [clickedImageIndex, setClickedImageIndex] = useState(0);
   const imageGalleryRef = useRef<ReactImageGallery>(null);
 
   useEffect(() => {
     setProductLoading(true);
 
-    if (data?.masterVariant) {
-      setProduct(data);
-      setSelectedVariant(data.masterVariant);
+    if (current?.masterVariant) {
+      setProduct(current);
+      setSelectedVariant(current.masterVariant);
     }
-  }, [data, setProduct, setProductLoading]);
+  }, [current, setProduct, setProductLoading]);
 
   const handleVariantClick = (variant: ProductVariant) => {
     setSelectedVariant(variant);
@@ -43,7 +49,7 @@ function ProductPage() {
     show();
   };
 
-  const productInfo = generateProductObj(data);
+  const productInfo = generateProductObj(current);
   const images = imagesUrls(selectedVariant);
 
   return (
@@ -52,7 +58,7 @@ function ProductPage() {
         visible={visible}
         close={close}
         images={images}
-        data={data}
+        data={current}
         defaultImageUrl={defaultProductImageUrl}
         clickedImageIndex={clickedImageIndex}
       />
@@ -73,41 +79,9 @@ function ProductPage() {
             />
           </Stack>
           <Stack className={styles.shortInfoContainer}>
-            <Typography component="h1" className={styles.productPageTitle}>
-              {productInfo.productName}
-            </Typography>
-            {(!!productInfo.discountedPrice && (
-              <Typography component="p" className={styles.productPageInfo}>
-                Price: <span className={styles.currentPrice}>{productInfo.discountedPrice}</span>
-                <span className={styles.previousPrice}>{productInfo.basePrice}</span>
-              </Typography>
-            )) ||
-              (!!productInfo.basePrice && (
-                <Typography component="p" className={styles.productPageInfo}>
-                  Price: <span className={styles.currentPrice}>{productInfo.basePrice}</span>
-                </Typography>
-              ))}
-            {!!productInfo.brand && (
-              <Typography component="p" className={styles.productPageInfo}>
-                Brand: <span className={styles.attributeValue}>{productInfo.brand}</span>
-              </Typography>
-            )}
-            {!!productInfo.country && (
-              <Typography component="p" className={styles.productPageInfo}>
-                Country: <span className={styles.attributeValue}>{productInfo.country}</span>
-              </Typography>
-            )}
-            {!!productInfo.material && (
-              <Typography component="p" className={styles.productPageInfo}>
-                Material: <span className={styles.attributeValue}>{productInfo.material}</span>
-              </Typography>
-            )}
-            {!!selectedVariant && (
-              <Typography component="p" className={styles.productPageInfo}>
-                Color: <span className={styles.attributeValue}>{getColorAttribute(selectedVariant)}</span>
-              </Typography>
-            )}
-            {!!data?.variants?.length && (
+            <ProductShortInfo productInfo={productInfo} selectedVariant={selectedVariant} />
+
+            {!!current?.variants?.length && (
               <ButtonGroup
                 variant="contained"
                 aria-label="Basic button group"
@@ -118,21 +92,23 @@ function ProductPage() {
               >
                 <Button
                   className={
-                    selectedVariant?.id === data?.masterVariant.id ? styles.selectedVariantButton : styles.variantButton
+                    selectedVariant?.id === current?.masterVariant.id
+                      ? styles.selectedVariantButton
+                      : styles.variantButton
                   }
-                  key={data?.masterVariant.id}
+                  key={current?.masterVariant.id}
                   variant="contained"
-                  onClick={() => handleVariantClick(data?.masterVariant)}
+                  onClick={() => handleVariantClick(current?.masterVariant)}
                   sx={{
-                    backgroundColor: `${getColorAttribute(data?.masterVariant)}`,
+                    backgroundColor: `${getColorAttribute(current?.masterVariant)}`,
                     '&:hover': {
-                      backgroundColor: `${getColorAttribute(data?.masterVariant)}`,
+                      backgroundColor: `${getColorAttribute(current?.masterVariant)}`,
                     },
                   }}
                 >
-                  {getColorAttribute(data?.masterVariant)}
+                  {getColorAttribute(current?.masterVariant)}
                 </Button>
-                {data?.variants.map((variant) => (
+                {current?.variants.map((variant) => (
                   <Button
                     key={variant.id}
                     variant="contained"
@@ -150,39 +126,13 @@ function ProductPage() {
                 ))}
               </ButtonGroup>
             )}
-            <Typography component="p" className={styles.productPageInfo}>
-              Buttons &quot;Add to Cart&quot;/&quot;Remove from Cart&quot; 🛒 will be here later
-            </Typography>
+
+            <Stack className={styles.productPageActions}>
+              <AddRemoveProduct productId={id} variantId={selectedVariant?.id} />
+            </Stack>
           </Stack>
         </Container>
-
-        <Stack className={styles.productPageDescription}>
-          <Typography component="p" className={styles.productPageDescription}>
-            {data?.description?.en}
-          </Typography>
-          <Box className={styles.productAttributesContainer}>
-            {!!productInfo.length && (
-              <Typography component="p" className={styles.productAttributes}>
-                Length: <span className={styles.attributeValue}>{productInfo.length} сm</span>
-              </Typography>
-            )}
-            {!!productInfo.width && (
-              <Typography component="p" className={styles.productAttributes}>
-                Width: <span className={styles.attributeValue}>{productInfo.width} сm</span>
-              </Typography>
-            )}
-            {!!productInfo.height && (
-              <Typography component="p" className={styles.productAttributes}>
-                Height: <span className={styles.attributeValue}>{productInfo.height} сm</span>
-              </Typography>
-            )}
-            {!!productInfo.volume && (
-              <Typography component="p" className={styles.productAttributes}>
-                Volume: <span className={styles.attributeValue}>{productInfo.volume} lt</span>
-              </Typography>
-            )}
-          </Box>
-        </Stack>
+        <ProductDescription productInfo={productInfo} current={current} />
       </Stack>
     </>
   );

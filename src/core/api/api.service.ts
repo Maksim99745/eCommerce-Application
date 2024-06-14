@@ -101,7 +101,7 @@ export class ApiService {
     );
   }
 
-  public async addToCart({ cart, productId, quantity }: AddToCartRequest): Promise<Cart> {
+  public async addToCart({ cart, productId, variantId, quantity }: AddToCartRequest): Promise<Cart> {
     const userCart = cart || (await this.createCart());
 
     return this.callRequest(
@@ -116,6 +116,7 @@ export class ApiService {
               {
                 action: 'addLineItem',
                 productId,
+                variantId,
                 quantity,
               },
             ],

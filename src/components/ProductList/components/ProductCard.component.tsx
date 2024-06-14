@@ -1,10 +1,7 @@
-import { LineItem, ProductProjection } from '@commercetools/platform-sdk';
-import CounterComponent from '@components/Counter/Counter.component';
+import { ProductProjection } from '@commercetools/platform-sdk';
+import AddRemoveProduct from '@components/AddRemoveProduct/AddRemoveProduct';
+
 import { productCurrencyMap } from '@constants/products.const';
-import { useAddToCart } from '@core/api/hooks/useAddToCart';
-import { useChangeCartItemQuantity } from '@core/api/hooks/useChangeCartItemQuantity';
-import { useCart } from '@hooks/useCart';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import {
   Card,
   CardActionArea,
@@ -12,14 +9,12 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-  CircularProgress,
-  IconButton,
   Stack,
   Typography,
   useEventCallback,
 } from '@mui/material';
 import { mapProductToProductCard } from '@utils/map-product-to-product-card';
-import { memo, useEffect, useState } from 'react';
+import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface ProductCardComponentProps {
@@ -30,31 +25,8 @@ interface ProductCardComponentProps {
 export function ProductCardComponent({ product, productPath = '' }: ProductCardComponentProps) {
   const navigate = useNavigate();
   const { name, image, price, discounted, currency, description } = mapProductToProductCard(product);
-  const { cart } = useCart();
-  const [lineItem, setLineItem] = useState<LineItem | null>(null);
-  const [quantity, setQuantity] = useState(1);
-  const { trigger: addToCartTrigger, isMutating: isAdding } = useAddToCart({ cart, productId: product.id });
-  const { trigger: changeCartItemQuantity, isMutating: isQuantityChanging } = useChangeCartItemQuantity({
-    cart,
-    lineItemId: lineItem?.id,
-  });
-
-  const handleAddToCart = useEventCallback(() => addToCartTrigger({ quantity }));
-
-  const handleChangeCount = useEventCallback((count: number) => {
-    setQuantity(count);
-
-    if (lineItem) {
-      changeCartItemQuantity({ quantity: count });
-    }
-  });
 
   const handleGoToProduct = useEventCallback(() => navigate(`${productPath}products/${product.key}`));
-
-  useEffect(
-    () => setLineItem(cart?.lineItems.find((item) => item.productId === product.id) || null),
-    [cart, product.id],
-  );
 
   return (
     <Card sx={{ boxShadow: 3, height: 550 }}>
@@ -125,22 +97,7 @@ export function ProductCardComponent({ product, productPath = '' }: ProductCardC
               </Typography>
             )}
           </Stack>
-
-          <CounterComponent
-            initCount={lineItem?.quantity || 1}
-            onChange={handleChangeCount}
-            disabled={isQuantityChanging}
-            aria-label="product-counter"
-          />
-
-          <IconButton
-            color="primary"
-            onClick={handleAddToCart}
-            aria-label="add-product-to-cart"
-            disabled={!!lineItem || isAdding}
-          >
-            {isAdding ? <CircularProgress size={24} thickness={5} /> : <AddShoppingCartIcon />}
-          </IconButton>
+          <AddRemoveProduct productId={product.id} variantId={product.masterVariant.id} />
         </Stack>
       </CardActions>
     </Card>
