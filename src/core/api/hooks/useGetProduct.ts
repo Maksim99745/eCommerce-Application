@@ -11,10 +11,3 @@ export const useGetProduct = (
     () => apiService.getProduct(productKey).then((response) => response.masterData.current),
     options?.onError ? { onError: options.onError } : undefined,
   );
-
-export const useFetchPromoCodeDescriptions = (promoCodeId: string) =>
-  useSWR(promoCodeId, () =>
-    apiService.getPromoCodeDescription({
-      promoCodeId,
-    }),
-  );
