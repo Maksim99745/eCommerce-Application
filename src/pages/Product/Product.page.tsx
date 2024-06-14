@@ -1,22 +1,17 @@
 import { useGetProduct } from '@core/api/hooks/useGetProduct';
 import useProduct from '@hooks/useProduct';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button, ButtonGroup, CircularProgress, Container, IconButton, Stack, useEventCallback } from '@mui/material';
+import { Button, ButtonGroup, Container, Stack } from '@mui/material';
 import ReactImageGallery from 'react-image-gallery';
 import { useModalState } from '@hooks/useModalState';
 import ImageModal from '@pages/Product/components/ImageModalComponent/ImageModal';
 import styles from '@pages/Product/Product.page.module.scss';
 import { useEffect, useState, useRef } from 'react';
-import { LineItem, ProductVariant } from '@commercetools/platform-sdk';
+import { ProductVariant } from '@commercetools/platform-sdk';
 import { getColorAttribute } from '@utils/get-color-attribute-value';
 import { defaultProductImageUrl } from '@constants/products.const';
 import { imagesUrls } from '@utils/map-selected-product-images';
-import CounterComponent from '@components/Counter/Counter.component';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
-import { useAddToCart } from '@core/api/hooks/useAddToCart';
-import { useChangeCartItemQuantity } from '@core/api/hooks/useChangeCartItemQuantity';
-import { useCart } from '@hooks/useCart';
+import AddToCartComponent from '@components/AddToCartComponent';
 import { generateProductObj } from './utils/generateProductObj';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
 import ProductShortInfo from './components/ProductShortInfo/ProductShortInfo';
@@ -35,27 +30,6 @@ function ProductPage() {
   const [clickedImageIndex, setClickedImageIndex] = useState(0);
   const imageGalleryRef = useRef<ReactImageGallery>(null);
 
-  const { cart } = useCart();
-  const [lineItem, setLineItem] = useState<LineItem | null>(null);
-  const [quantity, setQuantity] = useState(1);
-  const { trigger: addToCartTrigger, isMutating: isAdding } = useAddToCart({ cart, productId: id });
-  const { trigger: changeCartItemQuantity, isMutating: isQuantityChanging } = useChangeCartItemQuantity({
-    cart,
-    lineItemId: lineItem?.id,
-  });
-
-  const handleAddToCart = useEventCallback(() => addToCartTrigger({ quantity }));
-  // TODO implement handleRemoveFromCart function
-  const handleRemoveFromCart = useEventCallback(() => addToCartTrigger({ quantity }));
-
-  const handleChangeCount = useEventCallback((count: number) => {
-    setQuantity(count);
-
-    if (lineItem) {
-      changeCartItemQuantity({ quantity: count });
-    }
-  });
-
   useEffect(() => {
     setProductLoading(true);
 
@@ -63,9 +37,7 @@ function ProductPage() {
       setProduct(current);
       setSelectedVariant(current.masterVariant);
     }
-
-    setLineItem(cart?.lineItems.find((item) => item.productId === id) || null);
-  }, [current, setProduct, setProductLoading, cart, id]);
+  }, [current, setProduct, setProductLoading]);
 
   const handleVariantClick = (variant: ProductVariant) => {
     setSelectedVariant(variant);
@@ -108,7 +80,6 @@ function ProductPage() {
           </Stack>
           <Stack className={styles.shortInfoContainer}>
             <ProductShortInfo productInfo={productInfo} selectedVariant={selectedVariant} />
-
             {!!current?.variants?.length && (
               <ButtonGroup
                 variant="contained"
@@ -154,38 +125,8 @@ function ProductPage() {
                 ))}
               </ButtonGroup>
             )}
-
             <Stack className={styles.productPageActions}>
-              <CounterComponent
-                initCount={lineItem?.quantity || 1}
-                onChange={handleChangeCount}
-                disabled={isQuantityChanging}
-                aria-label="product-counter"
-              />
-              {lineItem ? (
-                <IconButton
-                  className={styles.addBtn}
-                  size="large"
-                  color="primary"
-                  onClick={handleRemoveFromCart}
-                  aria-label="remove-product-from-cart"
-                  // TODO implement isInProcess variable
-                  disabled={isAdding}
-                >
-                  {isAdding ? <CircularProgress size={24} thickness={5} /> : <RemoveShoppingCartIcon />}
-                </IconButton>
-              ) : (
-                <IconButton
-                  className={styles.addBtn}
-                  size="large"
-                  color="primary"
-                  onClick={handleAddToCart}
-                  aria-label="add-product-to-cart"
-                  disabled={isAdding}
-                >
-                  {isAdding ? <CircularProgress size={24} thickness={5} /> : <AddShoppingCartIcon />}
-                </IconButton>
-              )}
+              <AddToCartComponent productId={id} />
             </Stack>
           </Stack>
         </Container>
