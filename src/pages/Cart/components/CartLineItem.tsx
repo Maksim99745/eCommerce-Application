@@ -31,6 +31,7 @@ export function CartLineItem({ cart, lineItem, disabled = false, onRemove }: Car
   });
 
   const handleGoToProduct = useEventCallback(() => navigate(`/products/${lineItem.productKey}`));
+  const productVariant = lineItem.variant?.attributes?.find((attr) => attr.name === 'color')?.value || '';
 
   return (
     <Container maxWidth="md">
@@ -49,7 +50,7 @@ export function CartLineItem({ cart, lineItem, disabled = false, onRemove }: Car
                 />
               </Grid>
               <Grid item xs={5}>
-                <Typography>{`${lineItem.name.en}`}</Typography>
+                <Typography>{`${lineItem.name.en} (${productVariant})`}</Typography>
               </Grid>
             </Grid>
           </CardActionArea>
