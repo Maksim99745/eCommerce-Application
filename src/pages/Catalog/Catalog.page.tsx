@@ -8,7 +8,7 @@ import { GetPromoCodesDialog } from './components/GetPromoCodesDialog';
 
 function GetPromoCode(props: ButtonProps) {
   return (
-    <Button variant="contained" startIcon={<DiscountIcon />} {...props}>
+    <Button variant="contained" startIcon={<DiscountIcon />} disableElevation {...props}>
       Get promo code
     </Button>
   );

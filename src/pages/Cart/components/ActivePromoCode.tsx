@@ -1,7 +1,6 @@
 import { Typography } from '@mui/material';
-import { useShowMessage } from '@hooks/useShowMessage';
 import { createAppErrorMessage } from '@core/errorHandlers/createAppErrorMessage';
-import { useGetActivePromoCode } from '../hooks/useGetActivePromoCode';
+import { useGetActivePromoCodeDescription } from '../hooks/useGetActivePromoCodeDescription';
 
 interface Props {
   id: string;
@@ -9,13 +8,7 @@ interface Props {
 }
 
 export function ActivePromoCode({ id, isLastCode }: Props) {
-  const showMessage = useShowMessage();
-  const { data, isLoading, error } = useGetActivePromoCode({ promoCodeId: id });
-
-  if (error) {
-    const errorMessage = createAppErrorMessage(error);
-    showMessage(errorMessage, 'error');
-  }
+  const { data, isLoading, error } = useGetActivePromoCodeDescription({ promoCodeId: id });
 
   if (!data && !isLoading) {
     return null;
@@ -24,6 +17,7 @@ export function ActivePromoCode({ id, isLastCode }: Props) {
   return (
     <Typography>
       {data?.name?.en}
+      {error && <Typography>Error: {createAppErrorMessage(error)}</Typography>}
       {!isLastCode && ','}
     </Typography>
   );

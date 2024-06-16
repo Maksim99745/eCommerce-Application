@@ -1,5 +1,5 @@
 import { CartPromoCodeFormData } from '@models/forms.model';
-import { Button, Stack, useEventCallback } from '@mui/material';
+import { Button, Stack, Typography, useEventCallback } from '@mui/material';
 import { FormProvider, useForm } from 'react-hook-form';
 import DiscountIcon from '@mui/icons-material/Discount';
 import { TextFieldElement } from 'react-hook-form-mui';
@@ -13,12 +13,12 @@ import { createAppErrorMessage } from '@core/errorHandlers/createAppErrorMessage
 import { ActivePromoCode } from './ActivePromoCode';
 
 export interface CartPromoCodeProps {
-  promoCodeIds: string[];
+  activePromoCodesIds: string[];
   onApplyPromoCode: RemoteOperationCallback<CartPromoCodeFormData>;
   disabled?: boolean;
 }
 
-export function CartPromoCode({ promoCodeIds, onApplyPromoCode, disabled }: CartPromoCodeProps) {
+export function CartApplyPromoCode({ activePromoCodesIds, onApplyPromoCode, disabled }: CartPromoCodeProps) {
   const showMessage = useShowMessage();
 
   const formContext = useForm<CartPromoCodeFormData>({
@@ -31,23 +31,18 @@ export function CartPromoCode({ promoCodeIds, onApplyPromoCode, disabled }: Cart
 
   const { data, error } = useGetAvailablePromoCodes();
 
-  if (error) {
-    const errorMessage = createAppErrorMessage(error);
-    showMessage(errorMessage, 'error');
-  }
-
-  const promoCodes = data?.results || [];
+  const availablePromoCodes = data?.results || [];
 
   const promoCodeValue = watch('promoCode');
   const isPromoCodePassed = promoCodeValue.length > 0;
 
   const getAvailablePromoCode = (): void => {
-    const promoCode = promoCodes[Math.floor(Math.random() * promoCodes.length)].code;
-    if (promoCode.length >= 1) {
+    const promoCode = availablePromoCodes[Math.floor(Math.random() * availablePromoCodes.length)].code;
+    if (promoCode) {
       reset({ promoCode });
       showMessage(`Congratulations, your promo code is ${promoCode}`);
     } else {
-      showMessage(MessagesToUser.NotAvailablePromoCodes);
+      showMessage(MessagesToUser.NotAvailablePromoCodes, 'warning');
     }
   };
 
@@ -74,9 +69,10 @@ export function CartPromoCode({ promoCodeIds, onApplyPromoCode, disabled }: Cart
             />
             <Stack direction="row" sx={{ gap: 0.5 }}>
               Active codes:
-              {promoCodeIds?.map((code, index) => (
-                <ActivePromoCode id={code} key={code} isLastCode={index === promoCodeIds.length - 1} />
+              {activePromoCodesIds?.map((code, index) => (
+                <ActivePromoCode id={code} key={code} isLastCode={index === activePromoCodesIds.length - 1} />
               ))}
+              {error && <Typography>Error: {createAppErrorMessage(error)}</Typography>}
             </Stack>
           </Stack>
 

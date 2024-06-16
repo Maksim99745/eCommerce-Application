@@ -5,7 +5,7 @@ import { CartPromoCodeFormData } from '@models/forms.model';
 import { RemoteOperationCallback } from '@models/remoteOperationCallback';
 import { CartTotalCost } from './CartTotalCost';
 import { CleanCartDialog } from './CleanCartDialog';
-import { CartPromoCode } from './CartApplyPromoCode';
+import { CartApplyPromoCode } from './CartApplyPromoCode';
 
 export type CartToolBarProps = {
   cartData: Cart;
@@ -28,7 +28,7 @@ function CleanCart(props: ButtonProps) {
 }
 
 export function CartToolBar({ cartData, isLoading, onCleanCart, onApplyPromoCode }: CartToolBarProps) {
-  const promoCodeIds = cartData.discountCodes.map((code) => code.discountCode.id);
+  const activePromoCodesIds = cartData.discountCodes.map((code) => code.discountCode.id);
 
   return (
     <Grid container sx={{ position: 'sticky', top: '-16px', zIndex: 1, p: 0 }}>
@@ -48,7 +48,11 @@ export function CartToolBar({ cartData, isLoading, onCleanCart, onApplyPromoCode
           <CleanCartDialog openControl={CleanCart} disabled={isLoading} onCleanCart={onCleanCart} />
         </Stack>
         <Divider sx={{ m: 1 }} />
-        <CartPromoCode promoCodeIds={promoCodeIds} onApplyPromoCode={onApplyPromoCode} disabled={isLoading} />
+        <CartApplyPromoCode
+          activePromoCodesIds={activePromoCodesIds}
+          onApplyPromoCode={onApplyPromoCode}
+          disabled={isLoading}
+        />
       </Paper>
     </Grid>
   );

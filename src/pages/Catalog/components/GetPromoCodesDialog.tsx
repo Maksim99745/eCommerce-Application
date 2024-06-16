@@ -3,7 +3,6 @@ import { useModalState } from '@hooks/useModalState';
 import { ElementType } from 'react';
 import { MessagesToUser } from '@enums/messagesToUser';
 import { createAppErrorMessage } from '@core/errorHandlers/createAppErrorMessage';
-import { useShowMessage } from '@hooks/useShowMessage';
 import { CopyPromoCode } from './CopyPromoCode';
 import { useGetAvailablePromoCodes } from '../hooks/useGetAvailablePromoCodes';
 
@@ -14,14 +13,8 @@ export interface CleanCartDialogProps {
 
 export function GetPromoCodesDialog({ openControl: OpenControl, disabled }: CleanCartDialogProps) {
   const { visible, show, close } = useModalState();
-  const showMessage = useShowMessage();
 
   const { data, error } = useGetAvailablePromoCodes();
-
-  if (error) {
-    const errorMessage = createAppErrorMessage(error);
-    showMessage(errorMessage, 'error');
-  }
 
   const isNotAvailablePromoCodes = data?.results.length === 0;
 
@@ -43,6 +36,7 @@ export function GetPromoCodesDialog({ openControl: OpenControl, disabled }: Clea
             {data?.results.map((codeData) => (
               <CopyPromoCode key={codeData.id} promoCode={codeData.code} description={codeData?.description?.en} />
             ))}
+            {error && <Typography>Error: {createAppErrorMessage(error)}</Typography>}
             {isNotAvailablePromoCodes && <Typography>{MessagesToUser.NotAvailablePromoCodes}</Typography>}
           </Stack>
         </DialogContent>
