@@ -19,7 +19,7 @@ export default function AvatarsGroup() {
     teamMembersData.map((dev) => ({
       alt: dev.name,
       src: dev.photo,
-      githubUrl: dev.github,
+      github: dev.github,
     })),
   );
 
@@ -33,7 +33,7 @@ export default function AvatarsGroup() {
         <Avatar
           key={avatar.alt}
           {...avatar}
-          onClick={() => handleAvatarClick(avatar.githubUrl)}
+          onClick={() => handleAvatarClick(avatar.github)}
           sx={{
             '&:hover': {
               cursor: 'pointer',
