@@ -19,12 +19,29 @@ export default function AvatarsGroup() {
     teamMembersData.map((dev) => ({
       alt: dev.name,
       src: dev.photo,
+      githubUrl: dev.github,
     })),
   );
+
+  function handleAvatarClick(url: string) {
+    window.open(url, '_blank');
+  }
+
   return (
     <AvatarGroup>
       {avatars.map((avatar) => (
-        <Avatar key={avatar.alt} {...avatar} />
+        <Avatar
+          key={avatar.alt}
+          {...avatar}
+          onClick={() => handleAvatarClick(avatar.githubUrl)}
+          sx={{
+            '&:hover': {
+              cursor: 'pointer',
+              zIndex: '10',
+              boxShadow: 'rgba(0, 0, 0, 0.4) 0px 14px 28px, rgba(0, 0, 0, 0.4) 0px 10px 10px',
+            },
+          }}
+        />
       ))}
       {!!surplus && <Avatar>+{surplus}</Avatar>}
     </AvatarGroup>
