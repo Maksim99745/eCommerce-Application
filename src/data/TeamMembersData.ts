@@ -41,8 +41,7 @@ export const teamMembersData = [
   {
     name: 'Maksim Mukhametzianov',
     role: 'Junior frontend developer',
-    info: `I am a junior frontend developer based in Novi Sad, Serbia. I graduated from Kazan Federal University in 2022 with a degree in History and Social Science. My background in teaching has significantly enhanced my social skills and communication strategies, which are invaluable for effective teamwork. I am known for my patience and discipline.
-         I have a passion for learning new things, and my hobbies include studying foreign languages and engaging in sports. I am proficient in English and Turkish, and I am currently learning Serbian. In my free time, I enjoy cycling and going to the gym.`,
+    info: `I am a junior frontend developer based in Novi Sad, Serbia. Currently am taking the RS School front-end course and 1 year every day enjoying coding. My stack: HTML, CSS, SCSS, JS/TS, React, Webpack, Vite, Jest. I have a background as a teacher in public schools, which significantly enhanced my social skills and communication strategies, which are invaluable for effective teamwork. I am proficient in English and Turkish, and I am currently learning Serbian. In my free time, I enjoy cycling and going to the gym.`,
     github: 'https://github.com/Maksim99745',
     photo: '/Maks.webp',
     id: 'MaksimMukhametzianov',
