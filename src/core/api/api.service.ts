@@ -13,6 +13,8 @@ import {
   CartPagedQueryResponse,
   Cart,
   LineItem,
+  DiscountCode,
+  DiscountCodePagedQueryResponse,
 } from '@commercetools/platform-sdk';
 import { ApiRequest } from '@commercetools/platform-sdk/dist/declarations/src/generated/shared/utils/requests-utils';
 import { UserAuthOptions } from '@commercetools/sdk-client-v2';
@@ -198,6 +200,36 @@ export class ApiService {
         .withId({ ID: userCart.id })
         .delete({ queryArgs: { version: userCart.version } }),
     );
+  }
+
+  public async applyPromoCode({ cart, promoCode }: { cart?: Cart; promoCode: string }): Promise<Cart> {
+    const userCart = cart || (await this.createCart());
+
+    return this.callRequest(
+      this.builder
+        .me()
+        .carts()
+        .withId({ ID: userCart.id })
+        .post({
+          body: {
+            version: userCart.version,
+            actions: [
+              {
+                action: 'addDiscountCode',
+                code: promoCode,
+              },
+            ],
+          },
+        }),
+    );
+  }
+
+  public async getPromoCodeDescription({ promoCodeId }: { promoCodeId: string }): Promise<DiscountCode> {
+    return this.callRequest(this.builder.discountCodes().withId({ ID: promoCodeId }).get());
+  }
+
+  public async getAvailablePromoCodes(): Promise<DiscountCodePagedQueryResponse> {
+    return this.callRequest(this.builder.discountCodes().get());
   }
 
   private async callRequest<T>(request: ApiRequest<T>): Promise<T> {

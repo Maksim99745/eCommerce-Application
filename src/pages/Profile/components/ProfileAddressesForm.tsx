@@ -11,20 +11,20 @@ import {
   ProfileAddressRemoveDialogProps,
 } from '@pages/Profile/components/ProfileAddressRemove.dialog';
 import { AddressTypeRenderer } from '@pages/Profile/components/AddressTypeRenderer';
-import { OperationResult } from '@models/index';
 import { AddressStringRenderer } from '@pages/Profile/components/AddressStringRenderer';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ButtonProps } from '@mui/material/Button/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect } from 'react';
+import { RemoteOperationCallback } from '@models/remoteOperationCallback';
 import { ProfileAddressEditDialog, ProfileAddressEditDialogProps } from './ProfileAddressEdit.dialog';
 
 export type UserAddressesFormProps = {
   isLoading?: boolean;
   userData: Customer;
-  onSubmitAdd: (address: ProfileAddressFormData) => Promise<OperationResult>;
-  onSubmitRemove: (address: ProfileAddressFormData) => Promise<OperationResult>;
-  onSubmitUpdate: (address: ProfileAddressFormData) => Promise<OperationResult>;
+  onSubmitAdd: RemoteOperationCallback<ProfileAddressFormData>;
+  onSubmitRemove: RemoteOperationCallback<ProfileAddressFormData>;
+  onSubmitUpdate: RemoteOperationCallback<ProfileAddressFormData>;
 };
 
 function RemoveAddressLine(props: ButtonProps) {

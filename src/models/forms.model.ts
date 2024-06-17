@@ -1,3 +1,4 @@
+import { promoCodeFormSchema } from '@core/validation/cart-promo-code/cart-promo-code.schema';
 import { loginFormSchema } from '@core/validation/user-login/user-login.schema';
 import {
   passwordInformationSchema,
@@ -17,3 +18,4 @@ export type PersonalInformationFormData = z.infer<typeof personalInformationSche
 export type AddressType = 'billing' | 'shipping';
 export type ProfileAddressFormData = z.infer<typeof profileAddressSchema>;
 export type ProfileAddressesFormData = z.infer<typeof profileAddressesSchema>;
+export type CartPromoCodeFormData = z.infer<typeof promoCodeFormSchema>;
