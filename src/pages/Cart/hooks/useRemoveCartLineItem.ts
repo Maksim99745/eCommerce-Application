@@ -10,10 +10,12 @@ export const useRemoveCartLineItem = () => {
   const { cart, setCart } = useCart();
 
   return useEventCallback<CartProductsFormProps['onLineItemRemove']>(async (lineItem) => {
+    const productVariant = lineItem.variant?.attributes?.find((attr) => attr.name === 'color')?.value || '';
+
     try {
       const newCart = await apiService.removeCartLineItem({ lineItem, cart: cart ?? undefined });
       setCart(newCart);
-      showMessage(`Product: ${lineItem.name.en} successfully removed`);
+      showMessage(`${lineItem.name.en} (${productVariant}) removed from your Cart 😢`);
       return { success: true };
     } catch (error) {
       const errorMessage = createAppErrorMessage(error);

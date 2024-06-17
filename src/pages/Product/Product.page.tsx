@@ -1,14 +1,13 @@
 import { useGetProduct } from '@core/api/hooks/useGetProduct';
 import useProduct from '@hooks/useProduct';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button, ButtonGroup, Container, Stack } from '@mui/material';
+import { Container, Stack } from '@mui/material';
 import ReactImageGallery from 'react-image-gallery';
 import { useModalState } from '@hooks/useModalState';
 import ImageModal from '@pages/Product/components/ImageModalComponent/ImageModal';
 import styles from '@pages/Product/Product.page.module.scss';
 import { useEffect, useState, useRef } from 'react';
 import { ProductVariant } from '@commercetools/platform-sdk';
-import { getColorAttribute } from '@utils/get-color-attribute-value';
 import { defaultProductImageUrl } from '@constants/products.const';
 import { imagesUrls } from '@utils/map-selected-product-images';
 import AddRemoveProduct from '@components/AddRemoveProduct/AddRemoveProduct';
@@ -16,6 +15,7 @@ import { generateProductObj } from './utils/generateProductObj';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
 import ProductShortInfo from './components/ProductShortInfo/ProductShortInfo';
 import ProductDescription from './components/ProductDescription/ProductDescription';
+import VariantsButtonsBlock from './components/VariantsButtons/VariantsButtons';
 
 function ProductPage() {
   const { productKey = '' } = useParams<'productKey'>();
@@ -82,49 +82,11 @@ function ProductPage() {
             <ProductShortInfo productInfo={productInfo} selectedVariant={selectedVariant} />
 
             {!!current?.variants?.length && (
-              <ButtonGroup
-                variant="contained"
-                aria-label="Basic button group"
-                className={styles.variantButtonGroup}
-                sx={{
-                  '& .MuiButton-root': { border: '2px inset transparent' },
-                }}
-              >
-                <Button
-                  className={
-                    selectedVariant?.id === current?.masterVariant.id
-                      ? styles.selectedVariantButton
-                      : styles.variantButton
-                  }
-                  key={current?.masterVariant.id}
-                  variant="contained"
-                  onClick={() => handleVariantClick(current?.masterVariant)}
-                  sx={{
-                    backgroundColor: `${getColorAttribute(current?.masterVariant)}`,
-                    '&:hover': {
-                      backgroundColor: `${getColorAttribute(current?.masterVariant)}`,
-                    },
-                  }}
-                >
-                  {getColorAttribute(current?.masterVariant)}
-                </Button>
-                {current?.variants.map((variant) => (
-                  <Button
-                    key={variant.id}
-                    variant="contained"
-                    onClick={() => handleVariantClick(variant)}
-                    className={selectedVariant?.id === variant.id ? styles.selectedVariantButton : styles.variantButton}
-                    sx={{
-                      backgroundColor: getColorAttribute(variant),
-                      '&:hover': {
-                        backgroundColor: `${getColorAttribute(variant)}`,
-                      },
-                    }}
-                  >
-                    {getColorAttribute(variant)}
-                  </Button>
-                ))}
-              </ButtonGroup>
+              <VariantsButtonsBlock
+                current={current}
+                selectedVariant={selectedVariant}
+                handleVariantClick={handleVariantClick}
+              />
             )}
 
             <Stack className={styles.productPageActions}>
