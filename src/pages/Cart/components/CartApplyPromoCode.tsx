@@ -1,15 +1,11 @@
 import { CartPromoCodeFormData } from '@models/forms.model';
-import { Button, Stack, Typography, useEventCallback } from '@mui/material';
+import { Button, Stack, useEventCallback } from '@mui/material';
 import { FormProvider, useForm } from 'react-hook-form';
 import DiscountIcon from '@mui/icons-material/Discount';
 import { TextFieldElement } from 'react-hook-form-mui';
-import { useShowMessage } from '@hooks/useShowMessage';
 import { RemoteOperationCallback } from '@models/remoteOperationCallback';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { promoCodeFormSchema } from '@core/validation/cart-promo-code/cart-promo-code.schema';
-import { useGetAvailablePromoCodes } from '@pages/Catalog/hooks/useGetAvailablePromoCodes';
-import { MessagesToUser } from '@enums/messagesToUser';
-import { createAppErrorMessage } from '@core/errorHandlers/createAppErrorMessage';
 import { ActivePromoCode } from './ActivePromoCode';
 
 export interface CartApplyPromoCodeProps {
@@ -19,8 +15,6 @@ export interface CartApplyPromoCodeProps {
 }
 
 export function CartApplyPromoCode({ activePromoCodesIds, onApplyPromoCode, disabled }: CartApplyPromoCodeProps) {
-  const showMessage = useShowMessage();
-
   const formContext = useForm<CartPromoCodeFormData>({
     defaultValues: { promoCode: '' },
     resolver: zodResolver(promoCodeFormSchema),
@@ -29,22 +23,10 @@ export function CartApplyPromoCode({ activePromoCodesIds, onApplyPromoCode, disa
 
   const { handleSubmit, reset, watch } = formContext;
 
-  const { data, error } = useGetAvailablePromoCodes();
-
-  const availablePromoCodes = data?.results || [];
+  const isActiveCodes = activePromoCodesIds.length > 0;
 
   const promoCodeValue = watch('promoCode');
   const isPromoCodePassed = promoCodeValue.length > 0;
-
-  const getAvailablePromoCode = (): void => {
-    const promoCode = availablePromoCodes[Math.floor(Math.random() * availablePromoCodes.length)].code;
-    if (promoCode) {
-      reset({ promoCode });
-      showMessage(`Congratulations, your promo code is ${promoCode}`);
-    } else {
-      showMessage(MessagesToUser.NotAvailablePromoCodes, 'warning');
-    }
-  };
 
   const performSave = useEventCallback(async (promoCode: CartPromoCodeFormData) => {
     const result = await onApplyPromoCode(promoCode);
@@ -67,13 +49,14 @@ export function CartApplyPromoCode({ activePromoCodesIds, onApplyPromoCode, disa
               sx={{ minWidth: '160px' }}
               variant="standard"
             />
-            <Stack direction="row" sx={{ gap: 0.5 }}>
-              Active codes:
-              {activePromoCodesIds?.map((code, index) => (
-                <ActivePromoCode id={code} key={code} isLastCode={index === activePromoCodesIds.length - 1} />
-              ))}
-              {error && <Typography>Error: {createAppErrorMessage(error)}</Typography>}
-            </Stack>
+            {isActiveCodes && (
+              <Stack direction="row" sx={{ gap: 0.5 }}>
+                Active codes:
+                {activePromoCodesIds?.map((code, index) => (
+                  <ActivePromoCode id={code} key={code} isLastCode={index === activePromoCodesIds.length - 1} />
+                ))}
+              </Stack>
+            )}
           </Stack>
 
           <Stack sx={{ gap: 0.5 }}>
@@ -85,9 +68,6 @@ export function CartApplyPromoCode({ activePromoCodesIds, onApplyPromoCode, disa
               disabled={disabled || !isPromoCodePassed}
             >
               Apply code
-            </Button>
-            <Button size="small" disabled={disabled} onClick={() => getAvailablePromoCode()}>
-              Get random code
             </Button>
           </Stack>
         </Stack>

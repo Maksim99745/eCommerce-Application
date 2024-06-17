@@ -8,7 +8,7 @@ import { GetPromoCodesDialog } from './components/GetPromoCodesDialog';
 
 function GetPromoCode(props: ButtonProps) {
   return (
-    <Button variant="contained" startIcon={<DiscountIcon />} disableElevation {...props}>
+    <Button variant="contained" startIcon={<DiscountIcon />} color="warning" {...props}>
       Get promo code
     </Button>
   );
@@ -27,6 +27,7 @@ function CatalogPage() {
   return (
     <Container maxWidth="xl" sx={{ p: { xs: 1, md: 2 }, height: '100%' }}>
       <Stack gap={2} sx={{ height: '100%' }}>
+        <GetPromoCodesDialog openControl={GetPromoCode} disabled={isCategoryLoading} />
         <Box
           sx={{
             width: '100%',
@@ -54,8 +55,6 @@ function CatalogPage() {
           >
             {category?.name?.en || 'Products Catalog'}
           </Typography>
-
-          <GetPromoCodesDialog openControl={GetPromoCode} disabled={isCategoryLoading} />
         </Box>
         <ProductListComponent productPath={productPath} />
       </Stack>
