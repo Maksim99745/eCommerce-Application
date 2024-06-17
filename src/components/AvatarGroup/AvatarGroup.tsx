@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import { teamMembersData } from '../../data/TeamMembersData';
 import styles from './AvatarGroup.module.scss';
 
-export default function AvatarsGroup() {
-  const avatars = teamMembersData.map((dev) => ({
-    alt: dev.name,
-    src: dev.photo,
-    github: dev.github,
-  }));
+const avatars = teamMembersData.map((dev) => ({
+  alt: dev.name,
+  src: dev.photo,
+  github: dev.github,
+}));
 
+export default function AvatarsGroup() {
   return (
     <AvatarGroup>
       {avatars.map((avatar) => (
