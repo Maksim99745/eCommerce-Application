@@ -1,11 +1,13 @@
 .footer {
+  display: flex;
+  justify-content: space-between;
   position: fixed;
   bottom: 0px;
   left: auto;
   right: 0px;
   background-color: #1976d2;
   color: #fff;
-  padding: 8px;
+  padding: 8px 16px;
   justify-items: center;
   width: 100%;
   box-shadow:

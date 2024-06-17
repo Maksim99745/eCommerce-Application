@@ -1,0 +1,24 @@
+.product-page-description {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 30px;
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+.product-attributes {
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.attribute-value {
+  font-weight: 400;
+  margin-left: 15px;
+}
+
+@media (max-width: 950px) {
+  .product-page-description {
+    padding-top: 0;
+  }
+}

@@ -2,6 +2,11 @@
   padding: 25px 7px;
 }
 
+.short-info-container {
+  width: 50%;
+  padding-top: 30px;
+}
+
 .image-short-info-container {
   display: flex;
   justify-content: space-between;
@@ -26,56 +31,6 @@
   object-fit: scale-down;
 }
 
-.short-info-container {
-  width: 50%;
-  padding-top: 20px;
-}
-
-.product-page-title {
-  font-weight: 900;
-  font-size: 30px;
-  margin-bottom: 35px;
-}
-
-.product-page-info {
-  font-size: 24px;
-  font-weight: 900;
-  margin-bottom: 5px;
-  padding-top: 5px;
-}
-
-.product-attributes-container {
-  width: 250px;
-}
-
-.product-attributes {
-  font-weight: 700;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  font-size: 22px;
-}
-
-.attribute-value,
-.current-price,
-.previous-price {
-  font-weight: 400;
-  margin-left: 15px;
-  width: 50%;
-}
-
-.current-price {
-  color: darkgreen;
-  font-weight: 800;
-  font-size: 28px;
-}
-
-.previous-price {
-  text-decoration: line-through;
-  color: brown;
-  font-weight: 700;
-}
-
 .product-page-description {
   width: 100%;
   max-width: 1200px;
@@ -85,30 +40,27 @@
   margin-bottom: 15px;
 }
 
-.variant-button-group {
+.product-page-actions {
+  width: 230px;
   display: flex;
-  padding: 10px 15px;
-  gap: 10px;
-  max-width: fit-content;
-}
-
-.variant-button {
-  color: white;
-  text-transform: capitalize;
-  text-shadow: rgb(0, 0, 0) 0 0 3px;
-}
-
-.selected-variant-button {
-  text-transform: capitalize;
-  pointer-events: none;
-  opacity: 0.5;
-  text-shadow: rgb(0, 0, 0) 0 1px 7px;
+  flex-direction: row;
+  justify-content: space-between;
+  border-radius: 4px;
+  margin-top: 25px;
+  padding: 8px;
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0px 8px 10px -5px,
+    rgba(0, 0, 0, 0.14) 0px 16px 24px 2px,
+    rgba(0, 0, 0, 0.12) 0px 6px 30px 5px;
 }
 
 @media (max-width: 950px) {
   .image-short-info-container {
     flex-direction: column;
     gap: 30px;
+  }
+  .product-page-actions {
+    align-self: center;
   }
 
   .image-gallery-container {
@@ -117,14 +69,6 @@
 
   .short-info-container {
     width: 100%;
-  }
-
-  .product-page-title {
-    text-align: center;
-  }
-
-  .product-page-description {
-    padding-top: 0;
   }
 }
 

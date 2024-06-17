@@ -10,7 +10,7 @@ export const teamMembersData = [
           SQL, Power Builder, Sybase ASE, ASA;
           Delphi, Interbase, Firebird;`,
     github: 'https://github.com/jspowwow',
-    photo: 'SashaCard.webp',
+    photo: '/SashaCard.webp',
     id: 'OleksandrRadvanskyi',
     contribution: `Oleksandr Radvanskyi, our experienced mentor, was always available to guide us with his extensive knowledge and expertise. He continuously reviewed our code, offering valuable insights and feedback to ensure that our work was not only functional but also elegantly structured. Oleksandr's philosophy, "Beauty should be in the code," has deeply influenced our coding practices. His mentorship and support were invaluable throughout the project, helping us to refine our skills and deliver high-quality work.`,
   },
@@ -22,7 +22,7 @@ export const teamMembersData = [
           Key Skills:
           In-depth problem-solving skills Efficient and clean code writing Business-oriented task prioritization Keen attention to detail and user experience (UX/UI)`,
     github: 'https://github.com/Gromov-Roman',
-    photo: 'Roma.webp',
+    photo: '/Roma.webp',
     id: 'RomanGromov',
     contribution: `Created the project in CommerceTools, setting up the currencies, languages, and other configurations in the Merchant Center.
       Created the API client for CommerceTools, enabling access to the platform's APIs and managing permissions and scopes required for the project.
@@ -44,7 +44,7 @@ export const teamMembersData = [
     info: `I am a junior frontend developer based in Novi Sad, Serbia. I graduated from Kazan Federal University in 2022 with a degree in History and Social Science. My background in teaching has significantly enhanced my social skills and communication strategies, which are invaluable for effective teamwork. I am known for my patience and discipline.
          I have a passion for learning new things, and my hobbies include studying foreign languages and engaging in sports. I am proficient in English and Turkish, and I am currently learning Serbian. In my free time, I enjoy cycling and going to the gym.`,
     github: 'https://github.com/Maksim99745',
-    photo: 'Maks.webp',
+    photo: '/Maks.webp',
     id: 'MaksimMukhametzianov',
     contribution: `Installed and configure Jest or Vitest as the testing framework for the project, enabling comprehensive testing of code functionality. 
       Implement edregistration form and client-side validation for all required fields in the registration form, such as email, password, first name, last name, date of birth, and address fields for proper use with CommerceTools. Display clear error messages indicating any validation issues, such as an improperly formatted email or a weak password.
@@ -59,7 +59,7 @@ export const teamMembersData = [
     info: `I am a junior frontend developer with a background in foreign languages, although I have never worked in that field. Instead, I spent 20 years as an entrepreneur in the trade industry. This experience has made me organized, sociable, and adept at managing conflict situations. I am diligent, punctual, and perhaps even a bit pedantic, as I love maintaining order in every detail.
           After many years in trade, I sought novelty, new knowledge, and new experiences. I found myself drawn to the magic of JavaScript, the excitement of seeing lines of code transform into something visible, beautiful, and understandable. This passion led me to change my profession and pursue a career in frontend development.`,
     github: 'https://github.com/tetiana-ket',
-    photo: 'Tetiana.webp',
+    photo: '/Tetiana.webp',
     id: 'TetianaShpakova',
     contribution: `Created a project task board using github project management tool, organizing tasks into lists or columns corresponding to their status, broke down each sprint project tasks into smaller, manageable subtasks and assign them to team members, ensuring a clear delegation of responsibilities.
       Set up and configered Vite for the project, supporting both development and production build modes and set other Environment Configuration, such as TypeScript, ESLint, Prettier and Husky.
