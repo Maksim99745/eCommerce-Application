@@ -12,13 +12,13 @@ import { MessagesToUser } from '@enums/messagesToUser';
 import { createAppErrorMessage } from '@core/errorHandlers/createAppErrorMessage';
 import { ActivePromoCode } from './ActivePromoCode';
 
-export interface CartPromoCodeProps {
+export interface CartApplyPromoCodeProps {
   activePromoCodesIds: string[];
   onApplyPromoCode: RemoteOperationCallback<CartPromoCodeFormData>;
   disabled?: boolean;
 }
 
-export function CartApplyPromoCode({ activePromoCodesIds, onApplyPromoCode, disabled }: CartPromoCodeProps) {
+export function CartApplyPromoCode({ activePromoCodesIds, onApplyPromoCode, disabled }: CartApplyPromoCodeProps) {
   const showMessage = useShowMessage();
 
   const formContext = useForm<CartPromoCodeFormData>({
@@ -87,7 +87,7 @@ export function CartApplyPromoCode({ activePromoCodesIds, onApplyPromoCode, disa
               Apply code
             </Button>
             <Button size="small" disabled={disabled} onClick={() => getAvailablePromoCode()}>
-              Get promo code
+              Get random code
             </Button>
           </Stack>
         </Stack>

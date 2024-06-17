@@ -2,12 +2,12 @@ import { Typography } from '@mui/material';
 import { createAppErrorMessage } from '@core/errorHandlers/createAppErrorMessage';
 import { useGetActivePromoCodeDescription } from '../hooks/useGetActivePromoCodeDescription';
 
-interface Props {
+interface ActivePromoCodeProps {
   id: string;
   isLastCode: boolean;
 }
 
-export function ActivePromoCode({ id, isLastCode }: Props) {
+export function ActivePromoCode({ id, isLastCode }: ActivePromoCodeProps) {
   const { data, isLoading, error } = useGetActivePromoCodeDescription({ promoCodeId: id });
 
   if (!data && !isLoading) {
