@@ -7,7 +7,7 @@ import { CartToolBarProps } from '../components/CartToolBar';
 
 export const useApplyPromoCode = () => {
   const showMessage = useShowMessage();
-  const { cart, setCart } = useCart();
+  const { cart, setCart, loadCart } = useCart();
 
   return useEventCallback<CartToolBarProps['onApplyPromoCode']>(async ({ promoCode }) => {
     try {
@@ -16,6 +16,7 @@ export const useApplyPromoCode = () => {
       showMessage(`Promo code ${promoCode} successfully applied`);
       return { success: true };
     } catch (error) {
+      await loadCart();
       const errorMessage = createAppErrorMessage(error);
       showMessage(errorMessage, 'error');
       return { success: false, error: new Error(errorMessage) };
