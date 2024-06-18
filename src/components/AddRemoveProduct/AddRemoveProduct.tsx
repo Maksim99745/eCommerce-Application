@@ -16,7 +16,7 @@ interface AddToCartProps {
 }
 
 export default function AddRemoveProduct({ productId, variantId }: AddToCartProps) {
-  const { cart, isCartLoading } = useCart();
+  const { cart } = useCart();
   const [lineItem, setLineItem] = useState<LineItem | null>(null);
   const [quantity, setQuantity] = useState(minCount);
   const { trigger: addToCartTrigger, isMutating: isAdding } = useAddToCart({ cart, productId, variantId });
@@ -26,7 +26,7 @@ export default function AddRemoveProduct({ productId, variantId }: AddToCartProp
   });
 
   const handleAddToCart = useEventCallback(() => addToCartTrigger({ quantity }));
-  const handleRemoveFromCart = useRemoveCartLineItem();
+  const { trigger: handleRemoveFromCart, loading: isRemoving } = useRemoveCartLineItem();
   const handleChangeCount = useEventCallback((count: number) => {
     setQuantity(count);
 
@@ -56,9 +56,9 @@ export default function AddRemoveProduct({ productId, variantId }: AddToCartProp
             setQuantity(minCount);
           }}
           aria-label="remove-product-from-cart"
-          disabled={!lineItem}
+          disabled={!lineItem || isRemoving}
         >
-          {isCartLoading ? <CircularProgress size={35} thickness={5} /> : <DeleteIcon fontSize="large" color="error" />}
+          {isRemoving ? <CircularProgress size={35} thickness={5} /> : <DeleteIcon fontSize="large" color="error" />}
         </IconButton>
       ) : (
         <IconButton
@@ -66,7 +66,7 @@ export default function AddRemoveProduct({ productId, variantId }: AddToCartProp
           color="primary"
           onClick={handleAddToCart}
           aria-label="add-product-to-cart"
-          disabled={!!lineItem}
+          disabled={!!lineItem || isAdding}
         >
           {isAdding ? (
             <CircularProgress size={35} thickness={5} />

@@ -16,13 +16,7 @@ export const setCart = (newCart: Cart | null | undefined) => {
 
 export const loadCart = async () => {
   setCartLoading(true);
-
-  let cart = await apiService.getCarts().then((carts) => carts.results[0]);
-  if (!cart) {
-    cart = await apiService.createCart();
-  }
-
-  setCart(cart);
+  setCart(await apiService.getCarts().then((carts) => carts.results[0]));
 };
 
 export const useCart = () => ({

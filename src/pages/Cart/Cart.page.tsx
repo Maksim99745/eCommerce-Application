@@ -8,9 +8,9 @@ import { useCleanCart } from './hooks/useCleanCart';
 import { useApplyPromoCode } from './hooks/useApplyPromoCode';
 
 function CartPage() {
-  const { cart, isCartLoading } = useCart();
+  const { cart } = useCart();
 
-  const handleLineItemRemove = useRemoveCartLineItem();
+  const { trigger: handleLineItemRemove, loading: isRemoving } = useRemoveCartLineItem();
   const handleCleanCart = useCleanCart();
   const handleApplyPromoCode = useApplyPromoCode();
 
@@ -26,7 +26,7 @@ function CartPage() {
         {!isEmptyCart && (
           <CartToolBar cartData={cart} onCleanCart={handleCleanCart} onApplyPromoCode={handleApplyPromoCode} />
         )}
-        <CartLineItemsView cartData={cart} isLoading={isCartLoading} onLineItemRemove={handleLineItemRemove} />
+        <CartLineItemsView cartData={cart} isLoading={isRemoving} onLineItemRemove={handleLineItemRemove} />
         {isEmptyCart && <EmptyCartMessage />}
       </Stack>
     </Container>
