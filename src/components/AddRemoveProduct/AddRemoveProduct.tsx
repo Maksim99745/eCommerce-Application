@@ -56,7 +56,7 @@ export default function AddRemoveProduct({ productId, variantId }: AddToCartProp
             setQuantity(minCount);
           }}
           aria-label="remove-product-from-cart"
-          disabled={!lineItem || isRemoving}
+          disabled={!lineItem || isRemoving || isQuantityChanging}
         >
           {isRemoving ? <CircularProgress size={35} thickness={5} /> : <DeleteIcon fontSize="large" color="error" />}
         </IconButton>
