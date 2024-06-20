@@ -8,8 +8,7 @@ export const useGetProducts = (
   filter: ProductFilter,
   options?: { onSuccess: (data: ProductProjectionPagedSearchResponse) => void },
 ): SWRResponse<ProductProjectionPagedSearchResponse> =>
-  useSWR(
-    filter,
-    () => apiService.getProducts(mapProductFilterToRequest(filter)),
-    options?.onSuccess ? { onSuccess: options.onSuccess } : undefined,
-  );
+  useSWR(`products${JSON.stringify(filter)}`, () => apiService.getProducts(mapProductFilterToRequest(filter)), {
+    dedupingInterval: 1,
+    ...(options?.onSuccess ? { onSuccess: options.onSuccess } : undefined),
+  });

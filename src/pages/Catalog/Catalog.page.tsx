@@ -1,8 +1,18 @@
 import { POPULAR_CATEGORY } from '@constants/categories.const';
 import useCategory from '@hooks/useCategory';
-import { Box, Container, Paper, Stack, Typography } from '@mui/material';
+import { Box, Button, ButtonProps, Container, Stack, Typography } from '@mui/material';
 import ProductListComponent from '@components/ProductList/ProductList.component';
 import { CatalogPageSkeleton } from '@pages/Catalog/Catalog.page.skeleton';
+import DiscountIcon from '@mui/icons-material/Discount';
+import { GetPromoCodesDialog } from './components/GetPromoCodesDialog';
+
+function GetPromoCode(props: ButtonProps) {
+  return (
+    <Button variant="contained" startIcon={<DiscountIcon />} color="warning" {...props}>
+      Get promo code
+    </Button>
+  );
+}
 
 function CatalogPage() {
   const { category, isCategoryLoading } = useCategory();
@@ -15,8 +25,9 @@ function CatalogPage() {
   }
 
   return (
-    <Container maxWidth="xl" sx={{ p: 0, height: '100%' }}>
-      <Stack gap={2} sx={{ height: '100%', overflow: 'auto', scrollbarGutter: 'stable' }}>
+    <Container maxWidth="xl" sx={{ p: { xs: 1, md: 2 }, height: '100%' }}>
+      <Stack gap={2} sx={{ height: '100%' }}>
+        <GetPromoCodesDialog openControl={GetPromoCode} disabled={isCategoryLoading} />
         <Box
           sx={{
             width: '100%',
@@ -26,6 +37,8 @@ function CatalogPage() {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             borderRadius: 3,
+            display: 'flex',
+            alignItems: 'flex-end',
           }}
         >
           <Typography
@@ -43,10 +56,7 @@ function CatalogPage() {
             {category?.name?.en || 'Products Catalog'}
           </Typography>
         </Box>
-
-        <Paper elevation={1} sx={{ p: 0, width: '100%', flex: 1 }}>
-          <ProductListComponent productPath={productPath} />
-        </Paper>
+        <ProductListComponent productPath={productPath} />
       </Stack>
     </Container>
   );

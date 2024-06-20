@@ -1,4 +1,4 @@
-import useAuth from '@hooks/useAuth';
+import useAuth from '@core/api/hooks/useAuth';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
@@ -129,10 +129,10 @@ export const useHeaderActions = (onClick: () => void): { buttonItems: ReactNode;
           key="about"
           component={Link}
           to="/about"
-          sx={{ ...actionStyles.button, ...actionStyles.showAfterSm }}
+          sx={{ ...actionStyles.button, ...actionStyles.showAfterSm, borderRadius: 4 }}
           onClick={handleOnClick}
           startIcon={<InfoIcon />}
-          variant="text"
+          variant="contained"
         >
           About
         </Button>

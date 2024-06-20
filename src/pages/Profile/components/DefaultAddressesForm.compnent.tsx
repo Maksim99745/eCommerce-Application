@@ -1,4 +1,4 @@
-import { OperationResult, RegistrationFormData } from '@models/index';
+import { RegistrationFormData } from '@models/index';
 import {
   getCustomerProfileAddresses,
   getDefaultAddressIndex,
@@ -13,6 +13,7 @@ import {
   EditableFormViewMode,
   FormActionsToolBarProps,
 } from '@components/EditableFormActionsBar/EditableFormActionsBar';
+import { RemoteOperationCallback } from '@models/remoteOperationCallback';
 
 type DefaultAddressesInformationFormData = {
   defaultBillingAddressIdx: number;
@@ -22,7 +23,7 @@ type DefaultAddressesInformationFormData = {
 export interface DefaultAddressesFormComponentProps {
   userData: Customer;
   isLoading?: boolean;
-  onSubmitDefaultAddresses: (data: DefaultAddressesInformationFormData) => Promise<OperationResult>;
+  onSubmitDefaultAddresses: RemoteOperationCallback<DefaultAddressesInformationFormData>;
 }
 
 export function DefaultAddressesForm({

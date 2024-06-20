@@ -1,6 +1,7 @@
 import { Customer, MyCustomerDraft, MyCustomerSignin } from '@commercetools/platform-sdk';
 import { apiService } from '@core/api/api.service';
 import { ClientType } from '@core/api/client-type.enum';
+import { loadCart } from '@hooks/useCart';
 import { signal } from '@preact/signals-react';
 
 export const userSignal = signal<Customer | null | undefined>(undefined);
@@ -13,6 +14,7 @@ export const setUserLoading = (isLoading: boolean) => {
 export const setUser = (newUser: Customer | null | undefined) => {
   userSignal.value = newUser;
   setUserLoading(false);
+  loadCart();
 };
 
 const login = async (customer: MyCustomerSignin): Promise<void> => {
@@ -29,8 +31,8 @@ const login = async (customer: MyCustomerSignin): Promise<void> => {
 };
 
 const logout = (): void => {
-  setUser(null);
   apiService.setBuilder(ClientType.anonymous);
+  setUser(null);
 };
 
 const register = async (draft: MyCustomerDraft): Promise<void> => {

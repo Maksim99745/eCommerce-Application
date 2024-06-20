@@ -10,13 +10,19 @@ import {
   MyCustomerUpdateAction,
   ProductProjectionPagedSearchResponse,
   Product,
+  CartPagedQueryResponse,
+  Cart,
+  LineItem,
+  DiscountCode,
+  DiscountCodePagedQueryResponse,
 } from '@commercetools/platform-sdk';
 import { ApiRequest } from '@commercetools/platform-sdk/dist/declarations/src/generated/shared/utils/requests-utils';
 import { UserAuthOptions } from '@commercetools/sdk-client-v2';
-import { defaultProductsLimit, defaultProductsOffset } from '@constants/products.const';
+import { defaultProductsLimit, defaultProductsOffset, minCount } from '@constants/products.const';
 import { ClientType } from '@core/api/client-type.enum';
 import { getRequestBuilder } from '@core/api/get-builder.util';
 import { tokenCache } from '@core/api/token-cache.service';
+import { AddToCartRequest, ChangeCartItemQuantityRequest } from '@models/cart.model';
 import { GetProductsRequest } from '@models/product-filter.model';
 import { NewPasswordRequestData } from '@pages/Profile/hooks/useSubmitNewPassword';
 
@@ -84,9 +90,89 @@ export class ApiService {
     return this.callRequest(this.builder.me().get());
   }
 
-  public async getCartQuantity(): Promise<number> {
-    return this.callRequest(this.builder.me().carts().get()).then(
-      (carts) => carts.results[0]?.totalLineItemQuantity || 0,
+  public async getCarts(): Promise<CartPagedQueryResponse> {
+    return this.callRequest(this.builder.me().carts().get());
+  }
+
+  public async createCart(): Promise<Cart> {
+    return this.callRequest(
+      this.builder
+        .me()
+        .carts()
+        .post({ body: { currency: 'EUR' } }),
+    );
+  }
+
+  public async addToCart({ cart, productId, variantId, quantity }: AddToCartRequest): Promise<Cart> {
+    const userCart = cart || (await this.createCart());
+
+    return this.callRequest(
+      this.builder
+        .me()
+        .carts()
+        .withId({ ID: userCart.id })
+        .post({
+          body: {
+            version: userCart.version,
+            actions: [
+              {
+                action: 'addLineItem',
+                productId,
+                variantId,
+                quantity,
+              },
+            ],
+          },
+        }),
+    );
+  }
+
+  public async changeCartItemQuantity({
+    cart,
+    lineItemId,
+    quantity = minCount,
+  }: ChangeCartItemQuantityRequest): Promise<Cart> {
+    const userCart = cart || (await this.createCart());
+
+    return this.callRequest(
+      this.builder
+        .me()
+        .carts()
+        .withId({ ID: userCart.id })
+        .post({
+          body: {
+            version: userCart.version,
+            actions: [
+              {
+                action: 'changeLineItemQuantity',
+                lineItemId,
+                quantity,
+              },
+            ],
+          },
+        }),
+    );
+  }
+
+  public async removeCartLineItem({ lineItem, cart }: { lineItem: LineItem; cart?: Cart }): Promise<Cart> {
+    const userCart = cart || (await this.createCart());
+
+    return this.callRequest(
+      this.builder
+        .me()
+        .carts()
+        .withId({ ID: userCart.id })
+        .post({
+          body: {
+            version: userCart.version,
+            actions: [
+              {
+                action: 'removeLineItem',
+                lineItemId: lineItem.id,
+              },
+            ],
+          },
+        }),
     );
   }
 
@@ -103,6 +189,47 @@ export class ApiService {
         .search()
         .get({ queryArgs: { fuzzy: true, offset, limit, filter, sort, 'text.en': query } }),
     );
+  }
+
+  public async cleanCart({ cart }: { cart?: Cart }): Promise<Cart> {
+    const userCart = cart || (await this.createCart());
+    return this.callRequest(
+      this.builder
+        .me()
+        .carts()
+        .withId({ ID: userCart.id })
+        .delete({ queryArgs: { version: userCart.version } }),
+    );
+  }
+
+  public async applyPromoCode({ cart, promoCode }: { cart?: Cart; promoCode: string }): Promise<Cart> {
+    const userCart = cart || (await this.createCart());
+
+    return this.callRequest(
+      this.builder
+        .me()
+        .carts()
+        .withId({ ID: userCart.id })
+        .post({
+          body: {
+            version: userCart.version,
+            actions: [
+              {
+                action: 'addDiscountCode',
+                code: promoCode,
+              },
+            ],
+          },
+        }),
+    );
+  }
+
+  public async getPromoCodeDescription({ promoCodeId }: { promoCodeId: string }): Promise<DiscountCode> {
+    return this.callRequest(this.builder.discountCodes().withId({ ID: promoCodeId }).get());
+  }
+
+  public async getAvailablePromoCodes(): Promise<DiscountCodePagedQueryResponse> {
+    return this.callRequest(this.builder.discountCodes().get());
   }
 
   private async callRequest<T>(request: ApiRequest<T>): Promise<T> {

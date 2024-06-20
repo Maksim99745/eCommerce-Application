@@ -14,10 +14,10 @@ import {
   FormActionsToolBarProps,
 } from '@components/EditableFormActionsBar/EditableFormActionsBar';
 import { useEditableFormState } from '@components/EditableFormActionsBar/useEditableFormState';
-import { OperationResult } from '@models/index';
+import { RemoteOperationCallback } from '@models/remoteOperationCallback';
 
 export interface PersonalFormComponentProps {
-  onSubmit: (personalData: PersonalInformationFormData) => Promise<OperationResult>;
+  onSubmit: RemoteOperationCallback<PersonalInformationFormData>;
   isLoading?: boolean;
   userData: Customer;
 }

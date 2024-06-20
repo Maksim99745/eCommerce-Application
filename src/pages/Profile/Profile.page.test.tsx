@@ -7,7 +7,7 @@ import ProfilePage from './Profile.page';
 afterEach(cleanup);
 
 jest
-  .mock('@hooks/useAuth', () => ({
+  .mock('@core/api/hooks/useAuth', () => ({
     useAuth: jest.fn(),
   }))
   .mock('@core/api/api.service', () => ({

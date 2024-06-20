@@ -46,6 +46,8 @@ Project goals:
   https://ecommerce-sprint-2-release.netlify.app/
 - Sprint #3
   https://ecommerce-sprint-3-release.netlify.app/
+- Sprint #4
+  https://ecommerce-sprint-4-release.netlify.app/
 
 ## Setup instructions
 

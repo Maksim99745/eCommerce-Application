@@ -1,7 +1,7 @@
 import { apiService } from '@core/api/api.service';
 import { ClientType } from '@core/api/client-type.enum';
 import { tokenCache } from '@core/api/token-cache.service';
-import { setUserLoading, setUser, userSignal } from '@hooks/useAuth';
+import { setUserLoading, setUser, userSignal } from '@core/api/hooks/useAuth';
 import { setCategoryLoading } from '@hooks/useCategory';
 import { Suspense } from 'react';
 import { HasUserRoute, NoUserRoute } from '@core/routing/routes';
@@ -44,6 +44,12 @@ const initAuth = async (): Promise<void> => {
     });
 };
 
+const initApp = async (): Promise<void> => {
+  if (userSignal.value === undefined) {
+    await initAuth();
+  }
+};
+
 const initCategory = (): boolean => {
   setCategoryLoading(true);
   return true;
@@ -54,9 +60,7 @@ export const router = createBrowserRouter([
     path: '/',
     element: <LayoutPage />,
     async loader() {
-      if (userSignal.value === undefined) {
-        await initAuth();
-      }
+      await initApp();
 
       return null;
     },

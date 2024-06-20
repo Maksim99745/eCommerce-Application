@@ -47,7 +47,15 @@ function HeaderComponent({ handleDrawerToggle, isDrawerOpen }: HeaderProps) {
           <Button
             component={Link}
             to="/"
-            sx={{ display: 'flex', gap: '10px', color: 'inherit', textTransform: 'none', p: 0, minWidth: 40 }}
+            sx={{
+              display: 'flex',
+              gap: '10px',
+              color: 'inherit',
+              textTransform: 'none',
+              p: 1,
+              minWidth: 40,
+              borderRadius: 5,
+            }}
             variant="text"
           >
             <Avatar alt="Logo" src="/logo.webp" sx={{ width: 30, height: 30, borderRadius: 0 }} />

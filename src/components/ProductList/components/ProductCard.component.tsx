@@ -1,7 +1,7 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
-import CounterComponent from '@components/Counter/Counter.component';
+import AddRemoveProduct from '@components/AddRemoveProduct/AddRemoveProduct';
+
 import { productCurrencyMap } from '@constants/products.const';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import {
   Card,
   CardActionArea,
@@ -9,9 +9,9 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-  IconButton,
   Stack,
   Typography,
+  useEventCallback,
 } from '@mui/material';
 import { mapProductToProductCard } from '@utils/map-product-to-product-card';
 import { memo } from 'react';
@@ -26,17 +26,7 @@ export function ProductCardComponent({ product, productPath = '' }: ProductCardC
   const navigate = useNavigate();
   const { name, image, price, discounted, currency, description } = mapProductToProductCard(product);
 
-  const handleAddToCart = () => {
-    console.warn('Add to cart:', product);
-  };
-
-  const handleChangeCount = (count: number) => {
-    console.warn('Change count:', count);
-  };
-
-  const handleGoToProduct = () => {
-    navigate(`${productPath}products/${product.key}`);
-  };
+  const handleGoToProduct = useEventCallback(() => navigate(`${productPath}products/${product.key}`));
 
   return (
     <Card sx={{ boxShadow: 3, height: 550 }}>
@@ -107,12 +97,7 @@ export function ProductCardComponent({ product, productPath = '' }: ProductCardC
               </Typography>
             )}
           </Stack>
-
-          <CounterComponent onChange={handleChangeCount} aria-label="product-counter" />
-
-          <IconButton color="primary" onClick={handleAddToCart} aria-label="add-product-to-cart">
-            <AddShoppingCartIcon />
-          </IconButton>
+          <AddRemoveProduct productId={product.id} variantId={product.masterVariant.id} />
         </Stack>
       </CardActions>
     </Card>
